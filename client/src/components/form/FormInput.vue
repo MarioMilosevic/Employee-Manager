@@ -1,19 +1,21 @@
 <template>
-  <input :type="type" />
+  <input :id="id" :type="type" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 
-export default defineComponent({
+export default {
   props: {
     type: {
       type: String,
       required: true,
     },
+    id: {
+      type: String,
+      required:true
+    }
   },
-  setup() {},
-})
+}
 </script>
 
 <style lang="scss" scoped></style>
