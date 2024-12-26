@@ -2,45 +2,49 @@
   <TitleName>Employee Manager</TitleName>
   <EmployeeForm>
     <template #firstName>
-      <FormBlock>
-        <template #label>
-          <FormLabel id="firstName">
-            <template #text>
-              <p>Ovo je text za label</p>
-            </template>
-          </FormLabel>
-        </template>
-        <template #input>
-          <FormInput id="firstName" type="text" placeholder="First Name"/>
-        </template>
-      </FormBlock>
+      <FormInput type="text" placeholder="First Name" />
+    </template>
+    <template #lastName>
+      <FormInput type="text" placeholder="Last Name" />
+    </template>
+    <template #address>
+      <FormInput type="text" placeholder="Address" />
+    </template>
+    <template #startYear>
+      <FormInput type="number" placeholder="Start Year" />
+    </template>
+    <template #trainingCompleted>
+      <div class="checkbox">
+        <label for="training">Training Completed ?</label>
+        <input id="training" type="checkbox" />
+      </div>
     </template>
   </EmployeeForm>
-  <!-- <FormInput placeholder="First Name" type="text" />
-  <FormInput placeholder="Last Name" type="text"/>
-  <FormInput placeholder="Start Year" type="number"/>
-  <FormInput placeholder="Address" type="text"/>
-  <label for="checkbox">Has Completed Training</label>
-  <input id="checkbox" type="checkbox"> -->
-  <!-- <FormInput placeholder="" type="number"/> -->
 </template>
 
 <script lang="ts">
-import TitleName from 'src/components/layout/TitleName.vue';
-import FormInput from 'src/components/form/FormInput.vue';
-import EmployeeForm from 'src/components/form/EmployeeForm.vue';
-import FormBlock from 'src/components/form/FormBlock.vue';
-import FormLabel from 'src/components/form/FormLabel.vue';
+import TitleName from 'src/components/layout/TitleName.vue'
+import FormInput from 'src/components/form/FormInput.vue'
+import EmployeeForm from 'src/components/form/EmployeeForm.vue'
 export default {
   setup() {},
   components: {
     TitleName,
     FormInput,
-    FormLabel,
     EmployeeForm,
-    FormBlock
   },
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@use 'src/scss/_variables' as *;
+
+.checkbox {
+  border: 1px solid white;
+  display: flex;
+  align-items: center;
+  gap: $medium;
+  padding: $small;
+  border-radius: $small-radius;
+}
+</style>

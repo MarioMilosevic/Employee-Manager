@@ -1,5 +1,5 @@
 <template>
-  <input :id="id" :type="type" />
+  <input :type="type" class="input"/>
 </template>
 
 <script lang="ts">
@@ -10,12 +10,18 @@ export default {
       type: String,
       required: true,
     },
-    id: {
-      type: String,
-      required:true
-    }
   },
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@use "src/scss/_variables" as *;
+
+.input {
+  padding: $small;
+  background-color: $secondary-color;
+  border: none;
+  border-radius: $small-radius;
+}
+
+</style>

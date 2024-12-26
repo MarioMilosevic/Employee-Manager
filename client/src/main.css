@@ -13,7 +13,6 @@ body {
 }
 
 #app {
-  border: 1px solid black;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
