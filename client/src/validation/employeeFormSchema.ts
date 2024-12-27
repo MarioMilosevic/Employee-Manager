@@ -9,7 +9,6 @@ export const employeeFormSchema = z.object({
   }),
   startYear: z.string(),
   address: z.string().min(5, { message: 'Must be at least 5 charachters long' }),
-  trainingCompleted: z.boolean(),
 })
 
 export type modalFormValues = z.infer<typeof employeeFormSchema>

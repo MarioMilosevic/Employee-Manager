@@ -11,10 +11,6 @@
   </form>
 </template>
 
-<script lang="ts">
-export default {}
-</script>
-
 <style lang="scss" scoped>
 @use 'src/scss/_variables' as *;
 .form {
@@ -23,7 +19,7 @@ export default {}
   gap: $big;
   align-items: start;
   background-color: $primary-shade-color;
-  padding: $medium;
+  padding: $big;
   border-radius: $small-radius;
 
   &__inputs {

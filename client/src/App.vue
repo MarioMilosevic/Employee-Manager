@@ -2,13 +2,20 @@
   <TitleName>Employee Manager</TitleName>
   <EmployeeForm @submit.prevent="submitForm">
     <template #firstName>
-      <FormInput
-        dataName="firstName"
-        type="text"
-        placeholder="First Name"
-        :value="firstName"
-        @update-value="updateFormState"
-      />
+      <FormBlock>
+        <template #input>
+          <FormInput
+            dataName="firstName"
+            type="text"
+            placeholder="First Name"
+            :value="firstName"
+            @update-value="updateFormState"
+          />
+        </template>
+        <template #error>
+          <FormError>{{ firstNameErr }}</FormError>
+        </template>
+      </FormBlock>
     </template>
     <template #lastName>
       <FormInput
@@ -66,12 +73,15 @@ import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeForm from 'src/components/form/EmployeeForm.vue'
 import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
+import FormBlock from 'src/components/form/FormBlock.vue'
+import FormError from "src/components/form/FormError.vue"
 import { EmployeeType } from './utils/types'
 import { employeeFormSchema } from './validation/employeeFormSchema'
 import { reactive, toRefs } from 'vue'
 export default {
   setup() {
     const employees = reactive([] as EmployeeType[])
+
     const formState = reactive({
       firstName: '',
       lastName: '',
@@ -80,19 +90,36 @@ export default {
       trainingCompleted: false,
     })
 
+     const formErrors = reactive({
+      firstNameErr: 'First name is required',
+      lastNameErr: 'First name is required',
+      addressErr: 'First name is required',
+      startYearErr: 'First name is required',
+    })
+
     const updateFormState = (key: keyof typeof formState, value: string) => {
       formState[key] = value as never
     }
 
-    const submitForm = () => {
-      const validation = employeeFormSchema.safeParse(formState);
+     const submitForm = () => {
+      const validation = employeeFormSchema.safeParse(formState)
+
       if (validation.success) {
-      console.log('uspjesno')
+        // Reset errors if validation is successful
+        // for (const key in formErrors ) {
+        //   formErrors[key]  = ''
+        // }
+        console.log('Form submitted successfully!')
+        console.log(formState)
       } else {
-        console.log('neuspjesno')
+        // Handle validation errors
+        validation.error.errors.forEach((err) => {
+          const field = err.path[0] as keyof typeof formErrors
+          formErrors[field] = err.message
+        })
+        console.log('Form submission failed with errors.')
+        console.log(formErrors)
       }
-      console.log('submit')
-      console.log(formState)
     }
 
     return {
@@ -101,11 +128,14 @@ export default {
       // updateFormFirstName,
       updateFormState,
       ...toRefs(formState),
+      ...toRefs(formErrors)
     }
   },
   components: {
     TitleName,
     FormInput,
+    FormBlock,
+    FormError,
     EmployeeForm,
     EmployeeInfo,
     ActionButton,

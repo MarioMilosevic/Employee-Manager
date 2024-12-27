@@ -41,5 +41,6 @@ export default {
   background-color: $secondary-color;
   border: none;
   border-radius: $small-radius;
+  height: 100%;
 }
 </style>
