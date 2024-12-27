@@ -2,25 +2,25 @@
   <TitleName>Employee Manager</TitleName>
   <EmployeeForm @submit.prevent="submitForm">
     <template #firstName>
-      <FormInput type="text" placeholder="First Name" />
+      <FormInput type="text" placeholder="First Name" :value="firstName" />
     </template>
     <template #lastName>
-      <FormInput type="text" placeholder="Last Name" />
+      <FormInput type="text" placeholder="Last Name" :value="lastName" />
     </template>
     <template #address>
-      <FormInput type="text" placeholder="Address" />
+      <FormInput type="text" placeholder="Address" :value="address" />
     </template>
     <template #startYear>
-      <FormInput type="number" placeholder="Start Year" />
+      <FormInput type="date" placeholder="Start Year" :value="startYear" />
     </template>
     <template #trainingCompleted>
       <div class="checkbox">
         <label for="training">Training Completed ?</label>
-        <input id="training" type="checkbox" />
+        <input id="training" type="checkbox" :checked="trainingCompleted" />
       </div>
     </template>
     <template #submit>
-      <ActionButton color="white" type="submit" :style="{justifySelf:'start'}">
+      <ActionButton color="white" type="submit" :style="{ justifySelf: 'start' }">
         Submit
       </ActionButton>
     </template>
@@ -35,47 +35,32 @@ import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeForm from 'src/components/form/EmployeeForm.vue'
 import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
-import { reactive } from 'vue'
 import { EmployeeType } from './utils/types'
+import { reactive, toRefs } from 'vue'
 export default {
   setup() {
-    const arr = [
-      {
-        id: '1',
-        firstName: 'Mario',
-        lastName: 'Milosevic',
-        startYear: 2025,
-        address: 'Kotor Crna Gora 24',
-        trainingCompleted: false,
-      },
-      {
-      id:'2',
-        firstName: 'Toni',
-        lastName: 'Milosevic',
-        startYear: 2025,
-        address: 'Kotor Crna Gora 24',
-        trainingCompleted: false,
-      },
-      {
-      id:'3',
-        firstName: 'Milica',
-        lastName: 'Bugarski',
-        startYear: 2025,
-        address: 'Kotor Crna Gora 24',
-        trainingCompleted: false,
-      },
-    ]
-    const employees = reactive(arr)
+    const employees = reactive([] as EmployeeType[])
+    const formState = reactive({
+      firstName: '',
+      lastName: '',
+      address: '',
+      startYear: '',
+      trainingCompleted: false,
+    })
+
+    const updateFormState = (key: keyof typeof formState, value: string | boolean) => {
+      formState[key] = value as never
+    }
+
     const submitForm = () => {
-        console.log('submit')
-      }
-
-
-    // const employees = reactive([] as EmployeeType[])
+      console.log('submit')
+    }
 
     return {
       employees,
-      submitForm
+      submitForm,
+      updateFormState,
+      ...toRefs(formState),
     }
   },
   components: {
@@ -83,7 +68,7 @@ export default {
     FormInput,
     EmployeeForm,
     EmployeeInfo,
-    ActionButton
+    ActionButton,
   },
 }
 </script>
