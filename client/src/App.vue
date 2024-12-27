@@ -20,18 +20,58 @@
       </div>
     </template>
   </EmployeeForm>
+
+  <EmployeeInfo v-for="employee in employees" :key="employee.id" :employee="employee" />
 </template>
 
 <script lang="ts">
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeForm from 'src/components/form/EmployeeForm.vue'
+import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
+import { reactive } from 'vue'
+import { EmployeeType } from './utils/types'
 export default {
-  setup() {},
+  setup() {
+    const arr = [
+      {
+        id: '1',
+        firstName: 'Mario',
+        lastName: 'Milosevic',
+        startYear: 2025,
+        address: 'Kotor Crna Gora 24',
+        trainingCompleted: false,
+      },
+      {
+      id:'2',
+        firstName: 'Toni',
+        lastName: 'Milosevic',
+        startYear: 2025,
+        address: 'Kotor Crna Gora 24',
+        trainingCompleted: false,
+      },
+      {
+      id:'3',
+        firstName: 'Milica',
+        lastName: 'Bugarski',
+        startYear: 2025,
+        address: 'Kotor Crna Gora 24',
+        trainingCompleted: false,
+      },
+    ]
+
+    const employees = reactive(arr)
+    // const employees = reactive([] as EmployeeType[])
+
+    return {
+      employees,
+    }
+  },
   components: {
     TitleName,
     FormInput,
     EmployeeForm,
+    EmployeeInfo,
   },
 }
 </script>
