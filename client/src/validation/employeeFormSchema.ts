@@ -7,8 +7,10 @@ export const employeeFormSchema = z.object({
   lastName: z.string().min(2, {
     message: 'Last name not long enough',
   }),
-  startYear: z.string(),
-  address: z.string().min(5, { message: 'Must be at least 5 charachters long' }),
+  startYear: z.string().min(2, {
+    message: 'Date not selected',
+  }),
+  address: z.string().min(5, { message: 'Must be at least 5 characters long' }),
 })
 
 export type modalFormValues = z.infer<typeof employeeFormSchema>
