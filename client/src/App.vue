@@ -2,21 +2,52 @@
   <TitleName>Employee Manager</TitleName>
   <EmployeeForm @submit.prevent="submitForm">
     <template #firstName>
-      <FormInput type="text" placeholder="First Name" :value="firstName" />
+      <FormInput
+        dataName="firstName"
+        type="text"
+        placeholder="First Name"
+        :value="firstName"
+        @update-value="updateFormState"
+      />
     </template>
     <template #lastName>
-      <FormInput type="text" placeholder="Last Name" :value="lastName" />
+      <FormInput
+        dataName="lastName"
+        type="text"
+        placeholder="Last Name"
+        :value="lastName"
+        @update-value="updateFormState"
+      />
     </template>
     <template #address>
-      <FormInput type="text" placeholder="Address" :value="address" />
+      <FormInput
+        dataName="address"
+        type="text"
+        placeholder="Address"
+        :value="address"
+        @update-value="updateFormState"
+      />
     </template>
     <template #startYear>
-      <FormInput type="date" placeholder="Start Year" :value="startYear" />
+      <FormInput
+        dataName="startYear"
+        type="date"
+        placeholder="Start Year"
+        :value="startYear"
+        @update-value="updateFormState"
+      />
     </template>
     <template #trainingCompleted>
       <div class="checkbox">
         <label for="training">Training Completed ?</label>
-        <input id="training" type="checkbox" :checked="trainingCompleted" />
+        <input
+          dataName="trainingCompleted"
+          id="training"
+          type="checkbox"
+          :checked="trainingCompleted"
+          v-model="trainingCompleted"
+          @input="!trainingCompleted"
+        />
       </div>
     </template>
     <template #submit>
@@ -48,17 +79,19 @@ export default {
       trainingCompleted: false,
     })
 
-    const updateFormState = (key: keyof typeof formState, value: string | boolean) => {
+    const updateFormState = (key: keyof typeof formState, value: string) => {
       formState[key] = value as never
     }
 
     const submitForm = () => {
       console.log('submit')
+      console.log(formState)
     }
 
     return {
       employees,
       submitForm,
+      // updateFormFirstName,
       updateFormState,
       ...toRefs(formState),
     }

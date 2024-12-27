@@ -1,10 +1,24 @@
 <template>
-  <input :type="type" class="input"/>
+  <input :type="type" class="input" v-model="localValue" @input="updateValue(localValue)" />
 </template>
 
 <script lang="ts">
-
+import { ref } from 'vue'
 export default {
+  setup(props, context) {
+    const localValue = ref(props.value)
+
+    const updateValue = (value: string) => {
+      const dataName = context.attrs.dataName
+      localValue.value = value
+      context.emit('update-value', dataName, localValue)
+    }
+
+    return {
+      localValue,
+      updateValue,
+    }
+  },
   props: {
     type: {
       type: String,
@@ -12,14 +26,15 @@ export default {
     },
     value: {
       type: String,
-      required:true,
+      required: true,
     },
   },
+  emits: ['update-value'],
 }
 </script>
 
 <style lang="scss" scoped>
-@use "src/scss/_variables" as *;
+@use 'src/scss/_variables' as *;
 
 .input {
   padding: $small;
@@ -27,5 +42,4 @@ export default {
   border: none;
   border-radius: $small-radius;
 }
-
 </style>
