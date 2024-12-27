@@ -67,6 +67,7 @@ import EmployeeForm from 'src/components/form/EmployeeForm.vue'
 import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType } from './utils/types'
+import { employeeFormSchema } from './validation/employeeFormSchema'
 import { reactive, toRefs } from 'vue'
 export default {
   setup() {
@@ -84,6 +85,12 @@ export default {
     }
 
     const submitForm = () => {
+      const validation = employeeFormSchema.safeParse(formState);
+      if (validation.success) {
+      console.log('uspjesno')
+      } else {
+        console.log('neuspjesno')
+      }
       console.log('submit')
       console.log(formState)
     }
