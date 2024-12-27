@@ -1,6 +1,12 @@
 <template>
   <div class="wrapper">
-    <h1>Employee Info</h1>
+    <div class="wrapper__title">
+      <h1>Employee Info</h1>
+      <div class="wrapper__title-buttons">
+        <ActionButton color="green">Edit</ActionButton>
+        <ActionButton color="red">Delete</ActionButton>
+      </div>
+    </div>
     <div class="wrapper__info">
       <p>First Name: {{ firstName }}</p>
       <p>Last Name: {{ lastName }}</p>
@@ -8,24 +14,17 @@
       <p>Address: {{ address }}</p>
       <p>Has completed training ? {{ trainingCompleted }}</p>
     </div>
-    <ActionButton>Edit</ActionButton>
-    <ActionButton>Delete</ActionButton>
   </div>
 </template>
 
 <script lang="ts">
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType } from 'src/utils/types'
-import { PropType, onMounted } from 'vue'
+import { PropType } from 'vue'
 
 export default {
   setup(props) {
-    onMounted(() => {
-      console.log(props.employee) // Access the prop here
-    })
-
     const { firstName, lastName, address, startYear, trainingCompleted } = props.employee
-
     return {
       firstName,
       lastName,
@@ -50,18 +49,29 @@ export default {
 @use 'src/scss/_variables' as *;
 
 .wrapper {
-  max-width: 1000px;
-  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: $medium;
-  background-color: #552676;
-  padding: $medium;
+  padding: $medium $big;
+  background-color: $primary-shade-color;
   border-radius: $small-radius;
+  position: relative;
+
+  &__title {
+    display: flex;
+    gap: $very-big;
+    align-items: center;
+
+    &-buttons {
+      display: flex;
+      gap: $medium;
+      align-items: center;
+    }
+  }
+
 
   &__info {
-    padding: $medium;
     display: flex;
     gap: $medium;
   }

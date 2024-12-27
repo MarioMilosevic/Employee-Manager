@@ -1,10 +1,13 @@
 <template>
   <form class="form">
-    <slot name="firstName" />
-    <slot name="lastName" />
-    <slot name="startYear" />
-    <slot name="address" />
-    <slot name="trainingCompleted" />
+    <div class="form__inputs">
+      <slot name="firstName" />
+      <slot name="lastName" />
+      <slot name="startYear" />
+      <slot name="address" />
+      <slot name="trainingCompleted" />
+      <slot name="submit" />
+    </div>
   </form>
 </template>
 
@@ -16,7 +19,16 @@ export default {}
 @use 'src/scss/_variables' as *;
 .form {
   display: flex;
-  gap: $medium;
-  justify-content: center;
+  flex-direction: column;
+  gap: $big;
+  align-items: start;
+  background-color: $primary-shade-color;
+  padding: $medium;
+  border-radius: $small-radius;
+
+  &__inputs {
+    display: flex;
+    gap: $medium;
+  }
 }
 </style>

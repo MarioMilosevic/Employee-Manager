@@ -1,6 +1,6 @@
 <template>
   <TitleName>Employee Manager</TitleName>
-  <EmployeeForm>
+  <EmployeeForm @submit.prevent="submitForm">
     <template #firstName>
       <FormInput type="text" placeholder="First Name" />
     </template>
@@ -19,6 +19,11 @@
         <input id="training" type="checkbox" />
       </div>
     </template>
+    <template #submit>
+      <ActionButton color="white" type="submit" :style="{justifySelf:'start'}">
+        Submit
+      </ActionButton>
+    </template>
   </EmployeeForm>
 
   <EmployeeInfo v-for="employee in employees" :key="employee.id" :employee="employee" />
@@ -29,6 +34,7 @@ import TitleName from 'src/components/layout/TitleName.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeForm from 'src/components/form/EmployeeForm.vue'
 import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
+import ActionButton from 'src/components/layout/ActionButton.vue'
 import { reactive } from 'vue'
 import { EmployeeType } from './utils/types'
 export default {
@@ -59,12 +65,17 @@ export default {
         trainingCompleted: false,
       },
     ]
-
     const employees = reactive(arr)
+    const submitForm = () => {
+        console.log('submit')
+      }
+
+
     // const employees = reactive([] as EmployeeType[])
 
     return {
       employees,
+      submitForm
     }
   },
   components: {
@@ -72,6 +83,7 @@ export default {
     FormInput,
     EmployeeForm,
     EmployeeInfo,
+    ActionButton
   },
 }
 </script>
