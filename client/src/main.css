@@ -6,9 +6,10 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #6a3093;
+  /* background: #6a3093;
   background: -webkit-linear-gradient(to right, #a044ff, #6a3093);
-  background: linear-gradient(to right, #a044ff, #6a3093);
+  background: linear-gradient(to right, #a044ff, #6a3093); */
+  background-color: black;
   color: #eaf2ef;
 }
 

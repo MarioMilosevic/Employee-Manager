@@ -2,10 +2,11 @@ export type EmployeeType = {
   id: string
   firstName: string
   lastName: string
-  startYear: number
+  startYear: string
   address: string
   trainingCompleted: boolean
 }
+
 
 // export const arr = [
 //   {

@@ -96,6 +96,7 @@ import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormError from 'src/components/form/FormError.vue'
+import { postData } from 'src/api'
 import { EmployeeType } from './utils/types'
 import { employeeFormSchema } from './validation/employeeFormSchema'
 import { reactive, toRefs } from 'vue'
@@ -104,10 +105,10 @@ export default {
     const employees = reactive([] as EmployeeType[])
 
     const formState = reactive({
-      firstName: '',
-      lastName: '',
-      address: '',
-      startYear: '',
+      firstName: 'Mario',
+      lastName: 'Milosevic',
+      address: 'Novo Naselje',
+      startYear: '2024-12-28',
       trainingCompleted: false,
     })
 
@@ -122,24 +123,32 @@ export default {
       formState[key] = value as never
     }
 
-    const submitForm = () => {
-      const validation = employeeFormSchema.safeParse(formState)
+    const resetForm = () => {
+      formErrors.firstName = ''
+      formErrors.lastName = ''
+      formErrors.address = ''
+      formErrors.startYear = ''
+    }
 
+    const submitForm = async () => {
+      const validation = employeeFormSchema.safeParse(formState)
       if (validation.success) {
-        console.log('Form submitted successfully!')
-        console.log(formState)
+        const validationData = {
+          id: crypto.randomUUID(),
+          ...validation.data
+        }
+        console.log(validationData)
+        const response = await postData(validationData)
+        console.log("client response ",response)
+        // resetForm()
       } else {
         // Handle validation errors
-        const errors = validation.error.errors;
-        console.log("errors",errors)
-        errors.forEach(error => {
+        const errors = validation.error.errors
+        errors.forEach((error) => {
           console.log(error)
           const field = error.path[0] as keyof typeof formErrors
-            formErrors[field] = error.message
-        });
-      
-        console.log('Form submission failed with errors.')
-        console.log(formErrors)
+          formErrors[field] = error.message
+        })
       }
     }
 

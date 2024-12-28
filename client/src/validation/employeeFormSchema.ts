@@ -11,6 +11,7 @@ export const employeeFormSchema = z.object({
     message: 'Date not selected',
   }),
   address: z.string().min(5, { message: 'Must be at least 5 characters long' }),
+  trainingCompleted:z.boolean()
 })
 
 export type modalFormValues = z.infer<typeof employeeFormSchema>
