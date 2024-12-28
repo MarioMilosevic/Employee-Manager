@@ -4,18 +4,20 @@ const app = express();
 const port = 3000;
 
 app.use(cors())
+app.use(express.json());
 
-// app.use(express.json());
 
 
 app.post("/api/data", (req, res) => {
   const receivedData = req.body;
   console.log("data received", receivedData);
-  res.status(200).json({message:"Data received successfully"})
+  res.status(200).json({ message: "Data received successfully" });
 }); 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
+
+
 
 // app.get("/api/data", (req, res) => {
 //   const receivedData = req.body;
