@@ -123,12 +123,12 @@ export default {
       formState[key] = value as never
     }
 
-    const resetForm = () => {
-      formErrors.firstName = ''
-      formErrors.lastName = ''
-      formErrors.address = ''
-      formErrors.startYear = ''
-    }
+    // const resetForm = () => {
+    //   formErrors.firstName = ''
+    //   formErrors.lastName = ''
+    //   formErrors.address = ''
+    //   formErrors.startYear = ''
+    // }
 
     const submitForm = async () => {
       const validation = employeeFormSchema.safeParse(formState)

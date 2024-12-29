@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "start": "nodemon index",
-    "dev": "ts-node src/index.ts"
+    "dev": "index"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.1.0",
     "cors": "^2.8.5",
     "express": "^4.21.2"
   },
