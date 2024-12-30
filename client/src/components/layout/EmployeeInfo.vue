@@ -3,8 +3,8 @@
     <div class="wrapper__title">
       <h1>Employee Info</h1>
       <div class="wrapper__title-buttons">
-        <ActionButton color="green">Edit</ActionButton>
-        <ActionButton color="red">Delete</ActionButton>
+        <ActionButton @click="editHandler" color="green">Edit</ActionButton>
+        <ActionButton @click="deleteHandler" color="red">Delete</ActionButton>
       </div>
     </div>
     <div class="wrapper__info">
@@ -23,15 +23,32 @@ import { EmployeeType } from 'src/utils/types'
 import { PropType } from 'vue'
 
 export default {
-  setup(props) {
-    const { firstName, lastName, address, startYear, trainingCompleted } = props.employee
+  setup(props, {emit}) {
+    const { firstName, lastName, address, startYear, trainingCompleted, id } = props.employee
+
+    const editHandler = () => {
+      emit('edit-event', id)
+      console.log('treba edit da bude', id)
+    }
+
+    const deleteHandler = () => {
+      emit('delete-event', id)
+      console.log('treba da brise', id)
+    }
+
+
     return {
       firstName,
       lastName,
       address,
       startYear,
       trainingCompleted,
+      editHandler,
+      deleteHandler
     }
+
+
+
   },
   props: {
     employee: {
@@ -42,6 +59,7 @@ export default {
   components: {
     ActionButton,
   },
+emits:['edit-event', 'delete-event'],
 }
 </script>
 

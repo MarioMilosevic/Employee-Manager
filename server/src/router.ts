@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, validationResult } from "express-validator"
-import { createEmployee, getEmployees } from "./handlers";
+import { createEmployee, getEmployees, deleteEmployee } from "./handlers";
 
 
 const router = Router();
@@ -19,6 +19,6 @@ router.put("/employee:id", body('firstName'), (req, res) => {
   //   res.json({errors:errors.array()})
   // }
 });
-router.delete("/employee:id", () => {});
+router.delete("/employee/:id", deleteEmployee);
 
 export default router;

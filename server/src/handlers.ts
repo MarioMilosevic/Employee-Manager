@@ -21,27 +21,39 @@ export const createEmployee = async (req, res) => {
       error: error.message,
     });
   }
-
-  // const employee = await prisma.user.create({
-  //     data
-  // })
 };
 
 export const getEmployees = async (req, res) => {
   try {
     const employees = await prisma.employee.findMany();
-    console.log(employees);
     res.status(200).json({
       success: true,
       data: employees,
     });
   } catch (error) {
     console.log("Error fetching employees", error);
-
     res.status(500).json({
       success: false,
       message: "Failed to fetch employees",
       error: error.message,
     });
+  }
+};
+
+export const deleteEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedEmployee = await prisma.employee.delete({
+      where: { id },
+    });
+    res
+      .status(200)
+      .json({
+        message: "Employee deleted successfully",
+        data: deletedEmployee,
+      });
+  } catch (error) {
+    console.error("Error deleting employee:", error);
+    res.status(500).json({ error: "Failed to delete employee" });
   }
 };

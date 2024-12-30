@@ -22,7 +22,7 @@ export default {
       default: 'white',
     },
     type: {
-      type: String,
+      type: String as PropType<'button' | 'submit' | 'reset'>,
       default: 'button',
     },
   },
@@ -45,10 +45,18 @@ export default {
 
   &.red {
     background-color: $red-color;
+
+    &:hover {
+      background-color: $red-color-hover;
+    }
   }
 
   &.green {
     background-color: $green-color;
+
+    &:hover {
+      background-color: $green-color-hover;
+    }
   }
 }
 </style>

@@ -85,7 +85,13 @@
     </template>
   </EmployeeForm>
 
-  <EmployeeInfo v-for="employee in employees" :key="employee.id" :employee="employee" />
+  <EmployeeInfo
+    v-for="employee in employees"
+    :key="employee.id"
+    :employee="employee"
+    @edit-event="editEmployee"
+    @delete-event="deleteEmployee"
+  />
 </template>
 
 <script lang="ts">
@@ -96,13 +102,14 @@ import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormError from 'src/components/form/FormError.vue'
-import { postData } from 'src/api'
-import { EmployeeType } from './utils/types'
-import { employeeFormSchema } from './validation/employeeFormSchema'
-import { reactive, toRefs, ref } from 'vue'
+import { baseUrl } from 'src/utils/constants'
+import { postData, getEmployees } from 'src/api'
+import { EmployeeType } from 'src/utils/types'
+import { employeeFormSchema } from 'src/validation/employeeFormSchema'
+import { reactive, toRefs, ref, onMounted } from 'vue'
 
 export default {
-  setup() {
+setup() {
     const employees = ref([] as EmployeeType[])
 
     const formState = reactive({
@@ -120,22 +127,23 @@ export default {
       startYear: '',
     })
 
-
     const fetchEmployees = async () => {
       try {
-        const response = await fetch('http://localhost:3000/employee');
-        console.log(response)
-        const result = await response.json()
-        console.log(result.data)
-        employees.value = result.data
+        const data = await getEmployees()
+        employees.value = data
       } catch (error) {
-        console.error("Network error", error)
+        console.error('Failed to fetch employees', error)
       }
     }
-    fetchEmployees()
+
+    onMounted(fetchEmployees)
 
     const updateFormState = (key: keyof typeof formState, value: string) => {
       formState[key] = value as never
+    }
+
+    const addEmployee = (employee:EmployeeType) => {
+      employees.value = [...employees.value, employee]
     }
 
     // const resetForm = () => {
@@ -150,11 +158,12 @@ export default {
       if (validation.success) {
         const validationData = {
           id: crypto.randomUUID(),
-          ...validation.data
+          ...validation.data,
         }
         console.log(validationData)
         const response = await postData(validationData)
-        console.log("client response ",response)
+        console.log('client response ', response)
+        addEmployee(response)
         // resetForm()
       } else {
         const errors = validation.error.errors
@@ -166,10 +175,29 @@ export default {
       }
     }
 
+    const editEmployee = (id: string) => {
+      console.log(id)
+      console.log('edit u appu')
+    }
+
+    const deleteEmployee = async (id: string) => {
+      console.log(id)
+      console.log('delete u appu')
+      const response = await fetch(`${baseUrl}/employee/${id}`, {
+        method: 'DELETE',
+      })
+      const result = await response.json()
+      console.log(result)
+      // const result = await response.json()
+      // employees.value = result.data
+    }
+
     return {
       employees,
       submitForm,
       updateFormState,
+      deleteEmployee,
+      editEmployee,
       ...toRefs(formState),
       ...toRefs(formErrors),
     }
