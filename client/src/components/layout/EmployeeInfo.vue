@@ -33,7 +33,6 @@ export default {
 
     const deleteHandler = () => {
       emit('delete-event', id)
-      console.log('treba da brise', id)
     }
 
 

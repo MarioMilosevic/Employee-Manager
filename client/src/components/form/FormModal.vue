@@ -11,7 +11,7 @@
                 dataName="firstName"
                 type="text"
                 placeholder="First Name"
-                :value="firstName"
+                :value="employee.firstName"
                 @update-value="updateFormState"
               />
             </template>
@@ -27,7 +27,7 @@
                 dataName="lastName"
                 type="text"
                 placeholder="Last Name"
-                :value="lastName"
+                :value="employee.lastName"
                 @update-value="updateFormState"
               />
             </template>
@@ -43,7 +43,7 @@
                 dataName="address"
                 type="text"
                 placeholder="Address"
-                :value="address"
+                :value="employee.address"
                 @update-value="updateFormState"
               />
             </template>
@@ -59,7 +59,7 @@
                 dataName="startYear"
                 type="date"
                 placeholder="Start Year"
-                :value="startYear"
+                :value="employee.startYear"
                 @update-value="updateFormState"
               />
             </template>
@@ -75,9 +75,9 @@
               dataName="trainingCompleted"
               id="training"
               type="checkbox"
-              :checked="trainingCompleted"
-              v-model="trainingCompleted"
-              @input="!trainingCompleted"
+              :checked="employee.trainingCompleted"
+              v-model="employee.trainingCompleted"
+              @input="!employee.trainingCompleted"
             />
           </div>
         </template>
@@ -93,24 +93,41 @@
 
 <script lang="ts">
 import FormBlock from 'src/components/form/FormBlock.vue'
-import FormInput from 'src/components/form/FormInput.vue';
+import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeForm from 'src/components/form/EmployeeForm.vue'
 import FormError from 'src/components/form/FormError.vue'
-import ActionButton from 'src/components/layout/ActionButton.vue';
+import ActionButton from 'src/components/layout/ActionButton.vue'
+import { PropType, reactive, watch } from 'vue'
+import { EmployeeType } from 'src/utils/types'
 
 export default {
-  setup(_, { emit }) {
+  setup(props, { emit }) {
+    const employee = reactive({ ...props.singleEmployee })
+    console.log(employee)
     const closeModal = () => {
       emit('close-modal')
     }
 
+    watch(
+      () => props.singleEmployee,
+      (newEmployee) => {
+        Object.assign(employee, newEmployee)
+      },
+      { deep: true }, // Ensures nested properties are watched
+    )
+
     return {
       closeModal,
+      employee,
     }
   },
   props: {
     isModalOpen: {
       type: Boolean,
+      required: true,
+    },
+    singleEmployee: {
+      type: Object as PropType<EmployeeType>,
       required: true,
     },
   },
@@ -120,7 +137,7 @@ export default {
     EmployeeForm,
     FormError,
     ActionButton,
-    FormInput
+    FormInput,
   },
 }
 </script>

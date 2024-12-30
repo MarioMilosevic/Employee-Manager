@@ -92,7 +92,11 @@
     @edit-event="editEmployee"
     @delete-event="deleteEmployee"
   />
-  <FormModal :isModalOpen="isModalOpen" @close-modal="setModal(false)" />
+  <FormModal
+    :isModalOpen="isModalOpen"
+    @close-modal="setModal(false)"
+    :singleEmployee="singleEmployee"
+  />
 </template>
 
 <script lang="ts">
@@ -115,7 +119,8 @@ export default {
     const employees = ref([] as EmployeeType[])
     const isModalOpen = ref(false)
 
-    const formState = reactive({
+    const singleEmployee = reactive({
+      id: '',
       firstName: '',
       lastName: '',
       address: '',
@@ -141,8 +146,17 @@ export default {
 
     onMounted(fetchEmployees)
 
-    const updateFormState = (key: keyof typeof formState, value: string) => {
-      formState[key] = value as never
+    const updateFormState = (key: keyof typeof singleEmployee, value: string) => {
+      singleEmployee[key] = value as never
+    }
+
+    const updateEmployee = (fetchedData: typeof singleEmployee) => {
+      Object.keys(fetchedData).forEach((key) => {
+        if (key in singleEmployee) {
+          const employeeKey = key as keyof typeof singleEmployee
+          singleEmployee[employeeKey] = fetchedData[employeeKey] as never
+        }
+      })
     }
 
     const addEmployee = (employee: EmployeeType) => {
@@ -161,7 +175,7 @@ export default {
     }
 
     const submitForm = async () => {
-      const validation = employeeFormSchema.safeParse(formState)
+      const validation = employeeFormSchema.safeParse(singleEmployee)
       if (validation.success) {
         const validationData = {
           id: crypto.randomUUID(),
@@ -180,7 +194,11 @@ export default {
       }
     }
 
-    const editEmployee = () => {
+    const editEmployee = async (id: string) => {
+      const response = await fetch(`${baseUrl}/employee/${id}`)
+      const { data } = await response.json()
+      console.log(data)
+      updateEmployee(data)
       setModal(true)
     }
 
@@ -204,7 +222,8 @@ export default {
       editEmployee,
       isModalOpen,
       setModal,
-      ...toRefs(formState),
+      singleEmployee,
+      ...toRefs(singleEmployee),
       ...toRefs(formErrors),
     }
   },
