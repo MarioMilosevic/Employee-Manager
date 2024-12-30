@@ -1,6 +1,6 @@
 <template>
   <TitleName>Employee Manager</TitleName>
-  <EmployeeForm @submit.prevent="submitForm">
+  <EmployeeForm @submit.prevent="submitForm" class="form">
     <template #firstName>
       <FormBlock>
         <template #input>
@@ -92,9 +92,11 @@
     @edit-event="editEmployee"
     @delete-event="deleteEmployee"
   />
+  <FormModal :isModalOpen="isModalOpen" @close-modal="setModal(false)" />
 </template>
 
 <script lang="ts">
+import FormModal from 'src/components/form/FormModal.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeForm from 'src/components/form/EmployeeForm.vue'
@@ -111,12 +113,13 @@ import { reactive, toRefs, ref, onMounted } from 'vue'
 export default {
   setup() {
     const employees = ref([] as EmployeeType[])
+    const isModalOpen = ref(false)
 
     const formState = reactive({
-      firstName: 'Mario',
-      lastName: 'Milosevic',
-      address: 'Novo Naselje',
-      startYear: '2024-12-28',
+      firstName: '',
+      lastName: '',
+      address: '',
+      startYear: '',
       trainingCompleted: false,
     })
 
@@ -150,12 +153,12 @@ export default {
       employees.value = employees.value.filter((emp) => emp.id !== employee.id)
     }
 
-    // const resetForm = () => {
-    //   formErrors.firstName = ''
-    //   formErrors.lastName = ''
-    //   formErrors.address = ''
-    //   formErrors.startYear = ''
-    // }
+    const resetForm = () => {
+      formErrors.firstName = ''
+      formErrors.lastName = ''
+      formErrors.address = ''
+      formErrors.startYear = ''
+    }
 
     const submitForm = async () => {
       const validation = employeeFormSchema.safeParse(formState)
@@ -164,11 +167,9 @@ export default {
           id: crypto.randomUUID(),
           ...validation.data,
         }
-        console.log(validationData)
         const response = await postData(validationData)
-        console.log('client response ', response)
         addEmployee(response)
-        // resetForm()
+        resetForm()
       } else {
         const errors = validation.error.errors
         errors.forEach((error) => {
@@ -179,20 +180,20 @@ export default {
       }
     }
 
-    const editEmployee = (id: string) => {
-      console.log(id)
-      console.log('edit u appu')
+    const editEmployee = () => {
+      setModal(true)
     }
 
     const deleteEmployee = async (id: string) => {
-      console.log(id)
-      console.log('delete u appu')
       const response = await fetch(`${baseUrl}/employee/${id}`, {
         method: 'DELETE',
       })
       const { data } = await response.json()
-      console.log(data)
       removeEmployee(data)
+    }
+
+    const setModal = (value: boolean) => {
+      isModalOpen.value = value
     }
 
     return {
@@ -201,6 +202,8 @@ export default {
       updateFormState,
       deleteEmployee,
       editEmployee,
+      isModalOpen,
+      setModal,
       ...toRefs(formState),
       ...toRefs(formErrors),
     }
@@ -213,6 +216,7 @@ export default {
     EmployeeForm,
     EmployeeInfo,
     ActionButton,
+    FormModal,
   },
 }
 </script>
@@ -221,11 +225,19 @@ export default {
 @use 'src/scss/_variables' as *;
 
 .checkbox {
-  border: 1px solid white;
+  border: 1px solid $secondary-color;
   display: flex;
-  align-items: center;
-  gap: $medium;
+  gap: $small;
   padding: $small;
+  border-radius: $small-radius;
+}
+
+.form {
+  display: flex;
+  gap: $big;
+  align-items: center;
+  background-color: $primary-shade-color;
+  padding: $big;
   border-radius: $small-radius;
 }
 </style>
