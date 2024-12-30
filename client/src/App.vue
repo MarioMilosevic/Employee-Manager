@@ -109,7 +109,7 @@ import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { reactive, toRefs, ref, onMounted } from 'vue'
 
 export default {
-setup() {
+  setup() {
     const employees = ref([] as EmployeeType[])
 
     const formState = reactive({
@@ -142,8 +142,12 @@ setup() {
       formState[key] = value as never
     }
 
-    const addEmployee = (employee:EmployeeType) => {
+    const addEmployee = (employee: EmployeeType) => {
       employees.value = [...employees.value, employee]
+    }
+
+    const removeEmployee = (employee: EmployeeType) => {
+      employees.value = employees.value.filter((emp) => emp.id !== employee.id)
     }
 
     // const resetForm = () => {
@@ -186,10 +190,9 @@ setup() {
       const response = await fetch(`${baseUrl}/employee/${id}`, {
         method: 'DELETE',
       })
-      const result = await response.json()
-      console.log(result)
-      // const result = await response.json()
-      // employees.value = result.data
+      const { data } = await response.json()
+      console.log(data)
+      removeEmployee(data)
     }
 
     return {
