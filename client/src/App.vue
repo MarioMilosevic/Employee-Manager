@@ -99,10 +99,11 @@ import FormError from 'src/components/form/FormError.vue'
 import { postData } from 'src/api'
 import { EmployeeType } from './utils/types'
 import { employeeFormSchema } from './validation/employeeFormSchema'
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, ref } from 'vue'
+
 export default {
   setup() {
-    const employees = reactive([] as EmployeeType[])
+    const employees = ref([] as EmployeeType[])
 
     const formState = reactive({
       firstName: 'Mario',
@@ -118,6 +119,20 @@ export default {
       address: '',
       startYear: '',
     })
+
+
+    const fetchEmployees = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/employee');
+        console.log(response)
+        const result = await response.json()
+        console.log(result.data)
+        employees.value = result.data
+      } catch (error) {
+        console.error("Network error", error)
+      }
+    }
+    fetchEmployees()
 
     const updateFormState = (key: keyof typeof formState, value: string) => {
       formState[key] = value as never
@@ -142,7 +157,6 @@ export default {
         console.log("client response ",response)
         // resetForm()
       } else {
-        // Handle validation errors
         const errors = validation.error.errors
         errors.forEach((error) => {
           console.log(error)
