@@ -16,7 +16,7 @@
               />
             </template>
             <template #error>
-              <FormError>{{ firstName }}</FormError>
+              <FormError>{{ employee.firstName }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -32,7 +32,7 @@
               />
             </template>
             <template #error>
-              <FormError>{{ lastName }}</FormError>
+              <FormError>{{ employee.lastName }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -48,7 +48,7 @@
               />
             </template>
             <template #error>
-              <FormError>{{ address }}</FormError>
+              <FormError>{{ employee.address }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -64,7 +64,7 @@
               />
             </template>
             <template #error>
-              <FormError>{{ startYear }}</FormError>
+              <FormError>{{ employee.startYear }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -97,28 +97,32 @@ import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeForm from 'src/components/form/EmployeeForm.vue'
 import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
-import { PropType, reactive, watch } from 'vue'
+import { PropType, watch, ref } from 'vue'
 import { EmployeeType } from 'src/utils/types'
 
 export default {
   setup(props, { emit }) {
-    const employee = reactive({ ...props.singleEmployee })
-    console.log(employee)
+    const employee = ref({ ...props.singleEmployee })
     const closeModal = () => {
       emit('close-modal')
+    }
+
+    const updateFormState = (key: keyof typeof employee, value: string) => {
+      employee[key] = value as never
     }
 
     watch(
       () => props.singleEmployee,
       (newEmployee) => {
-        Object.assign(employee, newEmployee)
+        employee.value = newEmployee
       },
-      { deep: true }, // Ensures nested properties are watched
+      { deep: true },
     )
 
     return {
       closeModal,
       employee,
+      updateFormState,
     }
   },
   props: {

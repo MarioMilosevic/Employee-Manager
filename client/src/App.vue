@@ -72,9 +72,9 @@
           dataName="trainingCompleted"
           id="training"
           type="checkbox"
-          :checked="trainingCompleted"
-          v-model="trainingCompleted"
-          @input="!trainingCompleted"
+          :checked="singleEmployee.trainingCompleted"
+          v-model="singleEmployee.trainingCompleted"
+          @input="!singleEmployee.trainingCompleted"
         />
       </div>
     </template>
@@ -119,8 +119,8 @@ export default {
     const employees = ref([] as EmployeeType[])
     const isModalOpen = ref(false)
 
-    const singleEmployee = reactive({
-      id: '',
+    const singleEmployee = ref({
+         id: '',
       firstName: '',
       lastName: '',
       address: '',
@@ -150,14 +150,14 @@ export default {
       singleEmployee[key] = value as never
     }
 
-    const updateEmployee = (fetchedData: typeof singleEmployee) => {
-      Object.keys(fetchedData).forEach((key) => {
-        if (key in singleEmployee) {
-          const employeeKey = key as keyof typeof singleEmployee
-          singleEmployee[employeeKey] = fetchedData[employeeKey] as never
-        }
-      })
-    }
+    // const updateEmployee = (fetchedData: typeof singleEmployee) => {
+    //   Object.keys(fetchedData).forEach((key) => {
+    //     if (key in singleEmployee) {
+    //       const employeeKey = key as keyof typeof singleEmployee
+    //       singleEmployee[employeeKey] = fetchedData[employeeKey] as never
+    //     }
+    //   })
+    // }
 
     const addEmployee = (employee: EmployeeType) => {
       employees.value = [...employees.value, employee]
@@ -197,10 +197,10 @@ export default {
     const editEmployee = async (id: string) => {
       const response = await fetch(`${baseUrl}/employee/${id}`)
       const { data } = await response.json()
-      console.log(data)
-      updateEmployee(data)
+      singleEmployee.value = data
       setModal(true)
     }
+
 
     const deleteEmployee = async (id: string) => {
       const response = await fetch(`${baseUrl}/employee/${id}`, {
@@ -223,7 +223,6 @@ export default {
       isModalOpen,
       setModal,
       singleEmployee,
-      ...toRefs(singleEmployee),
       ...toRefs(formErrors),
     }
   },
