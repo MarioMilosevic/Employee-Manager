@@ -3,16 +3,20 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 export default {
   setup(props, context) {
     const localValue = ref(props.value)
+    console.log(localValue)
 
     const updateValue = (value: string) => {
       const dataName = context.attrs.dataName
       localValue.value = value
-      context.emit('update-value', dataName, localValue)
+      console.log(localValue)
+      context.emit('update-value', dataName, localValue.value)
     }
+
+    onMounted(() => console.log(props.value))
 
     return {
       localValue,

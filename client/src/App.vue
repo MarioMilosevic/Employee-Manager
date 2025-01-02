@@ -8,7 +8,7 @@
             dataName="firstName"
             type="text"
             placeholder="First Name"
-            :value="firstName"
+            :value="singleEmployee.firstName"
             @update-value="updateFormState"
           />
         </template>
@@ -24,7 +24,7 @@
             dataName="lastName"
             type="text"
             placeholder="Last Name"
-            :value="lastName"
+            :value="singleEmployee.lastName"
             @update-value="updateFormState"
           />
         </template>
@@ -40,7 +40,7 @@
             dataName="address"
             type="text"
             placeholder="Address"
-            :value="address"
+            :value="singleEmployee.address"
             @update-value="updateFormState"
           />
         </template>
@@ -56,7 +56,7 @@
             dataName="startYear"
             type="date"
             placeholder="Start Year"
-            :value="startYear"
+            :value="singleEmployee.startYear"
             @update-value="updateFormState"
           />
         </template>
@@ -66,7 +66,11 @@
       </FormBlock>
     </template>
     <template #trainingCompleted>
-      <div class="checkbox">
+      <FormCheckbox
+        :trainingCompleted="singleEmployee.trainingCompleted"
+        @checkbox-event="toggleTrainingCompleted"
+      />
+      <!-- <div class="checkbox">
         <label for="training">Training Completed ?</label>
         <input
           dataName="trainingCompleted"
@@ -76,7 +80,7 @@
           v-model="singleEmployee.trainingCompleted"
           @input="!singleEmployee.trainingCompleted"
         />
-      </div>
+      </div> -->
     </template>
     <template #submit>
       <ActionButton color="white" type="submit" :style="{ justifySelf: 'start' }">
@@ -108,6 +112,7 @@ import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormError from 'src/components/form/FormError.vue'
+import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import { baseUrl } from 'src/utils/constants'
 import { postData, getEmployees } from 'src/api'
 import { EmployeeType } from 'src/utils/types'
@@ -120,7 +125,7 @@ export default {
     const isModalOpen = ref(false)
 
     const singleEmployee = ref({
-         id: '',
+      id: '',
       firstName: '',
       lastName: '',
       address: '',
@@ -146,10 +151,16 @@ export default {
 
     onMounted(fetchEmployees)
 
-    const updateFormState = (key: keyof typeof singleEmployee, value: string) => {
-      singleEmployee[key] = value as never
-    }
+  const updateFormState = <K extends keyof typeof singleEmployee.value>(
+  key: K,
+  value: typeof singleEmployee.value[K]
+) => {
+  singleEmployee.value[key] = value;
+};
 
+    const toggleTrainingCompleted = (value:boolean) => {
+      console.log(value)
+}
     // const updateEmployee = (fetchedData: typeof singleEmployee) => {
     //   Object.keys(fetchedData).forEach((key) => {
     //     if (key in singleEmployee) {
@@ -175,7 +186,8 @@ export default {
     }
 
     const submitForm = async () => {
-      const validation = employeeFormSchema.safeParse(singleEmployee)
+      const validation = employeeFormSchema.safeParse(singleEmployee.value)
+      console.log(validation.data)
       if (validation.success) {
         const validationData = {
           id: crypto.randomUUID(),
@@ -201,7 +213,6 @@ export default {
       setModal(true)
     }
 
-
     const deleteEmployee = async (id: string) => {
       const response = await fetch(`${baseUrl}/employee/${id}`, {
         method: 'DELETE',
@@ -223,6 +234,7 @@ export default {
       isModalOpen,
       setModal,
       singleEmployee,
+      toggleTrainingCompleted,
       ...toRefs(formErrors),
     }
   },
@@ -235,20 +247,13 @@ export default {
     EmployeeInfo,
     ActionButton,
     FormModal,
+    FormCheckbox,
   },
 }
 </script>
 
 <style scoped lang="scss">
 @use 'src/scss/_variables' as *;
-
-.checkbox {
-  border: 1px solid $secondary-color;
-  display: flex;
-  gap: $small;
-  padding: $small;
-  border-radius: $small-radius;
-}
 
 .form {
   display: flex;

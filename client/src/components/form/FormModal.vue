@@ -1,9 +1,9 @@
 <template>
   <div v-if="isModalOpen" class="overlay">
     <div class="overlay__modal">
-      <h1>Change Employee Information</h1>
+      <h2 class="overlay__modal-title">Edit Employee </h2>
       <button @click="closeModal" class="overlay__modal-button">X</button>
-      <EmployeeForm class="form">
+      <EmployeeForm class="overlay__modal-form">
         <template #firstName>
           <FormBlock>
             <template #input>
@@ -16,7 +16,7 @@
               />
             </template>
             <template #error>
-              <FormError>{{ employee.firstName }}</FormError>
+              <FormError>{{ firstName }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -32,7 +32,7 @@
               />
             </template>
             <template #error>
-              <FormError>{{ employee.lastName }}</FormError>
+              <FormError>{{ lastName }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -48,7 +48,7 @@
               />
             </template>
             <template #error>
-              <FormError>{{ employee.address }}</FormError>
+              <FormError>{{ address }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -64,7 +64,7 @@
               />
             </template>
             <template #error>
-              <FormError>{{ employee.startYear }}</FormError>
+              <FormError>{{ startYear }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -97,12 +97,21 @@ import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeForm from 'src/components/form/EmployeeForm.vue'
 import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
-import { PropType, watch, ref } from 'vue'
+import { PropType, watch, ref, reactive, toRefs } from 'vue'
 import { EmployeeType } from 'src/utils/types'
 
 export default {
   setup(props, { emit }) {
     const employee = ref({ ...props.singleEmployee })
+
+      const formErrors = reactive({
+      firstName: '',
+      lastName: '',
+      address: '',
+      startYear: '',
+    })
+
+
     const closeModal = () => {
       emit('close-modal')
     }
@@ -123,6 +132,7 @@ export default {
       closeModal,
       employee,
       updateFormState,
+      ...toRefs(formErrors)
     }
   },
   props: {
@@ -165,14 +175,15 @@ export default {
     position: fixed;
     top: 50%;
     left: 50%;
-    max-width: 600px;
+    max-width: 1100px;
     width: 100%;
     transform: translate(-50%, -50%);
-    background-color: $secondary-color;
-    padding: $very-big;
+    background-color: $primary-color;
+    padding: $big;
     display: flex;
     flex-direction: column;
     gap: $medium;
+
 
     &-button {
       position: absolute;
@@ -183,6 +194,15 @@ export default {
       background-color: $dark-color;
       color: $secondary-color;
       padding: 0.2rem 0.3rem;
+    }
+
+    &-form {
+      display: flex;
+      gap: $big;
+      align-items: center;
+      background-color: $primary-shade-color;
+      padding: $medium;
+      border-radius: $small-radius;
     }
   }
 }
