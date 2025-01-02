@@ -66,7 +66,6 @@ emits:['edit-event', 'delete-event'],
 @use 'src/scss/_variables' as *;
 
 .wrapper {
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: $medium;

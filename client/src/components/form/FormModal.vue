@@ -1,9 +1,9 @@
 <template>
   <div v-if="isModalOpen" class="overlay">
     <div class="overlay__modal">
-      <h2 class="overlay__modal-title">Edit Employee </h2>
+      <h2 class="overlay__modal-title">Edit Employee</h2>
       <button @click="closeModal" class="overlay__modal-button">X</button>
-      <EmployeeForm class="overlay__modal-form">
+      <EmployeeForm @submit.prevent="submitForm" class="overlay__modal-form">
         <template #firstName>
           <FormBlock>
             <template #input>
@@ -69,17 +69,10 @@
           </FormBlock>
         </template>
         <template #trainingCompleted>
-          <div class="checkbox">
-            <label for="training">Training Completed ?</label>
-            <input
-              dataName="trainingCompleted"
-              id="training"
-              type="checkbox"
-              :checked="employee.trainingCompleted"
-              v-model="employee.trainingCompleted"
-              @input="!employee.trainingCompleted"
-            />
-          </div>
+          <FormCheckbox
+            :trainingCompleted="employee.trainingCompleted"
+            @checkbox-event="editTrainingCompleted"
+          />
         </template>
         <template #submit>
           <ActionButton color="white" type="submit" :style="{ justifySelf: 'start' }">
@@ -97,27 +90,65 @@ import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeForm from 'src/components/form/EmployeeForm.vue'
 import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
+import FormCheckbox from 'src/components/form/FormCheckbox.vue'
+import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { PropType, watch, ref, reactive, toRefs } from 'vue'
 import { EmployeeType } from 'src/utils/types'
+import { editData } from 'src/api'
 
 export default {
   setup(props, { emit }) {
     const employee = ref({ ...props.singleEmployee })
 
-      const formErrors = reactive({
+    const formErrors = reactive({
       firstName: '',
       lastName: '',
       address: '',
       startYear: '',
     })
 
-
     const closeModal = () => {
       emit('close-modal')
     }
 
-    const updateFormState = (key: keyof typeof employee, value: string) => {
-      employee[key] = value as never
+    const editTrainingCompleted = (value: boolean) => {
+      console.log(value)
+    }
+
+    const updateFormState = <K extends keyof typeof employee.value>(
+      key: K,
+      value: (typeof employee.value)[K],
+    ) => {
+      employee.value[key] = value
+    }
+    const submitForm = async () => {
+      const validation = employeeFormSchema.safeParse(employee.value)
+      console.log(validation)
+      if (validation.success) {
+        const validationData = {
+          id: employee.value.id,
+          ...validation.data
+        }
+        
+        const response = await editData(validationData)
+        console.log(response)
+      }
+      // if (validation.success) {
+      //   const validationData = {
+      //     id: crypto.randomUUID(),
+      //     ...validation.data,
+      //   }
+      //   const response = await postData(validationData)
+      //   addEmployee(response)
+      //   resetForm()
+      // } else {
+      //   const errors = validation.error.errors
+      //   errors.forEach((error) => {
+      //     console.log(error)
+      //     const field = error.path[0] as keyof typeof formErrors
+      //     formErrors[field] = error.message
+      //   })
+      // }
     }
 
     watch(
@@ -132,7 +163,9 @@ export default {
       closeModal,
       employee,
       updateFormState,
-      ...toRefs(formErrors)
+      editTrainingCompleted,
+      submitForm,
+      ...toRefs(formErrors),
     }
   },
   props: {
@@ -150,6 +183,7 @@ export default {
     FormBlock,
     EmployeeForm,
     FormError,
+    FormCheckbox,
     ActionButton,
     FormInput,
   },
@@ -179,16 +213,16 @@ export default {
     width: 100%;
     transform: translate(-50%, -50%);
     background-color: $primary-color;
-    padding: $big;
+    padding: $medium $small;
     display: flex;
     flex-direction: column;
     gap: $medium;
-
+    justify-content: space-between;
 
     &-button {
       position: absolute;
       top: 7%;
-      right: 2%;
+      right: 1%;
       border: none;
       cursor: pointer;
       background-color: $dark-color;

@@ -50,7 +50,6 @@ export const getEmployees = async (req, res) => {
 export const getEmployee = async (req, res) => {
   try {
       const { id } = req.params;
-      console.log('ovo je id', id)
     const employee = await prisma.employee.findUnique({
       where: { id },
     });
@@ -77,5 +76,28 @@ export const deleteEmployee = async (req, res) => {
   } catch (error) {
     console.error("Error deleting employee:", error);
     res.status(500).json({ error: "Failed to delete employee" });
+  }
+};
+
+export const editEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body; 
+
+    const updatedEmployee = await prisma.employee.update({
+      where: { id },
+      data, 
+    });
+
+    console.log('apdejtovani ', updatedEmployee)
+
+    // Send back the updated employee as a response
+    res.status(200).json({
+      success: true,
+      data: updatedEmployee,
+    });
+  } catch (error) {
+    console.error("Error updating employee:", error);
+    res.status(500).json({ success: false, error: "Failed to edit employee" });
   }
 };

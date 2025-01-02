@@ -68,19 +68,8 @@
     <template #trainingCompleted>
       <FormCheckbox
         :trainingCompleted="singleEmployee.trainingCompleted"
-        @checkbox-event="toggleTrainingCompleted"
+        @checkbox-event="setTrainingCompleted"
       />
-      <!-- <div class="checkbox">
-        <label for="training">Training Completed ?</label>
-        <input
-          dataName="trainingCompleted"
-          id="training"
-          type="checkbox"
-          :checked="singleEmployee.trainingCompleted"
-          v-model="singleEmployee.trainingCompleted"
-          @input="!singleEmployee.trainingCompleted"
-        />
-      </div> -->
     </template>
     <template #submit>
       <ActionButton color="white" type="submit" :style="{ justifySelf: 'start' }">
@@ -114,7 +103,7 @@ import FormBlock from 'src/components/form/FormBlock.vue'
 import FormError from 'src/components/form/FormError.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import { baseUrl } from 'src/utils/constants'
-import { postData, getEmployees } from 'src/api'
+import { postData, getEmployees, deleteData } from 'src/api'
 import { EmployeeType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { reactive, toRefs, ref, onMounted } from 'vue'
@@ -158,17 +147,9 @@ export default {
   singleEmployee.value[key] = value;
 };
 
-    const toggleTrainingCompleted = (value:boolean) => {
-      console.log(value)
+    const setTrainingCompleted = (value: boolean) => {
+      singleEmployee.value.trainingCompleted = value
 }
-    // const updateEmployee = (fetchedData: typeof singleEmployee) => {
-    //   Object.keys(fetchedData).forEach((key) => {
-    //     if (key in singleEmployee) {
-    //       const employeeKey = key as keyof typeof singleEmployee
-    //       singleEmployee[employeeKey] = fetchedData[employeeKey] as never
-    //     }
-    //   })
-    // }
 
     const addEmployee = (employee: EmployeeType) => {
       employees.value = [...employees.value, employee]
@@ -187,7 +168,6 @@ export default {
 
     const submitForm = async () => {
       const validation = employeeFormSchema.safeParse(singleEmployee.value)
-      console.log(validation.data)
       if (validation.success) {
         const validationData = {
           id: crypto.randomUUID(),
@@ -214,10 +194,7 @@ export default {
     }
 
     const deleteEmployee = async (id: string) => {
-      const response = await fetch(`${baseUrl}/employee/${id}`, {
-        method: 'DELETE',
-      })
-      const { data } = await response.json()
+      const data = await deleteData(id)
       removeEmployee(data)
     }
 
@@ -234,7 +211,7 @@ export default {
       isModalOpen,
       setModal,
       singleEmployee,
-      toggleTrainingCompleted,
+      setTrainingCompleted,
       ...toRefs(formErrors),
     }
   },

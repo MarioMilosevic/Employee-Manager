@@ -1,5 +1,5 @@
-import { EmployeeType } from './utils/types'
-import { baseUrl } from './utils/constants'
+import { EmployeeType } from 'src/utils/types'
+import { baseUrl } from 'src/utils/constants'
 
 export const postData = async (data: EmployeeType) => {
   const response = await fetch(`${baseUrl}/employee`, {
@@ -10,7 +10,7 @@ export const postData = async (data: EmployeeType) => {
     body: JSON.stringify(data),
   })
   const result = await response.json()
-  const {employee} = result
+  const { employee } = result
   return employee
 }
 
@@ -22,4 +22,30 @@ export const getEmployees = async () => {
   } catch (error) {
     console.error('Network error', error)
   }
+}
+
+export const editData = async (data: EmployeeType) => {
+  try {
+    const response = await fetch(`${baseUrl}/employee/${data.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    console.log(response)
+    const result = await response.json()
+    const { data:employeeData } = result
+    return employeeData
+  } catch (error) {
+    console.error('Unable to edit data', error)
+  }
+}
+
+export const deleteData = async (id: string) => {
+  const response = await fetch(`${baseUrl}/employee/${id}`, {
+    method: 'DELETE',
+  })
+  const { data } = await response.json()
+  return data
 }

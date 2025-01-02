@@ -12,7 +12,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", router);
 
 export default app;
-// app.get("/", (req, res) => {
-//   res.status(200);
-//   res.send("hello world");
-// });
+
