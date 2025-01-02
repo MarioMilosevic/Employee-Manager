@@ -33,7 +33,6 @@ export const editData = async (data: EmployeeType) => {
       },
       body: JSON.stringify(data),
     })
-    console.log(response)
     const result = await response.json()
     const { data:employeeData } = result
     return employeeData

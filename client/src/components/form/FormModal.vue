@@ -112,7 +112,7 @@ export default {
     }
 
     const editTrainingCompleted = (value: boolean) => {
-      console.log(value)
+      employee.value.trainingCompleted = value
     }
 
     const updateFormState = <K extends keyof typeof employee.value>(
@@ -123,32 +123,23 @@ export default {
     }
     const submitForm = async () => {
       const validation = employeeFormSchema.safeParse(employee.value)
-      console.log(validation)
       if (validation.success) {
         const validationData = {
           id: employee.value.id,
           ...validation.data
         }
-        
+
         const response = await editData(validationData)
-        console.log(response)
+        emit('update-event', response)
       }
-      // if (validation.success) {
-      //   const validationData = {
-      //     id: crypto.randomUUID(),
-      //     ...validation.data,
-      //   }
-      //   const response = await postData(validationData)
-      //   addEmployee(response)
-      //   resetForm()
-      // } else {
-      //   const errors = validation.error.errors
-      //   errors.forEach((error) => {
-      //     console.log(error)
-      //     const field = error.path[0] as keyof typeof formErrors
-      //     formErrors[field] = error.message
-      //   })
-      // }
+      else {
+        const errors = validation.error.errors
+        errors.forEach((error) => {
+          console.log(error)
+          const field = error.path[0] as keyof typeof formErrors
+          formErrors[field] = error.message
+        })
+      }
     }
 
     watch(
@@ -178,7 +169,7 @@ export default {
       required: true,
     },
   },
-  emits: ['close-modal'],
+  emits: ['close-modal', 'update-event'],
   components: {
     FormBlock,
     EmployeeForm,

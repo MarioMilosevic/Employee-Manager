@@ -8,11 +8,11 @@
       </div>
     </div>
     <div class="wrapper__info">
-      <p>First Name: {{ firstName }}</p>
-      <p>Last Name: {{ lastName }}</p>
-      <p>Start Year: {{ startYear }}</p>
-      <p>Address: {{ address }}</p>
-      <p>Has completed training ? {{ trainingCompleted }}</p>
+      <p>First Name: {{ singleEmployee.firstName }}</p>
+      <p>Last Name: {{ singleEmployee.lastName }}</p>
+      <p>Start Year: {{ singleEmployee.startYear }}</p>
+      <p>Address: {{ singleEmployee.address }}</p>
+      <p>Has completed training ? {{ singleEmployee.trainingCompleted }}</p>
     </div>
   </div>
 </template>
@@ -20,34 +20,32 @@
 <script lang="ts">
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType } from 'src/utils/types'
-import { PropType } from 'vue'
+import { PropType, ref, watch } from 'vue'
 
 export default {
-  setup(props, {emit}) {
-    const { firstName, lastName, address, startYear, trainingCompleted, id } = props.employee
+  setup(props, { emit }) {
+    const singleEmployee = ref({ ...props.employee })
 
     const editHandler = () => {
-      emit('edit-event', id)
-      console.log('treba edit da bude', id)
+      emit('edit-event', singleEmployee.value.id)
     }
 
     const deleteHandler = () => {
-      emit('delete-event', id)
+      emit('delete-event', singleEmployee.value.id)
     }
 
+    watch(
+      () => props.employee,
+      (newValue) => {
+        singleEmployee.value = { ...newValue } 
+      },
+    )
 
     return {
-      firstName,
-      lastName,
-      address,
-      startYear,
-      trainingCompleted,
+      singleEmployee,
       editHandler,
-      deleteHandler
+      deleteHandler,
     }
-
-
-
   },
   props: {
     employee: {
@@ -58,7 +56,7 @@ export default {
   components: {
     ActionButton,
   },
-emits:['edit-event', 'delete-event'],
+  emits: ['edit-event', 'delete-event'],
 }
 </script>
 
@@ -85,7 +83,6 @@ emits:['edit-event', 'delete-event'],
       align-items: center;
     }
   }
-
 
   &__info {
     display: flex;

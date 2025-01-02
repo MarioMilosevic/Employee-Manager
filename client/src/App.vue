@@ -88,6 +88,7 @@
   <FormModal
     :isModalOpen="isModalOpen"
     @close-modal="setModal(false)"
+    @update-event="updateEmployees"
     :singleEmployee="singleEmployee"
   />
 </template>
@@ -140,16 +141,25 @@ export default {
 
     onMounted(fetchEmployees)
 
-  const updateFormState = <K extends keyof typeof singleEmployee.value>(
-  key: K,
-  value: typeof singleEmployee.value[K]
-) => {
-  singleEmployee.value[key] = value;
-};
+    const updateFormState = <K extends keyof typeof singleEmployee.value>(
+      key: K,
+      value: (typeof singleEmployee.value)[K],
+    ) => {
+      singleEmployee.value[key] = value
+    }
+
+    const updateEmployees = async (updatedEmployee: EmployeeType) => {
+      employees.value = employees.value.map((emp) =>
+        emp.id === updatedEmployee.id ? updatedEmployee : emp,
+      )
+      setModal(false)
+    }
+
+
 
     const setTrainingCompleted = (value: boolean) => {
       singleEmployee.value.trainingCompleted = value
-}
+    }
 
     const addEmployee = (employee: EmployeeType) => {
       employees.value = [...employees.value, employee]
@@ -208,6 +218,7 @@ export default {
       updateFormState,
       deleteEmployee,
       editEmployee,
+      updateEmployees,
       isModalOpen,
       setModal,
       singleEmployee,

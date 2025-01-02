@@ -91,7 +91,6 @@ export const editEmployee = async (req, res) => {
 
     console.log('apdejtovani ', updatedEmployee)
 
-    // Send back the updated employee as a response
     res.status(200).json({
       success: true,
       data: updatedEmployee,
