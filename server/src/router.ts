@@ -1,23 +1,12 @@
 import { Router } from "express";
-import {
-  createEmployee,
-  getEmployees,
-  deleteEmployee,
-  getEmployee,
-  editEmployee
-} from "./handlers";
+import employee from "../services/employee";
 
 const router = Router();
 
-router.get("/employee", getEmployees);
-
-router.post("/employee", createEmployee);
-
-router.get("/employee/:id", getEmployee);
-
-router.delete("/employee/:id", deleteEmployee);
-
-
-router.put("/employee/:id", editEmployee);
+router.get("/api/v1/employee", employee.getAll);
+router.post("/api/v1/employee", employee.create);
+router.get("/api/v1/employee/:id", employee.getSingle);
+router.delete("/api/v1/employee/:id", employee.delete);
+router.put("/api/v1/employee/:id", employee.edit);
 
 export default router;

@@ -1,4 +1,19 @@
-import prisma from "../../src/db";
+import prisma from "../db";
+
+const successReq = (res, data) => {
+  res.status(200).json({
+    success: true,
+    data,
+  });
+};
+
+const errorReq = (res, statusCode, message, error) => {
+  res.status(statusCode).json({
+    success: false,
+    message,
+    error,
+  });
+};
 
 const employee = {
   async create(req, res) {
@@ -7,23 +22,17 @@ const employee = {
       const newEmployee = await prisma.employee.create({
         data,
       });
+      successReq(res, newEmployee);
     } catch (error) {
-      // neka funkcija ako je error
+      errorReq(res, 500, "Failed to create employee", error);
     }
   },
   async getAll(req, res) {
     try {
       const employees = await prisma.employee.findMany();
-      //    res.status(200).json({
-      //      success: true,
-      //      data: employees,
-      //    });
+      successReq(res, employees);
     } catch (error) {
-      //    res.status(500).json({
-      //      success: false,
-      //      message: "Failed to fetch employees",
-      //      error: error.message,
-      //    });
+      errorReq(res, 500, "Failed to fetch employees", error);
     }
   },
   async getSingle(req, res) {
@@ -32,49 +41,35 @@ const employee = {
       const employee = await prisma.employee.findUnique({
         where: { id },
       });
-      // res.status(200).json({
-      //   success: true,
-      //   data: employee,
-      // });
+      successReq(res, employee);
     } catch (error) {
-      // res
-      //   .status(500)
-      //   .json({ success: false, error: "Failed to fetch employee" });
+      errorReq(res, 500, "Failed to fetch employee", error);
     }
-    },
-    async delete(req, res) {
-        try {
-          const { id } = req.params;
-          const deletedEmployee = await prisma.employee.delete({
-            where: { id },
-          });
-        //   res.status(200).json({
-        //     message: "Employee deleted successfully",
-        //     data: deletedEmployee,
-        //   });
-        } catch (error) {
-        //   res.status(500).json({ error: "Failed to delete employee" });
-        }
-    },
-    async edit(req, res) {
-          try {
-            const { id } = req.params;
-            const data = req.body;
-
-            const updatedEmployee = await prisma.employee.update({
-              where: { id },
-              data,
-            });
-            // res.status(200).json({
-            //   success: true,
-            //   data: updatedEmployee,
-            // });
-          } catch (error) {
-            // res
-            //   .status(500)
-            //   .json({ success: false, error: "Failed to edit employee" });
-          }
+  },
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+      const deletedEmployee = await prisma.employee.delete({
+        where: { id },
+      });
+      successReq(res, deletedEmployee);
+    } catch (error) {
+      errorReq(res, 500, "Failed to delete employee", error);
     }
+  },
+  async edit(req, res) {
+    try {
+      const { id } = req.params;
+      const data = req.body;
+      const updatedEmployee = await prisma.employee.update({
+        where: { id },
+        data,
+      });
+      successReq(res, updatedEmployee);
+    } catch (error) {
+      errorReq(res, 500, "Failed to edit employee", error);
+    }
+  },
 };
 
-export default employee
+export default employee;
