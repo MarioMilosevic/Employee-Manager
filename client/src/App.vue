@@ -155,8 +155,6 @@ export default {
       setModal(false)
     }
 
-
-
     const setTrainingCompleted = (value: boolean) => {
       singleEmployee.value.trainingCompleted = value
     }
@@ -245,8 +243,8 @@ export default {
 
 .form {
   display: flex;
-  gap: $big;
-  align-items: center;
+justify-content: space-between;
+    align-items: center;
   background-color: $primary-shade-color;
   padding: $big;
   border-radius: $small-radius;
