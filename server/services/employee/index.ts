@@ -15,6 +15,12 @@ const errorReq = (res, statusCode, message, error) => {
   });
 };
 
+export const parseRequest = (req, res, next) => {
+  const { body, params } = req
+  const { id } = params;
+  req.userId = id
+}
+
 const employee = {
   async create(req, res) {
     try {
@@ -36,6 +42,8 @@ const employee = {
     }
   },
   async getSingle(req, res) {
+    console.log(req)
+    // console.log(req.userId)
     try {
       const { id } = req.params;
       const employee = await prisma.employee.findUnique({
@@ -58,6 +66,7 @@ const employee = {
     }
   },
   async edit(req, res) {
+    console.log(req)
     try {
       const { id } = req.params;
       const data = req.body;

@@ -8,55 +8,34 @@
       </div>
     </div>
     <div class="wrapper__info">
-      <p>First Name: {{ singleEmployee.firstName }}</p>
-      <p>Last Name: {{ singleEmployee.lastName }}</p>
-      <p>Start Year: {{ singleEmployee.startYear }}</p>
-      <p>Address: {{ singleEmployee.address }}</p>
-      <p>Has completed training ? {{ singleEmployee.trainingCompleted }}</p>
+      <p>First Name: {{ employee.firstName }}</p>
+      <p>Last Name: {{ employee.lastName }}</p>
+      <p>Start Year: {{ employee.startYear }}</p>
+      <p>Address: {{ employee.address }}</p>
+      <p>Has completed training ? {{ employee.trainingCompleted }}</p>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType } from 'src/utils/types'
-import { PropType, ref, watch } from 'vue'
+import { PropType } from 'vue'
 
-export default {
-  setup(props, { emit }) {
-    const singleEmployee = ref({ ...props.employee })
-
-    const editHandler = () => {
-      emit('edit-event', singleEmployee.value.id)
-    }
-
-    const deleteHandler = () => {
-      emit('delete-event', singleEmployee.value.id)
-    }
-
-    watch(
-      () => props.employee,
-      (newValue) => {
-        singleEmployee.value = { ...newValue } 
-      },
-    )
-
-    return {
-      singleEmployee,
-      editHandler,
-      deleteHandler,
-    }
+const props = defineProps({
+  employee: {
+    type: Object as PropType<EmployeeType>,
+    required: true,
   },
-  props: {
-    employee: {
-      type: Object as PropType<EmployeeType>,
-      required: true,
-    },
-  },
-  components: {
-    ActionButton,
-  },
-  emits: ['edit-event', 'delete-event'],
+})
+const emit = defineEmits(['edit-event', 'delete-event'])
+
+const editHandler = () => {
+  emit('edit-event', props.employee.id)
+}
+
+const deleteHandler = () => {
+  emit('delete-event', props.employee.id)
 }
 </script>
 

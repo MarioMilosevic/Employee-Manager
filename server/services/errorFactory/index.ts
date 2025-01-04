@@ -1,3 +1,11 @@
+// napravi funckiju buildResponsePayload
+// primjer kako handleBadRequest treba da izgleda:
+// return buildResponsePayload(400, 'bad request', 'Invalid input provider') {
+// napravi funkciju buildError(statusCode=400, message="Bad request"){
+// buildResponsePaylaod(statusCode, message),
+// }
+// ideja je da svaka od ovih funkcija ispod poziva tu buildError funkciju,
+// a funkcija buildError ona poziva buildRespnosePayload i po defaulu baca bad request, 
 const errorFactory = {
   handleBadRequest(error) {
     return {
