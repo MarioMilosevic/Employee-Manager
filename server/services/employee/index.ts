@@ -18,12 +18,13 @@ const errorReq = (res, statusCode, message, error) => {
 export const parseRequest = (req, res, next) => {
   const { body, params } = req
   const { id } = params;
-  req.userId = id
+  // req.userId = id
 }
 
 const employee = {
   async create(req, res) {
     try {
+      // 201
       const data = req.body;
       const newEmployee = await prisma.employee.create({
         data,
