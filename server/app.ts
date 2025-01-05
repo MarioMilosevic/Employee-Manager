@@ -1,16 +1,8 @@
-// import app from "./src/server";
-
 import express from "express";
-import employeeRouter from "./routes/employeeRouter";
 import morgan from "morgan";
 import cors from "cors";
+import employeeRouter from "./routes/employeeRouter";
 
-// export const parseRequest = (req, res, next) => {
-//   const { body, params } = req;
-//   const { id } = params;
-//   req.userId = id;
-//   return next();
-// };
 
 const app = express();
 

@@ -10,12 +10,21 @@
 // ideja je da svaka od ovih funkcija ispod poziva tu buildError funkciju,
 // a funkcija buildError ona poziva buildResponsePayload i po defaultu baca bad request,
 
-function buildError(status: number = 400, message: string = "Bad request") {
-  return buildResponsePayload(status, message);
+function buildResponsePayload(status: number, message: string) {
+  const response = {
+    success: false,
+    message: message
+  }
+  if (status >= 400) {
+    response.success = false
+  } else if (status >= 200 && status <= 300) {
+    response.success = true
+  }
+  return response
 }
 
-function buildResponsePayload(status: number, message: string) {
-  return { status, message };
+function buildError(status: number = 400, message: string = "Bad request") {
+  return buildResponsePayload(status, message);
 }
 
 const errorFactory = {

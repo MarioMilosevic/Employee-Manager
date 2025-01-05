@@ -1,9 +1,9 @@
 import { Router } from "express";
-import employee from "../services/employee/employeeController";
+import employee from "../services/employeeController";
 
 const employeeRouter = Router();
 
-employeeRouter.param('id', employee.getId)
+employeeRouter.param("id", employee.getId);
 
 // const parseRequest = (req, res, next) => {
 //   const { body, params } = req;
@@ -18,14 +18,12 @@ employeeRouter.param('id', employee.getId)
 //   next();
 // };
 
-
 // employeeRouter.use("*", parseRequest);
 
 employeeRouter.route("/").get(employee.getAll).post(employee.create);
 
 employeeRouter
   .route("/:id")
-  //   .route("/api/v1/employee/:id")
   .get(employee.getSingle)
   .put(employee.edit)
   .delete(employee.delete);

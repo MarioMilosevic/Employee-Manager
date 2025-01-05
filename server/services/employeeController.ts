@@ -1,5 +1,5 @@
-import prisma from "../db";
-
+import prisma from "./db";
+import errorFactory from "./errorFactory";
 // const buildResponsePayload = (status: number, message: string) => {
 //   if (status === 200) {
 //     return {
@@ -26,7 +26,6 @@ const errorReq = (res, statusCode, message, error) => {
 
 const employee = {
   getId(req, res, next, val) {
-    console.log(`Id je ${val}`);
     const { id } = req.params;
     const data = req.body;
     req.requestPayload = {
@@ -37,7 +36,6 @@ const employee = {
   },
 
   async create(req, res) {
-    console.log(req.body);
     try {
       // 201
       const data = req.requestPayload.body;
@@ -46,7 +44,8 @@ const employee = {
       });
       successReq(res, newEmployee);
     } catch (error) {
-      errorReq(res, 500, "Failed to create employee", error);
+      errorFactory.handleBadRequest();
+      // errorReq(res, 500, "Failed to create employee", error);
     }
   },
   async getAll(req, res) {
@@ -54,20 +53,19 @@ const employee = {
       const employees = await prisma.employee.findMany();
       successReq(res, employees);
     } catch (error) {
-      errorReq(res, 500, "Failed to fetch employees", error);
+      errorFactory.handleBadRequest()
+      // errorReq(res, 500, "Failed to fetch employees", error);
     }
   },
   async getSingle(req, res) {
-    console.log("Ovo je get single req.params", req.params);
-    console.log("Ovo je get single req.payload", req.payload);
-    console.log(req.requestPayload);
     try {
       const employee = await prisma.employee.findUnique({
         where: { id: req.requestPayload.id },
       });
       successReq(res, employee);
     } catch (error) {
-      errorReq(res, 500, "Failed to fetch employee", error);
+      errorFactory.handleBadRequest()
+      // errorReq(res, 500, "Failed to fetch employee", error);
     }
   },
   async delete(req, res) {
@@ -78,7 +76,8 @@ const employee = {
       // 204
       successReq(res, deletedEmployee);
     } catch (error) {
-      errorReq(res, 500, "Failed to delete employee", error);
+      errorFactory.handleBadRequest()
+      // errorReq(res, 500, "Failed to delete employee", error);
     }
   },
   async edit(req, res) {
@@ -89,7 +88,8 @@ const employee = {
       });
       successReq(res, updatedEmployee);
     } catch (error) {
-      errorReq(res, 500, "Failed to edit employee", error);
+      errorFactory.handleBadRequest()
+      // errorReq(res, 500, "Failed to edit employee", error);
     }
   },
 };
