@@ -10,7 +10,7 @@
 // ideja je da svaka od ovih funkcija ispod poziva tu buildError funkciju,
 // a funkcija buildError ona poziva buildResponsePayload i po defaultu baca bad request,
 
-function buildError(status: number, message: string) {
+function buildError(status: number = 400, message: string = "Bad request") {
   return buildResponsePayload(status, message);
 }
 
@@ -20,7 +20,7 @@ function buildResponsePayload(status: number, message: string) {
 
 const errorFactory = {
   handleBadRequest() {
-    return buildError(400, "Bad request");
+    return buildError();
   },
 
   internalError() {
@@ -31,6 +31,5 @@ const errorFactory = {
     return buildError(404, "Not found");
   },
 };
-
 
 export default errorFactory;

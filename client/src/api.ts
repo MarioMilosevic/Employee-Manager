@@ -10,8 +10,8 @@ export const postData = async (data: EmployeeType) => {
     body: JSON.stringify(data),
   })
   const result = await response.json()
-  const { employee } = result
-  return employee
+  const { data:employeeData } = result
+  return employeeData
 }
 
 export const getEmployees = async () => {

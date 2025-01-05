@@ -1,5 +1,14 @@
 import prisma from "../db";
 
+// const buildResponsePayload = (status: number, message: string) => {
+//   if (status === 200) {
+//     return {
+//       success: true,
+//       message: "Request successfull",
+//     };
+//   }
+// };
+
 const successReq = (res, data) => {
   res.status(200).json({
     success: true,
@@ -15,17 +24,23 @@ const errorReq = (res, statusCode, message, error) => {
   });
 };
 
-export const parseRequest = (req, res, next) => {
-  const { body, params } = req
-  const { id } = params;
-  // req.userId = id
-}
-
 const employee = {
+  getId(req, res, next, val) {
+    console.log(`Id je ${val}`);
+    const { id } = req.params;
+    const data = req.body;
+    req.requestPayload = {
+      id,
+      data,
+    };
+    next();
+  },
+
   async create(req, res) {
+    console.log(req.body);
     try {
       // 201
-      const data = req.body;
+      const data = req.requestPayload.body;
       const newEmployee = await prisma.employee.create({
         data,
       });
@@ -43,12 +58,12 @@ const employee = {
     }
   },
   async getSingle(req, res) {
-    console.log(req)
-    // console.log(req.userId)
+    console.log("Ovo je get single req.params", req.params);
+    console.log("Ovo je get single req.payload", req.payload);
+    console.log(req.requestPayload);
     try {
-      const { id } = req.params;
       const employee = await prisma.employee.findUnique({
-        where: { id },
+        where: { id: req.requestPayload.id },
       });
       successReq(res, employee);
     } catch (error) {
@@ -57,23 +72,20 @@ const employee = {
   },
   async delete(req, res) {
     try {
-      const { id } = req.params;
       const deletedEmployee = await prisma.employee.delete({
-        where: { id },
+        where: { id: req.requestPayload.id },
       });
+      // 204
       successReq(res, deletedEmployee);
     } catch (error) {
       errorReq(res, 500, "Failed to delete employee", error);
     }
   },
   async edit(req, res) {
-    console.log(req)
     try {
-      const { id } = req.params;
-      const data = req.body;
       const updatedEmployee = await prisma.employee.update({
-        where: { id },
-        data,
+        where: { id: req.requestPayload.id },
+        data: req.requestPayload.data,
       });
       successReq(res, updatedEmployee);
     } catch (error) {

@@ -221,3 +221,11 @@ const setModal = (value: boolean) => {
   border-radius: $small-radius;
 }
 </style>
+
+
+<!-- // {
+//   "watch": ["."],
+//   "ext": "js,ts,json",
+//   "ignore": ["src/**/*.test.ts"],
+//   "exec": "ts-node ./server.ts"
+// } -->
