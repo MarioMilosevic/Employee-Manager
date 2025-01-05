@@ -5,6 +5,16 @@ const employeeRouter = Router();
 
 employeeRouter.param("id", employee.getId);
 
+employeeRouter.route("/").get(employee.getAll).post(employee.create);
+
+employeeRouter
+  .route("/:id")
+  .get(employee.getSingle)
+  .put(employee.edit)
+  .delete(employee.delete);
+
+export default employeeRouter;
+
 // const parseRequest = (req, res, next) => {
 //   const { body, params } = req;
 //   const { id } = params;
@@ -19,13 +29,3 @@ employeeRouter.param("id", employee.getId);
 // };
 
 // employeeRouter.use("*", parseRequest);
-
-employeeRouter.route("/").get(employee.getAll).post(employee.create);
-
-employeeRouter
-  .route("/:id")
-  .get(employee.getSingle)
-  .put(employee.edit)
-  .delete(employee.delete);
-
-export default employeeRouter;

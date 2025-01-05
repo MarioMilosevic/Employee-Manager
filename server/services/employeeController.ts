@@ -1,13 +1,6 @@
 import prisma from "./db";
 import errorFactory from "./errorFactory";
-// const buildResponsePayload = (status: number, message: string) => {
-//   if (status === 200) {
-//     return {
-//       success: true,
-//       message: "Request successfull",
-//     };
-//   }
-// };
+
 
 const successReq = (res, data) => {
   res.status(200).json({
@@ -38,6 +31,10 @@ const employee = {
   async create(req, res) {
     try {
       // 201
+      // how to check if url is correctly sent from user
+      // how to check if it is some internal error
+      // i want to handle multiple error situations
+      console.log("ovo me zanima",req.requestPayload)
       const data = req.requestPayload.body;
       const newEmployee = await prisma.employee.create({
         data,
@@ -65,7 +62,7 @@ const employee = {
       successReq(res, employee);
     } catch (error) {
       errorFactory.handleBadRequest()
-      // errorReq(res, 500, "Failed to fetch employee", error);
+      // errorReq(res, 500, "Failed to fetch employee", error
     }
   },
   async delete(req, res) {
