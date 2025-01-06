@@ -1,17 +1,6 @@
 import prisma from "../db";
-// import { buildError } from "../errorFactory";
-import { buildResponseSuccess } from "../../utils/buildResponseSuccess";
-import { buildResponseError } from "../../utils/buildResponseError";
-
-
-const successReq = (res, statusCode, data) => {
-  res.status(statusCode).json(buildResponseSuccess(data));
-};
-
-const errorReq = (res, statusCode = 400, error = "Bad request") => {
-  res.status(statusCode).json(buildResponseError(error));
-};
-
+import { successReq } from "../../utils/successReq";
+import { errorReq } from "../../utils/errorReq";
 
 const employee = {
   getId(req, res, next, val) {

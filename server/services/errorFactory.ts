@@ -11,7 +11,6 @@
 // a funkcija buildError ona poziva buildResponsePayload i po defaultu baca bad request,
 
 
-import { buildResponsePayload } from "../utils/buildRequestPayload";
 import { buildResponseError } from "../utils/buildResponseError";
 
 
