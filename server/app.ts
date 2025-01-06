@@ -10,12 +10,17 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/employee/", employeeRouter);
+
+
 app.all("*", (req, res, next) => {
   res.status(404).json({
     status: "fail",
     message: `Can't find ${req.originalUrl} on this server`,
   });
 });
+
+
+
 // app.use("*", parseRequest);
 // napravit da parseRequest ide prije svakog requesta
 // onda napravit neki objekat requestPayload i u njega stavit id i stavit body ako ga ima

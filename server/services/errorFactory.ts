@@ -10,35 +10,27 @@
 // ideja je da svaka od ovih funkcija ispod poziva tu buildError funkciju,
 // a funkcija buildError ona poziva buildResponsePayload i po defaultu baca bad request,
 
-function buildResponsePayload(status: number, message: string) {
-  const response = {
-    success: false,
-    message: message
-  }
-  if (status >= 400) {
-    response.success = false
-  } else if (status >= 200 && status <= 300) {
-    response.success = true
-  }
-  return response
+
+import { buildResponsePayload } from "../utils/buildRequestPayload";
+import { buildResponseError } from "../utils/buildResponseError";
+
+
+export function buildError(status: number = 400, message: string = "Bad request") {
+  return buildResponseError(message);
 }
 
-function buildError(status: number = 400, message: string = "Bad request") {
-  return buildResponsePayload(status, message);
-}
+// const errorFactory = {
+//   handleBadRequest() {
+//     return buildError();
+//   },
 
-const errorFactory = {
-  handleBadRequest() {
-    return buildError();
-  },
+//   internalError() {
+//     return buildError(500, "Internal server error");
+//   },
 
-  internalError() {
-    return buildError(500, "Internal server error");
-  },
+//   handleNotFound() {
+//     return buildError(404, "Not found");
+//   },
+// };
 
-  handleNotFound() {
-    return buildError(404, "Not found");
-  },
-};
-
-export default errorFactory;
+// export default errorFactory;

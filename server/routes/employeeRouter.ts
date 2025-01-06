@@ -1,5 +1,5 @@
 import { Router } from "express";
-import employee from "../services/employeeController";
+import employee from "../services/controllers/employeeController";
 
 const employeeRouter = Router();
 
@@ -14,18 +14,3 @@ employeeRouter
   .delete(employee.delete);
 
 export default employeeRouter;
-
-// const parseRequest = (req, res, next) => {
-//   const { body, params } = req;
-//   const { id } = params;
-//   console.log("ovo je parse request", id);
-
-//   req.payload = {
-//     id,
-//     body: body || null,
-//   };
-
-//   next();
-// };
-
-// employeeRouter.use("*", parseRequest);
