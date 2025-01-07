@@ -2,6 +2,27 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import employeeRouter from "./routes/employeeRouter";
+import errorFactory from "./services/errorFactory/index";
+// C:\Users\mario\Desktop\CRUD-Application\server\services\errorFactory\index.ts
+
+// DA KORISNICI DODAJU AKAUNT
+// trebace mi neka tablea Users
+// treba mi ruta SignUp
+// treba validirat input sa klijenta
+// treba pogledat kod Jonasa JWT
+// treba mi ruta login
+// validirat input
+// vratit jwt
+
+
+// CLIENT
+// napravit sign up formu,
+// pingat rutu sign-up na bekend
+// redirectat na login nakon uspjesnog responsa
+// napravit login formu
+// pingat login rutu
+// bekend treba da vrati jwt  
+// jwt spremit u localStorage 
 
 const app = express();
 
@@ -10,16 +31,37 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/employee/", employeeRouter);
+// @ts-ignore
+// prettier-ignore
+app.all("*", (req, res, next) => errorFactory.notFound().catch(error => res.json(error.response)));
 
+// app.all("*", async (req, res, next) => {
+//   // @ts-ignore
 
-app.all("*", (req, res, next) => {
-  res.status(404).json({
-    status: "fail",
-    message: `Can't find ${req.originalUrl} on this server`,
-  });
-});
+//   try {
+//     console.log("ovo je try ------------------------------------------------");
 
+//     // const error = errorFactory.notFound(
+//     //   `Can't find ${req.originalUrl} on this server`,
+//     //   {}
+//     // );
 
+//     // Promise.reject(res)
+//   } catch (error) {
+//     console.log("ovo je catch");
+//     // @ts-ignore
+//     console.log(error.response);
+//     res.json(error.response);
+//     // console.log(
+//     //   "ovo je error ---------------------------------------------------"
+//     // );
+//     // console.log(error);
+//   }
+//   // res.status(404).json({
+//   //   status: "fail",
+//   //   message: `Can't find ${req.originalUrl} on this server`,
+//   // });
+// });
 
 // app.use("*", parseRequest);
 // napravit da parseRequest ide prije svakog requesta
