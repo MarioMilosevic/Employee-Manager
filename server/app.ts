@@ -3,7 +3,20 @@ import morgan from "morgan";
 import cors from "cors";
 import employeeRouter from "./routes/employeeRouter";
 import errorFactory from "./services/errorFactory/index";
-// C:\Users\mario\Desktop\CRUD-Application\server\services\errorFactory\index.ts
+
+const app = express();
+
+app.use(cors());
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/api/v1/employee/", employeeRouter);
+
+app.all("*", (req, res, next) =>
+  errorFactory.notFound().catch((error) => res.json(error.response))
+);
+
+export default app;
 
 // DA KORISNICI DODAJU AKAUNT
 // trebace mi neka tablea Users
@@ -14,26 +27,16 @@ import errorFactory from "./services/errorFactory/index";
 // validirat input
 // vratit jwt
 
-
 // CLIENT
 // napravit sign up formu,
 // pingat rutu sign-up na bekend
 // redirectat na login nakon uspjesnog responsa
 // napravit login formu
 // pingat login rutu
-// bekend treba da vrati jwt  
-// jwt spremit u localStorage 
+// bekend treba da vrati jwt
+// jwt spremit u localStorage
 
-const app = express();
-
-app.use(cors());
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use("/api/v1/employee/", employeeRouter);
-// @ts-ignore
-// prettier-ignore
-app.all("*", (req, res, next) => errorFactory.notFound().catch(error => res.json(error.response)));
+///////////////////////////////////////////////////////////////////////////////////////
 
 // app.all("*", async (req, res, next) => {
 //   // @ts-ignore
@@ -77,5 +80,3 @@ app.all("*", (req, res, next) => errorFactory.notFound().catch(error => res.json
 // pomocna funkcija koja rjesava res.status 54654654
 // try catch
 // neki api koji exporta success responsove created deleted edited
-
-export default app;
