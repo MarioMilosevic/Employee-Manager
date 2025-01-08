@@ -1,6 +1,6 @@
-import prisma from "../db";
-import { successReq } from "../../utils/successReq";
-import { errorReq } from "../../utils/errorReq";
+import prisma from "../services/db";
+import { successReq } from "../utils/successReq";
+import { errorReq } from "../utils/errorReq";
 
 const employee = {
   getId(req, res, next, val) {
