@@ -1,7 +1,7 @@
 <template>
   <AuthForm @submit.prevent="submitForm">
     <template #title>
-      <TitleName :style="{color:'#0b050f', paddingBottom:'3rem'}">Sign Up</TitleName>
+      <TitleName :style="{ color: '#0b050f', paddingBottom: '3rem' }">Sign Up</TitleName>
     </template>
     <template #firstName>
       <FormBlock>
@@ -106,8 +106,11 @@ const signUpCredentials = ref({
   confirm: '',
 })
 
-const updateLoginCredentials = () => {
-  console.log('radi')
+const updateLoginCredentials = <K extends keyof typeof signUpCredentials.value> (key:K, value:(typeof signUpCredentials.value)[K]) => {
+  console.log('key', key)
+  console.log('value', value)
+  signUpCredentials.value[key] = value
+  console.log(signUpCredentials.value)
 }
 
 const submitForm = () => {
