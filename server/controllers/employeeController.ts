@@ -15,7 +15,7 @@ const employee = {
 
   async create(req, res) {
     try {
-      const data = req.requestPayload.body;
+      const data = req.body;
       const newEmployee = await prisma.employee.create({
         data,
       });

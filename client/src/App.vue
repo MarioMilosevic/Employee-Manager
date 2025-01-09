@@ -113,7 +113,7 @@ const employees = ref([] as EmployeeType[])
 const isModalOpen = ref(false)
 
 const singleEmployee = ref({
-  id: '',
+  id: 0,
   firstName: '',
   lastName: '',
   address: '',
@@ -175,11 +175,7 @@ const resetForm = () => {
 const submitForm = async () => {
   const validation = employeeFormSchema.safeParse(singleEmployee.value)
   if (validation.success) {
-    const validationData = {
-      id: crypto.randomUUID(),
-      ...validation.data,
-    }
-    const response = await postData(validationData)
+    const response = await postData(validation.data)
     addEmployee(response)
     resetForm()
   } else {
@@ -221,11 +217,3 @@ const setModal = (value: boolean) => {
   border-radius: $small-radius;
 }
 </style>
-
-
-<!-- // {
-//   "watch": ["."],
-//   "ext": "js,ts,json",
-//   "ignore": ["src/**/*.test.ts"],
-//   "exec": "ts-node ./server.ts"
-// } -->
