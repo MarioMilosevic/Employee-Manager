@@ -21,7 +21,7 @@ app.all("*", (req, res, next) =>
 export default app;
 
 // DA KORISNICI DODAJU AKAUNT
-// trebace mi neka tablea Users
+// trebace mi neka tabela Users
 // treba mi ruta SignUp
 
 // treba validirat input sa klijenta
