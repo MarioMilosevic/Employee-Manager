@@ -1,6 +1,6 @@
 <template>
   <TitleName>Employee Manager</TitleName>
-  <EmployeeForm @submit.prevent="submitForm" class="form">
+  <FormComponent @submit.prevent="submitForm" class="form">
     <template #firstName>
       <FormBlock>
         <template #input>
@@ -76,7 +76,7 @@
         Submit
       </ActionButton>
     </template>
-  </EmployeeForm>
+  </FormComponent>
 
   <EmployeeInfo
     v-for="employee in employees"
@@ -97,7 +97,7 @@
 import FormModal from 'src/components/form/FormModal.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormInput from 'src/components/form/FormInput.vue'
-import EmployeeForm from 'src/components/form/EmployeeForm.vue'
+import FormComponent from 'src/components/form/FormComponent.vue'
 import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'

@@ -6,6 +6,7 @@
     <slot name="address" />
     <slot name="trainingCompleted" />
     <slot name="submit" />
+
   </form>
 </template>
 

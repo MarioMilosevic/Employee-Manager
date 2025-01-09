@@ -37,10 +37,12 @@ export default {
 @use 'src/scss/_variables' as *;
 
 .input {
+  width: 100%;
+  height: 100%;
   padding: $small;
   background-color: $secondary-color;
-  border: none;
+  border: 1px solid $dark-color;
+  /* border: none; */
   border-radius: $small-radius;
-  height: 100%;
 }
 </style>

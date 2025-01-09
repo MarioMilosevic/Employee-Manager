@@ -3,7 +3,7 @@
     <div class="overlay__modal">
       <h2 class="overlay__modal-title">Edit Employee</h2>
       <button @click="closeModal" class="overlay__modal-button">X</button>
-      <EmployeeForm @submit.prevent="submitForm" class="overlay__modal-form">
+      <FormComponent @submit.prevent="submitForm" class="overlay__modal-form">
         <template #firstName>
           <FormBlock>
             <template #input>
@@ -79,7 +79,7 @@
             Submit
           </ActionButton>
         </template>
-      </EmployeeForm>
+      </FormComponent>
     </div>
   </div>
 </template>
@@ -87,7 +87,7 @@
 <script lang="ts">
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
-import EmployeeForm from 'src/components/form/EmployeeForm.vue'
+import FormComponent from 'src/components/form/FormComponent.vue'
 import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
@@ -126,13 +126,12 @@ export default {
       if (validation.success) {
         const validationData = {
           id: employee.value.id,
-          ...validation.data
+          ...validation.data,
         }
 
         const response = await editData(validationData)
         emit('update-event', response)
-      }
-      else {
+      } else {
         const errors = validation.error.errors
         errors.forEach((error) => {
           console.log(error)
@@ -172,7 +171,7 @@ export default {
   emits: ['close-modal', 'update-event'],
   components: {
     FormBlock,
-    EmployeeForm,
+    FormComponent,
     FormError,
     FormCheckbox,
     ActionButton,
