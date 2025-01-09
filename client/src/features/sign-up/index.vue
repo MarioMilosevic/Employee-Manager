@@ -1,5 +1,8 @@
 <template>
   <AuthForm @submit.prevent="submitForm">
+    <template #title>
+      <TitleName :style="{color:'#0b050f', paddingBottom:'3rem'}">Sign Up</TitleName>
+    </template>
     <template #firstName>
       <FormBlock>
         <template #input>
@@ -80,6 +83,9 @@
         </template> -->
       </FormBlock>
     </template>
+    <template #submit>
+      <ActionButton color="purple">Sign Up</ActionButton>
+    </template>
   </AuthForm>
 </template>
 
@@ -87,7 +93,9 @@
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormError from 'src/components/form/FormError.vue'
+import TitleName from 'src/components/layout/TitleName.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
+import ActionButton from 'src/components/layout/ActionButton.vue'
 import { ref } from 'vue'
 
 const signUpCredentials = ref({

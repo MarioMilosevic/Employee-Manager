@@ -18,7 +18,7 @@ export default {
   },
   props: {
     color: {
-      type: String as PropType<'white' | 'red' | 'green'>,
+      type: String as PropType<'white' | 'red' | 'green' | 'purple'>,
       default: 'white',
     },
     type: {
@@ -56,6 +56,14 @@ export default {
 
     &:hover {
       background-color: $green-color-hover;
+    }
+  }
+
+  &.purple {
+    background-color: $primary-color;
+    color: $secondary-color;
+    &:hover {
+      background-color: $primary-shade-color;
     }
   }
 }

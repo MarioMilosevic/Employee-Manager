@@ -1,10 +1,12 @@
 <template>
   <form class="form">
+    <slot name="title"/>
     <slot name="firstName" />
     <slot name="lastName" />
     <slot name="email" />
     <slot name="password" />
     <slot name="confirmPassword" />
+    <slot name="submit"/>
   </form>
 </template>
 
@@ -20,7 +22,9 @@
   gap: $medium;
   background-color: $primary-shade-color;
   background-color: $secondary-color;
-  padding: $big;
+  padding: $big $very-big;
+  width: 400px;
   margin: 0 auto;
+  border-radius: $medium-radius;
 }
 </style>
