@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import employeeRouter from "./routes/employeeRouter";
+import userRouter from "./routes/userRouter";
 import errorFactory from "./services/errorFactory/index";
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/employee/", employeeRouter);
+app.use('/api/v1/users/', userRouter);
 
 app.all("*", (req, res, next) =>
   errorFactory.notFound().catch((error) => res.json(error.response))
@@ -21,6 +23,7 @@ export default app;
 // DA KORISNICI DODAJU AKAUNT
 // trebace mi neka tablea Users
 // treba mi ruta SignUp
+
 // treba validirat input sa klijenta
 // treba pogledat kod Jonasa JWT
 // treba mi ruta login

@@ -1,16 +1,23 @@
 import { Router } from "express";
-import employee from "../controllers/employeeController";
+import user from "../controllers/userController";
 
-const employeeRouter = Router();
+const userRouter = Router();
 
-employeeRouter.param("id", employee.getId);
 
-employeeRouter.route("/").get(employee.getAll).post(employee.create);
+userRouter.param("id", user.getId);
 
-employeeRouter
-  .route("/:id")
-  .get(employee.getSingle)
-  .put(employee.edit)
-  .delete(employee.delete);
+userRouter.route("/").get(user.getAll).post(user.addUser)
 
-export default employeeRouter;
+userRouter.route('/:id')
+.delete(user.deleteUser)
+
+
+// userRouter.route("/").get(user.getAll).post(user.create);
+
+// userRouter
+//   .route("/:id")
+//   .get(user.getSingle)
+//   .put(user.edit)
+//   .delete(user.delete);
+
+export default userRouter;
