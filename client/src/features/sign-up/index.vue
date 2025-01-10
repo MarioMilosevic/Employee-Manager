@@ -84,7 +84,7 @@
       </FormBlock>
     </template>
     <template #submit>
-      <ActionButton color="purple">Sign Up</ActionButton>
+      <ActionButton type="submit" color="purple">Sign Up</ActionButton>
     </template>
   </AuthForm>
 </template>
@@ -96,6 +96,8 @@ import FormError from 'src/components/form/FormError.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
+import { renderValidationErrors } from 'src/utils/helpers'
+import { signUpSchema } from 'src/validation/signUpSchema'
 import { ref } from 'vue'
 
 const signUpCredentials = ref({
@@ -106,14 +108,33 @@ const signUpCredentials = ref({
   confirm: '',
 })
 
-const updateLoginCredentials = <K extends keyof typeof signUpCredentials.value> (key:K, value:(typeof signUpCredentials.value)[K]) => {
-  console.log('key', key)
-  console.log('value', value)
+const signUpFormErrors = ref({
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirm: '',
+})
+
+const updateLoginCredentials = (key: keyof typeof signUpCredentials.value, value: string) => {
   signUpCredentials.value[key] = value
-  console.log(signUpCredentials.value)
 }
 
-const submitForm = () => {
+const submitForm = async () => {
+  try {
+    const validation = signUpSchema.safeParse(signUpCredentials.value)
+    console.log(validation)
+    if (validation.success) {
+      console.log('nesto')
+    } else {
+      const errors = validation.error?.errors
+      const updatedErorrs = renderValidationErrors(signUpFormErrors, errors)
+      signUpFormErrors.value = updatedErorrs
+    }
+  } catch (error) {
+    console.error(error)
+  }
+
   console.log('submit ')
 }
 </script>

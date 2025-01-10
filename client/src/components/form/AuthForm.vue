@@ -16,7 +16,6 @@
 @use 'src/scss/_variables' as *;
 
 .form {
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   gap: $medium;
@@ -24,7 +23,7 @@
   background-color: $secondary-color;
   padding: $big $very-big;
   width: 400px;
-  margin: 0 auto;
+  margin: 5rem auto;
   border-radius: $medium-radius;
 }
 </style>
