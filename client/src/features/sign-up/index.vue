@@ -14,9 +14,9 @@
             @update-value="updateLoginCredentials"
           />
         </template>
-        <!-- <template #error>
-          <FormError>{{ formErrors.firstName }}</FormError>
-        </template> -->
+        <template #error>
+          <FormError>{{ signUpFormErrors.firstName }}</FormError>
+        </template>
       </FormBlock>
     </template>
     <template #lastName>
@@ -30,9 +30,9 @@
             @update-value="updateLoginCredentials"
           />
         </template>
-        <!-- <template #error>
-          <FormError>{{ formErrors.firstName }}</FormError>
-        </template> -->
+        <template #error>
+          <FormError>{{ signUpFormErrors.lastName }}</FormError>
+        </template>
       </FormBlock>
     </template>
     <template #email>
@@ -46,9 +46,9 @@
             @update-value="updateLoginCredentials"
           />
         </template>
-        <!-- <template #error>
-          <FormError>{{ formErrors.firstName }}</FormError>
-        </template> -->
+        <template #error>
+          <FormError>{{ signUpFormErrors.email }}</FormError>
+        </template>
       </FormBlock>
     </template>
     <template #password>
@@ -62,9 +62,9 @@
             @update-value="updateLoginCredentials"
           />
         </template>
-        <!-- <template #error>
-          <FormError>{{ formErrors.firstName }}</FormError>
-        </template> -->
+        <template #error>
+          <FormError>{{ signUpFormErrors.password }}</FormError>
+        </template>
       </FormBlock>
     </template>
     <template #confirmPassword>
@@ -78,9 +78,9 @@
             @update-value="updateLoginCredentials"
           />
         </template>
-        <!-- <template #error>
-          <FormError>{{ formErrors.firstName }}</FormError>
-        </template> -->
+        <template #error>
+          <FormError>{{ signUpFormErrors.confirm }}</FormError>
+        </template>
       </FormBlock>
     </template>
     <template #submit>
@@ -123,35 +123,17 @@ const updateLoginCredentials = (key: keyof typeof signUpCredentials.value, value
 const submitForm = async () => {
   try {
     const validation = signUpSchema.safeParse(signUpCredentials.value)
-    console.log(validation)
     if (validation.success) {
       console.log('nesto')
+      console.log(validation.data)
     } else {
-      const errors = validation.error?.errors
-      const updatedErorrs = renderValidationErrors(signUpFormErrors, errors)
+      const updatedErorrs = renderValidationErrors(signUpFormErrors, validation.error.errors)
       signUpFormErrors.value = updatedErorrs
+      console.log("erorri",updatedErorrs)
+      console.log("formErrrori",signUpFormErrors.value)
     }
   } catch (error) {
     console.error(error)
   }
-
-  console.log('submit ')
 }
 </script>
-
-<style lang="scss" scoped>
-@use 'src/scss/_variables' as *;
-/*
-
-.form {
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  gap: $medium;
-  background-color: $primary-shade-color;
-  background-color: $secondary-color;
-  padding: $big;
-  margin: 0 auto;
-
-} */
-</style>

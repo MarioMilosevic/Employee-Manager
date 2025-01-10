@@ -1,5 +1,5 @@
 export type EmployeeType = {
-  id?: number;
+  id?: number
   firstName: string
   lastName: string
   startYear: string
@@ -7,8 +7,28 @@ export type EmployeeType = {
   trainingCompleted: boolean
 }
 
+export type EmployeeErrorsType = {
+  firstName: string
+  lastName: string
+  address: string
+  startYear: string
+}
 
+export type UserType = {
+  id?: number
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+}
 
+export type UserFormType = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  confirm: string
+}
 
 // export const arr = [
 //   {

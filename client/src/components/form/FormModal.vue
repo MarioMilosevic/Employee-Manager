@@ -94,7 +94,7 @@ import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { PropType, watch, ref, reactive, toRefs } from 'vue'
 import { EmployeeType } from 'src/utils/types'
-import { editData } from 'src/api'
+import { editData } from 'src/api/api'
 
 export default {
   setup(props, { emit }) {

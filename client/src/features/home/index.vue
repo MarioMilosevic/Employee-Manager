@@ -103,11 +103,12 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormError from 'src/components/form/FormError.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
-import { baseUrl } from 'src/utils/constants'
-import { postData, getEmployees, deleteData } from 'src/api'
+import { renderValidationErrors } from 'src/utils/helpers'
+import { baseUrl, emptyEmployeeErrors } from 'src/utils/constants'
+import { postData, getEmployees, deleteData } from 'src/api/employeeApi'
 import { EmployeeType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import { reactive, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const employees = ref([] as EmployeeType[])
 const isModalOpen = ref(false)
@@ -121,12 +122,7 @@ const singleEmployee = ref({
   trainingCompleted: false,
 })
 
-const formErrors = reactive({
-  firstName: '',
-  lastName: '',
-  address: '',
-  startYear: '',
-})
+const formErrors = ref(emptyEmployeeErrors)
 
 const fetchEmployees = async () => {
   try {
@@ -166,10 +162,7 @@ const removeEmployee = (employee: EmployeeType) => {
 }
 
 const resetForm = () => {
-  formErrors.firstName = ''
-  formErrors.lastName = ''
-  formErrors.address = ''
-  formErrors.startYear = ''
+  formErrors.value = emptyEmployeeErrors
 }
 
 const submitForm = async () => {
@@ -179,12 +172,8 @@ const submitForm = async () => {
     addEmployee(response)
     resetForm()
   } else {
-    const errors = validation.error.errors
-    errors.forEach((error) => {
-      console.log(error)
-      const field = error.path[0] as keyof typeof formErrors
-      formErrors[field] = error.message
-    })
+    const updatedErorrs = renderValidationErrors(formErrors, validation.error.errors)
+    formErrors.value = updatedErorrs
   }
 }
 
