@@ -16,7 +16,7 @@ export const routes = [
   },
   {
     path: '/sign-up',
-    name: 'SignUp',
+    name: 'Sign Up',
     component: SignUp,
   },
 ]

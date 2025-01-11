@@ -7,6 +7,7 @@
     <slot name="password" />
     <slot name="confirmPassword" />
     <slot name="submit"/>
+    <slot name="text"/>
   </form>
 </template>
 

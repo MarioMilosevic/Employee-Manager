@@ -86,6 +86,9 @@
     <template #submit>
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
     </template>
+    <template #text>
+      <FormGuest link-text="Login"/>
+    </template>
   </AuthForm>
 </template>
 
@@ -95,6 +98,7 @@ import FormInput from 'src/components/form/FormInput.vue'
 import FormError from 'src/components/form/FormError.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
+import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { postData } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
