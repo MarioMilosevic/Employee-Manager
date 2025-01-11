@@ -129,7 +129,7 @@ export default {
           ...validation.data,
         }
 
-        const response = await editData(validationData)
+        const response = await editData(validationData, `/employee/${employee.value.id}`)
         emit('update-event', response)
       } else {
         const errors = validation.error.errors

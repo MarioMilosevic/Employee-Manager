@@ -23,8 +23,8 @@ export default app;
 // DA KORISNICI DODAJU AKAUNT
 // trebace mi neka tabela Users
 // treba mi ruta SignUp
-
 // treba validirat input sa klijenta
+/////////////////////////////////////////////////////////////////////////////////
 // treba pogledat kod Jonasa JWT
 // treba mi ruta login
 // validirat input

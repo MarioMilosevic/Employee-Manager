@@ -104,11 +104,12 @@ import FormBlock from 'src/components/form/FormBlock.vue'
 import FormError from 'src/components/form/FormError.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import { renderValidationErrors } from 'src/utils/helpers'
-import { baseUrl, emptyEmployeeErrors } from 'src/utils/constants'
-import { postData, getEmployees, deleteData } from 'src/api/employeeApi'
+import { emptyEmployeeErrors } from 'src/utils/constants'
+// import { postData, getEmployees, deleteData } from 'src/api/employeeApi'
 import { EmployeeType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { ref, onMounted } from 'vue'
+import { getData, deleteData, postData } from 'src/api/api'
 
 const employees = ref([] as EmployeeType[])
 const isModalOpen = ref(false)
@@ -126,7 +127,7 @@ const formErrors = ref(emptyEmployeeErrors)
 
 const fetchEmployees = async () => {
   try {
-    const data = await getEmployees()
+    const data = await getData('/employee')
     employees.value = data
   } catch (error) {
     console.error('Failed to fetch employees', error)
@@ -168,7 +169,7 @@ const resetForm = () => {
 const submitForm = async () => {
   const validation = employeeFormSchema.safeParse(singleEmployee.value)
   if (validation.success) {
-    const response = await postData(validation.data)
+    const response = await postData(validation.data, '/employee')
     addEmployee(response)
     resetForm()
   } else {
@@ -178,9 +179,13 @@ const submitForm = async () => {
 }
 
 const editEmployee = async (id: string) => {
-  const response = await fetch(`${baseUrl}/employee/${id}`)
-  const { data } = await response.json()
-  singleEmployee.value = data
+  const response = await getData(`/employee/${id}`)
+  // const response = await fetch(`${baseUrl}/employee/${id}`)
+  // const { data } = await response.json()
+  // singleEmployee.value = data
+  ////////////////////////////////////////////////////////////////////////
+  // OVO MORMA PROVJERITI
+  singleEmployee.value = response
   setModal(true)
 }
 

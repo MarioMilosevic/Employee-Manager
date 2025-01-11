@@ -1,7 +1,6 @@
 import { Ref } from 'vue'
 import { ZodIssue } from 'zod'
 
-
 export const emptyObject = (obj: Record<string, string>) => {
   const emptyObject = {} as Record<string, string>
   for (const key in obj) {
@@ -9,7 +8,6 @@ export const emptyObject = (obj: Record<string, string>) => {
   }
   return emptyObject
 }
-
 
 export const renderValidationErrors = (
   formState: Ref<Record<string, string>>,
@@ -26,3 +24,8 @@ export const renderValidationErrors = (
   return updatedErrors
 }
 
+export const getDataFromJson = async (response: Response) => (await response.json()).data
+
+
+// const { data } = await response.json()
+// return data

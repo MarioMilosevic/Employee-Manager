@@ -96,6 +96,7 @@ import FormError from 'src/components/form/FormError.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
+import { postData } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { signUpSchema } from 'src/validation/signUpSchema'
 import { ref } from 'vue'
@@ -124,8 +125,9 @@ const submitForm = async () => {
   try {
     const validation = signUpSchema.safeParse(signUpCredentials.value)
     if (validation.success) {
-      console.log('nesto')
-      console.log(validation.data)
+    const {confirm, ...userData} = validation.data
+      const response = await postData(userData, `users`)
+      console.log("sta vrati server",response)
     } else {
       const updatedErorrs = renderValidationErrors(signUpFormErrors, validation.error.errors)
       signUpFormErrors.value = updatedErorrs
@@ -136,4 +138,5 @@ const submitForm = async () => {
     console.error(error)
   }
 }
+
 </script>
