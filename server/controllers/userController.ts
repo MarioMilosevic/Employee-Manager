@@ -1,6 +1,7 @@
 import prisma from "../services/db";
 import { successReq } from "../utils/successReq";
 import { errorReq } from "../utils/errorReq";
+import jwt from "jsonwebtoken";
 
 const user = {
   getId(req, res, next, val) {
@@ -42,7 +43,17 @@ const user = {
       const newUser = await prisma.user.create({
         data,
       });
-      successReq(res, 201, newUser);
+      const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+        expiresIn:process.env.JWT_EXPIRES_IN
+      })
+      res.status(201).json({
+        status: 'success',
+        token,
+        data: {
+          newUser
+        }
+      })
+      // successReq(res, 201, newUser);
     } catch (error) {
       errorReq(res);
     }
