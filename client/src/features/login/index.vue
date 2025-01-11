@@ -1,5 +1,5 @@
 <template>
-  <AuthForm>
+  <AuthForm @submit.prevent="submitLogin">
     <template #title>
       <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }">Login</TitleName>
     </template>
@@ -36,7 +36,7 @@
       </FormBlock>
     </template>
     <template #submit>
-      <ActionButton color="purple">Login</ActionButton>
+      <ActionButton type="submit" color="purple">Login</ActionButton>
     </template>
     <template #text>
       <FormGuest link-text="Sign Up" />
@@ -50,9 +50,10 @@ import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormError from 'src/components/form/FormError.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
-import { ref } from 'vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
+import { loginSchema } from 'src/validation/loginSchema'
+import { ref } from 'vue'
 
 const loginCredentials = ref({
   email: '',
@@ -66,6 +67,15 @@ const loginFormErrors = ref({
 
 const updateLoginCredentials = (key: keyof typeof loginCredentials.value, value: string) => {
   loginCredentials.value[key] = value
+}
+
+const submitLogin = async () => {
+  try {
+    const validation = loginSchema.safeParse(loginCredentials.value)
+    console.log(validation)
+  } catch (error) {
+    console.error(error)
+  }
 }
 </script>
 

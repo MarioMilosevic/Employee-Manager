@@ -1,6 +1,5 @@
 import { z } from 'zod'
-
-const passwordMessage = { message: 'Password must be at least 8 characters' }
+import { passwordMessage } from 'src/utils/constants'
 
 export const signUpSchema = z
   .object({
@@ -11,7 +10,7 @@ export const signUpSchema = z
       message: 'Last name not long enough',
     }),
     email: z.string().min(2, {
-      message: 'Date not selected',
+      message: 'Not valid input',
     }),
     password: z.string().min(8, passwordMessage),
     confirm: z.string().min(8, passwordMessage),

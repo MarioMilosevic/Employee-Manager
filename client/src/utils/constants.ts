@@ -8,3 +8,5 @@ export const emptyEmployeeErrors:EmployeeErrorsType = {
   address: '',
   startYear: '',
 }
+
+export const passwordMessage = { message: 'Password must be at least 8 characters' }
