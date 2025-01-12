@@ -1,7 +1,7 @@
 import errorFactory from "../services/errorFactory";
 import prisma from "../services/db";
 import jwt from "jsonwebtoken";
-import { successReq } from "../utils/requests";
+import { successReq } from "../utils/sucessReq";
 
 const signToken = (id: number) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -17,24 +17,20 @@ const authController = {
       });
       successReq(res, 201, user);
     } catch (error) {
-      errorFactory.internalError().catch((error) => res.json(error.response));
+      res.json(errorFactory.internalError());
     }
   },
   async login(req, res, next) {
     const { email, password } = req.body;
     if (!email || !password) {
-      return errorFactory
-        .notAuthorized()
-        .catch((error) => res.json(error.response));
+      return res.json(errorFactory.notAuthorized());
     }
     const user = await prisma.user.findUnique({
       where: { email, password },
       omit: { password },
     });
     if (!user) {
-      return errorFactory
-        .notAuthorized()
-        .catch((error) => res.json(error.response));
+      return res.json(errorFactory.notAuthorized());
     }
     const token = signToken(user.id);
     successReq(res, 200, token);

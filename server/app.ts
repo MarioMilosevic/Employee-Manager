@@ -15,7 +15,8 @@ app.use("/api/v1/employee/", employeeRouter);
 app.use('/api/v1/users/', userRouter);
 
 app.all("*", (req, res, next) =>
-  errorFactory.notFound().catch((error) => res.json(error.response))
+  res.json(errorFactory.notFound())
+    // .catch((error) => res.json(error.response))
 );
 
 export default app;

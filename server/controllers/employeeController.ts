@@ -1,9 +1,9 @@
 import prisma from "../services/db";
 import errorFactory from "../services/errorFactory";
-import { successReq } from "../utils/requests";
+import { successReq } from "../utils/sucessReq";
 
 const employee = {
-  getId(req, res, next, val) {
+  getId(req, res, next) {
     const { id } = req.params;
     const data = req.body;
     req.requestPayload = {
@@ -21,7 +21,7 @@ const employee = {
       });
       successReq(res, 201, newEmployee);
     } catch (error) {
-      errorFactory.internalError().catch((error) => res.json(error));
+      res.json(errorFactory.internalError());
     }
   },
   async getAll(req, res) {
@@ -29,7 +29,7 @@ const employee = {
       const employees = await prisma.employee.findMany();
       successReq(res, 200, employees);
     } catch (error) {
-      errorFactory.internalError().catch((error) => res.json(error));
+      res.json(errorFactory.internalError());
     }
   },
   async getSingle(req, res) {
@@ -39,7 +39,7 @@ const employee = {
       });
       successReq(res, 200, employee);
     } catch (error) {
-      errorFactory.internalError().catch((error) => res.json(error));
+      res.json(errorFactory.internalError());
     }
   },
   async delete(req, res) {
@@ -49,7 +49,7 @@ const employee = {
       });
       successReq(res, 204, deletedEmployee);
     } catch (error) {
-      errorFactory.internalError().catch((error) => res.json(error));
+      res.json(errorFactory.internalError());
     }
   },
   async edit(req, res) {
@@ -60,7 +60,7 @@ const employee = {
       });
       successReq(res, 200, updatedEmployee);
     } catch (error) {
-      errorFactory.internalError().catch((error) => res.json(error));
+      res.json(errorFactory.internalError());
     }
   },
 };

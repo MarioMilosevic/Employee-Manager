@@ -1,9 +1,9 @@
 import prisma from "../services/db";
-import { successReq } from "../utils/requests";
+import { successReq } from "../utils/sucessReq";
 import errorFactory from "../services/errorFactory";
 
 const user = {
-  getId(req, res, next, val) {
+  getId(req, res, next) {
     const { id } = req.params;
     const data = req.body;
     req.requestPayload = {
@@ -15,11 +15,9 @@ const user = {
   async getAll(req, res) {
     try {
       const users = await prisma.user.findMany();
-      console.log("Ovo su svi useri", users);
       successReq(res, 200, users);
     } catch (error) {
-      console.log("Otislo u catch");
-      errorFactory.internalError().catch((error) => res.json(error));
+      res.json(errorFactory.internalError());
     }
   },
 
@@ -29,24 +27,20 @@ const user = {
       const user = await prisma.user.findUnique({
         where: { id },
       });
-      console.log("Ovo je user", user);
       successReq(res, 200, user);
     } catch (error) {
-      errorFactory.internalError().catch((error) => res.json(error));
+      res.json(errorFactory.internalError());
     }
   },
 
   async deleteUser(req, res) {
     try {
-      console.log("ovo je id", req.params.id);
-      console.log(typeof req.params.id);
-      console.log("ovo bi isto trebao da bude id", req.requestPayload.id);
       const deletedUser = await prisma.user.delete({
         where: { id: Number(req.requestPayload.id) },
       });
       successReq(res, 204, deletedUser);
     } catch (error) {
-      errorFactory.internalError().catch((error) => res.json(error));
+      res.json(errorFactory.internalError());
     }
   },
 };
