@@ -87,7 +87,7 @@
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
     </template>
     <template #text>
-      <FormGuest link-text="Login"/>
+      <FormGuest link-text="Login" />
     </template>
   </AuthForm>
 </template>
@@ -103,6 +103,7 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import { postData } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { signUpSchema } from 'src/validation/signUpSchema'
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 const signUpCredentials = ref({
@@ -121,6 +122,8 @@ const signUpFormErrors = ref({
   confirm: '',
 })
 
+const router = useRouter()
+
 const updateLoginCredentials = (key: keyof typeof signUpCredentials.value, value: string) => {
   signUpCredentials.value[key] = value
 }
@@ -129,18 +132,20 @@ const submitForm = async () => {
   try {
     const validation = signUpSchema.safeParse(signUpCredentials.value)
     if (validation.success) {
-    const {confirm, ...userData} = validation.data
-      const response = await postData(userData, `users`)
-      console.log("sta vrati server",response)
+      const { confirm, ...userData } = validation.data
+      const response = await postData(userData, `users/sign-up`)
+      console.log('sta vrati server', response)
+      if (response.id) {
+        router.push('/login')
+      }
     } else {
       const updatedErorrs = renderValidationErrors(signUpFormErrors, validation.error.errors)
       signUpFormErrors.value = updatedErorrs
-      console.log("erorri",updatedErorrs)
-      console.log("formErrrori",signUpFormErrors.value)
+      console.log('erorri', updatedErorrs)
+      console.log('formErrrori', signUpFormErrors.value)
     }
   } catch (error) {
     console.error(error)
   }
 }
-
 </script>

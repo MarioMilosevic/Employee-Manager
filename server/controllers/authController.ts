@@ -11,6 +11,7 @@ const signToken = (id: number) =>
 const authController = {
   async signUp(req, res) {
     try {
+      console.log("ovo je req body",req.body)
       const data = req.body;
       const user = await prisma.user.create({
         data,
