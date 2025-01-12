@@ -1,4 +1,4 @@
-import { EmployeeType, UserType } from 'src/utils/types'
+import { EmployeeType, LoginCredentialsType, UserType } from 'src/utils/types'
 import { baseUrl } from 'src/utils/constants'
 import { getDataFromJson } from 'src/utils/helpers'
 
@@ -56,7 +56,7 @@ export const deleteData = async (path: string) => {
   return getDataFromJson(response)
 }
 
-export const login = async (data) => {
+export const login = async (data:LoginCredentialsType) => {
   try {
     const response = await fetch(`${baseUrl}/users/login`, {
       method: 'POST',

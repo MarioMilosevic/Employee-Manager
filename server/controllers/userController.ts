@@ -1,10 +1,7 @@
 import prisma from "../services/db";
-import { successReq } from "../utils/successReq";
-import { errorReq } from "../utils/errorReq";
+import { successReq } from "../utils/requests";
 import errorFactory from "../services/errorFactory";
 
-
-  
 const user = {
   getId(req, res, next, val) {
     const { id } = req.params;
@@ -22,7 +19,7 @@ const user = {
       successReq(res, 200, users);
     } catch (error) {
       console.log("Otislo u catch");
-      errorReq(res);
+      errorFactory.internalError().catch((error) => res.json(error));
     }
   },
 
@@ -35,10 +32,10 @@ const user = {
       console.log("Ovo je user", user);
       successReq(res, 200, user);
     } catch (error) {
-      errorReq(res);
+      errorFactory.internalError().catch((error) => res.json(error));
     }
   },
- 
+
   async deleteUser(req, res) {
     try {
       console.log("ovo je id", req.params.id);
@@ -49,10 +46,9 @@ const user = {
       });
       successReq(res, 204, deletedUser);
     } catch (error) {
-      errorReq(res);
+      errorFactory.internalError().catch((error) => res.json(error));
     }
   },
-  
 };
 
 export default user;

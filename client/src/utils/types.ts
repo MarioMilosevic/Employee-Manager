@@ -30,6 +30,11 @@ export type UserFormType = {
   confirm: string
 }
 
+export type LoginCredentialsType = {
+  email: string;
+  password: string;
+}
+
 // export const arr = [
 //   {
 //     id: '1',

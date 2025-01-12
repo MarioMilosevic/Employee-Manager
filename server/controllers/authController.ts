@@ -1,30 +1,23 @@
 import errorFactory from "../services/errorFactory";
 import prisma from "../services/db";
 import jwt from "jsonwebtoken";
-import { errorReq } from "../utils/errorReq";
-import { successReq } from "../utils/successReq";
+import { successReq } from "../utils/requests";
 
 const signToken = (id: number) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
- const authController = {
+const authController = {
   async signUp(req, res) {
     try {
-      console.log("Ovo je req.body", req.body);
       const data = req.body;
       const user = await prisma.user.create({
         data,
       });
-      res.status(201).json({
-        status: "success",
-        data: {
-          user,
-        },
-      });
+      successReq(res, 201, user);
     } catch (error) {
-      errorReq(res);
+      errorFactory.internalError().catch((error) => res.json(error.response));
     }
   },
   async login(req, res, next) {
@@ -43,17 +36,8 @@ const signToken = (id: number) =>
         .notAuthorized()
         .catch((error) => res.json(error.response));
     }
-    console.log("ovo je user", user);
-
     const token = signToken(user.id);
-
-            successReq(res, 200, token);
-      
-      
-    // res.status(200).json({
-    //   status: "success",
-    //   token,
-    // });
+    successReq(res, 200, token);
   },
 };
 

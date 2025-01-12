@@ -73,12 +73,14 @@ const updateLoginCredentials = (key: keyof typeof loginCredentials.value, value:
 const submitLogin = async () => {
   try {
     const validation = loginSchema.safeParse(loginCredentials.value)
+    if (!validation.success) {
+      return
+    }
     const token = await login(validation.data)
     if (token) {
       alert('Logged in')
       localStorage.setItem('login-token', token)
     }
-    console.log('ODJE TREBA DA BUDE', token)
   } catch (error) {
     console.error(error)
   }
