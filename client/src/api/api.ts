@@ -55,3 +55,19 @@ export const deleteData = async (path: string) => {
   })
   return getDataFromJson(response)
 }
+
+export const login = async (data) => {
+  try {
+    const response = await fetch(`${baseUrl}/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    console.log(response)
+    return getDataFromJson(response)
+  } catch (error) {
+    console.error(error)
+  }
+}

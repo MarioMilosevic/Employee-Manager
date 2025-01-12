@@ -2,12 +2,8 @@ import prisma from "../services/db";
 import { successReq } from "../utils/successReq";
 import { errorReq } from "../utils/errorReq";
 import errorFactory from "../services/errorFactory";
-import jwt from "jsonwebtoken";
 
-const signToken = (id: number) =>
-  jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+
   
 const user = {
   getId(req, res, next, val) {
@@ -42,26 +38,7 @@ const user = {
       errorReq(res);
     }
   },
-  async addUser(req, res) {
-    try {
-      console.log("Ovo je req.body", req.body);
-      const data = req.body;
-      const newUser = await prisma.user.create({
-        data,
-      });
-      const token = signToken(newUser.id);
-      res.status(201).json({
-        status: "success",
-        token,
-        data: {
-          newUser,
-        },
-      });
-      // successReq(res, 201, newUser);
-    } catch (error) {
-      errorReq(res);
-    }
-  },
+ 
   async deleteUser(req, res) {
     try {
       console.log("ovo je id", req.params.id);
@@ -75,30 +52,7 @@ const user = {
       errorReq(res);
     }
   },
-  async loginUser(req, res, next) {
-    const { email, password } = req.body;
-    console.log("ovo je email", email);
-    console.log("ovo je password", password);
-    // 1) check if email and password exist
-    if (!email || !password) {
-      return next(errorFactory.badRequest("Please provide email and password"));
-    }
-    // 2) check if user exists && password is incorrect
-    const user = await prisma.user.findUnique({
-      where: { email },
-    }); // on jos doda password da ga ne vrati vec select kao (+password)
-    /**
-     * ako nema korisnika ili je netacan password, vrati error
-     */
-    // 3) if everything ok, send token to client
-
-    const token = "ovo je token";
-
-    res.status(200).json({
-      status: "success",
-      token,
-    });
-  },
+  
 };
 
 export default user;
