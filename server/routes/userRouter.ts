@@ -3,6 +3,11 @@ import user from "../controllers/userController";
 
 const userRouter = Router();
 
+// userRouter.post('/signup', () => {
+//     console.log('odje treba authController.signUp')
+// })
+userRouter.post("/login", user.loginUser);
+
 userRouter.param("id", user.getId);
 
 userRouter.route("/").get(user.getAll).post(user.addUser);

@@ -28,11 +28,10 @@ function createResponseError(
 }
 
 export default {
-  badRequest(message = "Bad request", data) {
+  badRequest(data, message = "Bad request") {
     return createResponseError(message, 400, data);
   },
   notFound(message = "Not found") {
     return createResponseError(message, 404);
   },
 };
-
