@@ -7,7 +7,7 @@ const employee = {
     const { id } = req.params;
     const data = req.body;
     req.requestPayload = {
-      id,
+      id:Number(id),
       data,
     };
     next();
@@ -54,6 +54,7 @@ const employee = {
   },
   async edit(req, res) {
     try {
+      console.log("ovo je req body",req.body)
       const updatedEmployee = await prisma.employee.update({
         where: { id: req.requestPayload.id },
         data: req.requestPayload.data,

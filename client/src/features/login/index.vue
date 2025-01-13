@@ -53,6 +53,7 @@ import TitleName from 'src/components/layout/TitleName.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { loginSchema } from 'src/validation/loginSchema'
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { login } from 'src/api/api'
 
@@ -66,6 +67,8 @@ const loginFormErrors = ref({
   password: '',
 })
 
+const router = useRouter()
+
 const updateLoginCredentials = (key: keyof typeof loginCredentials.value, value: string) => {
   loginCredentials.value[key] = value
 }
@@ -78,8 +81,8 @@ const submitLogin = async () => {
     }
     const token = await login(validation.data)
     if (token) {
-      alert('Logged in')
       localStorage.setItem('login-token', token)
+      router.push('/')
     }
   } catch (error) {
     console.error(error)

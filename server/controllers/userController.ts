@@ -7,7 +7,7 @@ const user = {
     const { id } = req.params;
     const data = req.body;
     req.requestPayload = {
-      id,
+      id: Number(id),
       data,
     };
     next();
@@ -23,9 +23,8 @@ const user = {
 
   async getUser(req, res) {
     try {
-      const { id } = req.params;
       const user = await prisma.user.findUnique({
-        where: { id },
+        where: { id: req.requestPayload.id },
       });
       successReq(res, 200, user);
     } catch (error) {
@@ -36,7 +35,7 @@ const user = {
   async deleteUser(req, res) {
     try {
       const deletedUser = await prisma.user.delete({
-        where: { id: Number(req.requestPayload.id) },
+        where: { id: req.requestPayload.id },
       });
       successReq(res, 204, deletedUser);
     } catch (error) {

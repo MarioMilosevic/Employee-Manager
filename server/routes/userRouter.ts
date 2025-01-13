@@ -11,14 +11,6 @@ userRouter.route("/login").post(authController.login);
 
 userRouter.route("/").get(user.getAll);
 
-userRouter.route("/:id").delete(user.deleteUser);
-
-// userRouter.route("/").get(user.getAll).post(user.create);
-
-// userRouter
-//   .route("/:id")
-//   .get(user.getSingle)
-//   .put(user.edit)
-//   .delete(user.delete);
+userRouter.route("/:id").delete(user.deleteUser).get(user.getUser);
 
 export default userRouter;
