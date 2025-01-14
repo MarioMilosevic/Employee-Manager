@@ -1,36 +1,22 @@
 <template>
-  <input :type="type" class="input" v-model="localValue" @input="updateValue(localValue)" />
+  <input
+    :type="props.type"
+    class="input"
+    :value="model"
+    @input="(e) => emit('update:modelValue', (e.target as HTMLInputElement)?.value)"
+  />
 </template>
 
-<script lang="ts">
-import { ref } from 'vue'
-export default {
-  setup(props, context) {
-    const localValue = ref(props.value)
+<script lang="ts" setup>
+const model = defineModel()
+const emit = defineEmits(['update:modelValue'])
 
-    const updateValue = (value: string) => {
-      const dataName = context.attrs.dataName
-      localValue.value = value
-      context.emit('update-value', dataName, localValue.value)
-    }
-
-    return {
-      localValue,
-      updateValue,
-    }
+const props = defineProps({
+  type: {
+    type: String,
+    required: true,
   },
-  props: {
-    type: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: String,
-      required: true,
-    },
-  },
-  emits: ['update-value'],
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -42,7 +28,6 @@ export default {
   padding: $small;
   background-color: $secondary-color;
   border: 1px solid $dark-color;
-  /* border: none; */
   border-radius: $small-radius;
 }
 </style>

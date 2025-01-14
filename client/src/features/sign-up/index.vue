@@ -7,11 +7,9 @@
       <FormBlock>
         <template #input>
           <FormInput
-            dataName="firstName"
             type="text"
             placeholder="First Name"
-            :value="signUpCredentials.firstName"
-            @update-value="updateLoginCredentials"
+            v-model="signUpCredentials.firstName"
           />
         </template>
         <template #error>
@@ -19,7 +17,7 @@
         </template>
       </FormBlock>
     </template>
-    <template #lastName>
+    <!-- <template #lastName>
       <FormBlock>
         <template #input>
           <FormInput
@@ -82,7 +80,7 @@
           <FormError>{{ signUpFormErrors.confirm }}</FormError>
         </template>
       </FormBlock>
-    </template>
+    </template> -->
     <template #submit>
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
     </template>
@@ -107,7 +105,7 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 const signUpCredentials = ref({
-  firstName: '',
+  firstName: 'Mario',
   lastName: '',
   email: '',
   password: '',
@@ -121,6 +119,7 @@ const signUpFormErrors = ref({
   password: '',
   confirm: '',
 })
+
 
 const router = useRouter()
 
@@ -139,6 +138,7 @@ const submitForm = async () => {
         router.push('/login')
       }
     } else {
+      // sa bekenda
       const updatedErorrs = renderValidationErrors(signUpFormErrors, validation.error.errors)
       signUpFormErrors.value = updatedErorrs
       console.log('erorri', updatedErorrs)

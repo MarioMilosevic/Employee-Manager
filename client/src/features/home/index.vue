@@ -180,11 +180,6 @@ const submitForm = async () => {
 
 const editEmployee = async (id: string) => {
   const response = await getData(`/employee/${id}`)
-  // const response = await fetch(`${baseUrl}/employee/${id}`)
-  // const { data } = await response.json()
-  // singleEmployee.value = data
-  ////////////////////////////////////////////////////////////////////////
-  // OVO MORMA PROVJERITI
   singleEmployee.value = response
   setModal(true)
 }

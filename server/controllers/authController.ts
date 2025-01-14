@@ -11,7 +11,12 @@ const signToken = (id: number) =>
 const authController = {
   async signUp(req, res) {
     try {
-      console.log("ovo je req body",req.body)
+      console.log("ovo je req body", req.body)
+      // napravi requirement da je email ispravnog formata
+      // da je pasvord minimum 6 karaktera
+      // provjeri da li vec postoji takav user u bazi tj provjerices da li email taj postoji
+      // shodno tome vrati errore
+      // ako je sve uspjesno hesovat pasvord sha256
       const data = req.body;
       const user = await prisma.user.create({
         data,
