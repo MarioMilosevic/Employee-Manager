@@ -6,13 +6,7 @@
     <template #email>
       <FormBlock>
         <template #input>
-          <FormInput
-            dataName="email"
-            type="email"
-            placeholder="Email"
-            :value="loginCredentials.email"
-            @update-value="updateLoginCredentials"
-          />
+          <FormInput type="email" placeholder="Email" v-model="loginCredentials.email" />
         </template>
         <template #error>
           <FormError>{{ loginFormErrors.email }}</FormError>
@@ -22,13 +16,7 @@
     <template #password>
       <FormBlock>
         <template #input>
-          <FormInput
-            dataName="password"
-            type="password"
-            placeholder="Password"
-            :value="loginCredentials.password"
-            @update-value="updateLoginCredentials"
-          />
+          <FormInput type="password" placeholder="Password" v-model="loginCredentials.password" />
         </template>
         <template #error>
           <FormError>{{ loginFormErrors.email }}</FormError>
@@ -68,10 +56,6 @@ const loginFormErrors = ref({
 })
 
 const router = useRouter()
-
-const updateLoginCredentials = (key: keyof typeof loginCredentials.value, value: string) => {
-  loginCredentials.value[key] = value
-}
 
 const submitLogin = async () => {
   try {

@@ -4,13 +4,7 @@
     <template #firstName>
       <FormBlock>
         <template #input>
-          <FormInput
-            dataName="firstName"
-            type="text"
-            placeholder="First Name"
-            :value="singleEmployee.firstName"
-            @update-value="updateFormState"
-          />
+          <FormInput type="text" placeholder="First Name" v-model="singleEmployee.firstName" />
         </template>
         <template #error>
           <FormError>{{ formErrors.firstName }}</FormError>
@@ -20,13 +14,7 @@
     <template #lastName>
       <FormBlock>
         <template #input>
-          <FormInput
-            dataName="lastName"
-            type="text"
-            placeholder="Last Name"
-            :value="singleEmployee.lastName"
-            @update-value="updateFormState"
-          />
+          <FormInput type="text" placeholder="Last Name" v-model="singleEmployee.lastName" />
         </template>
         <template #error>
           <FormError>{{ formErrors.lastName }}</FormError>
@@ -36,13 +24,7 @@
     <template #address>
       <FormBlock>
         <template #input>
-          <FormInput
-            dataName="address"
-            type="text"
-            placeholder="Address"
-            :value="singleEmployee.address"
-            @update-value="updateFormState"
-          />
+          <FormInput type="text" placeholder="Address" v-model="singleEmployee.address" />
         </template>
         <template #error>
           <FormError>{{ formErrors.address }}</FormError>
@@ -52,13 +34,7 @@
     <template #startYear>
       <FormBlock>
         <template #input>
-          <FormInput
-            dataName="startYear"
-            type="date"
-            placeholder="Start Year"
-            :value="singleEmployee.startYear"
-            @update-value="updateFormState"
-          />
+          <FormInput type="date" placeholder="Start Year" v-model="singleEmployee.startYear" />
         </template>
         <template #error>
           <FormError>{{ formErrors.startYear }}</FormError>
@@ -105,7 +81,6 @@ import FormError from 'src/components/form/FormError.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { emptyEmployeeErrors } from 'src/utils/constants'
-// import { postData, getEmployees, deleteData } from 'src/api/employeeApi'
 import { EmployeeType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { ref, onMounted } from 'vue'
@@ -135,13 +110,6 @@ const fetchEmployees = async () => {
 }
 
 onMounted(fetchEmployees)
-
-const updateFormState = <K extends keyof typeof singleEmployee.value>(
-  key: K,
-  value: (typeof singleEmployee.value)[K],
-) => {
-  singleEmployee.value[key] = value
-}
 
 const updateEmployees = async (updatedEmployee: EmployeeType) => {
   employees.value = employees.value.map((emp) =>
