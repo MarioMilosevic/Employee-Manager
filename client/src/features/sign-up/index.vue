@@ -6,27 +6,17 @@
     <template #firstName>
       <FormBlock>
         <template #input>
-          <FormInput
-            type="text"
-            placeholder="First Name"
-            v-model="signUpCredentials.firstName"
-          />
+          <FormInput type="text" placeholder="First Name" v-model="signUpCredentials.firstName" />
         </template>
         <template #error>
           <FormError>{{ signUpFormErrors.firstName }}</FormError>
         </template>
       </FormBlock>
     </template>
-    <!-- <template #lastName>
+    <template #lastName>
       <FormBlock>
         <template #input>
-          <FormInput
-            dataName="lastName"
-            type="text"
-            placeholder="Last Name"
-            :value="signUpCredentials.lastName"
-            @update-value="updateLoginCredentials"
-          />
+          <FormInput type="text" placeholder="Last Name" v-model="signUpCredentials.lastName" />
         </template>
         <template #error>
           <FormError>{{ signUpFormErrors.lastName }}</FormError>
@@ -36,13 +26,7 @@
     <template #email>
       <FormBlock>
         <template #input>
-          <FormInput
-            dataName="email"
-            type="email"
-            placeholder="Email"
-            :value="signUpCredentials.email"
-            @update-value="updateLoginCredentials"
-          />
+          <FormInput type="email" placeholder="Email" v-model="signUpCredentials.email" />
         </template>
         <template #error>
           <FormError>{{ signUpFormErrors.email }}</FormError>
@@ -56,8 +40,7 @@
             dataName="password"
             type="password"
             placeholder="Password"
-            :value="signUpCredentials.password"
-            @update-value="updateLoginCredentials"
+            v-model="signUpCredentials.password"
           />
         </template>
         <template #error>
@@ -72,15 +55,14 @@
             dataName="confirm"
             type="password"
             placeholder="Confirm Password"
-            :value="signUpCredentials.confirm"
-            @update-value="updateLoginCredentials"
+            v-model="signUpCredentials.confirm"
           />
         </template>
         <template #error>
           <FormError>{{ signUpFormErrors.confirm }}</FormError>
         </template>
       </FormBlock>
-    </template> -->
+    </template>
     <template #submit>
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
     </template>
@@ -105,7 +87,7 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 const signUpCredentials = ref({
-  firstName: 'Mario',
+  firstName: '',
   lastName: '',
   email: '',
   password: '',
@@ -120,16 +102,12 @@ const signUpFormErrors = ref({
   confirm: '',
 })
 
-
 const router = useRouter()
-
-const updateLoginCredentials = (key: keyof typeof signUpCredentials.value, value: string) => {
-  signUpCredentials.value[key] = value
-}
 
 const submitForm = async () => {
   try {
     const validation = signUpSchema.safeParse(signUpCredentials.value)
+    console.log(validation)
     if (validation.success) {
       const { confirm, ...userData } = validation.data
       const response = await postData(userData, `users/sign-up`)
