@@ -29,16 +29,18 @@ const authController = {
   async login(req, res, next) {
     const { email, password } = req.body;
     if (!email || !password) {
-      console.log('uslo odje')
       return res.json(errorFactory.badRequest("Email or password is missing"));
     }
     const user = await prisma.user.findUnique({
       where: { email, password },
       omit: { password },
     });
+    
     if (!user) {
-      return res.json(errorFactory.notAuthorized());
+      console.log('uslo odje')
+      return res.json(errorFactory.notAuthorized("Invalid login credentials"));
     }
+    console.log("Ovo je user",user)
     const token = signToken(user.id);
     successReq(res, 200, token);
   },
