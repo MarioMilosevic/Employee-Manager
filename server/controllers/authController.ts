@@ -36,6 +36,9 @@ const authController = {
     if (!validator.isEmail(email)) {
       return res.json(errorFactory.badRequest('Please provide a valid email address'))
     }
+    if (!validator.isLength(password, { min: 6 })) {
+      return res.json(errorFactory.badRequest('Password must be at least 6 characters long'))
+    }
 
     const user = await prisma.user.findUnique({
       where: { email, password },
@@ -43,7 +46,6 @@ const authController = {
     });
     
     if (!user) {
-      console.log('uslo odje')
       return res.json(errorFactory.notAuthorized("Invalid login credentials"));
     }
     console.log("Ovo je user",user)
