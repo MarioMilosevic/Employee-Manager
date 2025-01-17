@@ -60,6 +60,7 @@ const authController = {
           password,
           // passwordConfirm
         },
+        omit:{passwordConfirm}
       });
       console.log("OVO JE USER NAKON ", user);
       successReq(res, 201, user);
