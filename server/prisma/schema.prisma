@@ -29,11 +29,11 @@ model User {
   email   String   @unique 
   firstName    String
   lastName    String
-  password String
-  passwordConfirm String
+  password String 
+  passwordConfirm String?
 
   @@map ("users")
-
 }
+
 
 

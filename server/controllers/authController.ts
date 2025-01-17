@@ -12,7 +12,6 @@ const signToken = (id: number) =>
 const authController = {
   async signUp(req, res) {
     try {
-      console.log("ovo je req body", req.body);
       const data = req.body;
       const { firstName, lastName, email, password, passwordConfirm } =
         req.body;
@@ -40,19 +39,30 @@ const authController = {
         where: { email },
       });
       if (existingEmail) {
-        return res.json(errorFactory.badRequest("User with this email already exists"));
+        return res.json(
+          errorFactory.badRequest("User with this email already exists")
+        );
       }
-      
+
       // napravi requirement da je email ispravnog formata
       // da je pasvord minimum 6 karaktera
       // provjeri da li vec postoji takav user u bazi tj provjerices da li email taj postoji
       // shodno tome vrati errore
       // ako je sve uspjesno hesovat pasvord sha256
-     
-      // const user = await prisma.user.create({
-      //   data,
-      // });
-      successReq(res, 201, data);
+
+      console.log("OVO JE DATA", data);
+
+      const user = await prisma.user.create({
+        data: {
+          firstName,
+          lastName,
+          email,
+          password,
+          // passwordConfirm
+        },
+      });
+      console.log("OVO JE USER NAKON ", user);
+      successReq(res, 201, user);
     } catch (error) {
       res.json(errorFactory.internalError());
     }
