@@ -1,6 +1,7 @@
 import errorFactory from "../services/errorFactory";
 import prisma from "../services/db";
 import jwt from "jsonwebtoken";
+import validator from "validator"
 import { successReq } from "../utils/sucessReq";
 
 const signToken = (id: number) =>
@@ -31,6 +32,11 @@ const authController = {
     if (!email || !password) {
       return res.json(errorFactory.badRequest("Email or password is missing"));
     }
+
+    if (!validator.isEmail(email)) {
+      return res.json(errorFactory.badRequest('Please provide a valid email address'))
+    }
+
     const user = await prisma.user.findUnique({
       where: { email, password },
       omit: { password },
