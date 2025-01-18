@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient().$extends({
-  name:"Hashing password",
+  name:"Protect password",
   query: {
     user: {
       async create({ args, query }) {
@@ -12,7 +12,7 @@ const prisma = new PrismaClient().$extends({
     },
   },
 }).$extends({
-  name: "Check login password",
+  name: "Check passwords",
   model: {
     user: {
       async checkPassword(candidatePassword: string, userPassword: string) {
@@ -22,9 +22,5 @@ const prisma = new PrismaClient().$extends({
 }
 })
 
-
-// prisma.correctPassword = async function (candidatePassword:string, userPassword:string) {
-//   return await bcrypt.compare(candidatePassword, userPassword)
-// }
 
 export default prisma;

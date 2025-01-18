@@ -73,64 +73,46 @@ const authController = {
     try {
       const { email, password } = req.body;
 
-      const user = await prisma.user.findUnique({
+      const userInfo = await prisma.user.findUnique({
         where: { email },
         select: {
           password: true,
         },
       });
 
-      if (!user) {
+      if (!userInfo) {
         return res.json(
           errorFactory.notAuthorized("Invalid login credentials")
         );
       }
-      const correctPassword = await prisma.user.checkPassword(
+
+      const checkPassword = await prisma.user.checkPassword(
         password,
-        user.password
-      );
-      console.log(
-        "OVO JE CORRECT PASSWORD ------------------",
-        correctPassword
+        userInfo.password
       );
 
-      if (!correctPassword) {
+      if (!checkPassword) {
         return res.json(errorFactory.notAuthorized("Wrong password"));
       }
-     
-      /**
-       * 1 saljem da vidim je li email dobar
-       * 2 ako je dobar email onda uporedim passworde
-       * 3 ako su passwordi dobri pravim token
-       * 4 ako ima errora vratim erorr
-       */
 
-      // const user = await prisma.user.findUnique({
-      //   where: { email, password },
-      //   omit: { password },
-      // });
+      const user = await prisma.user.findUnique({
+        where: { email },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          password: false,
+          passwordConfirm: false,
+        },
+      });
 
       console.log("Ovo je user", user);
-      const token = "test";
-      // const token = signToken(user.id);
+      const token = signToken(user.id);
       successReq(res, 200, token);
     } catch (error) {
       res.json(errorFactory.internalError());
     }
-    // if (!email || !password) {
-    //   return res.json(errorFactory.badRequest("Email or password is missing"));
-    // }
-
-    // if (!validator.isEmail(email) || !validator.isLowercase(email)) {
-    //   return res.json(
-    //     errorFactory.badRequest("Please provide a valid email address")
-    //   );
-    // }
-    // if (!validator.isLength(password, { min: 6 })) {
-    //   return res.json(
-    //     errorFactory.badRequest("Password must be at least 6 characters long")
-    //   );
-    // }
   },
 };
 
