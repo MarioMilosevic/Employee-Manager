@@ -1,24 +1,36 @@
-function createSuccessResponse(message: string, status: number, data?: any) {
-  return {
-    sucess: true,
+import { Response } from "express";
+
+function createSuccessResponse(
+  res: Response,
+  message: string,
+  status: number,
+  data?: any
+) {
+  const response = {
     message,
     status,
     data,
   };
+  return res.status(status).json(response);
 }
 
 export default {
-  goodRequest(message: string = "OK", status: number = 200, data: any) {
-    return createSuccessResponse(message, status, data);
+  ok(res: Response, data: any, message: string = "OK", status: number = 200) {
+    return createSuccessResponse(res, message, status, data);
   },
   created(
+    res: Response,
+    data: any,
     message: string = "Successfully created",
-    status: number = 201,
-    data: any
+    status: number = 201
   ) {
-    return createSuccessResponse(message, status, data);
+    return createSuccessResponse(res, message, status, data);
   },
-  noContent(message: string = "Successfull request", status: number = 204) {
-    return createSuccessResponse(message, status);
+  noContent(
+    res: Response,
+    message: string = "Successfull request",
+    status: number = 204
+  ) {
+    return createSuccessResponse(res, message, status);
   },
 };

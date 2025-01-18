@@ -1,5 +1,5 @@
 import prisma from "../services/database";
-import { successReq } from "../utils/sucessReq";
+import successResponseFactory from "../services/successResponseFactory";
 import errorFactory from "../services/errorFactory";
 import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
@@ -17,7 +17,7 @@ const user = {
   async getAll(req: CustomRequest, res: Response) {
     try {
       const users = await prisma.user.findMany();
-      successReq(res, 200, users);
+      successResponseFactory.ok(res, users, "Retrieved all users")
     } catch (error) {
       res.json(errorFactory.internalError());
     }
@@ -28,7 +28,7 @@ const user = {
       const user = await prisma.user.findUnique({
         where: { id: req.requestPayload.id },
       });
-      successReq(res, 200, user);
+      successResponseFactory.ok(res, user, "Get user")
     } catch (error) {
       res.json(errorFactory.internalError());
     }
@@ -39,7 +39,8 @@ const user = {
       const deletedUser = await prisma.user.delete({
         where: { id: req.requestPayload.id },
       });
-      successReq(res, 204, deletedUser);
+      // successReq(res, 204, deletedUser);
+      successResponseFactory.ok(res, deletedUser, "User deleted", 204);
     } catch (error) {
       res.json(errorFactory.internalError());
     }

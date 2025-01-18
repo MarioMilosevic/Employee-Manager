@@ -1,6 +1,6 @@
 import prisma from "../services/database";
 import errorFactory from "../services/errorFactory";
-import { successReq } from "../utils/sucessReq";
+import successResponseFactory from "../services/successResponseFactory";
 import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
 
@@ -22,7 +22,8 @@ const employee = {
       const newEmployee = await prisma.employee.create({
         data,
       });
-      successReq(res, 201, newEmployee);
+      successResponseFactory.created(res, newEmployee);
+      // successReq(res, 201, newEmployee);
     } catch (error) {
       res.json(errorFactory.internalError());
     }
@@ -30,7 +31,8 @@ const employee = {
   async getAll(req: CustomRequest, res: Response) {
     try {
       const employees = await prisma.employee.findMany();
-      successReq(res, 200, employees);
+      successResponseFactory.ok(res, employees);
+      // successReq(res, 200, employees);
     } catch (error) {
       res.json(errorFactory.internalError());
     }
@@ -40,7 +42,8 @@ const employee = {
       const employee = await prisma.employee.findUnique({
         where: { id: req.requestPayload.id },
       });
-      successReq(res, 200, employee);
+      successResponseFactory.ok(res, employee);
+      // successReq(res, 200, employee);
     } catch (error) {
       res.json(errorFactory.internalError());
     }
@@ -50,7 +53,8 @@ const employee = {
       const deletedEmployee = await prisma.employee.delete({
         where: { id: req.requestPayload.id },
       });
-      successReq(res, 204, deletedEmployee);
+      successResponseFactory.ok(res, deletedEmployee, "Employee deleted", 204);
+      // successReq(res, 204, deletedEmployee);
     } catch (error) {
       res.json(errorFactory.internalError());
     }
@@ -61,7 +65,8 @@ const employee = {
         where: { id: req.requestPayload.id },
         data: req.requestPayload.data,
       });
-      successReq(res, 200, updatedEmployee);
+      successResponseFactory.ok(res, updatedEmployee);
+      // successReq(res, 200, updatedEmployee);
     } catch (error) {
       res.json(errorFactory.internalError());
     }

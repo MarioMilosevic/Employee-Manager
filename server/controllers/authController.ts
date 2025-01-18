@@ -1,8 +1,8 @@
 import errorFactory from "../services/errorFactory";
+import successResponseFactory from "../services/successResponseFactory";
 import prisma from "../services/database";
 import jwt from "jsonwebtoken";
 import validator from "validator";
-import { successReq } from "../utils/sucessReq";
 import { Request, Response } from "express";
 
 const signToken = (id: number) =>
@@ -47,7 +47,7 @@ const authController = {
         },
         omit: { passwordConfirm },
       });
-      successReq(res, 201, user);
+      successResponseFactory.created(res, user);
     } catch (error) {
       res.json(errorFactory.internalError());
     }
@@ -89,7 +89,7 @@ const authController = {
       });
 
       const token = signToken(user.id);
-      successReq(res, 200, token);
+      successResponseFactory.ok(res, token);
     } catch (error) {
       res.json(errorFactory.internalError());
     }
