@@ -60,7 +60,7 @@ const authController = {
           password,
           // passwordConfirm
         },
-        omit:{passwordConfirm}
+        omit: { passwordConfirm },
       });
       console.log("OVO JE USER NAKON ", user);
       successReq(res, 201, user);
@@ -70,33 +70,67 @@ const authController = {
   },
   //////////////////////////////////////////////
   async login(req, res, next) {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.json(errorFactory.badRequest("Email or password is missing"));
-    }
+    try {
+      const { email, password } = req.body;
 
-    if (!validator.isEmail(email) || !validator.isLowercase(email)) {
-      return res.json(
-        errorFactory.badRequest("Please provide a valid email address")
+      const user = await prisma.user.findUnique({
+        where: { email },
+        select: {
+          password: true,
+        },
+      });
+
+      if (!user) {
+        return res.json(
+          errorFactory.notAuthorized("Invalid login credentials")
+        );
+      }
+      const correctPassword = await prisma.user.checkPassword(
+        password,
+        user.password
       );
-    }
-    if (!validator.isLength(password, { min: 6 })) {
-      return res.json(
-        errorFactory.badRequest("Password must be at least 6 characters long")
+      console.log(
+        "OVO JE CORRECT PASSWORD ------------------",
+        correctPassword
       );
-    }
 
-    const user = await prisma.user.findUnique({
-      where: { email, password },
-      omit: { password },
-    });
+      if (!correctPassword) {
+        return res.json(errorFactory.notAuthorized("Wrong password"));
+      }
+     
+      /**
+       * 1 saljem da vidim je li email dobar
+       * 2 ako je dobar email onda uporedim passworde
+       * 3 ako su passwordi dobri pravim token
+       * 4 ako ima errora vratim erorr
+       */
 
-    if (!user) {
-      return res.json(errorFactory.notAuthorized("Invalid login credentials"));
+      // const user = await prisma.user.findUnique({
+      //   where: { email, password },
+      //   omit: { password },
+      // });
+
+      console.log("Ovo je user", user);
+      const token = "test";
+      // const token = signToken(user.id);
+      successReq(res, 200, token);
+    } catch (error) {
+      res.json(errorFactory.internalError());
     }
-    console.log("Ovo je user", user);
-    const token = signToken(user.id);
-    successReq(res, 200, token);
+    // if (!email || !password) {
+    //   return res.json(errorFactory.badRequest("Email or password is missing"));
+    // }
+
+    // if (!validator.isEmail(email) || !validator.isLowercase(email)) {
+    //   return res.json(
+    //     errorFactory.badRequest("Please provide a valid email address")
+    //   );
+    // }
+    // if (!validator.isLength(password, { min: 6 })) {
+    //   return res.json(
+    //     errorFactory.badRequest("Password must be at least 6 characters long")
+    //   );
+    // }
   },
 };
 
