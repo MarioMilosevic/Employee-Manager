@@ -1,8 +1,8 @@
 import app from "./app";
-
+import { Request, Response } from "express";
 const port = 3000;
 
-app.get("/", (req, res) => {
+app.get("/", (req:Request, res:Response) => {
   res.send("Server running");
 });
 

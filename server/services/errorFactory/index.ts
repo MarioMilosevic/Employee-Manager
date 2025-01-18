@@ -1,7 +1,6 @@
 interface ErrorResponse {
   message: string;
-  status: number,
-  data?:Record<string, any>
+  status: number;
 }
 
 class ResponseError extends Error {
@@ -9,15 +8,13 @@ class ResponseError extends Error {
   response: {
     status: number;
     message: string;
-    data?: any;
   };
 
-  constructor(message: string, status: number, data?: Record<string, any>) {
+  constructor(message: string, status: number) {
     super(message);
     this.isCustomError = true;
 
     this.response = {
-      ...data,
       status,
       message,
     };
@@ -27,23 +24,22 @@ class ResponseError extends Error {
 function createResponseError(
   message: string,
   status: number,
-  data?: Record<string, any>
-):ErrorResponse {
-  const error = new ResponseError(message, status, data);
-  return error.response
+): ErrorResponse {
+  const error = new ResponseError(message, status);
+  return error.response;
 }
 
 export default {
- badRequest(message = "Bad request") {
+  badRequest(message = "Bad request") {
     return createResponseError(message, 400);
   },
   notFound(message = "Not found") {
     return createResponseError(message, 404);
   },
   notAuthorized(message = "Not authorized") {
-    return createResponseError(message, 401)
+    return createResponseError(message, 401);
   },
-  internalError(message = 'Internal error') {
-    return createResponseError(message, 500)
-  }
+  internalError(message = "Internal error") {
+    return createResponseError(message, 500);
+  },
 };

@@ -1,5 +1,5 @@
 import errorFactory from "../services/errorFactory";
-import prisma from "../services/db";
+import prisma from "../services/database";
 import jwt from "jsonwebtoken";
 import validator from "validator";
 import { successReq } from "../utils/sucessReq";

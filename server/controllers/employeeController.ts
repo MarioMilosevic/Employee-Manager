@@ -1,22 +1,22 @@
-import prisma from "../services/db";
+import prisma from "../services/database";
 import errorFactory from "../services/errorFactory";
 import { successReq } from "../utils/sucessReq";
-import { Response, NextFunction } from 'express'
+import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
 
 const employee = {
-  getId(req:CustomRequest, res:Response, next:NextFunction) {
+  getId(req: CustomRequest, res: Response, next: NextFunction) {
     const { id } = req.params;
     const data = req.body;
 
     req.requestPayload = {
-      id:Number(id),
+      id: Number(id),
       data,
     };
     next();
   },
 
-  async create(req:CustomRequest, res:Response) {
+  async create(req: CustomRequest, res: Response) {
     try {
       const data = req.body;
       const newEmployee = await prisma.employee.create({
@@ -27,7 +27,7 @@ const employee = {
       res.json(errorFactory.internalError());
     }
   },
-  async getAll(req:CustomRequest, res:Response) {
+  async getAll(req: CustomRequest, res: Response) {
     try {
       const employees = await prisma.employee.findMany();
       successReq(res, 200, employees);
@@ -35,7 +35,7 @@ const employee = {
       res.json(errorFactory.internalError());
     }
   },
-  async getSingle(req:CustomRequest, res:Response) {
+  async getSingle(req: CustomRequest, res: Response) {
     try {
       const employee = await prisma.employee.findUnique({
         where: { id: req.requestPayload.id },
@@ -45,7 +45,7 @@ const employee = {
       res.json(errorFactory.internalError());
     }
   },
-  async delete(req:CustomRequest, res:Response) {
+  async delete(req: CustomRequest, res: Response) {
     try {
       const deletedEmployee = await prisma.employee.delete({
         where: { id: req.requestPayload.id },
@@ -55,7 +55,7 @@ const employee = {
       res.json(errorFactory.internalError());
     }
   },
-  async edit(req:CustomRequest, res:Response) {
+  async edit(req: CustomRequest, res: Response) {
     try {
       const updatedEmployee = await prisma.employee.update({
         where: { id: req.requestPayload.id },

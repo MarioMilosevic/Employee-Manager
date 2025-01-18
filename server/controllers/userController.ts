@@ -1,11 +1,11 @@
-import prisma from "../services/db";
+import prisma from "../services/database";
 import { successReq } from "../utils/sucessReq";
 import errorFactory from "../services/errorFactory";
 import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
 
 const user = {
-  getId(req:CustomRequest, res:Response, next:NextFunction) {
+  getId(req: CustomRequest, res: Response, next: NextFunction) {
     const { id } = req.params;
     const data = req.body;
     req.requestPayload = {
@@ -14,7 +14,7 @@ const user = {
     };
     next();
   },
-  async getAll(req:CustomRequest, res:Response) {
+  async getAll(req: CustomRequest, res: Response) {
     try {
       const users = await prisma.user.findMany();
       successReq(res, 200, users);
@@ -23,7 +23,7 @@ const user = {
     }
   },
 
-  async getUser(req:CustomRequest, res:Response) {
+  async getUser(req: CustomRequest, res: Response) {
     try {
       const user = await prisma.user.findUnique({
         where: { id: req.requestPayload.id },
@@ -34,7 +34,7 @@ const user = {
     }
   },
 
-  async deleteUser(req:CustomRequest, res:Response) {
+  async deleteUser(req: CustomRequest, res: Response) {
     try {
       const deletedUser = await prisma.user.delete({
         where: { id: req.requestPayload.id },
