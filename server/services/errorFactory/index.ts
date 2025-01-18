@@ -1,3 +1,9 @@
+interface ErrorResponse {
+  message: string;
+  status: number,
+  data?:Record<string, any>
+}
+
 class ResponseError extends Error {
   isCustomError: boolean;
   response: {
@@ -22,16 +28,12 @@ function createResponseError(
   message: string,
   status: number,
   data?: Record<string, any>
-) {
+):ErrorResponse {
   const error = new ResponseError(message, status, data);
   return error.response
-  // return Promise.reject(error);
 }
 
 export default {
-  // badRequest(data, message = "Bad request") {
-  //   return createResponseError(message, 400, data);
-  // },
  badRequest(message = "Bad request") {
     return createResponseError(message, 400);
   },
