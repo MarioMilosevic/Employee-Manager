@@ -127,9 +127,6 @@ const addEmployee = (employee: EmployeeType) => {
 const removeEmployee = (id: number) => {
   employees.value = employees.value.filter((emp) => emp.id !== id)
 }
-// const removeEmployee = (employee: EmployeeType) => {
-//   employees.value = employees.value.filter((emp) => emp.id !== employee.id)
-// }
 
 const resetForm = () => {
   formErrors.value = emptyEmployeeErrors
@@ -148,8 +145,8 @@ const submitForm = async () => {
 }
 
 const editEmployee = async (id: string) => {
-  const response = await getData(`/employee/${id}`)
-  singleEmployee.value = response
+  const response = await getData(`employee/${id}`)
+  singleEmployee.value = response.data
   setModal(true)
 }
 

@@ -47,7 +47,6 @@ const employee = {
   },
   async delete(req: CustomRequest, res: Response) {
     try {
-      console.log(typeof req.requestPayload.id)
       await prisma.employee.delete({
         where: { id: req.requestPayload.id },
       });
@@ -58,6 +57,7 @@ const employee = {
   },
   async edit(req: CustomRequest, res: Response) {
     try {
+      console.log('USLO')
       const updatedEmployee = await prisma.employee.update({
         where: { id: req.requestPayload.id },
         data: req.requestPayload.data,

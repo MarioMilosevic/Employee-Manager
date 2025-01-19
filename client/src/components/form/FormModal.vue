@@ -7,65 +7,41 @@
         <template #firstName>
           <FormBlock>
             <template #input>
-              <FormInput
-                dataName="firstName"
-                type="text"
-                placeholder="First Name"
-                :value="employee.firstName"
-                @update-value="updateFormState"
-              />
+              <FormInput type="text" placeholder="First Name" v-model="employee.firstName" />
             </template>
-            <template #error>
+            <!-- <template #error>
               <FormError>{{ firstName }}</FormError>
-            </template>
+            </template> -->
           </FormBlock>
         </template>
         <template #lastName>
           <FormBlock>
             <template #input>
-              <FormInput
-                dataName="lastName"
-                type="text"
-                placeholder="Last Name"
-                :value="employee.lastName"
-                @update-value="updateFormState"
-              />
+              <FormInput type="text" placeholder="Last Name" v-model="employee.lastName" />
             </template>
-            <template #error>
+            <!-- <template #error>
               <FormError>{{ lastName }}</FormError>
-            </template>
+            </template> -->
           </FormBlock>
         </template>
         <template #address>
           <FormBlock>
             <template #input>
-              <FormInput
-                dataName="address"
-                type="text"
-                placeholder="Address"
-                :value="employee.address"
-                @update-value="updateFormState"
-              />
+              <FormInput type="text" placeholder="Address" v-model="employee.address" />
             </template>
-            <template #error>
+            <!-- <template #error>
               <FormError>{{ address }}</FormError>
-            </template>
+            </template> -->
           </FormBlock>
         </template>
         <template #startYear>
           <FormBlock>
             <template #input>
-              <FormInput
-                dataName="startYear"
-                type="date"
-                placeholder="Start Year"
-                :value="employee.startYear"
-                @update-value="updateFormState"
-              />
+              <FormInput type="date" placeholder="Start Year" v-model="employee.startYear" />
             </template>
-            <template #error>
+            <!-- <template #error>
               <FormError>{{ startYear }}</FormError>
-            </template>
+            </template> -->
           </FormBlock>
         </template>
         <template #trainingCompleted>
@@ -84,100 +60,80 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormComponent from 'src/components/form/FormComponent.vue'
-import FormError from 'src/components/form/FormError.vue'
+// import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import { PropType, watch, ref, reactive, toRefs } from 'vue'
+import { PropType, watch, ref} from 'vue'
 import { EmployeeType } from 'src/utils/types'
 import { editData } from 'src/api/api'
 
-export default {
-  setup(props, { emit }) {
-    const employee = ref({ ...props.singleEmployee })
-
-    const formErrors = reactive({
-      firstName: '',
-      lastName: '',
-      address: '',
-      startYear: '',
-    })
-
-    const closeModal = () => {
-      emit('close-modal')
-    }
-
-    const editTrainingCompleted = (value: boolean) => {
-      employee.value.trainingCompleted = value
-    }
-
-    const updateFormState = <K extends keyof typeof employee.value>(
-      key: K,
-      value: (typeof employee.value)[K],
-    ) => {
-      employee.value[key] = value
-    }
-    const submitForm = async () => {
-      const validation = employeeFormSchema.safeParse(employee.value)
-      if (validation.success) {
-        const validationData = {
-          id: employee.value.id,
-          ...validation.data,
-        }
-
-        const response = await editData(validationData, `/employee/${employee.value.id}`)
-        emit('update-event', response)
-      } else {
-        const errors = validation.error.errors
-        errors.forEach((error) => {
-          console.log(error)
-          const field = error.path[0] as keyof typeof formErrors
-          formErrors[field] = error.message
-        })
-      }
-    }
-
-    watch(
-      () => props.singleEmployee,
-      (newEmployee) => {
-        employee.value = newEmployee
-      },
-      { deep: true },
-    )
-
-    return {
-      closeModal,
-      employee,
-      updateFormState,
-      editTrainingCompleted,
-      submitForm,
-      ...toRefs(formErrors),
-    }
+const emits = defineEmits(['close-modal', 'update-event'])
+const props = defineProps({
+  isModalOpen: {
+    type: Boolean,
+    required: true,
   },
-  props: {
-    isModalOpen: {
-      type: Boolean,
-      required: true,
-    },
-    singleEmployee: {
-      type: Object as PropType<EmployeeType>,
-      required: true,
-    },
+  singleEmployee: {
+    type: Object as PropType<EmployeeType>,
+    required: true,
   },
-  emits: ['close-modal', 'update-event'],
-  components: {
-    FormBlock,
-    FormComponent,
-    FormError,
-    FormCheckbox,
-    ActionButton,
-    FormInput,
-  },
+})
+
+const employee = ref({ ...props.singleEmployee })
+
+const formErrors = ref({
+  firstName: '',
+  lastName: '',
+  address: '',
+  startYear: '',
+})
+
+const closeModal = () => {
+  emits('close-modal')
 }
+
+const editTrainingCompleted = (value: boolean) => {
+  employee.value.trainingCompleted = value
+}
+
+// const updateFormState = <K extends keyof typeof employee.value>(
+//   key: K,
+//   value: (typeof employee.value)[K],
+// ) => {
+//   employee.value[key] = value
+// }
+const submitForm = async () => {
+  const validation = employeeFormSchema.safeParse(employee.value)
+  if (validation.success) {
+    const validationData = {
+      id: employee.value.id,
+      ...validation.data,
+    }
+
+    const response = await editData(validationData, `employee/${employee.value.id}`)
+    emits('update-event', response.data)
+  } else {
+    const errors = validation.error.errors
+    errors.forEach((error) => {
+      console.log(error)
+      const field = error.path[0] as keyof typeof formErrors
+      formErrors[field] = error.message
+    })
+  }
+}
+
+watch(
+  () => props.singleEmployee,
+  (newEmployee) => {
+    employee.value = newEmployee
+  },
+  { deep: true },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -222,7 +178,7 @@ export default {
 
     &-form {
       display: flex;
-      gap: $big;
+      gap: $medium;
       align-items: center;
       background-color: $primary-shade-color;
       padding: $medium;
