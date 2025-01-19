@@ -64,6 +64,8 @@ export const login = async (data:LoginCredentialsType) => {
       },
       body: JSON.stringify(data),
     })
+    // console.log('ovo je respose', await response.json())
+
     return getDataFromJson(response)
   } catch (error) {
     console.error(error)

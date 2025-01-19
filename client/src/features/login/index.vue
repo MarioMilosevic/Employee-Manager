@@ -8,9 +8,6 @@
         <template #input>
           <FormInput type="email" placeholder="Email" v-model="loginCredentials.email" />
         </template>
-        <template #error>
-          <FormError>{{ loginFormErrors.email }}</FormError>
-        </template>
       </FormBlock>
     </template>
     <template #password>
@@ -19,7 +16,7 @@
           <FormInput type="password" placeholder="Password" v-model="loginCredentials.password" />
         </template>
         <template #error>
-          <FormError>{{ loginFormErrors.email }}</FormError>
+          <FormError>{{ loginFormError }}</FormError>
         </template>
       </FormBlock>
     </template>
@@ -40,20 +37,18 @@ import FormError from 'src/components/form/FormError.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
-import { loginSchema } from 'src/validation/loginSchema'
+// import { loginSchema } from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { login } from 'src/api/api'
 
 const loginCredentials = ref({
-  email: 'mario1212@gmail.com',
+  email: 'mario12@gmail.com',
   password: '12345678',
 })
 
-const loginFormErrors = ref({
-  email: '',
-  password: '',
-})
+
+const loginFormError = ref('')
 
 const router = useRouter()
 
@@ -64,11 +59,12 @@ const submitLogin = async () => {
     //   return
     // }
     // const token = await login(validation.data)
-    const token = await login(loginCredentials.value)
-    console.log(token)
-    if (token) {
-      localStorage.setItem('login-token', token)
+    const response = await login(loginCredentials.value)
+    if (response.data) {
+      localStorage.setItem('login-token', response.data)
       router.push('/')
+    } else {
+      loginFormError.value = response.message
     }
   } catch (error) {
     console.error(error)

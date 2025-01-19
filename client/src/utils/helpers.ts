@@ -24,4 +24,5 @@ export const renderValidationErrors = (
   return updatedErrors
 }
 
-export const getDataFromJson = async (response: Response) => (await response.json()).data
+export const getDataFromJson = async (response: Response) => (await response.json())
+// export const getDataFromJson = async (response: Response) => (await response.json()).data
