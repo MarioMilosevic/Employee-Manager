@@ -84,9 +84,10 @@ import { postData } from 'src/api/api'
 // import { renderValidationErrors } from 'src/utils/helpers'
 // import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { SignUpCredentialsType } from 'src/utils/types'
 
-const signUpCredentials = ref({
+const signUpCredentials = ref<SignUpCredentialsType>({
   firstName: '',
   lastName: '',
   email: '',
@@ -105,13 +106,31 @@ const signUpFormError = ref('')
 
 const router = useRouter()
 
+watch(
+  () => ({ ...signUpCredentials.value }),
+  (oldValue, newValue) => {
+    const fields: (keyof SignUpCredentialsType)[] = [
+      'firstName',
+      'lastName',
+      'email',
+      'password',
+      'passwordConfirm',
+    ]
+
+    const hasFieldChanged = fields.some((field) => oldValue[field] !== newValue[field])
+
+    if (signUpFormError.value !== '' && hasFieldChanged) {
+      signUpFormError.value = ''
+    }
+  },
+)
+
 const submitForm = async () => {
   try {
-    console.log(signUpCredentials.value);
     const response = await postData(signUpCredentials.value, 'users/sign-up')
     console.log(response)
     if (response.data) {
-        router.push('/login')
+      router.push('/login')
     } else {
       signUpFormError.value = response.message
     }

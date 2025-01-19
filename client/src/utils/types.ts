@@ -36,3 +36,10 @@ export type LoginCredentialsType = {
   password: string;
 }
 
+export type SignUpCredentialsType = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  passwordConfirm: string
+}

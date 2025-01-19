@@ -50,7 +50,7 @@ const loginCredentials = ref({
 const loginFormError = ref('')
 
 watch(
-  () => ({ email: loginCredentials.value.email, password: loginCredentials.value.password }),
+  () => ({ ...loginCredentials.value }),
   (newValue, oldValue) => {
     const emailChanged = oldValue.email !== newValue.email
     const passwordChanged = oldValue.password !== newValue.password
