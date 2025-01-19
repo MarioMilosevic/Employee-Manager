@@ -41,6 +41,7 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import { useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
 import { login } from 'src/api/api'
+import { compareObjectFieldChange } from 'src/utils/helpers'
 
 const loginCredentials = ref({
   email: 'mario12@gmail.com',
@@ -52,9 +53,8 @@ const loginFormError = ref('')
 watch(
   () => ({ ...loginCredentials.value }),
   (newValue, oldValue) => {
-    const emailChanged = oldValue.email !== newValue.email
-    const passwordChanged = oldValue.password !== newValue.password
-    if (loginFormError.value !== '' && (emailChanged || passwordChanged)) {
+    const hasFieldChanged = compareObjectFieldChange(oldValue, newValue)
+    if (loginFormError.value !== '' && hasFieldChanged) {
       loginFormError.value = ''
     }
   },

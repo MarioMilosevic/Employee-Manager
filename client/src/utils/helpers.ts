@@ -24,4 +24,10 @@ export const renderValidationErrors = (
   return updatedErrors
 }
 
-export const getDataFromJson = async (response: Response) => (await response.json())
+export const getDataFromJson = async (response: Response) => await response.json()
+
+export const compareObjectFieldChange = (newValue: Record<string, string>, oldValue: Record<string, string>) => {
+  const fields = Object.keys(oldValue)
+  const hasFieldChanged = fields.some((field) => newValue[field] !== oldValue[field])
+  return hasFieldChanged
+}

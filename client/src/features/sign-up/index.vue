@@ -86,6 +86,7 @@ import { postData } from 'src/api/api'
 import { useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
 import { SignUpCredentialsType } from 'src/utils/types'
+import { compareObjectFieldChange } from 'src/utils/helpers'
 
 const signUpCredentials = ref<SignUpCredentialsType>({
   firstName: '',
@@ -108,17 +109,8 @@ const router = useRouter()
 
 watch(
   () => ({ ...signUpCredentials.value }),
-  (oldValue, newValue) => {
-    const fields: (keyof SignUpCredentialsType)[] = [
-      'firstName',
-      'lastName',
-      'email',
-      'password',
-      'passwordConfirm',
-    ]
-
-    const hasFieldChanged = fields.some((field) => oldValue[field] !== newValue[field])
-
+  (newValue, oldValue) => {
+    const hasFieldChanged = compareObjectFieldChange(newValue, oldValue)
     if (signUpFormError.value !== '' && hasFieldChanged) {
       signUpFormError.value = ''
     }
