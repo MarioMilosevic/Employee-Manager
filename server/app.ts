@@ -1,5 +1,5 @@
-import express from "express";
 import { Response, Request, NextFunction } from "express";
+import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import employeeRouter from "./routes/employeeRouter";
@@ -16,8 +16,7 @@ app.use("/api/v1/employee/", employeeRouter);
 app.use("/api/v1/users/", userRouter);
 
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
-  const errorResponse = errorFactory.notFound();
-  res.status(errorResponse.status).json(errorResponse);
+  errorFactory.notFound(res);
 });
 
 export default app;

@@ -25,7 +25,7 @@ const employee = {
       successResponseFactory.created(res, newEmployee);
       // successReq(res, 201, newEmployee);
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
   async getAll(req: CustomRequest, res: Response) {
@@ -34,7 +34,7 @@ const employee = {
       successResponseFactory.ok(res, employees);
       // successReq(res, 200, employees);
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
   async getSingle(req: CustomRequest, res: Response) {
@@ -45,7 +45,7 @@ const employee = {
       successResponseFactory.ok(res, employee);
       // successReq(res, 200, employee);
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
   async delete(req: CustomRequest, res: Response) {
@@ -56,7 +56,7 @@ const employee = {
       successResponseFactory.ok(res, deletedEmployee, "Employee deleted", 204);
       // successReq(res, 204, deletedEmployee);
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
   async edit(req: CustomRequest, res: Response) {
@@ -68,7 +68,7 @@ const employee = {
       successResponseFactory.ok(res, updatedEmployee);
       // successReq(res, 200, updatedEmployee);
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
 };

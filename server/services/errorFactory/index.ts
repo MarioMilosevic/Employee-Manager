@@ -1,7 +1,4 @@
-interface ErrorResponse {
-  message: string;
-  status: number;
-}
+import { Response } from "express";
 
 class ResponseError extends Error {
   isCustomError: boolean;
@@ -21,25 +18,22 @@ class ResponseError extends Error {
   }
 }
 
-function createResponseError(
-  message: string,
-  status: number,
-): ErrorResponse {
+function createResponseError(res: Response, message: string, status: number) {
   const error = new ResponseError(message, status);
-  return error.response;
+  return res.status(status).json(error.response);
 }
 
 export default {
-  badRequest(message = "Bad request") {
-    return createResponseError(message, 400);
+  badRequest(res: Response, message = "Bad request") {
+    return createResponseError(res, message, 400);
   },
-  notFound(message = "Not found") {
-    return createResponseError(message, 404);
+  notFound(res: Response, message = "Not found") {
+    return createResponseError(res, message, 404);
   },
-  notAuthorized(message = "Not authorized") {
-    return createResponseError(message, 401);
+  notAuthorized(res: Response, message = "Not authorized") {
+    return createResponseError(res, message, 401);
   },
-  internalError(message = "Internal error") {
-    return createResponseError(message, 500);
+  internalError(res: Response, message = "Internal error") {
+    return createResponseError(res, message, 500);
   },
 };

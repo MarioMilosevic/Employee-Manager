@@ -17,9 +17,9 @@ const user = {
   async getAll(req: CustomRequest, res: Response) {
     try {
       const users = await prisma.user.findMany();
-      successResponseFactory.ok(res, users, "Retrieved all users")
+      successResponseFactory.ok(res, users, "Retrieved all users");
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
 
@@ -28,9 +28,9 @@ const user = {
       const user = await prisma.user.findUnique({
         where: { id: req.requestPayload.id },
       });
-      successResponseFactory.ok(res, user, "Get user")
+      successResponseFactory.ok(res, user, "Get user");
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
 
@@ -39,10 +39,10 @@ const user = {
       const deletedUser = await prisma.user.delete({
         where: { id: req.requestPayload.id },
       });
-      // successReq(res, 204, deletedUser);
+      console.log(deletedUser)
       successResponseFactory.ok(res, deletedUser, "User deleted", 204);
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
 };

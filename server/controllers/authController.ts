@@ -3,7 +3,7 @@ import successResponseFactory from "../services/successResponseFactory";
 import prisma from "../services/database";
 import jwt from "jsonwebtoken";
 import validator from "validator";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const signToken = (id: number) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -17,25 +17,31 @@ const authController = {
         req.body;
 
       if (validator.isEmpty(firstName) || validator.isEmpty(lastName)) {
-        throw errorFactory.badRequest("First or last name cannot be empty");
+        errorFactory.badRequest(res, "First or last name cannot be empty");
+        return;
       }
 
       if (!validator.isEmail(email) || !validator.isLowercase(email)) {
-        throw errorFactory.badRequest("Please provide a valid email address");
+        errorFactory.badRequest(res, "Please provide a valid email address");
+        return;
       }
       if (!validator.isLength(password, { min: 6 })) {
-        throw errorFactory.badRequest(
+        errorFactory.badRequest(
+          res,
           "Password must be at least 6 characters long"
         );
+        return;
       }
       if (password !== passwordConfirm) {
-        throw errorFactory.badRequest("Passwords are not the same");
+        errorFactory.badRequest(res, "Passwords are not the same");
+        return;
       }
       const existingEmail = await prisma.user.findUnique({
         where: { email },
       });
       if (existingEmail) {
-        throw errorFactory.badRequest("User with this email already exists");
+        errorFactory.badRequest(res, "User with this email already exists");
+        return;
       }
 
       const user = await prisma.user.create({
@@ -49,16 +55,14 @@ const authController = {
       });
       successResponseFactory.created(res, user);
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
-  //////////////////////////////////////////////
-  async login(req: Request, res: Response) {
+  async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
 
       const userInfo = await prisma.user.findUnique({
-        // Check if email exists and select hashed password
         where: { email },
         select: {
           password: true,
@@ -66,7 +70,8 @@ const authController = {
       });
 
       if (!userInfo) {
-        throw errorFactory.notAuthorized("Invalid login credentials");
+        errorFactory.notAuthorized(res, "Invalid login credentials");
+        return; 
       }
 
       const checkPassword = await prisma.user.checkPassword(
@@ -75,7 +80,8 @@ const authController = {
       );
 
       if (!checkPassword) {
-        throw errorFactory.notAuthorized("Invalid login credentials");
+        errorFactory.notAuthorized(res, "Invalid login credentials");
+        return; 
       }
 
       const user = await prisma.user.findUnique({
@@ -91,7 +97,7 @@ const authController = {
       const token = signToken(user.id);
       successResponseFactory.ok(res, token);
     } catch (error) {
-      res.json(errorFactory.internalError());
+      errorFactory.internalError(res);
     }
   },
 };

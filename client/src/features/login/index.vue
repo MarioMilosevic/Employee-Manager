@@ -46,7 +46,7 @@ import { ref } from 'vue'
 import { login } from 'src/api/api'
 
 const loginCredentials = ref({
-  email: 'mario@gmail.com',
+  email: 'mario1212@gmail.com',
   password: '12345678',
 })
 
@@ -59,11 +59,13 @@ const router = useRouter()
 
 const submitLogin = async () => {
   try {
-    const validation = loginSchema.safeParse(loginCredentials.value)
-    if (!validation.success) {
-      return
-    }
-    const token = await login(validation.data)
+    // const validation = loginSchema.safeParse(loginCredentials.value)
+    // if (!validation.success) {
+    //   return
+    // }
+    // const token = await login(validation.data)
+    const token = await login(loginCredentials.value)
+    console.log(token)
     if (token) {
       localStorage.setItem('login-token', token)
       router.push('/')

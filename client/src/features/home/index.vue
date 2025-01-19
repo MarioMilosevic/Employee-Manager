@@ -102,7 +102,7 @@ const formErrors = ref(emptyEmployeeErrors)
 
 const fetchEmployees = async () => {
   try {
-    const data = await getData('/employee')
+    const data = await getData('employee')
     employees.value = data
   } catch (error) {
     console.error('Failed to fetch employees', error)
