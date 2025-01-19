@@ -7,7 +7,6 @@ type PostType = {
 }
 
 export const postData = async (postData: PostType, path: string) => {
-  console.log("ovo saljem",postData)
   try {
     const response = await fetch(`${baseUrl}/${path}`, {
       method: 'POST',
@@ -49,11 +48,12 @@ export const editData = async (data: PostType, path: string) => {
   }
 }
 
-export const deleteData = async (path: string) => {
-  const response = await fetch(`${baseUrl}/${path}`, {
+export const deleteData = async (path: string, id:number) => {
+  console.log("ovo je path",path)
+  const response = await fetch(`${baseUrl}/${path}/${id}`, {
     method: 'DELETE',
   })
-  return getDataFromJson(response)
+  return response.ok
 }
 
 export const login = async (data:LoginCredentialsType) => {

@@ -15,8 +15,6 @@ const authController = {
     try {
       const { firstName, lastName, email, password, passwordConfirm } =
         req.body;
-      console.log(password)
-      console.log(passwordConfirm)
 
       if (validator.isEmpty(firstName) || validator.isEmpty(lastName)) {
         errorFactory.badRequest(res, "First or last name cannot be empty");
@@ -73,7 +71,7 @@ const authController = {
 
       if (!userInfo) {
         errorFactory.notAuthorized(res, "Invalid login credentials");
-        return; 
+        return;
       }
 
       const checkPassword = await prisma.user.checkPassword(
@@ -83,7 +81,7 @@ const authController = {
 
       if (!checkPassword) {
         errorFactory.notAuthorized(res, "Invalid login credentials");
-        return; 
+        return;
       }
 
       const user = await prisma.user.findUnique({

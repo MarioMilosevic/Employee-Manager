@@ -102,14 +102,12 @@ const formErrors = ref(emptyEmployeeErrors)
 
 const fetchEmployees = async () => {
   try {
-    const data = await getData('employee')
-    employees.value = data
+    const response = await getData('employee')
+    employees.value = response.data
   } catch (error) {
     console.error('Failed to fetch employees', error)
   }
 }
-
-onMounted(fetchEmployees)
 
 const updateEmployees = async (updatedEmployee: EmployeeType) => {
   employees.value = employees.value.map((emp) =>
@@ -126,9 +124,12 @@ const addEmployee = (employee: EmployeeType) => {
   employees.value = [...employees.value, employee]
 }
 
-const removeEmployee = (employee: EmployeeType) => {
-  employees.value = employees.value.filter((emp) => emp.id !== employee.id)
+const removeEmployee = (id: number) => {
+  employees.value = employees.value.filter((emp) => emp.id !== id)
 }
+// const removeEmployee = (employee: EmployeeType) => {
+//   employees.value = employees.value.filter((emp) => emp.id !== employee.id)
+// }
 
 const resetForm = () => {
   formErrors.value = emptyEmployeeErrors
@@ -137,8 +138,8 @@ const resetForm = () => {
 const submitForm = async () => {
   const validation = employeeFormSchema.safeParse(singleEmployee.value)
   if (validation.success) {
-    const response = await postData(validation.data, '/employee')
-    addEmployee(response)
+    const response = await postData(validation.data, 'employee')
+    addEmployee(response.data)
     resetForm()
   } else {
     const updatedErorrs = renderValidationErrors(formErrors, validation.error.errors)
@@ -152,14 +153,20 @@ const editEmployee = async (id: string) => {
   setModal(true)
 }
 
-const deleteEmployee = async (id: string) => {
-  const data = await deleteData(id)
-  removeEmployee(data)
+const deleteEmployee = async (id: number) => {
+  const isStatusOk = await deleteData(`employee`,id)
+  if (isStatusOk) {
+    removeEmployee(id)
+  }
 }
 
 const setModal = (value: boolean) => {
   isModalOpen.value = value
 }
+
+onMounted(() => {
+  fetchEmployees()
+})
 </script>
 
 <style scoped lang="scss">
