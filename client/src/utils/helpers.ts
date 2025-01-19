@@ -25,4 +25,3 @@ export const renderValidationErrors = (
 }
 
 export const getDataFromJson = async (response: Response) => (await response.json())
-// export const getDataFromJson = async (response: Response) => (await response.json()).data

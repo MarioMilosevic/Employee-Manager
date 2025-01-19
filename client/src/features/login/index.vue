@@ -39,7 +39,7 @@ import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 // import { loginSchema } from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { login } from 'src/api/api'
 
 const loginCredentials = ref({
@@ -47,8 +47,19 @@ const loginCredentials = ref({
   password: '12345678',
 })
 
-
 const loginFormError = ref('')
+
+watch(
+  () => ({ email: loginCredentials.value.email, password: loginCredentials.value.password }),
+  (newValue, oldValue) => {
+    if (
+      (loginFormError.value !== '' && oldValue.email !== newValue.email) ||
+      oldValue.password !== newValue.password
+    ) {
+      loginFormError.value = ''
+    }
+  },
+)
 
 const router = useRouter()
 
@@ -71,5 +82,3 @@ const submitLogin = async () => {
   }
 }
 </script>
-
-<style scoped lang="scss"></style>

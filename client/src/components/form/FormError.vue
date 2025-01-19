@@ -9,6 +9,6 @@
 @use 'src/scss/_variables' as *;
 .error {
   color: $red-color;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
 }
 </style>
