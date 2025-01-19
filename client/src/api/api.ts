@@ -7,6 +7,7 @@ type PostType = {
 }
 
 export const postData = async (postData: PostType, path: string) => {
+  console.log("ovo saljem",postData)
   try {
     const response = await fetch(`${baseUrl}/${path}`, {
       method: 'POST',

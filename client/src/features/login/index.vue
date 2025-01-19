@@ -52,10 +52,9 @@ const loginFormError = ref('')
 watch(
   () => ({ email: loginCredentials.value.email, password: loginCredentials.value.password }),
   (newValue, oldValue) => {
-    if (
-      (loginFormError.value !== '' && oldValue.email !== newValue.email) ||
-      oldValue.password !== newValue.password
-    ) {
+    const emailChanged = oldValue.email !== newValue.email
+    const passwordChanged = oldValue.password !== newValue.password
+    if (loginFormError.value !== '' && (emailChanged || passwordChanged)) {
       loginFormError.value = ''
     }
   },

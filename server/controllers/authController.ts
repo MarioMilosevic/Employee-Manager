@@ -15,6 +15,8 @@ const authController = {
     try {
       const { firstName, lastName, email, password, passwordConfirm } =
         req.body;
+      console.log(password)
+      console.log(passwordConfirm)
 
       if (validator.isEmpty(firstName) || validator.isEmpty(lastName)) {
         errorFactory.badRequest(res, "First or last name cannot be empty");
