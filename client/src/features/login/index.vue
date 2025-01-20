@@ -3,17 +3,18 @@
     <template #title>
       <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }">Login</TitleName>
     </template>
-    <template v-for="input in loginInputs" :key="input.id" #[input.type]>
+    <template v-for="input in loginInputs" :key="input.id" #[input.name]>
       <FormBlock>
         <template #input>
           <FormInput
             :type="input.type"
             :placeholder="input.placeholder"
-            v-model="loginCredentials[input.type]"
+            v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
           />
         </template>
       </FormBlock>
     </template>
+
     <template #submit>
       <ActionButton type="submit" color="purple">Login</ActionButton>
     </template>
@@ -21,35 +22,6 @@
       <FormGuest link-text="Sign Up" />
     </template>
   </AuthForm>
-  <!-- <AuthForm @submit.prevent="submitLogin">
-    <template #title>
-      <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }">Login</TitleName>
-    </template>
-    <template #email>
-      <FormBlock>
-        <template #input>
-          <FormInput type="email" placeholder="Email" v-model="loginCredentials.email" />
-
-        </template>
-      </FormBlock>
-    </template>
-    <template #password>
-      <FormBlock>
-        <template #input>
-          <FormInput type="password" placeholder="Password" v-model="loginCredentials.password" />
-        </template>
-        <template #error>
-          <FormError>{{ loginFormError }}</FormError>
-        </template>
-      </FormBlock>
-    </template>
-    <template #submit>
-      <ActionButton type="submit" color="purple">Login</ActionButton>
-    </template>
-    <template #text>
-      <FormGuest link-text="Sign Up" />
-    </template>
-  </AuthForm> -->
 </template>
 
 <script setup lang="ts">

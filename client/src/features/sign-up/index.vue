@@ -1,65 +1,16 @@
 <template>
-  <AuthForm @submit.prevent="submitForm">
+  <AuthForm @submit.prevent="submitForm" :inputs="signUpInputs">
     <template #title>
       <TitleName :style="{ color: '#0b050f', paddingBottom: '3rem' }">Sign Up</TitleName>
     </template>
-    <template #firstName>
-      <FormBlock>
-        <template #input>
-          <FormInput type="text" placeholder="First Name" v-model="signUpCredentials.firstName" />
-        </template>
-        <!-- <template #error>
-          <FormError>{{ signUpFormErrors.firstName }}</FormError>
-        </template> -->
-      </FormBlock>
-    </template>
-    <template #lastName>
-      <FormBlock>
-        <template #input>
-          <FormInput type="text" placeholder="Last Name" v-model="signUpCredentials.lastName" />
-        </template>
-        <!-- <template #error>
-          <FormError>{{ signUpFormErrors.lastName }}</FormError>
-        </template> -->
-      </FormBlock>
-    </template>
-    <template #email>
-      <FormBlock>
-        <template #input>
-          <FormInput type="email" placeholder="Email" v-model="signUpCredentials.email" />
-        </template>
-        <!-- <template #error>
-          <FormError>{{ signUpFormErrors.email }}</FormError>
-        </template> -->
-      </FormBlock>
-    </template>
-    <template #password>
+    <template v-for="input in signUpInputs" :key="input.id" #[input.name]>
       <FormBlock>
         <template #input>
           <FormInput
-            dataName="password"
-            type="password"
-            placeholder="Password"
-            v-model="signUpCredentials.password"
+            :type="input.type"
+            :placeholder="input.placeholder"
+            v-model="signUpCredentials[input.name as keyof typeof signUpCredentials]"
           />
-        </template>
-        <!-- <template #error>
-          <FormError>{{ signUpFormErrors.password }}</FormError>
-        </template> -->
-      </FormBlock>
-    </template>
-    <template #confirmPassword>
-      <FormBlock>
-        <template #input>
-          <FormInput
-            dataName="confirm"
-            type="password"
-            placeholder="Confirm Password"
-            v-model="signUpCredentials.passwordConfirm"
-          />
-        </template>
-        <template #error>
-          <FormError>{{ signUpFormError }}</FormError>
         </template>
       </FormBlock>
     </template>
@@ -75,7 +26,8 @@
 <script setup lang="ts">
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
-import FormError from 'src/components/form/FormError.vue'
+// import FormError from 'src/components/form/FormError.vue'
+import { signUpInputs } from 'src/utils/constants'
 import TitleName from 'src/components/layout/TitleName.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
@@ -84,7 +36,7 @@ import { postData } from 'src/api/api'
 // import { renderValidationErrors } from 'src/utils/helpers'
 // import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { SignUpCredentialsType } from 'src/utils/types'
 import { compareObjectFieldChange } from 'src/utils/helpers'
 
@@ -116,6 +68,8 @@ watch(
     }
   },
 )
+
+
 
 const submitForm = async () => {
   try {

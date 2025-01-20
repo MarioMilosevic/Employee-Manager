@@ -39,6 +39,7 @@ export type SignUpCredentialsType = {
 
 export type InputType = {
   id: number,
+  name: string;
   type: string;
   placeholder:string
 }
