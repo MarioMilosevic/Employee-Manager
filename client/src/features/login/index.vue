@@ -4,17 +4,12 @@
       <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }">Login</TitleName>
     </template>
     <template v-for="input in loginInputs" :key="input.id" #[input.name]>
-      <FormBlock>
-        <template #input>
-          <FormInput
-            :type="input.type"
-            :placeholder="input.placeholder"
-            v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
-          />
-        </template>
-      </FormBlock>
+      <FormInput
+        :type="input.type"
+        :placeholder="input.placeholder"
+        v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
+      />
     </template>
-
     <template #submit>
       <ActionButton type="submit" color="purple">Login</ActionButton>
     </template>
@@ -26,7 +21,7 @@
 
 <script setup lang="ts">
 import AuthForm from 'src/components/form/AuthForm.vue'
-import FormBlock from 'src/components/form/FormBlock.vue'
+// import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 // import FormError from 'src/components/form/FormError.vue'
 import TitleName from 'src/components/layout/TitleName.vue'

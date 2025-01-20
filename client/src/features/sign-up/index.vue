@@ -4,15 +4,11 @@
       <TitleName :style="{ color: '#0b050f', paddingBottom: '3rem' }">Sign Up</TitleName>
     </template>
     <template v-for="input in signUpInputs" :key="input.id" #[input.name]>
-      <FormBlock>
-        <template #input>
-          <FormInput
-            :type="input.type"
-            :placeholder="input.placeholder"
-            v-model="signUpCredentials[input.name as keyof typeof signUpCredentials]"
-          />
-        </template>
-      </FormBlock>
+      <FormInput
+        :type="input.type"
+        :placeholder="input.placeholder"
+        v-model="signUpCredentials[input.name as keyof typeof signUpCredentials]"
+      />
     </template>
     <template #submit>
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
@@ -24,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import FormBlock from 'src/components/form/FormBlock.vue'
+// import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 // import FormError from 'src/components/form/FormError.vue'
 import { signUpInputs } from 'src/utils/constants'
@@ -36,7 +32,7 @@ import { postData } from 'src/api/api'
 // import { renderValidationErrors } from 'src/utils/helpers'
 // import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { SignUpCredentialsType } from 'src/utils/types'
 import { compareObjectFieldChange } from 'src/utils/helpers'
 
@@ -68,8 +64,6 @@ watch(
     }
   },
 )
-
-
 
 const submitForm = async () => {
   try {

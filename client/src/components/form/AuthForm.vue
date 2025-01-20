@@ -2,11 +2,6 @@
   <form class="form">
     <slot name="title" />
     <slot v-for="input in props.inputs" :key="input.id" :name="input.name" />
-    <!-- <slot name="firstName" />
-    <slot name="lastName" />
-    <slot name="email" />
-    <slot name="password" />
-    <slot name="confirmPassword"/> -->
     <slot name="submit" />
     <slot name="text" />
   </form>
