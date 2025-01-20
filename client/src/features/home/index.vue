@@ -121,6 +121,7 @@ const setTrainingCompleted = (value: boolean) => {
 }
 
 const addEmployee = (employee: EmployeeType) => {
+  // push
   employees.value = [...employees.value, employee]
 }
 

@@ -23,13 +23,6 @@ export type UserType = {
   passwordConfirm:string
 }
 
-// export type UserFormType = {
-//   firstName: string
-//   lastName: string
-//   email: string
-//   password: string
-//   confirm: string
-// }
 
 export type LoginCredentialsType = {
   email: string;
@@ -42,4 +35,10 @@ export type SignUpCredentialsType = {
   email: string
   password: string
   passwordConfirm: string
+}
+
+export type InputType = {
+  id: number,
+  type: string;
+  placeholder:string
 }

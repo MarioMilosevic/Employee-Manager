@@ -1,17 +1,30 @@
 <template>
   <form class="form">
     <slot name="title"/>
-    <slot name="firstName" />
+     <slot v-for="input in props.inputs" :key="input.id" :name="input.type"/>
+
+    <!-- <slot name="firstName" />
     <slot name="lastName" />
     <slot name="email" />
     <slot name="password" />
-    <slot name="confirmPassword" />
+    <slot name="confirmPassword"/> -->
     <slot name="submit"/>
     <slot name="text"/>
   </form>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { PropType } from 'vue';
+import { InputType } from 'src/utils/types';
+
+const props = defineProps({
+  inputs: {
+    type:Array as PropType<InputType[]>
+  }
+})
+
+</script>
+
 
 <style lang="scss" scoped>
 @use 'src/scss/_variables' as *;
