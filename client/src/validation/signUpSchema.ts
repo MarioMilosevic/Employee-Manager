@@ -13,10 +13,10 @@ export const signUpSchema = z
       message: 'Not valid input',
     }),
     password: z.string().min(8, passwordMessage),
-    confirm: z.string().min(8, passwordMessage),
+    passwordConfirm: z.string().min(8, passwordMessage),
   })
   .required()
-  .refine((data) => data.password === data.confirm, {
+  .refine((data) => data.password === data.passwordConfirm, {
     message: "Passwords don't match",
     path: ['confirm'],
   })

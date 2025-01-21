@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType } from 'src/utils/types'
 import { PropType } from 'vue'

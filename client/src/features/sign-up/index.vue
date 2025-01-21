@@ -4,11 +4,18 @@
       <TitleName :style="{ color: '#0b050f', paddingBottom: '3rem' }">Sign Up</TitleName>
     </template>
     <template v-for="input in signUpInputs" :key="input.id" #[input.name]>
-      <FormInput
-        :type="input.type"
-        :placeholder="input.placeholder"
-        v-model="signUpCredentials[input.name as keyof typeof signUpCredentials]"
-      />
+      <FormBlock>
+        <template #input>
+          <FormInput
+            :type="input.type"
+            :placeholder="input.placeholder"
+            v-model="signUpCredentials[input.name as keyof typeof signUpCredentials]"
+          />
+        </template>
+        <template #error>
+          <FormError>{{ signUpFormErrors[input.name as keyof typeof signUpCredentials] }}</FormError>
+        </template>
+      </FormBlock>
     </template>
     <template #submit>
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
@@ -20,22 +27,22 @@
 </template>
 
 <script setup lang="ts">
-// import FormBlock from 'src/components/form/FormBlock.vue'
+import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
-// import FormError from 'src/components/form/FormError.vue'
+import FormError from 'src/components/form/FormError.vue'
 import { signUpInputs } from 'src/utils/constants'
 import TitleName from 'src/components/layout/TitleName.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { postData } from 'src/api/api'
-// import { renderValidationErrors } from 'src/utils/helpers'
-// import { signUpSchema } from 'src/validation/signUpSchema'
+import { renderValidationErrors } from 'src/utils/helpers'
+import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
 import { SignUpCredentialsType } from 'src/utils/types'
-import { compareObjectFieldChange } from 'src/utils/helpers'
-import { showToast } from 'src/utils/toast'
+// import { compareObjectFieldChange } from 'src/utils/helpers'
+// import { showToast } from 'src/utils/toast'
 
 const signUpCredentials = ref<SignUpCredentialsType>({
   firstName: '',
@@ -45,30 +52,52 @@ const signUpCredentials = ref<SignUpCredentialsType>({
   passwordConfirm: '',
 })
 
-const signUpFormError = ref('')
+const signUpFormErrors = ref<SignUpCredentialsType>({
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  passwordConfirm: '',
+})
 
 const router = useRouter()
 
-watch(
-  () => ({ ...signUpCredentials.value }),
-  (newValue, oldValue) => {
-    const hasFieldChanged = compareObjectFieldChange(newValue, oldValue)
-    if (signUpFormError.value !== '' && hasFieldChanged) {
-      signUpFormError.value = ''
-    }
-  },
-)
+// watch(
+//   () => ({ ...signUpCredentials.value }),
+//   (newValue, oldValue) => {
+//     const hasFieldChanged = compareObjectFieldChange(newValue, oldValue)
+//     if (signUpFormError.value !== '' && hasFieldChanged) {
+//       signUpFormError.value = ''
+//     }
+//   },
+// )
 
 const submitForm = async () => {
   try {
-    const response = await postData(signUpCredentials.value, 'users/sign-up')
-    console.log(response)
-    if (response.data) {
-      router.push('/login')
+    const validation = signUpSchema.safeParse(signUpCredentials.value)
+    console.log(validation)
+    if (validation.success) {
+      // onda radim logiku za sign up
     } else {
-      showToast(response.message, 'error')
-      signUpFormError.value = response.message
+      const updatedErorrs = renderValidationErrors(signUpFormErrors, validation.error.errors)
+      console.log(updatedErorrs)
+        console.log(signUpFormErrors.value)
+        signUpFormErrors.value = updatedErorrs
+        console.log(signUpFormErrors.value)
+      // console.log('erorri', updatedErorrs)
+      // console.log('formErrrori', signUpFormErrors.value)
     }
+
+    // const response = await postData(signUpCredentials.value, 'users/sign-up')
+    // console.log(response)
+    // if (response.data) {
+    //   router.push('/login')
+    // } else {
+    //   showToast(response.message, 'error')
+    //   signUpFormError.value = response.message
+    // }
+
+
     // const validation = signUpSchema.safeParse(signUpCredentials.value)
     // console.log(validation)
     // if (validation.success) {

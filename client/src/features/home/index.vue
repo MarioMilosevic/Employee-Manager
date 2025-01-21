@@ -1,47 +1,21 @@
 <template>
   <TitleName>Employee Manager</TitleName>
-  <FormComponent @submit.prevent="submitForm" class="form">
-    <template #firstName>
-      <FormBlock>
+  <AuthForm @submit.prevent="submitForm" class="form" :inputs="homeInputs">
+    <template v-for="input in homeInputs" :key="input.id" #[input.name]>
+     <FormBlock>
         <template #input>
-          <FormInput type="text" placeholder="First Name" v-model="singleEmployee.firstName" />
+          <FormInput
+            :type="input.type"
+            :placeholder="input.placeholder"
+            v-model="singleEmployee[input.name as keyof typeof singleEmployee]"
+          />
         </template>
         <template #error>
-          <FormError>{{ formErrors.firstName }}</FormError>
+          <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
         </template>
       </FormBlock>
     </template>
-    <template #lastName>
-      <FormBlock>
-        <template #input>
-          <FormInput type="text" placeholder="Last Name" v-model="singleEmployee.lastName" />
-        </template>
-        <template #error>
-          <FormError>{{ formErrors.lastName }}</FormError>
-        </template>
-      </FormBlock>
-    </template>
-    <template #address>
-      <FormBlock>
-        <template #input>
-          <FormInput type="text" placeholder="Address" v-model="singleEmployee.address" />
-        </template>
-        <template #error>
-          <FormError>{{ formErrors.address }}</FormError>
-        </template>
-      </FormBlock>
-    </template>
-    <template #startYear>
-      <FormBlock>
-        <template #input>
-          <FormInput type="date" placeholder="Start Year" v-model="singleEmployee.startYear" />
-        </template>
-        <template #error>
-          <FormError>{{ formErrors.startYear }}</FormError>
-        </template>
-      </FormBlock>
-    </template>
-    <template #trainingCompleted>
+      <template #default>
       <FormCheckbox
         :trainingCompleted="singleEmployee.trainingCompleted"
         @checkbox-event="setTrainingCompleted"
@@ -52,8 +26,8 @@
         Submit
       </ActionButton>
     </template>
-  </FormComponent>
 
+  </AuthForm>
   <EmployeeInfo
     v-for="employee in employees"
     :key="employee.id"
@@ -69,19 +43,20 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import FormModal from 'src/components/form/FormModal.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormInput from 'src/components/form/FormInput.vue'
-import FormComponent from 'src/components/form/FormComponent.vue'
 import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormError from 'src/components/form/FormError.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
+import AuthForm from 'src/components/form/AuthForm.vue'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { emptyEmployeeErrors } from 'src/utils/constants'
 import { EmployeeType } from 'src/utils/types'
+import { homeInputs } from 'src/utils/constants'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { ref, onMounted } from 'vue'
 import { getData, deleteData, postData } from 'src/api/api'
@@ -90,13 +65,15 @@ const employees = ref([] as EmployeeType[])
 const isModalOpen = ref(false)
 
 const singleEmployee = ref({
-  id: 0,
+  // id: 0,
   firstName: '',
   lastName: '',
   address: '',
   startYear: '',
   trainingCompleted: false,
 })
+
+console.log(homeInputs)
 
 const formErrors = ref(emptyEmployeeErrors)
 
@@ -122,7 +99,7 @@ const setTrainingCompleted = (value: boolean) => {
 
 const addEmployee = (employee: EmployeeType) => {
   // push
-  employees.value = [...employees.value, employee]
+  employees.value.push(employee)
 }
 
 const removeEmployee = (id: number) => {

@@ -1,44 +1,35 @@
 <template>
   <div class="checkbox">
     <label for="training">Training Completed?</label>
-    <input
-      id="training"
-      type="checkbox"
-      :checked="initialValue"
-      @change="toggleCompleted"
-    />
+    <input id="training" type="checkbox" :checked="initialValue" @change="toggleCompleted" />
   </div>
 </template>
 
-<script lang="ts">
-import { ref, watch } from 'vue';
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 
-export default {
-  props: {
-    trainingCompleted: {
-      type: Boolean,
-      required: true,
-    },
+const props = defineProps({
+  trainingCompleted: {
+    type: Boolean,
+    required: true,
   },
-  emits: ['checkbox-event'],
-  setup(props, { emit }) {
-    const initialValue = ref(props.trainingCompleted);
+})
+const emits = defineEmits(['checkbox-event'])
+const initialValue = ref(props.trainingCompleted)
 
-    watch(() => props.trainingCompleted, (newValue) => {
-      initialValue.value = newValue;
-    });
+console.log('ovo moram provjeriti')
 
-    const toggleCompleted = (event: Event) => {
-      const value = (event.target as HTMLInputElement).checked;
-      emit('checkbox-event', value);
-    };
+// watch(
+//   () => props.trainingCompleted,
+//   (newValue) => {
+//     initialValue.value = newValue
+//   },
+// )
 
-    return {
-      initialValue,
-      toggleCompleted,
-    };
-  },
-};
+const toggleCompleted = (event: Event) => {
+  const value = (event.target as HTMLInputElement).checked
+  emits('checkbox-event', value)
+}
 </script>
 
 <style lang="scss" scoped>

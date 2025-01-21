@@ -4,19 +4,10 @@
   </button>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { computed, PropType } from 'vue'
-export default {
-  setup(props) {
-    const buttonColor = computed(() => {
-      return props.color
-    })
 
-    return {
-      buttonColor,
-    }
-  },
-  props: {
+const props = defineProps({
     color: {
       type: String as PropType<'white' | 'red' | 'green' | 'purple'>,
       default: 'white',
@@ -24,9 +15,11 @@ export default {
     type: {
       type: String as PropType<'button' | 'submit' | 'reset'>,
       default: 'button',
-    },
   },
-}
+})
+const buttonColor = computed(() => {
+  return props.color
+})
 </script>
 
 <style lang="scss" scoped>

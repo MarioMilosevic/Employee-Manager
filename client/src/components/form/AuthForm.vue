@@ -2,6 +2,7 @@
   <form class="form">
     <slot name="title" />
     <slot v-for="input in props.inputs" :key="input.id" :name="input.name" />
+    <slot/>
     <slot name="submit" />
     <slot name="text" />
   </form>
@@ -17,19 +18,3 @@ const props = defineProps({
   },
 })
 </script>
-
-<style lang="scss" scoped>
-@use 'src/scss/_variables' as *;
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: $medium;
-  background-color: $primary-shade-color;
-  background-color: $secondary-color;
-  padding: $big $very-big;
-  width: 400px;
-  margin: 5rem auto;
-  border-radius: $medium-radius;
-}
-</style>

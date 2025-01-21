@@ -3,7 +3,7 @@
     <div class="overlay__modal">
       <h2 class="overlay__modal-title">Edit Employee</h2>
       <button @click="closeModal" class="overlay__modal-button">X</button>
-      <FormComponent @submit.prevent="submitForm" class="overlay__modal-form">
+      <AuthForm @submit.prevent="submitForm" class="overlay__modal-form">
         <template #firstName>
           <FormBlock>
             <template #input>
@@ -55,7 +55,7 @@
             Submit
           </ActionButton>
         </template>
-      </FormComponent>
+      </AuthForm>
     </div>
   </div>
 </template>
@@ -63,7 +63,7 @@
 <script lang="ts" setup>
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
-import FormComponent from 'src/components/form/FormComponent.vue'
+import AuthForm from 'src/components/form/AuthForm.vue'
 // import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'

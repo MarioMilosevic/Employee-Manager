@@ -11,6 +11,39 @@ export const emptyEmployeeErrors: EmployeeErrorsType = {
 
 export const passwordMessage = { message: 'Password must be at least 8 characters' }
 
+export const homeInputs = [
+  {
+    id: 1,
+    name: 'firstName',
+    type:'text',
+    placeholder:"First Name"
+},
+  {
+    id: 2,
+    name: 'lastName',
+    type:'text',
+    placeholder:"Last Name"
+},
+  {
+    id: 3,
+    name: 'startYear',
+    type:'text',
+    placeholder:"Start Year"
+},
+  {
+    id: 4,
+    name: 'address',
+    type:'text',
+    placeholder:"Address"
+},
+//   {
+//     id: 5,
+//     name: 'isAdmin',
+//     type:'text',
+//     placeholder:"Is Admin ?"
+// },
+]
+
 export const loginInputs = [
   {
     id: 1,
@@ -53,8 +86,8 @@ export const signUpInputs = [
   },
   {
     id: 5,
-    name: 'confirmPassword',
+    name: 'passwordConfirm',
     type: 'password',
-    placeholder: 'Confirm Pssword',
+    placeholder: 'Confirm Password',
   },
 ]
