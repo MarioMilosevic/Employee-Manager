@@ -42,11 +42,10 @@ import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import { PropType, ref, onMounted } from 'vue'
+import { PropType, ref } from 'vue'
 import { EmployeeType } from 'src/utils/types'
 import { editData } from 'src/api/api'
 import { InputType } from 'src/utils/types'
-
 
 const emits = defineEmits(['close-modal', 'update-event'])
 const props = defineProps({
@@ -58,11 +57,6 @@ const props = defineProps({
     type: Array as PropType<InputType[]>,
     required: true,
   },
-})
-
-onMounted(() => {
-  console.log(props.singleEmployee)
-  console.log(employee)
 })
 
 const employee = ref({ ...props.singleEmployee })
@@ -78,25 +72,20 @@ const closeModal = () => {
   emits('close-modal')
 }
 
-const editTrainingCompleted = (value: boolean) => {
-  employee.value.trainingCompleted = value
-}
+const setTrainingCompleted = (value: boolean) => (employee.value.trainingCompleted = value)
 
-// const updateFormState = <K extends keyof typeof employee.value>(
-//   key: K,
-//   value: (typeof employee.value)[K],
-// ) => {
-//   employee.value[key] = value
-// }
 const submitForm = async () => {
+  console.log('kada submitam', employee.value)
   const validation = employeeFormSchema.safeParse(employee.value)
   if (validation.success) {
+    console.log(validation.data)
     const validationData = {
       id: employee.value.id,
       ...validation.data,
     }
 
     const response = await editData(validationData, `employee/${employee.value.id}`)
+    console.log(response)
     emits('update-event', response.data)
   } else {
     const errors = validation.error.errors
@@ -107,7 +96,6 @@ const submitForm = async () => {
     })
   }
 }
-
 </script>
 
 <style lang="scss" scoped>

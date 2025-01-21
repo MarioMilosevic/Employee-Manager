@@ -1,13 +1,7 @@
 import { Response } from "express";
 
-function createSuccessResponse(
-  res: Response,
-  message: string,
-  status: number,
-  data?: any
-) {
+function createSuccessResponse(res: Response, status: number, data?: any) {
   const response = {
-    message,
     status,
     data,
   };
@@ -15,22 +9,13 @@ function createSuccessResponse(
 }
 
 export default {
-  ok(res: Response, data: any, message: string = "OK", status: number = 200) {
-    return createSuccessResponse(res, message, status, data);
+  ok(res: Response, data: any, status: number = 200) {
+    return createSuccessResponse(res, status, data);
   },
-  created(
-    res: Response,
-    data: any,
-    message: string = "Successfully created",
-    status: number = 201
-  ) {
-    return createSuccessResponse(res, message, status, data);
+  created(res: Response, data: any, status: number = 201) {
+    return createSuccessResponse(res, status, data);
   },
-  noContent(
-    res: Response,
-    message: string = "Successfull request",
-    status: number = 204
-  ) {
-    return createSuccessResponse(res, message, status);
+  noContent(res: Response, status: number = 204) {
+    return createSuccessResponse(res, status);
   },
 };

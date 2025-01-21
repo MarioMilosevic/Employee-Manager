@@ -1,12 +1,12 @@
 <template>
-  <div class="checkbox">
+  <fieldset class="checkbox">
     <label for="training">Training Completed?</label>
     <input id="training" type="checkbox" :checked="initialValue" @change="toggleCompleted" />
-  </div>
+  </fieldset>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   trainingCompleted: {
@@ -16,15 +16,6 @@ const props = defineProps({
 })
 const emits = defineEmits(['checkbox-event'])
 const initialValue = ref(props.trainingCompleted)
-
-console.log('ovo moram provjeriti')
-
-// watch(
-//   () => props.trainingCompleted,
-//   (newValue) => {
-//     initialValue.value = newValue
-//   },
-// )
 
 const toggleCompleted = (event: Event) => {
   const value = (event.target as HTMLInputElement).checked

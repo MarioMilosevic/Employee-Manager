@@ -1,16 +1,17 @@
 <template>
-  <div class="block">
-    <slot name="input"/>
+  <fieldset class="block">
+    <slot name="input" />
     <span class="block__span">
-      <slot name="error"/>
+      <slot name="error" />
     </span>
-  </div>
+  </fieldset>
 </template>
 
 <style lang="scss" scoped>
-  @use "src/scss/_variables" as *;
+@use 'src/scss/_variables' as *;
 .block {
   position: relative;
+  border: none;
 
   &__span {
     position: absolute;
@@ -18,5 +19,4 @@
     left: 0%;
   }
 }
-
 </style>

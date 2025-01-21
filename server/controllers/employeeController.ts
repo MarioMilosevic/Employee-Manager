@@ -47,17 +47,28 @@ const employee = {
   },
   async delete(req: CustomRequest, res: Response) {
     try {
-      await prisma.employee.delete({
+      const employee = await prisma.employee.findUnique({
         where: { id: req.requestPayload.id },
       });
-      successResponseFactory.noContent(res, "Employee deleted", 204);
+
+      if (!employee) {
+        errorFactory.notFound(res, "Employee has not been found");
+      }
+      const deletedEmployee = await prisma.employee.delete({
+        where: { id: req.requestPayload.id },
+      });
+      if (deletedEmployee) {
+        successResponseFactory.noContent(res, 204);
+      } else {
+        errorFactory.internalError(res);
+      }
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log("uslo u catch");
     }
   },
   async edit(req: CustomRequest, res: Response) {
     try {
-      console.log('USLO')
+      console.log("USLO");
       const updatedEmployee = await prisma.employee.update({
         where: { id: req.requestPayload.id },
         data: req.requestPayload.data,

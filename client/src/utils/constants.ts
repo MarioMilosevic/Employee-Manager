@@ -36,7 +36,7 @@ export const homeInputs = [
   {
     id: 3,
     name: 'startYear',
-    type:'text',
+    type:'date',
     placeholder:"Start Year"
 },
   {

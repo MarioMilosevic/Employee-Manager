@@ -50,12 +50,14 @@ export const editData = async (data: PostType, path: string) => {
 }
 
 export const deleteData = async (path: string, id: number) => {
-  // async await da vidim oko toga
-  console.log('ovo je path', path)
-  const response = await fetch(`${baseUrl}/${path}/${id}`, {
-    method: 'DELETE',
-  })
-  return response.ok
+  try {
+    const response = await fetch(`${baseUrl}/${path}/${id}`, {
+      method: 'DELETE',
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const login = async (data: LoginCredentialsType) => {

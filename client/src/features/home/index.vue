@@ -119,9 +119,20 @@ const editEmployee = async (id: string) => {
 }
 
 const deleteEmployee = async (id: number) => {
-  const isStatusOk = await deleteData(`employee`, id)
-  if (isStatusOk) {
-    removeEmployee(id)
+  try {
+    const response = await deleteData('employee', 15)
+    console.log('ovo dobijem odje', response)
+    // if (response.ok) {
+    //   removeEmployee(id)
+    // } else {
+    //   throw ''
+    // }
+    // const isStatusOk = await deleteData(`employee`, id)
+    // if (isStatusOk) {
+    //   removeEmployee(id)
+    // }
+  } catch (error) {
+    console.log(error)
   }
 }
 
