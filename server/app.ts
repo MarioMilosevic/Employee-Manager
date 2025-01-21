@@ -19,4 +19,6 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
   errorFactory.notFound(res);
 });
 
+
 export default app;
+

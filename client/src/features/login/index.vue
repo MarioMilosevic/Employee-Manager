@@ -33,6 +33,7 @@ import { useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
 import { login } from 'src/api/api'
 import { compareObjectFieldChange } from 'src/utils/helpers'
+import { showToast } from 'src/utils/toast'
 
 const loginCredentials = ref({
   email: 'mario12@gmail.com',
@@ -66,6 +67,7 @@ const submitLogin = async () => {
       router.push('/')
     } else {
       loginFormError.value = response.message
+      showToast(response.message, 'error')
     }
   } catch (error) {
     console.error(error)

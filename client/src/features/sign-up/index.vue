@@ -35,6 +35,7 @@ import { useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
 import { SignUpCredentialsType } from 'src/utils/types'
 import { compareObjectFieldChange } from 'src/utils/helpers'
+import { showToast } from 'src/utils/toast'
 
 const signUpCredentials = ref<SignUpCredentialsType>({
   firstName: '',
@@ -45,13 +46,6 @@ const signUpCredentials = ref<SignUpCredentialsType>({
 })
 
 const signUpFormError = ref('')
-// const signUpFormErrors = ref({
-//   firstName: '',
-//   lastName: '',
-//   email: '',
-//   password: '',
-//   confirm: '',
-// })
 
 const router = useRouter()
 
@@ -72,6 +66,7 @@ const submitForm = async () => {
     if (response.data) {
       router.push('/login')
     } else {
+      showToast(response.message, 'error')
       signUpFormError.value = response.message
     }
     // const validation = signUpSchema.safeParse(signUpCredentials.value)

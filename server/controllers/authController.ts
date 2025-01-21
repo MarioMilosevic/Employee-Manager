@@ -18,30 +18,25 @@ const authController = {
 
       if (validator.isEmpty(firstName) || validator.isEmpty(lastName)) {
         errorFactory.badRequest(res, "First or last name cannot be empty");
-        return;
       }
 
       if (!validator.isEmail(email) || !validator.isLowercase(email)) {
         errorFactory.badRequest(res, "Please provide a valid email address");
-        return;
       }
       if (!validator.isLength(password, { min: 6 })) {
         errorFactory.badRequest(
           res,
           "Password must be at least 6 characters long"
         );
-        return;
       }
       if (password !== passwordConfirm) {
         errorFactory.badRequest(res, "Passwords are not the same");
-        return;
       }
       const existingEmail = await prisma.user.findUnique({
         where: { email },
       });
       if (existingEmail) {
         errorFactory.badRequest(res, "User with this email already exists");
-        return;
       }
 
       const user = await prisma.user.create({
@@ -55,7 +50,7 @@ const authController = {
       });
       successResponseFactory.created(res, user);
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log(error);
     }
   },
   async login(req: Request, res: Response, next: NextFunction) {
@@ -70,8 +65,7 @@ const authController = {
       });
 
       if (!userInfo) {
-        errorFactory.notAuthorized(res, "Invalid login credentials");
-        return;
+        errorFactory.notAuthorized(res, "Invalid login credentials nema ga");
       }
 
       const checkPassword = await prisma.user.checkPassword(
@@ -80,10 +74,8 @@ const authController = {
       );
 
       if (!checkPassword) {
-        errorFactory.notAuthorized(res, "Invalid login credentials");
-        return;
+        errorFactory.notAuthorized(res, "Invalid login credentials password");
       }
-
       const user = await prisma.user.findUnique({
         where: { email },
         select: {
@@ -97,7 +89,8 @@ const authController = {
       const token = signToken(user.id);
       successResponseFactory.ok(res, token);
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log(error);
+      // errorFactory.internalError(res);
     }
   },
 };
