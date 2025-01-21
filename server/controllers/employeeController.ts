@@ -7,15 +7,14 @@ import { CustomRequest } from "../services/customRequest";
 const employee = {
   getId(req: CustomRequest, res: Response, next: NextFunction) {
     const { id } = req.params;
-    const data = req.body;
+    const body = req.body;
 
     req.requestPayload = {
       id: Number(id),
-      data,
+      body,
     };
     next();
   },
-
   async create(req: CustomRequest, res: Response) {
     try {
       const data = req.body;
@@ -68,10 +67,17 @@ const employee = {
   },
   async edit(req: CustomRequest, res: Response) {
     try {
-      console.log("USLO");
+      const employee = await prisma.employee.findUnique({
+        where: { id: req.requestPayload.id },
+      });
+
+      if (!employee) {
+        errorFactory.notFound(res, "Employee has not been found");
+      }
+
       const updatedEmployee = await prisma.employee.update({
         where: { id: req.requestPayload.id },
-        data: req.requestPayload.data,
+        data: req.requestPayload.body,
       });
       successResponseFactory.ok(res, updatedEmployee);
     } catch (error) {

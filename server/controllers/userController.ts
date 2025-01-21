@@ -7,10 +7,10 @@ import { CustomRequest } from "../services/customRequest";
 const user = {
   getId(req: CustomRequest, res: Response, next: NextFunction) {
     const { id } = req.params;
-    const data = req.body;
+    const body = req.body;
     req.requestPayload = {
       id: Number(id),
-      data,
+      body,
     };
     next();
   },
