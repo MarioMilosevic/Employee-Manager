@@ -1,53 +1,27 @@
 <template>
-  <div v-if="isModalOpen" class="overlay">
+  <div class="overlay">
     <div class="overlay__modal">
       <h2 class="overlay__modal-title">Edit Employee</h2>
       <button @click="closeModal" class="overlay__modal-button">X</button>
-      <AuthForm @submit.prevent="submitForm" class="overlay__modal-form">
-        <template #firstName>
+      <AuthForm @submit.prevent="submitForm" class="overlay__modal-form" :inputs="props.inputs">
+        <template v-for="input in props.inputs" :key="input.id" #[input.name]>
           <FormBlock>
             <template #input>
-              <FormInput type="text" placeholder="First Name" v-model="employee.firstName" />
+              <FormInput
+                :type="input.type"
+                :placeholder="input.placeholder"
+                v-model="employee[input.name as keyof typeof employee]"
+              />
             </template>
-            <!-- <template #error>
-              <FormError>{{ firstName }}</FormError>
-            </template> -->
+            <template #error>
+              <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
+            </template>
           </FormBlock>
         </template>
-        <template #lastName>
-          <FormBlock>
-            <template #input>
-              <FormInput type="text" placeholder="Last Name" v-model="employee.lastName" />
-            </template>
-            <!-- <template #error>
-              <FormError>{{ lastName }}</FormError>
-            </template> -->
-          </FormBlock>
-        </template>
-        <template #address>
-          <FormBlock>
-            <template #input>
-              <FormInput type="text" placeholder="Address" v-model="employee.address" />
-            </template>
-            <!-- <template #error>
-              <FormError>{{ address }}</FormError>
-            </template> -->
-          </FormBlock>
-        </template>
-        <template #startYear>
-          <FormBlock>
-            <template #input>
-              <FormInput type="date" placeholder="Start Year" v-model="employee.startYear" />
-            </template>
-            <!-- <template #error>
-              <FormError>{{ startYear }}</FormError>
-            </template> -->
-          </FormBlock>
-        </template>
-        <template #trainingCompleted>
+        <template #default>
           <FormCheckbox
-            :trainingCompleted="employee.trainingCompleted"
-            @checkbox-event="editTrainingCompleted"
+            :trainingCompleted="singleEmployee.trainingCompleted"
+            @checkbox-event="setTrainingCompleted"
           />
         </template>
         <template #submit>
@@ -64,24 +38,31 @@
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
-// import FormError from 'src/components/form/FormError.vue'
+import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import { PropType, watch, ref} from 'vue'
+import { PropType, ref, onMounted } from 'vue'
 import { EmployeeType } from 'src/utils/types'
 import { editData } from 'src/api/api'
+import { InputType } from 'src/utils/types'
+
 
 const emits = defineEmits(['close-modal', 'update-event'])
 const props = defineProps({
-  isModalOpen: {
-    type: Boolean,
-    required: true,
-  },
   singleEmployee: {
     type: Object as PropType<EmployeeType>,
     required: true,
   },
+  inputs: {
+    type: Array as PropType<InputType[]>,
+    required: true,
+  },
+})
+
+onMounted(() => {
+  console.log(props.singleEmployee)
+  console.log(employee)
 })
 
 const employee = ref({ ...props.singleEmployee })
@@ -127,13 +108,6 @@ const submitForm = async () => {
   }
 }
 
-watch(
-  () => props.singleEmployee,
-  (newEmployee) => {
-    employee.value = newEmployee
-  },
-  { deep: true },
-)
 </script>
 
 <style lang="scss" scoped>

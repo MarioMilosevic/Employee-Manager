@@ -2,7 +2,7 @@
   <TitleName>Employee Manager</TitleName>
   <AuthForm @submit.prevent="submitForm" class="form" :inputs="homeInputs">
     <template v-for="input in homeInputs" :key="input.id" #[input.name]>
-     <FormBlock>
+      <FormBlock>
         <template #input>
           <FormInput
             :type="input.type"
@@ -15,7 +15,7 @@
         </template>
       </FormBlock>
     </template>
-      <template #default>
+    <template #default>
       <FormCheckbox
         :trainingCompleted="singleEmployee.trainingCompleted"
         @checkbox-event="setTrainingCompleted"
@@ -26,7 +26,6 @@
         Submit
       </ActionButton>
     </template>
-
   </AuthForm>
   <EmployeeInfo
     v-for="employee in employees"
@@ -36,10 +35,11 @@
     @delete-event="deleteEmployee"
   />
   <FormModal
-    :isModalOpen="isModalOpen"
+    v-if="isModalOpen"
+    :singleEmployee="singleEmployee"
+    :inputs="homeInputs"
     @close-modal="setModal(false)"
     @update-event="updateEmployees"
-    :singleEmployee="singleEmployee"
   />
 </template>
 
@@ -54,26 +54,17 @@ import FormError from 'src/components/form/FormError.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
 import { renderValidationErrors } from 'src/utils/helpers'
-import { emptyEmployeeErrors } from 'src/utils/constants'
+import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
 import { EmployeeType } from 'src/utils/types'
 import { homeInputs } from 'src/utils/constants'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { getData, deleteData, postData } from 'src/api/api'
 
 const employees = ref([] as EmployeeType[])
 const isModalOpen = ref(false)
 
-const singleEmployee = ref({
-  // id: 0,
-  firstName: '',
-  lastName: '',
-  address: '',
-  startYear: '',
-  trainingCompleted: false,
-})
-
-console.log(homeInputs)
+const singleEmployee = ref<EmployeeType>(emptySingleEmployee)
 
 const formErrors = ref(emptyEmployeeErrors)
 
@@ -97,10 +88,7 @@ const setTrainingCompleted = (value: boolean) => {
   singleEmployee.value.trainingCompleted = value
 }
 
-const addEmployee = (employee: EmployeeType) => {
-  // push
-  employees.value.push(employee)
-}
+const addEmployee = (employee: EmployeeType) => employees.value.push(employee)
 
 const removeEmployee = (id: number) => {
   employees.value = employees.value.filter((emp) => emp.id !== id)
@@ -126,10 +114,12 @@ const editEmployee = async (id: string) => {
   const response = await getData(`employee/${id}`)
   singleEmployee.value = response.data
   setModal(true)
+  await nextTick()
+  singleEmployee.value = emptySingleEmployee
 }
 
 const deleteEmployee = async (id: number) => {
-  const isStatusOk = await deleteData(`employee`,id)
+  const isStatusOk = await deleteData(`employee`, id)
   if (isStatusOk) {
     removeEmployee(id)
   }
