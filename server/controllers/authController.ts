@@ -90,7 +90,6 @@ const authController = {
       successResponseFactory.ok(res, token);
     } catch (error) {
       console.log(error);
-      // errorFactory.internalError(res);
     }
   },
 };

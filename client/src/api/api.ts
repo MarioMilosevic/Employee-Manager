@@ -1,6 +1,7 @@
 import { EmployeeType, LoginCredentialsType, UserType } from 'src/utils/types'
 import { baseUrl } from 'src/utils/constants'
 import { getDataFromJson } from 'src/utils/helpers'
+// import { showToast } from 'src/utils/toast'
 
 type PostType = {
   data: EmployeeType | UserType
@@ -50,14 +51,14 @@ export const editData = async (data: PostType, path: string) => {
 
 export const deleteData = async (path: string, id: number) => {
   // async await da vidim oko toga
-  console.log("ovo je path",path)
+  console.log('ovo je path', path)
   const response = await fetch(`${baseUrl}/${path}/${id}`, {
     method: 'DELETE',
   })
   return response.ok
 }
 
-export const login = async (data:LoginCredentialsType) => {
+export const login = async (data: LoginCredentialsType) => {
   try {
     const response = await fetch(`${baseUrl}/users/login`, {
       method: 'POST',
@@ -66,7 +67,6 @@ export const login = async (data:LoginCredentialsType) => {
       },
       body: JSON.stringify(data),
     })
-
     return getDataFromJson(response)
   } catch (error) {
     console.error(error)

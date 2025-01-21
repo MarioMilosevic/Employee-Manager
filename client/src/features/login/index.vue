@@ -30,9 +30,9 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import { loginInputs } from 'src/utils/constants'
 // import { loginSchema } from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { login } from 'src/api/api'
-import { compareObjectFieldChange } from 'src/utils/helpers'
+// import { compareObjectFieldChange } from 'src/utils/helpers'
 import { showToast } from 'src/utils/toast'
 
 const loginCredentials = ref({
@@ -42,15 +42,15 @@ const loginCredentials = ref({
 
 const loginFormError = ref('')
 
-watch(
-  () => ({ ...loginCredentials.value }),
-  (newValue, oldValue) => {
-    const hasFieldChanged = compareObjectFieldChange(oldValue, newValue)
-    if (loginFormError.value !== '' && hasFieldChanged) {
-      loginFormError.value = ''
-    }
-  },
-)
+// watch(
+//   () => ({ ...loginCredentials.value }),
+//   (newValue, oldValue) => {
+//     const hasFieldChanged = compareObjectFieldChange(oldValue, newValue)
+//     if (loginFormError.value !== '' && hasFieldChanged) {
+//       loginFormError.value = ''
+//     }
+//   },
+// )
 
 const router = useRouter()
 
@@ -60,17 +60,16 @@ const submitLogin = async () => {
     // if (!validation.success) {
     //   return
     // }
-    // const token = await login(validation.data)
     const response = await login(loginCredentials.value)
     if (response.data) {
       localStorage.setItem('login-token', response.data)
       router.push('/')
     } else {
-      loginFormError.value = response.message
-      showToast(response.message, 'error')
+      throw response.message
     }
   } catch (error) {
     console.error(error)
+    showToast(error as string, 'error')
   }
 }
 </script>
