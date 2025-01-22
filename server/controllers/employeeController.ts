@@ -12,7 +12,7 @@ const employee = {
     req.requestPayload = {
       id: Number(id),
       body,
-      existsInDatabase:null
+      data:null
     };
     next();
   },
@@ -20,7 +20,7 @@ const employee = {
      const employee = await prisma.employee.findUnique({
        where: { id: req.requestPayload.id },
      });
-    req.requestPayload.existsInDatabase = employee
+    req.requestPayload.data = employee
     next()
   },
   async create(req: CustomRequest, res: Response) {

@@ -5,59 +5,51 @@ import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
 
 const user = {
- async getId(req: CustomRequest, res: Response, next: NextFunction) {
+  async getId(req: CustomRequest, res: Response, next: NextFunction) {
     const { id } = req.params;
     const body = req.body;
-   const existsInDatabase = await prisma.user.findUnique({
-     where: {id:Number(id) },
-   });
+    const data = await prisma.user.findUnique({
+      where: { id: Number(id) },
+    });
 
     req.requestPayload = {
       id: Number(id),
       body,
-      existsInDatabase,
+      data,
     };
     next();
   },
-  // async checkUser(req: CustomRequest, res: Response, next:NextFunction) {
-  //   const user = await prisma.user.findUnique({
-  //     where: { id: req.requestPayload.id },
-  //   });
-  //   req.requestPayload.existsInDatabase = user;
-  //   next()
-  // },
   async getAll(req: CustomRequest, res: Response) {
     try {
       const users = await prisma.user.findMany();
       successResponseFactory.ok(res, users);
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log(error);
     }
   },
 
-  async getUser(req: CustomRequest, res: Response, next:NextFunction) {
-    console.log("ovo me zanima", req.requestPayload.existsInDatabase);
+  async getUser(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      // const user = await prisma.user.findUnique({
-      //   where: { id: req.requestPayload.id },
-      // });
-      const user = req.requestPayload.existsInDatabase
-      console.log("ovo je user", user);
-      successResponseFactory.ok(res, user);
+      if (!req.requestPayload.data) {
+        errorFactory.notFound(res);
+      }
+      successResponseFactory.ok(res, req.requestPayload.data);
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log(error);
     }
   },
 
   async deleteUser(req: CustomRequest, res: Response) {
     try {
-      const deletedUser = await prisma.user.delete({
+      if (!req.requestPayload.data) {
+        errorFactory.badRequest(res);
+      }
+      await prisma.user.delete({
         where: { id: req.requestPayload.id },
       });
-      console.log(deletedUser);
       successResponseFactory.noContent(res, 204);
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log(error);
     }
   },
 };
