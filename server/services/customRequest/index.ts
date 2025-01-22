@@ -4,6 +4,6 @@ export interface CustomRequest extends Request {
   requestPayload?: {
     id: number;
     body: any;
-    data: any;
+    data?: any;
   };
 }

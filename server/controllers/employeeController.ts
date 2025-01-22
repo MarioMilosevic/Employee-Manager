@@ -12,53 +12,54 @@ const employee = {
     req.requestPayload = {
       id: Number(id),
       body,
-      data:null
     };
     next();
   },
-  async checkEmployee(req:CustomRequest, res:Response, next:NextFunction) {
-     const employee = await prisma.employee.findUnique({
-       where: { id: req.requestPayload.id },
-     });
-    req.requestPayload.data = employee
-    next()
+  async getData(req: CustomRequest, res: Response, next: NextFunction) {
+    try {
+      const data = await prisma.employee.findUnique({
+        where: { id: req.requestPayload.id },
+      });
+      req.requestPayload.data = data;
+      next();
+    } catch (error) {
+      console.log(error);
+    }
   },
   async create(req: CustomRequest, res: Response) {
     try {
-      const data = req.body;
       const newEmployee = await prisma.employee.create({
-        data,
+        data: req.body,
       });
       successResponseFactory.created(res, newEmployee);
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log(error);
     }
   },
   async getAll(req: CustomRequest, res: Response) {
     try {
       const employees = await prisma.employee.findMany();
+      if (!employees) {
+        errorFactory.badRequest(res);
+      }
       successResponseFactory.ok(res, employees);
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log(error);
     }
   },
   async getSingle(req: CustomRequest, res: Response) {
     try {
-      const employee = await prisma.employee.findUnique({
-        where: { id: req.requestPayload.id },
-      });
-      successResponseFactory.ok(res, employee);
+      if (!req.requestPayload.data) {
+        errorFactory.notFound(res);
+      }
+      successResponseFactory.ok(res, req.requestPayload.data);
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log(error);
     }
   },
   async delete(req: CustomRequest, res: Response) {
     try {
-      const employee = await prisma.employee.findUnique({
-        where: { id: req.requestPayload.id },
-      });
-
-      if (!employee) {
+      if (!req.requestPayload.data) {
         errorFactory.notFound(res, "Employee has not been found");
       }
       const deletedEmployee = await prisma.employee.delete({
@@ -70,16 +71,12 @@ const employee = {
         errorFactory.internalError(res);
       }
     } catch (error) {
-      console.log("uslo u catch");
+      console.log(error);
     }
   },
   async edit(req: CustomRequest, res: Response) {
     try {
-      const employee = await prisma.employee.findUnique({
-        where: { id: req.requestPayload.id },
-      });
-
-      if (!employee) {
+      if (!req.requestPayload.data) {
         errorFactory.notFound(res, "Employee has not been found");
       }
 
@@ -87,9 +84,13 @@ const employee = {
         where: { id: req.requestPayload.id },
         data: req.requestPayload.body,
       });
-      successResponseFactory.ok(res, updatedEmployee);
+      if (updatedEmployee) {
+        successResponseFactory.ok(res, updatedEmployee);
+      } else {
+        errorFactory.internalError(res);
+      }
     } catch (error) {
-      errorFactory.internalError(res);
+      console.log(error);
     }
   },
 };

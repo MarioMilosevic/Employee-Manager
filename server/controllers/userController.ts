@@ -5,19 +5,26 @@ import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
 
 const user = {
-  async getId(req: CustomRequest, res: Response, next: NextFunction) {
+  getId(req: CustomRequest, res: Response, next: NextFunction) {
     const { id } = req.params;
     const body = req.body;
-    const data = await prisma.user.findUnique({
-      where: { id: Number(id) },
-    });
 
     req.requestPayload = {
       id: Number(id),
       body,
-      data,
     };
     next();
+  },
+  async getData(req: CustomRequest, res: Response, next: NextFunction) {
+    try {
+      const data = await prisma.user.findUnique({
+        where: { id: req.requestPayload.id },
+      });
+      req.requestPayload.data = data;
+      next();
+    } catch (error) {
+      console.log(error);
+    }
   },
   async getAll(req: CustomRequest, res: Response) {
     try {
