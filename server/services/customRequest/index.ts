@@ -4,5 +4,6 @@ export interface CustomRequest extends Request {
   requestPayload?: {
     id: number;
     body: any;
+    existsInDatabase: any;
   };
 }

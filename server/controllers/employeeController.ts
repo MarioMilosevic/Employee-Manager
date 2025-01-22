@@ -12,8 +12,16 @@ const employee = {
     req.requestPayload = {
       id: Number(id),
       body,
+      existsInDatabase:null
     };
     next();
+  },
+  async checkEmployee(req:CustomRequest, res:Response, next:NextFunction) {
+     const employee = await prisma.employee.findUnique({
+       where: { id: req.requestPayload.id },
+     });
+    req.requestPayload.existsInDatabase = employee
+    next()
   },
   async create(req: CustomRequest, res: Response) {
     try {

@@ -119,3 +119,19 @@ const submitForm = async () => {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@use 'src/scss/_variables' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $medium;
+  background-color: $primary-shade-color;
+  background-color: $secondary-color;
+  padding: $big $very-big;
+  width: 400px;
+  margin: 5rem auto;
+  border-radius: $medium-radius;
+}
+</style>

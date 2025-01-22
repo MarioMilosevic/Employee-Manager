@@ -13,7 +13,7 @@ const signToken = (id: number) =>
 const authController = {
   async signUp(req: Request, res: Response) {
     try {
-      const { firstName, lastName, email, password, passwordConfirm } =
+      const { firstName, lastName, email, password, passwordConfirm, role } =
         req.body;
 
       if (validator.isEmpty(firstName) || validator.isEmpty(lastName)) {
@@ -41,10 +41,11 @@ const authController = {
 
       const user = await prisma.user.create({
         data: {
+          role,
           firstName,
           lastName,
           email,
-          password,
+          password
         },
         omit: { passwordConfirm },
       });

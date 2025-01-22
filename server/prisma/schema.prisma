@@ -26,12 +26,12 @@ model Employee {
 
 model User {
   id      Int      @id @default(autoincrement()) 
+  role String
   email   String   @unique 
   firstName    String
   lastName    String
   password String 
   passwordConfirm String?
-  // role: admin, employee, guest
 
   @@map ("users")
 }
