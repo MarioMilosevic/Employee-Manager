@@ -19,19 +19,34 @@ const user = {
     try {
       const data = await prisma.user.findUnique({
         where: { id: req.requestPayload.id },
+        select: {
+          id: true,
+          role: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+        },
       });
       req.requestPayload.data = data;
       next();
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
   async getAll(req: CustomRequest, res: Response) {
     try {
-      const users = await prisma.user.findMany();
+      const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          role: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+        },
+      });
       successResponseFactory.ok(res, users);
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
 
@@ -39,10 +54,11 @@ const user = {
     try {
       if (!req.requestPayload.data) {
         errorFactory.notFound(res);
+        return;
       }
       successResponseFactory.ok(res, req.requestPayload.data);
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
 
@@ -50,13 +66,14 @@ const user = {
     try {
       if (!req.requestPayload.data) {
         errorFactory.badRequest(res);
+        return;
       }
       await prisma.user.delete({
         where: { id: req.requestPayload.id },
       });
       successResponseFactory.noContent(res, 204);
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
 };

@@ -9,8 +9,11 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
+import { PropType, useSlots } from 'vue'
 import { InputType } from 'src/utils/types'
+
+const slots = useSlots()
+console.log(slots)
 
 const props = defineProps({
   inputs: {

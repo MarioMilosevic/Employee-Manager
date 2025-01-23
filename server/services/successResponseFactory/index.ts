@@ -5,7 +5,6 @@ function createSuccessResponse(res: Response, status: number, data?: any) {
     status,
     data,
   };
-  console.log('ovo je response', response)
   return res.status(status).json(response);
 }
 

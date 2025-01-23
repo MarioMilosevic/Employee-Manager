@@ -23,7 +23,7 @@ const employee = {
       req.requestPayload.data = data;
       next();
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
   async create(req: CustomRequest, res: Response) {
@@ -33,7 +33,7 @@ const employee = {
       });
       successResponseFactory.created(res, newEmployee);
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
   async getAll(req: CustomRequest, res: Response) {
@@ -41,26 +41,29 @@ const employee = {
       const employees = await prisma.employee.findMany();
       if (!employees) {
         errorFactory.badRequest(res);
+        return;
       }
       successResponseFactory.ok(res, employees);
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
   async getSingle(req: CustomRequest, res: Response) {
     try {
       if (!req.requestPayload.data) {
         errorFactory.notFound(res);
+        return;
       }
       successResponseFactory.ok(res, req.requestPayload.data);
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
   async delete(req: CustomRequest, res: Response) {
     try {
       if (!req.requestPayload.data) {
         errorFactory.notFound(res, "Employee has not been found");
+        return;
       }
       const deletedEmployee = await prisma.employee.delete({
         where: { id: req.requestPayload.id },
@@ -69,9 +72,10 @@ const employee = {
         successResponseFactory.noContent(res, 204);
       } else {
         errorFactory.internalError(res);
+        return;
       }
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
   async edit(req: CustomRequest, res: Response) {
@@ -88,9 +92,10 @@ const employee = {
         successResponseFactory.ok(res, updatedEmployee);
       } else {
         errorFactory.internalError(res);
+        return;
       }
     } catch (error) {
-      console.log(error);
+      errorFactory.internalError(res);
     }
   },
 };

@@ -1,8 +1,8 @@
 <template>
   <input
     :type="props.type"
-    class="input"
     :value="modelValue"
+    class="input"
     @input="(e) => emit('update:modelValue', (e.target as HTMLInputElement)?.value)"
   />
 </template>

@@ -7,8 +7,7 @@
       <FormBlock>
         <template #input>
           <FormInput
-            :type="input.type"
-            :placeholder="input.placeholder"
+            v-bind="input"
             v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
           />
         </template>
@@ -48,8 +47,8 @@ import { login } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 
 const loginCredentials = ref({
-  email: 'mario12@gmail.com',
-  password: '12345678',
+  email: '',
+  password: '',
 })
 
 const loginFormError = ref({

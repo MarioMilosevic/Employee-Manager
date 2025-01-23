@@ -25,15 +25,15 @@ function createResponseError(res: Response, message: string, statusCode: number)
 
 export default {
   badRequest(res: Response, message = "Bad request") {
-    throw createResponseError(res, message, 400);
+    return createResponseError(res, message, 400);
   },
   notAuthorized(res: Response, message = "Not authorized") {
-    throw createResponseError(res, message, 401);
+    return createResponseError(res, message, 401);
   },
   notFound(res: Response, message = "Not found") {
-    throw createResponseError(res, message, 404);
+    return createResponseError(res, message, 404);
   },
   internalError(res: Response, message = "Internal error") {
-    throw createResponseError(res, message, 500);
+    return createResponseError(res, message, 500);
   },
 };
