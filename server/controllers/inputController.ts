@@ -1,27 +1,42 @@
 import prisma from "../services/database";
 import successResponseFactory from "../services/successResponseFactory";
 import errorFactory from "../services/errorFactory";
-import { Response, NextFunction, Request } from "express";
+import { Response, Request } from "express";
 import { CustomRequest } from "../services/customRequest";
-import { loginInputs, signUpInputs } from "../utils/constants";
 
 const input = {
-  async getInputs(req: CustomRequest, res: Response) {
+  async getallInputs(req: Request, res: Response) {
     try {
-      const svi = await prisma.inputField.findMany();
-      successResponseFactory.ok(res, svi);
+      const allInputs = await prisma.inputField.findMany({});
+      successResponseFactory.ok(res, allInputs);
     } catch (error) {
-      errorFactory.internalError(res, "Eo greska");
+      errorFactory.internalError(res);
+    }
+  },
+  async getInputs(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const inputs = await prisma.inputField.findMany({
+        where: { id: Number(id) },
+      });
+      successResponseFactory.ok(res, inputs);
+    } catch (error) {
+      errorFactory.internalError(res);
     }
   },
   async createInput(req: CustomRequest, res: Response) {
     try {
-      const inputField = await prisma.inputField.create({
+      const input = await prisma.inputField.create({
         data: req.body,
       });
-      successResponseFactory.ok(res, inputField);
+
+      successResponseFactory.created(res, input);
     } catch (error) {
-      errorFactory.internalError(res, "Eo greska");
+      console.error(error);
+      errorFactory.internalError(
+        res,
+        "An error occurred while creating inputs."
+      );
     }
   },
   async deleteInput(req: Request, res: Response) {
@@ -29,7 +44,7 @@ const input = {
       const { id } = req.params;
       console.log("ovo je id", id);
       const input = await prisma.inputField.delete({
-        where: { id },
+        where: { id: Number(id) },
       });
       successResponseFactory.ok(res, input);
     } catch (error) {

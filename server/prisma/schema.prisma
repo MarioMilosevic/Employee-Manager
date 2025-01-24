@@ -37,10 +37,11 @@ model User {
 }
 
 model InputField {
-  id               String  @id @unique
-  name String
-  type String
+  id          Int      @id @default(autoincrement()) // Auto-incremented primary key
+  name        String
+  type        String
   placeholder String
+  inputsId    String  
 }
 
 
