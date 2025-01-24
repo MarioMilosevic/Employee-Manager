@@ -8,6 +8,7 @@ const input = {
   async getAllInputs(req: Request, res: Response) {
     try {
       const allInputs = await prisma.inputField.findMany({});
+      console.log(allInputs);
       successResponseFactory.ok(res, allInputs);
     } catch (error) {
       errorFactory.internalError(res);
@@ -15,10 +16,9 @@ const input = {
   },
   async getInputs(req: Request, res: Response) {
     try {
-        const { id } = req.params;
-        console.log('ovo je id',id)
+      const { id } = req.params;
       const inputs = await prisma.inputField.findMany({
-        where: { inputsId:id },
+        where: { inputsId: id },
       });
       successResponseFactory.ok(res, inputs);
     } catch (error) {
@@ -34,16 +34,13 @@ const input = {
       successResponseFactory.created(res, input);
     } catch (error) {
       console.error(error);
-      errorFactory.internalError(
-        res,
-        "An error occurred while creating inputs."
-      );
+      errorFactory.internalError(res);
     }
   },
   async deleteInput(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      console.log("ovo je id", id);
+
       const input = await prisma.inputField.delete({
         where: { id: Number(id) },
       });

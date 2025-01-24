@@ -1,45 +1,48 @@
 <template>
-  <TitleName>Employee Manager</TitleName>
-  <AuthForm @submit.prevent="submitForm" class="form" :inputs="homeInputs">
-    <template v-for="input in homeInputs" :key="input.id" #[input.name]>
-      <FormBlock>
-        <template #input>
-          <FormInput
+  <LoadingSpinner v-if="loading"/>
+  <template v-else>
+    <TitleName>Employee Manager</TitleName>
+    <AuthForm @submit.prevent="submitForm" class="form" :inputs="homeInputs">
+      <template v-for="input in homeInputs" :key="input.id" #[input.name]>
+        <FormBlock>
+          <template #input>
+            <FormInput
             v-bind="input"
             v-model="singleEmployee[input.name as keyof typeof singleEmployee]"
-          />
-        </template>
-        <template #error>
-          <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
-        </template>
-      </FormBlock>
-    </template>
-    <template #default>
+            />
+          </template>
+          <template #error>
+            <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
+          </template>
+        </FormBlock>
+      </template>
+      <template #default>
       <FormCheckbox
         :trainingCompleted="singleEmployee.trainingCompleted"
         @checkbox-event="setTrainingCompleted"
-      />
-    </template>
-    <template #submit>
-      <ActionButton color="white" type="submit" :style="{ justifySelf: 'start' }">
-        Submit
-      </ActionButton>
-    </template>
-  </AuthForm>
-  <EmployeeInfo
+        />
+      </template>
+      <template #submit>
+        <ActionButton color="white" type="submit" :style="{ justifySelf: 'start' }">
+          Submit
+        </ActionButton>
+      </template>
+    </AuthForm>
+    <EmployeeInfo
     v-for="employee in employees"
     :key="employee.id"
     :employee="employee"
     @edit-event="editEmployee"
     @delete-event="deleteEmployee"
-  />
-  <FormModal
+    />
+    <FormModal
     v-if="isModalOpen"
     :singleEmployee="singleEmployee"
     :inputs="homeInputs"
     @close-modal="setModal(false)"
     @update-event="updateEmployees"
-  />
+    />
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -49,6 +52,7 @@ import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
+import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import FormError from 'src/components/form/FormError.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
@@ -59,21 +63,29 @@ import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { ref, nextTick, onBeforeMount } from 'vue'
 import { getData, deleteData, postData } from 'src/api/api'
 
+onBeforeMount(async () => {
+  try {
+    const [employeeResponse, homeResponse] = await Promise.all([
+      getData('employee'),
+      getData('inputs/home')
+    ])
+
+    employees.value = employeeResponse.data
+    homeInputs.value = homeResponse.data
+    loading.value = false
+
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
 const employees = ref([] as EmployeeType[])
 const isModalOpen = ref(false)
-
+const homeInputs = ref()
 const singleEmployee = ref<EmployeeType>(emptySingleEmployee)
-
 const formErrors = ref(emptyEmployeeErrors)
-
-const fetchEmployees = async () => {
-  try {
-    const response = await getData('employee')
-    employees.value = response.data
-  } catch (error) {
-    console.error('Failed to fetch employees', error)
-  }
-}
+const loading = ref(true)
 
 const updateEmployees = async (updatedEmployee: EmployeeType) => {
   employees.value = employees.value.map((emp) =>
@@ -138,9 +150,7 @@ const setModal = (value: boolean) => {
   isModalOpen.value = value
 }
 
-onBeforeMount(() => {
-  fetchEmployees()
-})
+
 </script>
 
 <style scoped lang="scss">
