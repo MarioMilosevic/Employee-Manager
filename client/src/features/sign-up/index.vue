@@ -1,22 +1,21 @@
 <template>
-  <AuthForm @submit.prevent="submitForm" :inputs="signUpInputs">
+  <LoadingSpinner v-if="loading" />
+  <AuthForm @submit.prevent="submitForm" :inputs="signUpInputs" v-else>
     <template #title>
       <TitleName :style="{ color: '#0b050f', paddingBottom: '3rem' }">Sign Up</TitleName>
     </template>
-     <template v-for="input in Object.keys(signUpCredentials)" :key="input" #[input]>
-       <FormBlock>
-         <template #input>
-           <FormInput
-             v-bind="input"
-             v-model="signUpCredentials[input as keyof typeof signUpCredentials]"
-           />
-         </template>
-         <template #error>
-           <FormError>{{
-             signUpFormErrors[input as keyof typeof signUpCredentials]
-           }}</FormError>
-         </template>
-       </FormBlock>
+    <template v-for="input in signUpInputs" :key="input.id" #[input.name]>
+      <FormBlock>
+        <template #input>
+          <FormInput
+            v-bind="input"
+            v-model="signUpCredentials[input.name as keyof typeof signUpCredentials]"
+          />
+        </template>
+        <template #error>
+          <FormError>{{ signUpFormErrors[input as keyof typeof signUpCredentials] }}</FormError>
+        </template>
+      </FormBlock>
     </template>
     <template #submit>
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
@@ -36,6 +35,7 @@ import TitleName from 'src/components/layout/TitleName.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
+import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { postData, getData } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { signUpInputs } from 'src/utils/constants'
@@ -47,14 +47,15 @@ import { SignUpCredentialsType } from 'src/utils/types'
 // import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {
-  const { data } = await getData('inputs/login')
-  loginInputs.value = data
+  const { data } = await getData('inputs/signUp')
+  signUpInputs.value = data
+  loading.value = false
 })
 
 const signUpCredentials = ref<SignUpCredentialsType>(emptySignUpObject)
 const signUpFormErrors = ref<SignUpCredentialsType>(emptySignUpObject)
 const signUpInputs = ref()
-
+const loading = ref(true)
 
 const router = useRouter()
 
@@ -113,9 +114,6 @@ const submitForm = async () => {
     console.error(error)
   }
 }
-
-
-
 </script>
 
 <style scoped lang="scss">

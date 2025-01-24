@@ -47,20 +47,6 @@ export const homeInputs = [
   },
 ]
 
-export const loginInputs = [
-  {
-    id: 1,
-    name: 'email',
-    type: 'email',
-    placeholder: 'Email',
-  },
-  {
-    id: 2,
-    name: 'password',
-    type: 'password',
-    placeholder: 'Password',
-  },
-]
 
 export const signUpInputs = [
   {

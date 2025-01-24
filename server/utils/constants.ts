@@ -5,6 +5,11 @@ export const homeInputs = {
   address: "",
 };
 
+export const loginInputs = {
+  email: "",
+  password: "",
+};
+
 export const signUpInputs = {
   firstName: "",
   lastName: "",

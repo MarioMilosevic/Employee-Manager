@@ -1,5 +1,6 @@
 <template>
-  <AuthForm @submit.prevent="submitLogin" :inputs="loginInputs" class="form">
+  <LoadingSpinner v-if="loading"/>
+  <AuthForm @submit.prevent="submitLogin" :inputs="loginInputs" class="form" v-else>
     <template #title>
       <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }">Login</TitleName>
     </template>
@@ -38,6 +39,7 @@ import FormError from 'src/components/form/FormError.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
+import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { loginSchema } from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
 import { ref, watch, onBeforeMount } from 'vue'
@@ -48,11 +50,13 @@ import { showToast } from 'src/utils/toast'
 onBeforeMount(async () => {
   const { data } = await getData('inputs/login')
   loginInputs.value = data
+  loading.value = false
 })
 
 const loginCredentials = ref({})
 const loginFormError = ref({})
 const loginInputs = ref()
+const loading = ref(true)
 
 // const mario = computed(() =>  {
 //   return 'nesto'
