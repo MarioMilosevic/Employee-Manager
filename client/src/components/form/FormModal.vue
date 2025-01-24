@@ -8,8 +8,7 @@
           <FormBlock>
             <template #input>
               <FormInput
-                :type="input.type"
-                :placeholder="input.placeholder"
+                v-bind="input"
                 v-model="employee[input.name as keyof typeof employee]"
               />
             </template>

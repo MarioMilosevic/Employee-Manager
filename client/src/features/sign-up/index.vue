@@ -7,13 +7,14 @@
       <FormBlock>
         <template #input>
           <FormInput
-            :type="input.type"
-            :placeholder="input.placeholder"
+            v-bind="input"
             v-model="signUpCredentials[input.name as keyof typeof signUpCredentials]"
           />
         </template>
         <template #error>
-          <FormError>{{ signUpFormErrors[input.name as keyof typeof signUpCredentials] }}</FormError>
+          <FormError>{{
+            signUpFormErrors[input.name as keyof typeof signUpCredentials]
+          }}</FormError>
         </template>
       </FormBlock>
     </template>
@@ -35,14 +36,21 @@ import TitleName from 'src/components/layout/TitleName.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
-import { postData } from 'src/api/api'
+import { postData, getData } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
-import { ref, watch } from 'vue'
+import { ref, watch, onBeforeMount } from 'vue'
 import { SignUpCredentialsType } from 'src/utils/types'
 // import { compareObjectFieldChange } from 'src/utils/helpers'
 // import { showToast } from 'src/utils/toast'
+
+onBeforeMount(async () => {
+  const { data } = await getData('users/login')
+  console.log(data)
+  // loginCredentials.value = data
+  // loginFormError.value = data
+})
 
 const signUpCredentials = ref<SignUpCredentialsType>({
   firstName: '',
@@ -81,9 +89,9 @@ const submitForm = async () => {
     } else {
       const updatedErorrs = renderValidationErrors(signUpFormErrors, validation.error.errors)
       console.log(updatedErorrs)
-        console.log(signUpFormErrors.value)
-        signUpFormErrors.value = updatedErorrs
-        console.log(signUpFormErrors.value)
+      console.log(signUpFormErrors.value)
+      signUpFormErrors.value = updatedErorrs
+      console.log(signUpFormErrors.value)
       // console.log('erorri', updatedErorrs)
       // console.log('formErrrori', signUpFormErrors.value)
     }
@@ -96,7 +104,6 @@ const submitForm = async () => {
     //   showToast(response.message, 'error')
     //   signUpFormError.value = response.message
     // }
-
 
     // const validation = signUpSchema.safeParse(signUpCredentials.value)
     // console.log(validation)

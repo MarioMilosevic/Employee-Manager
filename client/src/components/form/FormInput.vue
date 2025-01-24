@@ -1,7 +1,6 @@
 <template>
   <input
-    :type="props.type"
-    :value="modelValue"
+    :value="props.modelValue"
     class="input"
     @input="(e) => emit('update:modelValue', (e.target as HTMLInputElement)?.value)"
   />
@@ -11,14 +10,11 @@
 const emit = defineEmits(['update:modelValue'])
 
 const props = defineProps({
-  type: {
-    type: String,
-    required: true,
-  },
   modelValue: {
     type: String,
   },
 })
+
 </script>
 
 <style lang="scss" scoped>

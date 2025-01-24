@@ -1,14 +1,14 @@
 import { Router } from "express";
 import user from "../controllers/userController";
-import authController from "../controllers/authController";
+import auth from "../controllers/authController";
 
 const userRouter = Router();
 
 userRouter.param("id", user.getId);
 userRouter.param("id", user.getData);
 
-userRouter.route("/sign-up").post(authController.signUp);
-userRouter.route("/login").post(authController.login);
+userRouter.route("/sign-up").post(auth.signUp);
+userRouter.route("/login").post(auth.login).get(user.getLoginInputs)
 
 userRouter.route("/").get(user.getAll);
 

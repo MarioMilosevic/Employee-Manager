@@ -45,12 +45,6 @@ export const homeInputs = [
     type:'text',
     placeholder:"Address"
 },
-//   {
-//     id: 5,
-//     name: 'isAdmin',
-//     type:'text',
-//     placeholder:"Is Admin ?"
-// },
 ]
 
 export const loginInputs = [

@@ -39,53 +39,70 @@ import TitleName from 'src/components/layout/TitleName.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { loginInputs } from 'src/utils/constants'
-// import { loginSchema } from 'src/validation/loginSchema'
+import { loginSchema } from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
-import { login } from 'src/api/api'
-// import { compareObjectFieldChange } from 'src/utils/helpers'
+import { ref, watch, onBeforeMount } from 'vue'
+import { getData, login } from 'src/api/api'
+import { compareObjectFieldChange, renderValidationErrors } from 'src/utils/helpers'
 import { showToast } from 'src/utils/toast'
 
-const loginCredentials = ref({
-  email: '',
-  password: '',
+onBeforeMount(async () => {
+  const { data } = await getData('users/login')
+  loginCredentials.value = data
+  loginFormError.value = data
 })
 
-const loginFormError = ref({
-  email: '',
-  password: '',
-})
+const loginCredentials = ref({})
+const loginFormError = ref({})
 
-// watch(
-//   () => ({ ...loginCredentials.value }),
-//   (newValue, oldValue) => {
-//     const hasFieldChanged = compareObjectFieldChange(oldValue, newValue)
-//     if (loginFormError.value !== '' && hasFieldChanged) {
-//       loginFormError.value = ''
-//     }
-//   },
-// )
+// const mario = computed(() =>  {
+//   return 'nesto'
+// })
+
+watch(
+  () => ({ ...loginCredentials.value }),
+  (newValue, oldValue) => {
+    const hasFieldChanged = compareObjectFieldChange(oldValue, newValue)
+    if ((loginFormError.value.email !== '' || loginFormError.value.password) && hasFieldChanged) {
+      loginFormError.value = ''
+    }
+  },
+)
 
 const router = useRouter()
 
 const submitLogin = async () => {
   try {
-    // const validation = loginSchema.safeParse(loginCredentials.value)
-    // if (!validation.success) {
-    //   return
-    // }
-    const response = await login(loginCredentials.value)
-    if (response.data) {
+    const validation = loginSchema.safeParse(loginCredentials.value)
+    console.log(validation)
+    if (validation.success) {
+      console.log('dobra')
+      const response = await login(loginCredentials.value)
       localStorage.setItem('login-token', response.data)
       router.push('/')
     } else {
-      throw response.message
+      const updatedErorrs = renderValidationErrors(loginFormError, validation.error.errors)
+      console.log(updatedErorrs)
+      console.log(loginFormError.value)
+      loginFormError.value = updatedErorrs
+      console.log(loginFormError.value)
     }
+    // console.log('erorri', updatedErorrs)
+    // console.log('formErrrori', loginFormError.value)
+    // const response = await login(loginCredentials.value)
+    // if (response.data) {
+    //   localStorage.setItem('login-token', response.data)
+    //   router.push('/')
+    // } else {
+    //   throw response.message
+    // }
   } catch (error) {
     console.error(error)
     showToast(error as string, 'error')
   }
 }
+
+
 </script>
 
 <style scoped lang="scss">

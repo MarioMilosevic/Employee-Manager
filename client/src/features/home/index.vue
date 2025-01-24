@@ -5,8 +5,7 @@
       <FormBlock>
         <template #input>
           <FormInput
-            :type="input.type"
-            :placeholder="input.placeholder"
+            v-bind="input"
             v-model="singleEmployee[input.name as keyof typeof singleEmployee]"
           />
         </template>
@@ -58,7 +57,7 @@ import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
 import { EmployeeType } from 'src/utils/types'
 import { homeInputs } from 'src/utils/constants'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, nextTick, onBeforeMount } from 'vue'
 import { getData, deleteData, postData } from 'src/api/api'
 
 const employees = ref([] as EmployeeType[])
@@ -140,7 +139,7 @@ const setModal = (value: boolean) => {
   isModalOpen.value = value
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   fetchEmployees()
 })
 </script>
