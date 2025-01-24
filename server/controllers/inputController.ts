@@ -5,7 +5,7 @@ import { Response, Request } from "express";
 import { CustomRequest } from "../services/customRequest";
 
 const input = {
-  async getallInputs(req: Request, res: Response) {
+  async getAllInputs(req: Request, res: Response) {
     try {
       const allInputs = await prisma.inputField.findMany({});
       successResponseFactory.ok(res, allInputs);
@@ -15,9 +15,10 @@ const input = {
   },
   async getInputs(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+        const { id } = req.params;
+        console.log('ovo je id',id)
       const inputs = await prisma.inputField.findMany({
-        where: { id: Number(id) },
+        where: { inputsId:id },
       });
       successResponseFactory.ok(res, inputs);
     } catch (error) {

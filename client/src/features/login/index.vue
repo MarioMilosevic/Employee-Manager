@@ -38,7 +38,6 @@ import FormError from 'src/components/form/FormError.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
-import { loginInputs } from 'src/utils/constants'
 import { loginSchema } from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
 import { ref, watch, onBeforeMount } from 'vue'
@@ -47,13 +46,13 @@ import { compareObjectFieldChange, renderValidationErrors } from 'src/utils/help
 import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {
-  const { data } = await getData('users/login')
-  loginCredentials.value = data
-  loginFormError.value = data
+  const { data } = await getData('inputs/login')
+  loginInputs.value = data
 })
 
 const loginCredentials = ref({})
 const loginFormError = ref({})
+const loginInputs = ref()
 
 // const mario = computed(() =>  {
 //   return 'nesto'
@@ -101,8 +100,6 @@ const submitLogin = async () => {
     showToast(error as string, 'error')
   }
 }
-
-
 </script>
 
 <style scoped lang="scss">

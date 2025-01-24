@@ -14,7 +14,6 @@ const props = defineProps({
     type: String,
   },
 })
-console.log("u form inputu",props.modelValue)
 
 </script>
 

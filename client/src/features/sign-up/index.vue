@@ -47,16 +47,13 @@ import { SignUpCredentialsType } from 'src/utils/types'
 // import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {
-  const { data } = await getData('users/sign-up')
-  console.log(data)
-  console.log(Object.keys(data))
-  signUpCredentials.value = data
-  console.log(Object.keys(signUpCredentials.value))
-  signUpFormErrors.value = data
+  const { data } = await getData('inputs/login')
+  loginInputs.value = data
 })
 
 const signUpCredentials = ref<SignUpCredentialsType>(emptySignUpObject)
 const signUpFormErrors = ref<SignUpCredentialsType>(emptySignUpObject)
+const signUpInputs = ref()
 
 
 const router = useRouter()

@@ -6,18 +6,23 @@ import { CustomRequest } from "../services/customRequest";
 import { loginInputs, signUpInputs } from "../utils/constants";
 
 const user = {
-  async getLoginInputs(req: CustomRequest, res: Response) {
-    try {
-      successResponseFactory.ok(res, loginInputs)
-    } catch (error) {
-      errorFactory.internalError(res)
-    }
-  },
+  // async getLoginInputs(req: CustomRequest, res: Response) {
+  //   try {
+  //     const { id } = req.params;
+  //     console.log("ovo je id", id);
+  //     const inputs = await prisma.inputField.findMany({
+  //       where: { id: Number(id) },
+  //     });
+  //     successResponseFactory.ok(res, inputs);
+  //   } catch (error) {
+  //     errorFactory.internalError(res);
+  //   }
+  // },
   async getSignUpInputs(req: CustomRequest, res: Response) {
     try {
-      successResponseFactory.ok(res, signUpInputs)
+      successResponseFactory.ok(res, signUpInputs);
     } catch (error) {
-      errorFactory.internalError(res)
+      errorFactory.internalError(res);
     }
   },
   getId(req: CustomRequest, res: Response, next: NextFunction) {
