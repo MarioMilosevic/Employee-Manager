@@ -3,12 +3,19 @@ import successResponseFactory from "../services/successResponseFactory";
 import errorFactory from "../services/errorFactory";
 import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
-import { loginInputs } from "../utils/constants";
+import { loginInputs, signUpInputs } from "../utils/constants";
 
 const user = {
   async getLoginInputs(req: CustomRequest, res: Response) {
     try {
       successResponseFactory.ok(res, loginInputs)
+    } catch (error) {
+      errorFactory.internalError(res)
+    }
+  },
+  async getSignUpInputs(req: CustomRequest, res: Response) {
+    try {
+      successResponseFactory.ok(res, signUpInputs)
     } catch (error) {
       errorFactory.internalError(res)
     }

@@ -24,27 +24,27 @@ export const homeInputs = [
   {
     id: 1,
     name: 'firstName',
-    type:'text',
-    placeholder:"First Name"
-},
+    type: 'text',
+    placeholder: 'First Name',
+  },
   {
     id: 2,
     name: 'lastName',
-    type:'text',
-    placeholder:"Last Name"
-},
+    type: 'text',
+    placeholder: 'Last Name',
+  },
   {
     id: 3,
     name: 'startYear',
-    type:'date',
-    placeholder:"Start Year"
-},
+    type: 'date',
+    placeholder: 'Start Year',
+  },
   {
     id: 4,
     name: 'address',
-    type:'text',
-    placeholder:"Address"
-},
+    type: 'text',
+    placeholder: 'Address',
+  },
 ]
 
 export const loginInputs = [
@@ -94,3 +94,11 @@ export const signUpInputs = [
     placeholder: 'Confirm Password',
   },
 ]
+
+export const emptySignUpObject = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  passwordConfirm: '',
+}

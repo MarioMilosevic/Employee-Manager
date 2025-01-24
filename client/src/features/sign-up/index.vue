@@ -3,20 +3,20 @@
     <template #title>
       <TitleName :style="{ color: '#0b050f', paddingBottom: '3rem' }">Sign Up</TitleName>
     </template>
-    <template v-for="input in signUpInputs" :key="input.id" #[input.name]>
-      <FormBlock>
-        <template #input>
-          <FormInput
-            v-bind="input"
-            v-model="signUpCredentials[input.name as keyof typeof signUpCredentials]"
-          />
-        </template>
-        <template #error>
-          <FormError>{{
-            signUpFormErrors[input.name as keyof typeof signUpCredentials]
-          }}</FormError>
-        </template>
-      </FormBlock>
+     <template v-for="input in Object.keys(signUpCredentials)" :key="input" #[input]>
+       <FormBlock>
+         <template #input>
+           <FormInput
+             v-bind="input"
+             v-model="signUpCredentials[input as keyof typeof signUpCredentials]"
+           />
+         </template>
+         <template #error>
+           <FormError>{{
+             signUpFormErrors[input as keyof typeof signUpCredentials]
+           }}</FormError>
+         </template>
+       </FormBlock>
     </template>
     <template #submit>
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
@@ -31,42 +31,33 @@
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormError from 'src/components/form/FormError.vue'
-import { signUpInputs } from 'src/utils/constants'
+import { emptySignUpObject } from 'src/utils/constants'
 import TitleName from 'src/components/layout/TitleName.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { postData, getData } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
+import { signUpInputs } from 'src/utils/constants'
 import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
-import { ref, watch, onBeforeMount } from 'vue'
+import { ref, watch, onBeforeMount, computed } from 'vue'
 import { SignUpCredentialsType } from 'src/utils/types'
 // import { compareObjectFieldChange } from 'src/utils/helpers'
 // import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {
-  const { data } = await getData('users/login')
+  const { data } = await getData('users/sign-up')
   console.log(data)
-  // loginCredentials.value = data
-  // loginFormError.value = data
+  console.log(Object.keys(data))
+  signUpCredentials.value = data
+  console.log(Object.keys(signUpCredentials.value))
+  signUpFormErrors.value = data
 })
 
-const signUpCredentials = ref<SignUpCredentialsType>({
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
-})
+const signUpCredentials = ref<SignUpCredentialsType>(emptySignUpObject)
+const signUpFormErrors = ref<SignUpCredentialsType>(emptySignUpObject)
 
-const signUpFormErrors = ref<SignUpCredentialsType>({
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
-})
 
 const router = useRouter()
 
@@ -125,6 +116,9 @@ const submitForm = async () => {
     console.error(error)
   }
 }
+
+
+
 </script>
 
 <style scoped lang="scss">

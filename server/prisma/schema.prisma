@@ -36,5 +36,13 @@ model User {
   @@map ("users")
 }
 
+model InputField {
+  id               String  @id @unique
+  name String
+  type String
+  placeholder String
+}
+
+
 
 
