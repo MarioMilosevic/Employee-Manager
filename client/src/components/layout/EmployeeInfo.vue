@@ -2,11 +2,11 @@
   <tr class="table__row employee">
     <td>{{ fullName }}</td>
     <td>{{ employee.address }}</td>
-    <td>{{ employee.startYear }}</td>
+    <td>{{ formatDate(employee.startYear) }}</td>
     <FormCheckbox :training-completed="employee.trainingCompleted" />
     <td class="employee__actions">
-      <BaseIcon size="big" @click="editHandler"><EditIcon /></BaseIcon>
-      <BaseIcon size="big"><DeleteIcon /></BaseIcon>
+      <BaseIcon size="big" stroke="#22c55e" @click="editHandler"><EditIcon /></BaseIcon>
+      <BaseIcon size="big" stroke="#ef4444"><DeleteIcon /></BaseIcon>
     </td>
   </tr>
 </template>
@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import { EmployeeType } from 'src/utils/types'
 import { PropType, computed } from 'vue'
+import { formatDate } from 'src/utils/helpers'
 import FormCheckbox from '../form/FormCheckbox.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import EditIcon from 'src/icons/EditIcon.vue'
