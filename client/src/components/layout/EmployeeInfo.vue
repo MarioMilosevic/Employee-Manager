@@ -3,7 +3,7 @@
     <td>{{ fullName }}</td>
     <td>{{ employee.address }}</td>
     <td>{{ employee.startYear }}</td>
-    <td>{{ employee.trainingCompleted }}</td>
+    <FormCheckbox :training-completed="employee.trainingCompleted" />
     <td class="employee__actions">
       <BaseIcon size="big" @click="editHandler"><EditIcon /></BaseIcon>
       <BaseIcon size="big"><DeleteIcon /></BaseIcon>
@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import { EmployeeType } from 'src/utils/types'
 import { PropType, computed } from 'vue'
+import FormCheckbox from '../form/FormCheckbox.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import EditIcon from 'src/icons/EditIcon.vue'
 import DeleteIcon from 'src/icons/DeleteIcon.vue'
@@ -30,8 +31,6 @@ const fullName = computed(() => {
   return `${props.employee.firstName} ${props.employee.lastName}`
 })
 
-
-
 const editHandler = () => {
   console.log('mario')
   // emit('edit-event', props.employee.id)
@@ -44,44 +43,14 @@ const deleteHandler = () => {
 
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
-@use 'src/scss/base/_utilities';
 
 .employee {
   background-color: $secondary-color;
-  color: black;
-  /* padding: $medium 0; */
-
+  color: $dark-color;
   &__actions {
     display: flex;
     gap: $medium;
     align-items: center;
   }
 }
-
-/*
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: $medium;
-  background-color: $primary-shade-color;
-  border-radius: $small-radius;
-  position: relative;
-
-  &__title {
-    display: flex;
-    gap: $very-big;
-    align-items: center;
-
-    &-buttons {
-      display: flex;
-      gap: $medium;
-      align-items: center;
-    }
-  }
-
-  &__info {
-    display: flex;
-    gap: $medium;
-  }
-} */
 </style>

@@ -19,7 +19,6 @@ import ActionButton from 'src/components/layout/ActionButton.vue';
 
 <style lang="scss" scoped>
  @use 'src/scss/abstracts/_variables' as *;
- @use 'src/scss/base/_utilities';
 
 
 .table {
