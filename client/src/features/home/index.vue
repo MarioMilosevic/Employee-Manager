@@ -2,7 +2,7 @@
   <LoadingSpinner v-if="loading"/>
   <template v-else>
     <TitleName>Employee Manager</TitleName>
-    <AuthForm @submit.prevent="submitForm" class="form" :inputs="homeInputs">
+    <!-- <AuthForm @submit.prevent="submitForm" class="form" :inputs="homeInputs">
       <template v-for="input in homeInputs" :key="input.id" #[input.name]>
         <FormBlock>
           <template #input>
@@ -27,7 +27,9 @@
           Submit
         </ActionButton>
       </template>
-    </AuthForm>
+    </AuthForm> -->
+    <EmployeeList/>
+
     <EmployeeInfo
     v-for="employee in employees"
     :key="employee.id"
@@ -49,6 +51,7 @@
 import FormModal from 'src/components/form/FormModal.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormInput from 'src/components/form/FormInput.vue'
+import EmployeeList from './EmployeeList.vue'
 import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
