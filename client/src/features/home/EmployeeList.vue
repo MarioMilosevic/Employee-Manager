@@ -1,6 +1,6 @@
 <template>
   <table class="table">
-    <h2>Employee List</h2>
+    <h2 class="table__heading">Employee List</h2>
     <ActionButton>Add New Employee</ActionButton>
     <tr class="table__row">
       <th>Name</th>
@@ -26,10 +26,14 @@ import ActionButton from 'src/components/layout/ActionButton.vue';
   border: 1px solid black;
   display: flex;
   flex-direction: column;
-  gap: $medium;
+
+  &__heading {
+    margin-bottom: $medium;
+  };
 
    & > button {
     align-self: flex-start;
+    margin-bottom: $medium;
   }
 
 
