@@ -3,12 +3,13 @@
     <h2>Employee List</h2>
     <ActionButton>Add New Employee</ActionButton>
     <tr class="table__row">
-      <th class="table__row-heading">Name</th>
-      <th class="table__row-heading">Email</th>
-      <th class="table__row-heading">Date started</th>
-      <th class="table__row-heading">Completed Training</th>
-      <th class="table__row-heading">Actions</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Date started</th>
+      <th>Completed Training</th>
+      <th>Actions</th>
     </tr>
+    <slot name="employees"/>
   </table>
 </template>
 
@@ -17,7 +18,9 @@ import ActionButton from 'src/components/layout/ActionButton.vue';
 </script>
 
 <style lang="scss" scoped>
-@use 'src/scss/_variables' as *;
+ @use 'src/scss/abstracts/_variables' as *;
+ @use 'src/scss/base/_utilities';
+
 
 .table {
   border: 1px solid black;
@@ -26,16 +29,16 @@ import ActionButton from 'src/components/layout/ActionButton.vue';
   gap: $medium;
 
    & > button {
-    align-self: flex-start; // Ensures the button doesn't stretch across the parent
+    align-self: flex-start;
   }
 
 
-  &__row{
+  /* &__row{
     border: 1px solid white;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     text-align: justify;
-  }
+  } */
 }
 
 </style>

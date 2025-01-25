@@ -1,12 +1,12 @@
 <template>
-  <div class="wrapper">
-    <div class="wrapper__title">
+ <tr class="wrapper">
+    <!-- <div class="wrapper__title">
       <h1>Employee Info</h1>
       <div class="wrapper__title-buttons">
         <ActionButton @click="editHandler" color="green">Edit</ActionButton>
         <ActionButton @click="deleteHandler" color="red">Delete</ActionButton>
       </div>
-    </div>
+    </div> -->
     <div class="wrapper__info">
       <p>First Name: {{ employee.firstName }}</p>
       <p>Last Name: {{ employee.lastName }}</p>
@@ -14,7 +14,7 @@
       <p>Address: {{ employee.address }}</p>
       <p>Has completed training ? {{ employee.trainingCompleted }}</p>
     </div>
-  </div>
+  </tr>
 </template>
 
 <script setup lang="ts">
@@ -40,7 +40,7 @@ const deleteHandler = () => {
 </script>
 
 <style lang="scss" scoped>
-@use 'src/scss/_variables' as *;
+@use 'src/scss/abstracts/_variables' as *;
 
 .wrapper {
   display: flex;

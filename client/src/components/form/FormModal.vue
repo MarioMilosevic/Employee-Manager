@@ -98,7 +98,7 @@ const submitForm = async () => {
 </script>
 
 <style lang="scss" scoped>
-@use 'src/scss/_variables' as *;
+@use 'src/scss/abstracts/_variables' as *;
 
 .overlay {
   z-index: 10;

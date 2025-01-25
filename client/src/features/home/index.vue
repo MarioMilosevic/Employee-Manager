@@ -1,5 +1,5 @@
 <template>
-  <LoadingSpinner v-if="loading"/>
+  <LoadingSpinner v-if="loading" />
   <template v-else>
     <TitleName>Employee Manager</TitleName>
     <!-- <AuthForm @submit.prevent="submitForm" class="form" :inputs="homeInputs">
@@ -28,21 +28,24 @@
         </ActionButton>
       </template>
     </AuthForm> -->
-    <EmployeeList/>
+    <EmployeeList>
+      <template #employees>
+        <EmployeeInfo
+        v-for="employee in employees"
+        :key="employee.id"
+        :employee="employee"
+        @edit-event="editEmployee"
+        @delete-event="deleteEmployee"
+        />
+      </template>
+    </EmployeeList>
 
-    <EmployeeInfo
-    v-for="employee in employees"
-    :key="employee.id"
-    :employee="employee"
-    @edit-event="editEmployee"
-    @delete-event="deleteEmployee"
-    />
     <FormModal
-    v-if="isModalOpen"
-    :singleEmployee="singleEmployee"
-    :inputs="homeInputs"
-    @close-modal="setModal(false)"
-    @update-event="updateEmployees"
+      v-if="isModalOpen"
+      :singleEmployee="singleEmployee"
+      :inputs="homeInputs"
+      @close-modal="setModal(false)"
+      @update-event="updateEmployees"
     />
   </template>
 </template>
@@ -70,18 +73,16 @@ onBeforeMount(async () => {
   try {
     const [employeeResponse, homeResponse] = await Promise.all([
       getData('employee'),
-      getData('inputs/home')
+      getData('inputs/home'),
     ])
 
     employees.value = employeeResponse.data
     homeInputs.value = homeResponse.data
     loading.value = false
-
   } catch (error) {
     console.log(error)
   }
 })
-
 
 const employees = ref([] as EmployeeType[])
 const isModalOpen = ref(false)
@@ -152,12 +153,10 @@ const deleteEmployee = async (id: number) => {
 const setModal = (value: boolean) => {
   isModalOpen.value = value
 }
-
-
 </script>
 
 <style scoped lang="scss">
-@use 'src/scss/_variables' as *;
+@use 'src/scss/abstracts/_variables' as *;
 
 .form {
   display: flex;

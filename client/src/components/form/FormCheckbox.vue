@@ -24,7 +24,7 @@ const toggleCompleted = (event: Event) => {
 </script>
 
 <style lang="scss" scoped>
-@use 'src/scss/_variables' as *;
+@use 'src/scss/abstracts/_variables' as *;
 
 .checkbox {
   border: 1px solid $secondary-color;

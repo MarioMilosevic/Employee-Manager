@@ -107,7 +107,7 @@ const submitLogin = async () => {
 </script>
 
 <style scoped lang="scss">
-@use 'src/scss/_variables' as *;
+@use 'src/scss/abstracts/_variables' as *;
 
 .form {
   display: flex;

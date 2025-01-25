@@ -24,7 +24,7 @@ const accountText = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@use "src/scss/_variables.scss" as *;
+@use 'src/scss/abstracts/_variables' as *;
 
 .links {
   display: flex;

@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import './main.css'
+import "./scss/main.scss";
 import App from './App.vue'
 import router from 'src/router'
 import Vue3Toastify, { ToastContainerOptions } from 'vue3-toastify'
