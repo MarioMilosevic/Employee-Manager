@@ -1,9 +1,9 @@
 <template>
   <div class="overlay">
     <div class="overlay__modal">
-       <slot name="title"/>
-       <BaseIcon class="overlay__modal-button" @click="closeModal" size="very-big">
-        <CloseIcon/>
+      <slot name="title" />
+      <BaseIcon class="overlay__modal-button" @click="closeModal" size="very-big">
+        <CloseIcon />
       </BaseIcon>
       <AuthForm @submit.prevent="submitForm" class="overlay__modal-form" :inputs="props.inputs">
         <template v-for="input in props.inputs" :key="input.id" #[input.name]>
@@ -25,6 +25,7 @@
               <FormCheckbox
                 class="overlay__modal-form-checkbox"
                 id="checkbox"
+                :disabled="false"
                 :trainingCompleted="singleEmployee.trainingCompleted"
                 @checkbox-event="setTrainingCompleted"
               />
@@ -32,7 +33,12 @@
           </FormBlock>
         </template>
         <template #submit>
-          <ActionButton size="medium" color="purple" type="submit" :style="{ justifySelf: 'start' }">
+          <ActionButton
+            size="medium"
+            color="purple"
+            type="submit"
+            :style="{ justifySelf: 'start' }"
+          >
             Submit
           </ActionButton>
         </template>
@@ -95,25 +101,25 @@ const submitForm = async () => {
     const updatedErorrs = renderValidationErrors(formErrors, validation.error.errors)
     formErrors.value = updatedErorrs
   }
-    // const validationData = {
-    //   id: employee.value.id,
-    //   ...validation.data,
-    // }
+  // const validationData = {
+  //   id: employee.value.id,
+  //   ...validation.data,
+  // }
 
-    // const response = await editData(validationData, `employee/${employee.value.id}`)
-    // console.log(response)
-    // emits('update-event', response.data)
+  // const response = await editData(validationData, `employee/${employee.value.id}`)
+  // console.log(response)
+  // emits('update-event', response.data)
   // } else {
   //   console.log('nije dobro')
 
   //   const updatedErorrs = renderValidationErrors(formErrors, validation.error.errors)
   //   formErrors.value = updatedErorrs
-    // const errors = validation.error.errors
-    // errors.forEach((error) => {
-    //   console.log(error)
-    //   const field = error.path[0] as keyof typeof formErrors
-    //   formErrors[field] = error.message
-    // })
+  // const errors = validation.error.errors
+  // errors.forEach((error) => {
+  //   console.log(error)
+  //   const field = error.path[0] as keyof typeof formErrors
+  //   formErrors[field] = error.message
+  // })
   // }
 }
 </script>
@@ -174,7 +180,6 @@ const submitForm = async () => {
       width: 400px;
       margin: 0 auto;
       border-radius: $medium-radius;
-
 
       &-checkbox {
         position: absolute;

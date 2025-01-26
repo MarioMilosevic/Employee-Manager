@@ -4,7 +4,11 @@
     <td>{{ employee.address }}</td>
     <td>{{ formatDate(employee.startYear) }}</td>
     <td>
-      <FormCheckbox  :training-completed="employee.trainingCompleted" @checkbox-event="mario"/>
+      <FormCheckbox
+        :disabled="true"
+        :training-completed="employee.trainingCompleted"
+        @checkbox-event="mario"
+      />
     </td>
     <td class="employee__actions">
       <BaseIcon size="big" stroke="#22c55e" @click="editHandler"><EditIcon /></BaseIcon>
@@ -35,7 +39,7 @@ const fullName = computed(() => {
 })
 
 const mario = (value) => {
-console.log(value, props.employee.id)
+  console.log(value, props.employee.id)
 }
 
 const editHandler = () => {

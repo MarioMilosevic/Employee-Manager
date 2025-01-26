@@ -1,9 +1,16 @@
 <template>
-  <input :id="props.id" type="checkbox" :checked="initialValue" @change="toggleCompleted" />
+  <input
+    :id="props.id"
+    type="checkbox"
+    :class="checkboxClass"
+    :checked="props.trainingCompleted"
+    @change="toggleCompleted"
+
+  />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
   trainingCompleted: {
@@ -14,10 +21,18 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  disabled: {
+    type: Boolean,
+    required:true
+  }
 })
 
+const checkboxClass = computed(() => {
+  return props.disabled ? 'disabled' : undefined
+})
+
+
 const emits = defineEmits(['checkbox-event'])
-const initialValue = ref(props.trainingCompleted)
 
 const toggleCompleted = (event: Event) => {
   const value = (event.target as HTMLInputElement).checked
@@ -28,10 +43,26 @@ const toggleCompleted = (event: Event) => {
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
 
+
+.disabled{
+  pointer-events: none;
+}
+
+
+input[type='checkbox'] {
+  accent-color: $primary-color;
+}
+
+input[type='checkbox']:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px $primary-color;
+}
+
 .label {
   position: relative;
   border: 1px solid black;
   width: 100%;
+
 
   /* &__slider {
   background-color: red;
