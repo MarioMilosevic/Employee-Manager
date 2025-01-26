@@ -11,8 +11,10 @@
       />
     </td>
     <td class="employee__actions">
-      <BaseIcon size="big" stroke="#22c55e" @click="editHandler"><EditIcon /></BaseIcon>
-      <BaseIcon size="big" stroke="#ef4444" @click="deleteHandler"><DeleteIcon /></BaseIcon>
+      <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event')"
+        ><EditIcon
+      /></BaseIcon>
+      <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')"><DeleteIcon /></BaseIcon>
     </td>
   </tr>
 </template>
@@ -38,17 +40,13 @@ const fullName = computed(() => {
   return `${props.employee.firstName} ${props.employee.lastName}`
 })
 
-const mario = (value) => {
+const mario = (value:number) => {
   console.log(value, props.employee.id)
 }
 
-const editHandler = () => {
-  emit('edit-event', props.employee.id)
-}
-
-const deleteHandler = () => {
-  emit('delete-event', props.employee.id)
-}
+// const deleteHandler = () => {
+//   emit('delete-event', props.employee.id)
+// }
 </script>
 
 <style lang="scss" scoped>
