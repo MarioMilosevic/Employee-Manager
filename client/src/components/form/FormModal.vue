@@ -1,16 +1,18 @@
 <template>
   <div class="overlay">
     <div class="overlay__modal">
-      <h2 class="overlay__modal-title">Edit Employee</h2>
+      <!-- <h2 class="overlay__modal-title">Edit Employee</h2> -->
       <button @click="closeModal" class="overlay__modal-button">X</button>
       <AuthForm @submit.prevent="submitForm" class="overlay__modal-form" :inputs="props.inputs">
+        <template #title>
+          <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }"
+            >Add New Employee</TitleName
+          >
+        </template>
         <template v-for="input in props.inputs" :key="input.id" #[input.name]>
           <FormBlock>
             <template #input>
-              <FormInput
-                v-bind="input"
-                v-model="employee[input.name as keyof typeof employee]"
-              />
+              <FormInput v-bind="input" v-model="employee[input.name as keyof typeof employee]" />
             </template>
             <template #error>
               <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
@@ -18,10 +20,19 @@
           </FormBlock>
         </template>
         <template #default>
-          <FormCheckbox
-            :trainingCompleted="singleEmployee.trainingCompleted"
-            @checkbox-event="setTrainingCompleted"
-          />
+          <FormBlock>
+            <template #label>
+              <FormLabel id="checkbox">Completed Training ?</FormLabel>
+            </template>
+            <template #input>
+              <FormCheckbox
+                class="overlay__modal-form-checkbox"
+                id="checkbox"
+                :trainingCompleted="singleEmployee.trainingCompleted"
+                @checkbox-event="setTrainingCompleted"
+              />
+            </template>
+          </FormBlock>
         </template>
         <template #submit>
           <ActionButton color="white" type="submit" :style="{ justifySelf: 'start' }">
@@ -40,6 +51,8 @@ import AuthForm from 'src/components/form/AuthForm.vue'
 import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
+import TitleName from 'src/components/layout/TitleName.vue'
+import FormLabel from 'src/components/form/FormLabel.vue'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { PropType, ref } from 'vue'
 import { EmployeeType } from 'src/utils/types'
@@ -138,12 +151,28 @@ const submitForm = async () => {
     }
 
     &-form {
-      display: flex;
+      /* display: flex;
       gap: $medium;
       align-items: center;
       background-color: $primary-shade-color;
       padding: $medium;
-      border-radius: $small-radius;
+      border-radius: $small-radius; */
+      display: flex;
+      flex-direction: column;
+      gap: $medium;
+      background-color: $primary-shade-color;
+      background-color: $secondary-color;
+      padding: $big $very-big;
+      width: 400px;
+      margin: 5rem auto;
+      border-radius: $medium-radius;
+
+      &-checkbox {
+        position: absolute;
+        top: 50%;
+        right: 3%;
+        transform: translateY(-50%);
+      }
     }
   }
 }

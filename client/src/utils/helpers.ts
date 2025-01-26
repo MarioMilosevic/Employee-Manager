@@ -36,7 +36,4 @@ export const compareObjectFieldChange = (
   return hasFieldChanged
 }
 
-export const formatDate = (date: string) => {
-  const formattedDate = format(new Date(date), 'MMM dd yyyy')
-  return formattedDate
-}
+export const formatDate = (date: string) => format(new Date(date), 'MMM dd yyyy')

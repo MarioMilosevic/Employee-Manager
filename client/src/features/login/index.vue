@@ -1,5 +1,5 @@
 <template>
-  <LoadingSpinner v-if="loading"/>
+  <LoadingSpinner v-if="loading" />
   <AuthForm @submit.prevent="submitLogin" :inputs="loginInputs" class="form" v-else>
     <template #title>
       <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }">Login</TitleName>
@@ -81,8 +81,13 @@ const submitLogin = async () => {
     if (validation.success) {
       console.log('dobra')
       const response = await login(loginCredentials.value)
-      localStorage.setItem('login-token', response.data)
-      router.push('/')
+      console.log(response)
+      if (response.data) {
+        router.push('/')
+        localStorage.setItem('login-token', response.data)
+      } else {
+        showToast(response.message, 'error')
+      }
     } else {
       const updatedErorrs = renderValidationErrors(loginFormError, validation.error.errors)
       console.log(updatedErorrs)

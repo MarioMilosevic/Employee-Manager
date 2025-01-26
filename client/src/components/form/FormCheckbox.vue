@@ -1,14 +1,10 @@
 <template>
-  <label for="training" class="switch">
     <input
-      class="switch__input"
-      id="training"
+      :id="props.id"
       type="checkbox"
       :checked="initialValue"
       @change="toggleCompleted"
     />
-    <span class="switch__slider slider"></span>
-  </label>
 </template>
 
 <script setup lang="ts">
@@ -19,6 +15,10 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  id: {
+    type: String,
+    required:true
+  }
 })
 
 const emits = defineEmits(['checkbox-event'])
@@ -33,17 +33,40 @@ const toggleCompleted = (event: Event) => {
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
 
-.switch {
+.label {
   position: relative;
-  display: inline-block;
+  border: 1px solid black;
+  width: 100%;
+
+/* &__slider {
+  background-color: red;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left:0;
+  bottom:0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px; */
+
+    /* &::before {
+      position: absolute;
+      content: '';
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    } */
+/* } */
+}
+
+/* .switch {
+  position: relative;
   width: 60px;
   height: 34px;
-
-  &__input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
 
   &__slider {
     position: absolute;
@@ -52,9 +75,6 @@ const toggleCompleted = (event: Event) => {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 34px;
 
     &::before {
       position: absolute;
@@ -74,8 +94,7 @@ const toggleCompleted = (event: Event) => {
 
     &::before {
       transform: translateX(26px);
-      /* transform: translateX(26px); */
     }
   }
-}
+} */
 </style>

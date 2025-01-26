@@ -18,6 +18,11 @@ dugme add new employee
 da kada editujem employee na licu mjesta mogu, znaci input polja da budu umjesto ovog sto je napisano
 da na serveru ubacim ove podatke za slotove, znaci fecam
 
+SUTRA
+Da napravim formu za add employee na HOME
+Da sredim ovo oko checkboxa
+Da na edit napravim istu takvu komponentu, da budu tu input polja sa ovim informacijama
+
 
 
 -->

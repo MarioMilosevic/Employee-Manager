@@ -3,10 +3,12 @@
     <td>{{ fullName }}</td>
     <td>{{ employee.address }}</td>
     <td>{{ formatDate(employee.startYear) }}</td>
-    <FormCheckbox :training-completed="employee.trainingCompleted" />
+    <td>
+      <FormCheckbox  :training-completed="employee.trainingCompleted" @checkbox-event="mario"/>
+    </td>
     <td class="employee__actions">
       <BaseIcon size="big" stroke="#22c55e" @click="editHandler"><EditIcon /></BaseIcon>
-      <BaseIcon size="big" stroke="#ef4444"><DeleteIcon /></BaseIcon>
+      <BaseIcon size="big" stroke="#ef4444" @click="deleteHandler"><DeleteIcon /></BaseIcon>
     </td>
   </tr>
 </template>
@@ -15,7 +17,7 @@
 import { EmployeeType } from 'src/utils/types'
 import { PropType, computed } from 'vue'
 import { formatDate } from 'src/utils/helpers'
-import FormCheckbox from '../form/FormCheckbox.vue'
+import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import EditIcon from 'src/icons/EditIcon.vue'
 import DeleteIcon from 'src/icons/DeleteIcon.vue'
@@ -32,9 +34,12 @@ const fullName = computed(() => {
   return `${props.employee.firstName} ${props.employee.lastName}`
 })
 
+const mario = (value) => {
+console.log(value, props.employee.id)
+}
+
 const editHandler = () => {
-  console.log('mario')
-  // emit('edit-event', props.employee.id)
+  emit('edit-event', props.employee.id)
 }
 
 const deleteHandler = () => {

@@ -9,3 +9,28 @@
   background-color: $secondary-color;
   color: $dark-color;
 }
+
+.icon-small {
+  width: $small;
+  height: $small;
+}
+
+.icon-medium {
+  width: $medium;
+  height: $medium;
+}
+
+.icon-big {
+  width: $big;
+  height: $big;
+}
+
+.button-small {
+  padding: $small $medium;
+}
+.button-medium {
+  padding: $small $medium;
+}
+.button-big {
+  padding: $medium $very-big;
+}

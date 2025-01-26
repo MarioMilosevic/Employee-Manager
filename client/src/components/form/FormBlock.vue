@@ -1,5 +1,6 @@
 <template>
   <fieldset class="block">
+    <slot name="label"/>
     <slot name="input" />
     <span class="block__span">
       <slot name="error" />
@@ -12,6 +13,9 @@
 .block {
   position: relative;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   &__span {
     position: absolute;

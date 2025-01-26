@@ -1,25 +1,26 @@
 <template>
-  <button :class="['button', buttonColor]" :type="type">
+  <button :class="['button', props.color, `button-${props.size}`]" :type="type">
     <slot />
   </button>
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue'
+import { PropType } from 'vue'
 
 const props = defineProps({
-    color: {
-      type: String as PropType<'white' | 'red' | 'green' | 'purple'>,
-      default: 'white',
-    },
-    type: {
-      type: String as PropType<'button' | 'submit' | 'reset'>,
-      default: 'button',
+  color: {
+    type: String as PropType<'white' | 'red' | 'green' | 'purple'>,
+    default: 'white',
+  },
+  type: {
+    type: String as PropType<'button' | 'submit' | 'reset'>,
+    default: 'button',
+  },
+  size: {
+    type: String as PropType<'small' | 'medium' | 'big'>,
   },
 })
-const buttonColor = computed(() => {
-  return props.color
-})
+
 </script>
 
 <style lang="scss" scoped>
@@ -28,12 +29,17 @@ const buttonColor = computed(() => {
 .button {
   border: none;
   cursor: pointer;
-  padding: $small $medium;
+  /* padding: $small $medium; */
   border-radius: $small-radius;
+  font-size: $medium;
 
   &.white {
     color: $dark-color;
     background-color: $secondary-color;
+
+    &:hover {
+      background-color: $secondary-shade-color;
+    }
   }
 
   &.red {
@@ -46,7 +52,6 @@ const buttonColor = computed(() => {
 
   &.green {
     background-color: $green-color;
-
     &:hover {
       background-color: $green-color-hover;
     }
@@ -60,4 +65,6 @@ const buttonColor = computed(() => {
     }
   }
 }
+
+
 </style>

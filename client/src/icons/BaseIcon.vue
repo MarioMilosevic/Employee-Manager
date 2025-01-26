@@ -5,7 +5,7 @@
     :viewBox="viewBox"
     :stroke-width="strokeWidth"
     :stroke="stroke"
-    :class="[`icon__${props.size}`, 'icon']"
+    :class="[`icon-${props.size}`, 'icon']"
     :size="size"
   >
     <slot />
@@ -46,18 +46,5 @@ const props = defineProps({
 
 .icon {
   cursor: pointer;
-
-  &__small {
-    width: $small;
-    height: $small;
-  }
-  &__medium {
-    width: $medium;
-    height: $medium;
-  }
-  &__big {
-    width: $big;
-    height: $big;
-  }
 }
 </style>

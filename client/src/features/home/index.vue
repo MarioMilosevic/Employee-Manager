@@ -28,6 +28,10 @@
         </ActionButton>
       </template>
     </AuthForm> -->
+    <h2>Employee List</h2>
+    <ActionButton color="white" size="big" :style="{ alignSelf: 'flex-start' }" @click="setModal(true)">
+      Add New Employee
+  </ActionButton>
     <EmployeeList>
       <template #employees>
         <EmployeeInfo
@@ -55,7 +59,7 @@ import FormModal from 'src/components/form/FormModal.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import EmployeeList from './EmployeeList.vue'
-import EmployeeInfo from 'src/components/layout/EmployeeInfo.vue'
+import EmployeeInfo from 'src/features/home/EmployeeInfo.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
@@ -85,11 +89,11 @@ onBeforeMount(async () => {
 })
 
 const employees = ref([] as EmployeeType[])
-const isModalOpen = ref(false)
+const isModalOpen = ref<boolean>(false)
 const homeInputs = ref()
 const singleEmployee = ref<EmployeeType>(emptySingleEmployee)
 const formErrors = ref(emptyEmployeeErrors)
-const loading = ref(true)
+const loading = ref<boolean>(true)
 
 const updateEmployees = async (updatedEmployee: EmployeeType) => {
   employees.value = employees.value.map((emp) =>
@@ -125,6 +129,7 @@ const submitForm = async () => {
 }
 
 const editEmployee = async (id: string) => {
+  console.log(id)
   const response = await getData(`employee/${id}`)
   singleEmployee.value = response.data
   setModal(true)
@@ -134,7 +139,7 @@ const editEmployee = async (id: string) => {
 
 const deleteEmployee = async (id: number) => {
   try {
-    const response = await deleteData('employee', 15)
+    const response = await deleteData('employee', id)
     console.log('ovo dobijem odje', response)
     // if (response.ok) {
     //   removeEmployee(id)

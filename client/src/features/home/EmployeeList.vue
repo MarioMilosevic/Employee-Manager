@@ -1,9 +1,7 @@
 <template>
   <table class="table">
-    <h2 class="table__heading">Employee List</h2>
-    <ActionButton>Add New Employee</ActionButton>
     <tr class="table__row">
-      <th>Name</th>
+      <th>Full Name</th>
       <th>Address</th>
       <th>Date started</th>
       <th>Completed Training</th>
@@ -14,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import ActionButton from 'src/components/layout/ActionButton.vue';
 </script>
 
 <style lang="scss" scoped>
@@ -34,14 +31,6 @@ import ActionButton from 'src/components/layout/ActionButton.vue';
     align-self: flex-start;
     margin-bottom: $medium;
   }
-
-
-  /* &__row{
-    border: 1px solid white;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    text-align: justify;
-  } */
 }
 
 </style>
