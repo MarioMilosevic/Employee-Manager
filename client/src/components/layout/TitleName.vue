@@ -1,11 +1,16 @@
 <template>
-  <h1 class="title">
+  <h1 :style="{ textAlign: props.align }">
     <slot />
   </h1>
 </template>
 
-<style scoped lang="scss">
-.title {
-  text-align: center;
-}
-</style>
+<script setup lang="ts">
+import { PropType } from 'vue'
+
+const props = defineProps({
+  align: {
+    type: String as PropType<'justify' | 'center' | 'end'>,
+    default: 'justify',
+  },
+})
+</script>

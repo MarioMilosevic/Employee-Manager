@@ -2,13 +2,17 @@
   <div class="overlay">
     <div class="overlay__modal">
       <!-- <h2 class="overlay__modal-title">Edit Employee</h2> -->
-      <button @click="closeModal" class="overlay__modal-button">X</button>
+       <slot name="title"/>
+       <BaseIcon class="overlay__modal-button" @click="closeModal" size="very-big">
+        <CloseIcon/>
+      </BaseIcon>
+      <!-- <button @click="closeModal" class="overlay__modal-button">X</button> -->
       <AuthForm @submit.prevent="submitForm" class="overlay__modal-form" :inputs="props.inputs">
-        <template #title>
+        <!-- <template #title>
           <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }"
             >Add New Employee</TitleName
           >
-        </template>
+        </template> -->
         <template v-for="input in props.inputs" :key="input.id" #[input.name]>
           <FormBlock>
             <template #input>
@@ -35,7 +39,7 @@
           </FormBlock>
         </template>
         <template #submit>
-          <ActionButton color="white" type="submit" :style="{ justifySelf: 'start' }">
+          <ActionButton size="medium" color="purple" type="submit" :style="{ justifySelf: 'start' }">
             Submit
           </ActionButton>
         </template>
@@ -58,6 +62,8 @@ import { PropType, ref } from 'vue'
 import { EmployeeType } from 'src/utils/types'
 import { editData } from 'src/api/api'
 import { InputType } from 'src/utils/types'
+import BaseIcon from 'src/icons/BaseIcon.vue'
+import CloseIcon from 'src/icons/CloseIcon.vue'
 
 const emits = defineEmits(['close-modal', 'update-event'])
 const props = defineProps({
@@ -129,25 +135,25 @@ const submitForm = async () => {
     position: fixed;
     top: 50%;
     left: 50%;
-    max-width: 1100px;
+    max-width: 500px;
     width: 100%;
     transform: translate(-50%, -50%);
     background-color: $primary-color;
-    padding: $medium $small;
+    padding: $big $big $very-big;
     display: flex;
     flex-direction: column;
     gap: $medium;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 
     &-button {
       position: absolute;
       top: 7%;
-      right: 1%;
+      right: 3%;
       border: none;
       cursor: pointer;
-      background-color: $dark-color;
-      color: $secondary-color;
-      padding: 0.2rem 0.3rem;
+      /* background-color: $dark-color;
+      color: $secondary-color; */
+      /* padding: 0.2rem 0.3rem; */
     }
 
     &-form {
@@ -164,8 +170,9 @@ const submitForm = async () => {
       background-color: $secondary-color;
       padding: $big $very-big;
       width: 400px;
-      margin: 5rem auto;
+      margin: 0 auto;
       border-radius: $medium-radius;
+
 
       &-checkbox {
         position: absolute;

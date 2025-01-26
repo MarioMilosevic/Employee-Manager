@@ -1,7 +1,7 @@
 <template>
   <LoadingSpinner v-if="loading" />
   <template v-else>
-    <TitleName>Employee Manager</TitleName>
+    <TitleName align="center">Employee Manager</TitleName>
     <!-- <AuthForm @submit.prevent="submitForm" class="form" :inputs="homeInputs">
       <template v-for="input in homeInputs" :key="input.id" #[input.name]>
         <FormBlock>
@@ -29,17 +29,22 @@
       </template>
     </AuthForm> -->
     <h2>Employee List</h2>
-    <ActionButton color="white" size="big" :style="{ alignSelf: 'flex-start' }" @click="setModal(true)">
+    <ActionButton
+      color="white"
+      size="big"
+      :style="{ alignSelf: 'flex-start' }"
+      @click="setModal(true)"
+    >
       Add New Employee
-  </ActionButton>
+    </ActionButton>
     <EmployeeList>
       <template #employees>
         <EmployeeInfo
-        v-for="employee in employees"
-        :key="employee.id"
-        :employee="employee"
-        @edit-event="editEmployee"
-        @delete-event="deleteEmployee"
+          v-for="employee in employees"
+          :key="employee.id"
+          :employee="employee"
+          @edit-event="editEmployee"
+          @delete-event="deleteEmployee"
         />
       </template>
     </EmployeeList>
@@ -50,7 +55,11 @@
       :inputs="homeInputs"
       @close-modal="setModal(false)"
       @update-event="updateEmployees"
-    />
+    >
+      <template #title>
+        <TitleName align="center">Add New Employee</TitleName>
+      </template> </FormModal
+    >>
   </template>
 </template>
 
