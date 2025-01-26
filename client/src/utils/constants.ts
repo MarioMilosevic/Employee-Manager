@@ -3,7 +3,6 @@ import { EmployeeErrorsType } from './types'
 export const baseUrl = 'http://localhost:3000/api/v1'
 
 export const emptySingleEmployee = {
-  id: 0,
   firstName: '',
   lastName: '',
   address: '',

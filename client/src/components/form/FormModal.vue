@@ -1,18 +1,11 @@
 <template>
   <div class="overlay">
     <div class="overlay__modal">
-      <!-- <h2 class="overlay__modal-title">Edit Employee</h2> -->
        <slot name="title"/>
        <BaseIcon class="overlay__modal-button" @click="closeModal" size="very-big">
         <CloseIcon/>
       </BaseIcon>
-      <!-- <button @click="closeModal" class="overlay__modal-button">X</button> -->
       <AuthForm @submit.prevent="submitForm" class="overlay__modal-form" :inputs="props.inputs">
-        <!-- <template #title>
-          <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }"
-            >Add New Employee</TitleName
-          >
-        </template> -->
         <template v-for="input in props.inputs" :key="input.id" #[input.name]>
           <FormBlock>
             <template #input>
@@ -60,12 +53,13 @@ import FormLabel from 'src/components/form/FormLabel.vue'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { PropType, ref } from 'vue'
 import { EmployeeType } from 'src/utils/types'
+import { renderValidationErrors } from 'src/utils/helpers'
 import { editData } from 'src/api/api'
 import { InputType } from 'src/utils/types'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
 
-const emits = defineEmits(['close-modal', 'update-event'])
+const emits = defineEmits(['close-modal', 'update-event', 'submit-event'])
 const props = defineProps({
   singleEmployee: {
     type: Object as PropType<EmployeeType>,
@@ -96,23 +90,31 @@ const submitForm = async () => {
   console.log('kada submitam', employee.value)
   const validation = employeeFormSchema.safeParse(employee.value)
   if (validation.success) {
-    console.log(validation.data)
-    const validationData = {
-      id: employee.value.id,
-      ...validation.data,
-    }
-
-    const response = await editData(validationData, `employee/${employee.value.id}`)
-    console.log(response)
-    emits('update-event', response.data)
+    emits('submit-event', employee.value)
   } else {
-    const errors = validation.error.errors
-    errors.forEach((error) => {
-      console.log(error)
-      const field = error.path[0] as keyof typeof formErrors
-      formErrors[field] = error.message
-    })
+    const updatedErorrs = renderValidationErrors(formErrors, validation.error.errors)
+    formErrors.value = updatedErorrs
   }
+    // const validationData = {
+    //   id: employee.value.id,
+    //   ...validation.data,
+    // }
+
+    // const response = await editData(validationData, `employee/${employee.value.id}`)
+    // console.log(response)
+    // emits('update-event', response.data)
+  // } else {
+  //   console.log('nije dobro')
+
+  //   const updatedErorrs = renderValidationErrors(formErrors, validation.error.errors)
+  //   formErrors.value = updatedErorrs
+    // const errors = validation.error.errors
+    // errors.forEach((error) => {
+    //   console.log(error)
+    //   const field = error.path[0] as keyof typeof formErrors
+    //   formErrors[field] = error.message
+    // })
+  // }
 }
 </script>
 
@@ -142,7 +144,7 @@ const submitForm = async () => {
     padding: $big $big $very-big;
     display: flex;
     flex-direction: column;
-    gap: $medium;
+    gap: $very-big;
     /* justify-content: space-between; */
 
     &-button {

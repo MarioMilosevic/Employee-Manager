@@ -18,6 +18,7 @@ const props = defineProps({
   },
   size: {
     type: String as PropType<'small' | 'medium' | 'big'>,
+    default:'medium'
   },
 })
 

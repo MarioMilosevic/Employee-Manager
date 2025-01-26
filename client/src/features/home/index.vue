@@ -55,11 +55,12 @@
       :inputs="homeInputs"
       @close-modal="setModal(false)"
       @update-event="updateEmployees"
+      @submit-event="submitForm"
     >
       <template #title>
         <TitleName align="center">Add New Employee</TitleName>
-      </template> </FormModal
-    >>
+      </template>
+    </FormModal>
   </template>
 </template>
 
@@ -81,6 +82,7 @@ import { EmployeeType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { ref, nextTick, onBeforeMount } from 'vue'
 import { getData, deleteData, postData } from 'src/api/api'
+import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {
   try {
@@ -125,15 +127,15 @@ const resetForm = () => {
   formErrors.value = emptyEmployeeErrors
 }
 
-const submitForm = async () => {
-  const validation = employeeFormSchema.safeParse(singleEmployee.value)
-  if (validation.success) {
-    const response = await postData(validation.data, 'employee')
+const submitForm = async (employee: EmployeeType) => {
+  console.log(employee)
+  try {
+    const response = await postData(employee, 'employee')
     addEmployee(response.data)
     resetForm()
-  } else {
-    const updatedErorrs = renderValidationErrors(formErrors, validation.error.errors)
-    formErrors.value = updatedErorrs
+    setModal(false)
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -149,16 +151,13 @@ const editEmployee = async (id: string) => {
 const deleteEmployee = async (id: number) => {
   try {
     const response = await deleteData('employee', id)
-    console.log('ovo dobijem odje', response)
-    // if (response.ok) {
-    //   removeEmployee(id)
-    // } else {
-    //   throw ''
-    // }
-    // const isStatusOk = await deleteData(`employee`, id)
-    // if (isStatusOk) {
-    //   removeEmployee(id)
-    // }
+    if (response && response.ok) {
+       removeEmployee(id)
+    } else {
+      const responseData = await response?.json()
+      console.log(responseData)
+      showToast(responseData.message, 'error')
+    }
   } catch (error) {
     console.log(error)
   }

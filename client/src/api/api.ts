@@ -1,13 +1,12 @@
 import { EmployeeType, LoginCredentialsType, UserType } from 'src/utils/types'
 import { baseUrl } from 'src/utils/constants'
 import { getDataFromJson } from 'src/utils/helpers'
-// import { showToast } from 'src/utils/toast'
 
-type PostType = {
-  data: EmployeeType | UserType
-}
+// type PostType = {
+//    EmployeeType | UserType
+// }
 
-export const postData = async (postData: PostType, path: string) => {
+export const postData = async (postData: EmployeeType | UserType, path: string) => {
   try {
     const response = await fetch(`${baseUrl}/${path}`, {
       method: 'POST',
@@ -33,7 +32,7 @@ export const getData = async (path: string) => {
   }
 }
 
-export const editData = async (data: PostType, path: string) => {
+export const editData = async (data: EmployeeType| UserType, path: string) => {
   try {
     // const response = await fetch(`${baseUrl}/employee/${data.id}`, {
     const response = await fetch(`${baseUrl}/${path}`, {

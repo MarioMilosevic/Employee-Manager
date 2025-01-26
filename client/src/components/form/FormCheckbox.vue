@@ -1,10 +1,5 @@
 <template>
-    <input
-      :id="props.id"
-      type="checkbox"
-      :checked="initialValue"
-      @change="toggleCompleted"
-    />
+  <input :id="props.id" type="checkbox" :checked="initialValue" @change="toggleCompleted" />
 </template>
 
 <script setup lang="ts">
@@ -17,8 +12,8 @@ const props = defineProps({
   },
   id: {
     type: String,
-    required:false
-  }
+    required: false,
+  },
 })
 
 const emits = defineEmits(['checkbox-event'])
@@ -38,7 +33,7 @@ const toggleCompleted = (event: Event) => {
   border: 1px solid black;
   width: 100%;
 
-/* &__slider {
+  /* &__slider {
   background-color: red;
   position: absolute;
   top: 0;
@@ -49,7 +44,7 @@ const toggleCompleted = (event: Event) => {
   transition: 0.4s;
   border-radius: 34px; */
 
-    /* &::before {
+  /* &::before {
       position: absolute;
       content: '';
       height: 26px;
@@ -60,7 +55,7 @@ const toggleCompleted = (event: Event) => {
       transition: 0.4s;
       border-radius: 50%;
     } */
-/* } */
+  /* } */
 }
 
 /* .switch {

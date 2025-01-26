@@ -2,7 +2,9 @@
   <LoadingSpinner v-if="loading" />
   <AuthForm @submit.prevent="submitLogin" :inputs="loginInputs" class="form" v-else>
     <template #title>
-      <TitleName :style="{ color: '#0b050f', paddingBottom: '1rem' }">Login</TitleName>
+      <TitleName align="center" :style="{ color: '#0b050f', paddingBottom: '1rem' }"
+        >Login</TitleName
+      >
     </template>
     <template v-for="input in loginInputs" :key="input.id" #[input.name]>
       <FormBlock>
