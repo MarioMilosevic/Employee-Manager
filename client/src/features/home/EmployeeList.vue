@@ -2,7 +2,10 @@
   <table class="table">
     <thead class="table__row">
       <tr>
-        <th>Full Name</th>
+        <th>First Name</th>
+      </tr>
+      <tr>
+        <th>Last Name</th>
       </tr>
       <tr>
         <th>Address</th>

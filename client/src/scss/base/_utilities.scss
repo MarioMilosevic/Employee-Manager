@@ -1,6 +1,8 @@
+@use "../abstracts/variables" as *;
+
 .table__row {
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr 1fr;
   text-align: center;
   align-items: center;
   justify-items: center;
@@ -32,10 +34,13 @@
 
 .button-small {
   padding: $small $medium;
+  font-size: $small;
 }
 .button-medium {
   padding: $small $medium;
+  font-size: $medium;
 }
 .button-big {
   padding: $medium $very-big;
+  font-size: $big;
 }

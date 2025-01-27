@@ -1,6 +1,7 @@
 <template>
   <tr class="table__row employee">
-    <td>{{ fullName }}</td>
+    <td>{{ employee.firstName }}</td>
+    <td>{{ employee.lastName }}</td>
     <td>{{ employee.address }}</td>
     <td>{{ formatDate(employee.startYear) }}</td>
     <td>
@@ -11,10 +12,12 @@
       />
     </td>
     <td class="employee__actions">
-      <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event')"
-        ><EditIcon
-      /></BaseIcon>
-      <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')"><DeleteIcon /></BaseIcon>
+      <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event')">
+        <EditIcon />
+      </BaseIcon>
+      <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')">
+        <DeleteIcon />
+      </BaseIcon>
     </td>
   </tr>
 </template>
@@ -33,6 +36,7 @@ const props = defineProps({
     type: Object as PropType<EmployeeType>,
     required: true,
   },
+
 })
 const emit = defineEmits(['edit-event', 'delete-event'])
 
@@ -40,7 +44,8 @@ const fullName = computed(() => {
   return `${props.employee.firstName} ${props.employee.lastName}`
 })
 
-const mario = (value:number) => {
+
+const mario = (value: number) => {
   console.log(value, props.employee.id)
 }
 

@@ -1,12 +1,13 @@
 <template>
-  <h1 v-if="isEditing">Odje treba edit componenta</h1>
-  <EmployeeInfo :employee="employee" @edit-event="editHandler"/>
+  <EmployeeEdit v-if="isEditing" :employee="props.employee" :inputs="props.inputs" />
+  <EmployeeInfo v-else :employee="props.employee" @edit-event="editHandler" />
 </template>
 
 <script setup lang="ts">
-import { EmployeeType } from 'src/utils/types'
+import { EmployeeType, InputType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
 import EmployeeInfo from 'src/features/home/EmployeeInfo.vue'
+import EmployeeEdit from 'src/features/home/EmployeeEdit.vue'
 
 const isEditing = ref<boolean>(false)
 
@@ -15,19 +16,22 @@ const props = defineProps({
     type: Object as PropType<EmployeeType>,
     required: true,
   },
+  inputs: {
+    type: Array as PropType<InputType[]>,
+    required: true,
+  },
 })
-const emit = defineEmits(['edit-event', 'delete-event'])
-
+// const emit = defineEmits(['edit-event', 'delete-event'])
 
 const editHandler = (id) => {
   console.log(id)
   isEditing.value = true
-  // emit('edit-event', props.employee.id)
 }
 
-const deleteHandler = () => {
-  emit('delete-event', props.employee.id)
-}
+// emit('edit-event', props.employee.id)
+// const deleteHandler = () => {
+//   emit('delete-event', props.employee.id)
+// }
 </script>
 
 <style lang="scss" scoped>

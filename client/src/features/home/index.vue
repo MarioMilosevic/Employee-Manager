@@ -17,8 +17,7 @@
           v-for="employee in employees"
           :key="employee.id"
           :employee="employee"
-          @edit-event="editEmployee"
-          @delete-event="deleteEmployee"
+          :inputs="homeInputs"
         />
       </template>
     </EmployeeList>
@@ -57,7 +56,6 @@ onBeforeMount(async () => {
       getData('employee'),
       getData('inputs/home'),
     ])
-
     employees.value = employeeResponse.data
     homeInputs.value = homeResponse.data
     loading.value = false
