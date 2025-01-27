@@ -10,13 +10,12 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, useSlots } from 'vue'
+import { PropType,  } from 'vue'
 import { InputType } from 'src/utils/types'
 
 // const slots = defineSlots()
 // console.log(slots)
-// const mario = Object.keys(slots)
-// console.log(mario)
+
 
 const props = defineProps({
   inputs: {

@@ -1,11 +1,13 @@
 <template>
   <div class="overlay">
     <div class="overlay__modal">
-      <slot name="title" />
-      <BaseIcon class="overlay__modal-button" @click="closeModal" size="very-big">
+      <BaseIcon class="overlay__modal-button" fill="black" @click="closeModal" size="very-big">
         <CloseIcon />
       </BaseIcon>
       <AuthForm @submit.prevent="submitForm" class="overlay__modal-form" :inputs="props.inputs">
+        <template #title>
+          <TitleName color="black">Add New Employee</TitleName>
+        </template>
         <template v-for="input in props.inputs" :key="input.id" #[input.name]>
           <FormBlock>
             <template #input>
@@ -60,12 +62,11 @@ import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { PropType, ref } from 'vue'
 import { EmployeeType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
-import { editData } from 'src/api/api'
 import { InputType } from 'src/utils/types'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
 
-const emits = defineEmits(['close-modal', 'update-event', 'submit-event'])
+const emits = defineEmits(['close-modal','submit-event'])
 const props = defineProps({
   singleEmployee: {
     type: Object as PropType<EmployeeType>,
@@ -143,11 +144,11 @@ const submitForm = async () => {
     position: fixed;
     top: 50%;
     left: 50%;
-    max-width: 500px;
-    width: 100%;
+    /* max-width: 500px;
+    width: 100%; */
     transform: translate(-50%, -50%);
-    background-color: $primary-color;
-    padding: $big $big $very-big;
+    /* background-color: $primary-color; */
+    /* padding: $big $big $very-big; */
     display: flex;
     flex-direction: column;
     gap: $very-big;
@@ -155,7 +156,7 @@ const submitForm = async () => {
 
     &-button {
       position: absolute;
-      top: 7%;
+      top: 3%;
       right: 3%;
       border: none;
       cursor: pointer;

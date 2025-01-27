@@ -29,13 +29,8 @@
       :singleEmployee="singleEmployee"
       :inputs="homeInputs"
       @close-modal="setModal(false)"
-      @update-event="updateEmployees"
       @submit-event="submitForm"
-    >
-      <template #title>
-        <TitleName align="center">Add New Employee</TitleName>
-      </template>
-    </FormModal>
+    />
   </template>
 </template>
 
@@ -48,7 +43,7 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
 import { EmployeeType } from 'src/utils/types'
-import { ref, nextTick, onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { getData, deleteData, postData, editData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 
@@ -72,17 +67,6 @@ const homeInputs = ref()
 const singleEmployee = ref<EmployeeType>(emptySingleEmployee)
 const formErrors = ref(emptyEmployeeErrors)
 const loading = ref<boolean>(true)
-
-const updateEmployees = async (updatedEmployee: EmployeeType) => {
-  employees.value = employees.value.map((emp) =>
-    emp.id === updatedEmployee.id ? updatedEmployee : emp,
-  )
-  setModal(false)
-}
-
-// const setTrainingCompleted = (value: boolean) => {
-//   singleEmployee.value.trainingCompleted = value
-// }
 
 const addEmployee = (employee: EmployeeType) => employees.value.push(employee)
 
