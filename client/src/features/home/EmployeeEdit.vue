@@ -1,23 +1,27 @@
 <template>
-  <tr class="table__row" :style="{position:'relative'}">
+  <tr class="table__row" :style="{ position: 'relative' }">
     <FormBlock v-for="input in props.inputs" :key="input.id">
       <template #input>
         <FormInput
+          align="center"
           v-bind="input"
           v-model="selectedEmployee[input.name as keyof typeof selectedEmployee]"
         />
       </template>
     </FormBlock>
-    <FormCheckbox :id="selectedEmployee.id" :trainingCompleted="selectedEmployee.trainingCompleted" />
+    <FormCheckbox
+      :trainingCompleted="selectedEmployee.trainingCompleted"
+      @checkbox-event="toggleTrainingCompleted"
+    />
     <div class="actions">
-      <BaseIcon size="big" stroke="#22c55e">
+      <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event', selectedEmployee)">
         <ConfirmIcon />
       </BaseIcon>
       <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')">
         <DeleteIcon />
       </BaseIcon>
       <BaseIcon size="big" @click="emit('close-event', props.employee.id)">
-        <CloseIcon/>
+        <CloseIcon />
       </BaseIcon>
     </div>
   </tr>
@@ -25,7 +29,7 @@
 
 <script setup lang="ts">
 import FormBlock from 'src/components/form/FormBlock.vue'
-import FormError from 'src/components/form/FormError.vue'
+// import FormError from 'src/components/form/FormError.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
@@ -47,8 +51,11 @@ const props = defineProps({
 })
 
 const selectedEmployee = ref<EmployeeType>({ ...props.employee })
-
 const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])
+
+const toggleTrainingCompleted = (value: boolean) => {
+  selectedEmployee.value.trainingCompleted = value
+}
 
 </script>
 

@@ -19,6 +19,7 @@
           :employee="employee"
           :inputs="homeInputs"
           @delete-event="deleteEmployee"
+          @edit-event="editEmployee"
         />
       </template>
     </EmployeeList>
@@ -48,7 +49,7 @@ import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
 import { EmployeeType } from 'src/utils/types'
 import { ref, nextTick, onBeforeMount } from 'vue'
-import { getData, deleteData, postData } from 'src/api/api'
+import { getData, deleteData, postData, editData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {
@@ -105,29 +106,32 @@ const submitForm = async (employee: EmployeeType) => {
   }
 }
 
-const editEmployee = async (id: string) => {
-  console.log(id)
-  const response = await getData(`employee/${id}`)
-  singleEmployee.value = response.data
-  setModal(true)
-  await nextTick()
-  singleEmployee.value = emptySingleEmployee
+const editEmployee = async (employee: EmployeeType) => {
+  try {
+    const response = await editData(employee, `employee/${employee.id}`)
+    if (response.data) {
+      employees.value = employees.value.map((emp) => (emp.id === employee.id ? employee : emp))
+    } else {
+      showToast(response.message, 'error')
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const deleteEmployee = async (id: number) => {
-  console.log("uslo dje treba",id)
-  // try {
-  //   const response = await deleteData('employee', id)
-  //   if (response && response.ok) {
-  //      removeEmployee(id)
-  //   } else {
-  //     const responseData = await response?.json()
-  //     console.log(responseData)
-  //     showToast(responseData.message, 'error')
-  //   }
-  // } catch (error) {
-  //   console.log(error)
-  // }
+  try {
+    const response = await deleteData('employee', id)
+    if (response && response.ok) {
+      removeEmployee(id)
+    } else {
+      const responseData = await response?.json()
+      console.log(responseData)
+      showToast(responseData.message, 'error')
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const setModal = (value: boolean) => {

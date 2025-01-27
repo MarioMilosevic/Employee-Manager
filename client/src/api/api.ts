@@ -34,7 +34,6 @@ export const getData = async (path: string) => {
 
 export const editData = async (data: EmployeeType| UserType, path: string) => {
   try {
-    // const response = await fetch(`${baseUrl}/employee/${data.id}`, {
     const response = await fetch(`${baseUrl}/${path}`, {
       method: 'PUT',
       headers: {

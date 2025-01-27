@@ -5,6 +5,7 @@
     :inputs="props.inputs"
     @close-event="isEditing = false"
     @delete-event="emit('delete-event', props.employee.id)"
+    @edit-event="editHandler"
   />
   <EmployeeInfo v-else :employee="props.employee" @edit-event="isEditing = true" />
 </template>
@@ -30,10 +31,11 @@ const props = defineProps({
 })
 const emit = defineEmits(['edit-event', 'delete-event'])
 
-// emit('edit-event', props.employee.id)
-// const deleteHandler = () => {
-//   emit('delete-event', props.employee.id)
-// }
+const editHandler = (employee:EmployeeType) => {
+  emit('edit-event', employee)
+  isEditing.value = (false)
+}
+
 </script>
 
 <style lang="scss" scoped>

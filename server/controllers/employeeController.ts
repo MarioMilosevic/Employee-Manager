@@ -82,6 +82,7 @@ const employee = {
     try {
       if (!req.requestPayload.data) {
         errorFactory.notFound(res, "Employee has not been found");
+        return
       }
 
       const updatedEmployee = await prisma.employee.update({
