@@ -18,6 +18,7 @@
           :key="employee.id"
           :employee="employee"
           :inputs="homeInputs"
+          @delete-event="deleteEmployee"
         />
       </template>
     </EmployeeList>
@@ -114,18 +115,19 @@ const editEmployee = async (id: string) => {
 }
 
 const deleteEmployee = async (id: number) => {
-  try {
-    const response = await deleteData('employee', id)
-    if (response && response.ok) {
-       removeEmployee(id)
-    } else {
-      const responseData = await response?.json()
-      console.log(responseData)
-      showToast(responseData.message, 'error')
-    }
-  } catch (error) {
-    console.log(error)
-  }
+  console.log("uslo dje treba",id)
+  // try {
+  //   const response = await deleteData('employee', id)
+  //   if (response && response.ok) {
+  //      removeEmployee(id)
+  //   } else {
+  //     const responseData = await response?.json()
+  //     console.log(responseData)
+  //     showToast(responseData.message, 'error')
+  //   }
+  // } catch (error) {
+  //   console.log(error)
+  // }
 }
 
 const setModal = (value: boolean) => {

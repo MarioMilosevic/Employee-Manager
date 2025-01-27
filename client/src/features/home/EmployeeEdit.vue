@@ -1,23 +1,25 @@
 <template>
-  <tr>
-    <td class="table__row">
-      <FormBlock v-for="input in props.inputs" :key="input.id">
-        <template #input>
-          <FormInput
-            v-bind="input"
-            v-model="selectedEmployee[input.name as keyof typeof selectedEmployee]"
-          />
-        </template>
-      </FormBlock>
-      <FormCheckbox :id="selectedEmployee.id" :checked="selectedEmployee.trainingCompleted" />
-      <span class="mario">
-        <ActionButton size="small">Save</ActionButton>
-        <ActionButton size="small">Delete</ActionButton>
-      </span>
-      <!-- <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')">
+  <tr class="table__row" :style="{position:'relative'}">
+    <FormBlock v-for="input in props.inputs" :key="input.id">
+      <template #input>
+        <FormInput
+          v-bind="input"
+          v-model="selectedEmployee[input.name as keyof typeof selectedEmployee]"
+        />
+      </template>
+    </FormBlock>
+    <FormCheckbox :id="selectedEmployee.id" :trainingCompleted="selectedEmployee.trainingCompleted" />
+    <div class="actions">
+      <BaseIcon size="big" stroke="#22c55e">
+        <ConfirmIcon />
+      </BaseIcon>
+      <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')">
         <DeleteIcon />
-      </BaseIcon> -->
-    </td>
+      </BaseIcon>
+      <BaseIcon size="big" @click="emit('close-event', props.employee.id)">
+        <CloseIcon/>
+      </BaseIcon>
+    </div>
   </tr>
 </template>
 
@@ -26,12 +28,12 @@ import FormBlock from 'src/components/form/FormBlock.vue'
 import FormError from 'src/components/form/FormError.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
-import { emptySingleEmployee } from 'src/utils/constants'
+import CloseIcon from 'src/icons/CloseIcon.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import DeleteIcon from 'src/icons/DeleteIcon.vue'
+import ConfirmIcon from 'src/icons/ConfirmIcon.vue'
 import { EmployeeType, InputType } from 'src/utils/types'
-import { PropType, onMounted, ref } from 'vue'
-import ActionButton from 'src/components/layout/ActionButton.vue'
+import { PropType, ref } from 'vue'
 
 const props = defineProps({
   employee: {
@@ -46,18 +48,21 @@ const props = defineProps({
 
 const selectedEmployee = ref<EmployeeType>({ ...props.employee })
 
-const emit = defineEmits(['edit-event', 'delete-event'])
+const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])
 
-onMounted(() => {
-  console.log(props.employee)
-  console.log(props.inputs)
-})
 </script>
 
 <style scoped lang="scss">
-
-.mario {
-  border:1px solid black;
-  display: flex;
+.close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
+/* @use 'src/scss/abstracts/variables' as *; */
+
+/* .actions {
+  border: 1px solid black;
+  display: flex;
+  gap: $small;
+} */
 </style>

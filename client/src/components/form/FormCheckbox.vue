@@ -18,12 +18,12 @@ const props = defineProps({
     required: true,
   },
   id: {
-    type: String,
+    type: Number,
     required: false,
   },
   disabled: {
     type: Boolean,
-    required:true
+    default:undefined
   }
 })
 
