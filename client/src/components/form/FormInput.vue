@@ -19,6 +19,10 @@ const props = defineProps({
   align:{
     type:String as PropType<'justify' | 'center' | 'end'>,
     default:'justify'
+  },
+  id: {
+    type: Number,
+    required:false
   }
 })
 

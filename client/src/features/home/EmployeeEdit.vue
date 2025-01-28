@@ -13,7 +13,7 @@
       :trainingCompleted="selectedEmployee.trainingCompleted"
       @checkbox-event="toggleTrainingCompleted"
     />
-    <div class="actions">
+    <td class="actions">
       <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event', selectedEmployee)">
         <ConfirmIcon />
       </BaseIcon>
@@ -23,7 +23,7 @@
       <BaseIcon size="big" @click="emit('close-event', props.employee.id)">
         <CloseIcon />
       </BaseIcon>
-    </div>
+    </td>
   </tr>
 </template>
 

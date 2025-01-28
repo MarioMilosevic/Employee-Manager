@@ -8,8 +8,24 @@
         <template #title>
           <TitleName color="black">Add New Employee</TitleName>
         </template>
+
         <template v-for="input in props.inputs" :key="input.id" #[input.name]>
-          <FormBlock>
+          <FormBlock v-if="input.type === 'date'">
+            <template #label>
+              <FormLabel class="overlay__modal-form-label" id="date">Start Date ?</FormLabel>
+            </template>
+            <template #input>
+              <FormInput
+                v-bind="input"
+                v-model="employee[input.name as keyof typeof employee]"
+                class="overlay__modal-form-date"
+              />
+            </template>
+            <template #error>
+              <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
+            </template>
+          </FormBlock>
+          <FormBlock v-else>
             <template #input>
               <FormInput v-bind="input" v-model="employee[input.name as keyof typeof employee]" />
             </template>
@@ -18,10 +34,13 @@
             </template>
           </FormBlock>
         </template>
+
         <template #default>
           <FormBlock>
             <template #label>
-              <FormLabel id="checkbox">Completed Training ?</FormLabel>
+              <FormLabel id="checkbox" class="overlay__modal-form-label"
+                >Completed Training ?</FormLabel
+              >
             </template>
             <template #input>
               <FormCheckbox
@@ -34,6 +53,7 @@
             </template>
           </FormBlock>
         </template>
+
         <template #submit>
           <ActionButton
             size="medium"
@@ -66,7 +86,7 @@ import { InputType } from 'src/utils/types'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
 
-const emits = defineEmits(['close-modal','submit-event'])
+const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
   singleEmployee: {
     type: Object as PropType<EmployeeType>,
@@ -86,6 +106,7 @@ const formErrors = ref({
   address: '',
   startYear: '',
 })
+
 
 const closeModal = () => {
   emits('close-modal')
@@ -144,49 +165,51 @@ const submitForm = async () => {
     position: fixed;
     top: 50%;
     left: 50%;
-    /* max-width: 500px;
-    width: 100%; */
     transform: translate(-50%, -50%);
-    /* background-color: $primary-color; */
-    /* padding: $big $big $very-big; */
+
     display: flex;
     flex-direction: column;
     gap: $very-big;
-    /* justify-content: space-between; */
 
     &-button {
       position: absolute;
-      top: 3%;
-      right: 3%;
+      top: 1%;
+      right: 1%;
       border: none;
       cursor: pointer;
-      /* background-color: $dark-color;
-      color: $secondary-color; */
-      /* padding: 0.2rem 0.3rem; */
     }
 
     &-form {
-      /* display: flex;
-      gap: $medium;
-      align-items: center;
-      background-color: $primary-shade-color;
-      padding: $medium;
-      border-radius: $small-radius; */
       display: flex;
       flex-direction: column;
       gap: $medium;
       background-color: $primary-shade-color;
       background-color: $secondary-color;
       padding: $big $very-big;
-      width: 400px;
+      max-width: $max-form-width;
+      width: 100%;
       margin: 0 auto;
       border-radius: $medium-radius;
+
+      &-label {
+        font-size: $medium-font;
+        color: $placeholder-color;
+      }
 
       &-checkbox {
         position: absolute;
         top: 50%;
         right: 3%;
         transform: translateY(-50%);
+      }
+
+      &-date {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40%;
+        border-left: none;
+        border-radius: 0;
       }
     }
   }

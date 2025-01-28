@@ -86,4 +86,5 @@ export const emptySignUpObject = {
   email: '',
   password: '',
   passwordConfirm: '',
+  role:"user"
 }

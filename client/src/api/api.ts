@@ -25,8 +25,6 @@ export const getData = async (path: string) => {
   try {
     const response = await fetch(`${baseUrl}/${path}`)
     return getDataFromJson(response)
-    // const result = await response.json()
-    // return result.data
   } catch (error) {
     console.error('Network error', error)
   }

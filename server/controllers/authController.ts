@@ -52,10 +52,11 @@ const authController = {
           email,
           password,
         },
-        omit: { passwordConfirm },
+        omit: { passwordConfirm, password },
       });
       successResponseFactory.created(res, user);
     } catch (error) {
+      console.log(error)
       errorFactory.internalError(res);
     }
   },
