@@ -26,7 +26,7 @@ model Employee {
 
 model User {
   id      Int      @id @default(autoincrement()) 
-  role String
+  role Role @default(USER)
   email   String   @unique 
   firstName    String
   lastName    String
@@ -37,13 +37,18 @@ model User {
 }
 
 model InputField {
-  id          Int      @id @default(autoincrement()) // Auto-incremented primary key
+  id          Int      @id @default(autoincrement()) 
   name        String
   type        String
   placeholder String
   inputsId    String  
 }
 
+enum Role {
+  USER
+  ADMIN
+  GUEST
+}
 
 
 

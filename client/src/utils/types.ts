@@ -20,7 +20,8 @@ export type UserType = {
   lastName: string
   email: string
   password: string
-  passwordConfirm:string
+  passwordConfirm: string
+  role:string
 }
 
 
@@ -30,11 +31,11 @@ export type LoginCredentialsType = {
 }
 
 export type SignUpCredentialsType = {
-  firstName: string 
-  lastName: string 
-  email: string 
-  password: string 
-  passwordConfirm: string 
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  passwordConfirm: string
 }
 
 export type InputType = {

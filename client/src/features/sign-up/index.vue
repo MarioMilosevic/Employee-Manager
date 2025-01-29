@@ -41,7 +41,7 @@ import { renderValidationErrors } from 'src/utils/helpers'
 import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
 import { ref, watch, onBeforeMount, computed, nextTick } from 'vue'
-import { SignUpCredentialsType } from 'src/utils/types'
+import { SignUpCredentialsType, UserType } from 'src/utils/types'
 import { compareObjectFieldChange } from 'src/utils/helpers'
 import { showToast } from 'src/utils/toast'
 
@@ -84,7 +84,7 @@ const submitForm = async () => {
       console.log('uspjesno')
       signUpFormErrors.value = { ...emptySignUpObject }
       console.log(validation)
-      const response = await postData(signUpCredentials.value, `users/sign-up`)
+      const response = await postData(signUpCredentials.value as UserType, `users/sign-up`)
       console.log(response)
       if (response.data) {
         router.push("/login")
