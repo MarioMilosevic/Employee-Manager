@@ -3,12 +3,25 @@ import successResponseFactory from "../services/successResponseFactory";
 import errorFactory from "../services/errorFactory";
 import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
-import { loginInputs, signUpInputs } from "../utils/constants";
+import jwt from "jsonwebtoken";
 
 const user = {
-  async getSignUpInputs(req: CustomRequest, res: Response) {
+  async getIdFromToken(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      successResponseFactory.ok(res, signUpInputs);
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        errorFactory.notAuthorized(res);
+        return;
+      }
+      const token = authHeader.split(" ")[1];
+      const { id } = jwt.verify(token, process.env.JWT_SECRET);
+      if (!id) {
+        errorFactory.forbidden(res);
+        return;
+      }
+      console.log(id);
+      req.requestPayload.id = id;
+      next();
     } catch (error) {
       errorFactory.internalError(res);
     }
@@ -16,7 +29,6 @@ const user = {
   getId(req: CustomRequest, res: Response, next: NextFunction) {
     const { id } = req.params;
     const body = req.body;
-
     req.requestPayload = {
       id: Number(id),
       body,
@@ -69,7 +81,6 @@ const user = {
       errorFactory.internalError(res);
     }
   },
-
   async deleteUser(req: CustomRequest, res: Response) {
     try {
       if (!req.requestPayload.data) {

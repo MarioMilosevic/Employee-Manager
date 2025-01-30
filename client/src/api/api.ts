@@ -2,9 +2,6 @@ import { EmployeeType, LoginCredentialsType, UserType } from 'src/utils/types'
 import { baseUrl } from 'src/utils/constants'
 import { getDataFromJson } from 'src/utils/helpers'
 
-// type PostType = {
-//    EmployeeType | UserType
-// }
 
 export const postData = async (postData: EmployeeType | UserType, path: string) => {
   try {
@@ -69,4 +66,17 @@ export const login = async (data: LoginCredentialsType) => {
   } catch (error) {
     console.error(error)
   }
+}
+
+export const getUserData = async (token:string) => {
+try {
+  const response = await fetch(`${baseUrl}/login`, {
+    headers: {
+      Authorization:`Bearer ${token}`
+    }
+  })
+  console.log('ovo je reponse', response)
+} catch (error) {
+console.error(error)
+}
 }

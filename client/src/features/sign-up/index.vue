@@ -21,7 +21,7 @@
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
     </template>
     <template #text>
-      <FormGuest link-text="Login" />
+      <FormGuest link-text="Login"/>
     </template>
   </AuthForm>
 </template>

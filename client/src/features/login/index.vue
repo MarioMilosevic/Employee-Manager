@@ -28,7 +28,7 @@
       <ActionButton type="submit" color="purple">Login</ActionButton>
     </template>
     <template #text>
-      <FormGuest link-text="Sign Up" />
+      <FormGuest link-text="Sign Up" @guest-event="mario"/>
     </template>
   </AuthForm>
 </template>
@@ -60,11 +60,9 @@ const loginFormError = ref({})
 const loginInputs = ref()
 const loading = ref(true)
 
-
-
-// const mario = computed(() =>  {
-//   return 'nesto'
-// })
+const mario = () =>  {
+  console.log( 'nesto')
+}
 
 watch(
   () => ({ ...loginCredentials.value }),

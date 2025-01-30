@@ -56,6 +56,8 @@ onBeforeMount(async () => {
     employees.value = employeeResponse.data
     homeInputs.value = homeResponse.data
     loading.value = false
+    const token = localStorage.getItem('login-token')
+    console.log(token)
   } catch (error) {
     console.log(error)
   }

@@ -18,7 +18,11 @@ class ResponseError extends Error {
   }
 }
 
-function createResponseError(res: Response, message: string, statusCode: number) {
+function createResponseError(
+  res: Response,
+  message: string,
+  statusCode: number
+) {
   const error = new ResponseError(message, statusCode);
   return res.status(statusCode).json(error.response);
 }
@@ -32,6 +36,12 @@ export default {
   },
   notFound(res: Response, message = "Not found") {
     return createResponseError(res, message, 404);
+  },
+  forbidden(
+    res: Response,
+    message = "Forbidden: You don't have permission to access this resource."
+  ) {
+    return createResponseError(res, message, 403);
   },
   internalError(res: Response, message = "Internal error") {
     return createResponseError(res, message, 500);

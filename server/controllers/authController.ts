@@ -101,6 +101,25 @@ const authController = {
       errorFactory.internalError(res);
     }
   },
+  async getUserData(req:Request, res:Response) {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        errorFactory.notAuthorized(res)
+        return
+       }
+      const token = authHeader.split(' ')[1]
+      // console.log(token)
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      console.log(decoded)
+      res.json({
+        status: 200,
+        message:"uspjelo"
+      })
+    } catch (error) {
+      errorFactory.internalError(res)
+    }
+  }
 };
 
 export default authController;
