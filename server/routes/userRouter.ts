@@ -4,16 +4,16 @@ import auth from "../controllers/authController";
 
 const userRouter = Router();
 
-userRouter.param("id", user.getId);
-userRouter.param("id", user.getData);
-
 userRouter.route("/sign-up").post(auth.signUp);
 userRouter.route("/login").post(auth.login);
 
+userRouter.route("/").get(user.getIdFromToken, user.getData, user.getUser);
 
-userRouter.route("/").get(user.getIdFromToken, user.getUser);
 userRouter.route("/all").get(user.getAll);
 
-userRouter.route("/:id").delete(user.deleteUser).get(user.getUser);
+userRouter
+  .route("/:id")
+  .get(user.getId, user.getData, user.getUser)
+  .delete(user.getId, user.deleteUser);
 
 export default userRouter;

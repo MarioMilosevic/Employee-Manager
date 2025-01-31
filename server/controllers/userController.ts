@@ -8,35 +8,46 @@ import jwt from "jsonwebtoken";
 const user = {
   async getIdFromToken(req: CustomRequest, res: Response, next: NextFunction) {
     try {
+      console.log('potrefio')
       const authHeader = req.headers.authorization;
       if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        errorFactory.notAuthorized(res);
-        return;
-      }
-      const token = authHeader.split(" ")[1];
-      const { id } = jwt.verify(token, process.env.JWT_SECRET);
-      if (!id) {
-        errorFactory.forbidden(res);
-        return;
-      }
-      console.log(id);
-      req.requestPayload.id = id;
+          errorFactory.notAuthorized(res);
+          return;
+        }
+        const token = authHeader.split(" ")[1];
+        const { id } = jwt.verify(token, process.env.JWT_SECRET);
+        if (!id) {
+            errorFactory.forbidden(res);
+            return;
+          }
+      console.log(typeof id, id);
+       req.requestPayload = {
+         id,
+         body: req.body,
+       };
+          // successResponseFactory.created(res, 'mario')
       next();
     } catch (error) {
+      console.log('udje odje')
       errorFactory.internalError(res);
     }
   },
   getId(req: CustomRequest, res: Response, next: NextFunction) {
-    const { id } = req.params;
-    const body = req.body;
     req.requestPayload = {
-      id: Number(id),
-      body,
+      id: Number(req.params.id),
+      body: req.body,
     };
     next();
   },
   async getData(req: CustomRequest, res: Response, next: NextFunction) {
     try {
+      console.log("uslo odjeeeeeee", req.requestPayload.id);
+
+      if (!req.requestPayload.id) {
+        errorFactory.badRequest(res);
+        return;
+      }
+
       const data = await prisma.user.findUnique({
         where: { id: req.requestPayload.id },
         select: {
@@ -47,6 +58,11 @@ const user = {
           lastName: true,
         },
       });
+      if (!data) {
+        errorFactory.notFound(res);
+        return;
+      }
+
       req.requestPayload.data = data;
       next();
     } catch (error) {
@@ -83,10 +99,6 @@ const user = {
   },
   async deleteUser(req: CustomRequest, res: Response) {
     try {
-      if (!req.requestPayload.data) {
-        errorFactory.badRequest(res);
-        return;
-      }
       await prisma.user.delete({
         where: { id: req.requestPayload.id },
       });
