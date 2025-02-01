@@ -42,9 +42,9 @@ import Employee from 'src/features/home/Employee.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
-import { EmployeeType } from 'src/utils/types'
+import { EmployeeType, UserType } from 'src/utils/types'
 import { ref, onBeforeMount } from 'vue'
-import { getData, deleteData, postData, editData } from 'src/api/api'
+import { getData, deleteData, postData, editData, getUserData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {
@@ -57,12 +57,14 @@ onBeforeMount(async () => {
     homeInputs.value = homeResponse.data
     loading.value = false
     const token = localStorage.getItem('login-token')
-    console.log(token)
+    const response = await getUserData(token as string)
+    user.value = response.data
   } catch (error) {
     console.log(error)
   }
 })
 
+const user = ref<UserType>()
 const employees = ref([] as EmployeeType[])
 const isModalOpen = ref<boolean>(false)
 const homeInputs = ref()

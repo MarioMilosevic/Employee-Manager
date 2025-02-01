@@ -70,12 +70,12 @@ export const login = async (data: LoginCredentialsType) => {
 
 export const getUserData = async (token:string) => {
 try {
-  const response = await fetch(`${baseUrl}/login`, {
+  const response = await fetch(`${baseUrl}/users`, {
     headers: {
       Authorization:`Bearer ${token}`
     }
   })
-  console.log('ovo je reponse', response)
+  return getDataFromJson(response)
 } catch (error) {
 console.error(error)
 }
