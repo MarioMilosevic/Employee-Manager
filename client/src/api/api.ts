@@ -2,7 +2,6 @@ import { EmployeeType, LoginCredentialsType, UserType } from 'src/utils/types'
 import { baseUrl } from 'src/utils/constants'
 import { getDataFromJson } from 'src/utils/helpers'
 
-
 export const postData = async (postData: EmployeeType | UserType, path: string) => {
   try {
     const response = await fetch(`${baseUrl}/${path}`, {
@@ -27,7 +26,7 @@ export const getData = async (path: string) => {
   }
 }
 
-export const editData = async (data: EmployeeType| UserType, path: string) => {
+export const editData = async (data: EmployeeType | UserType, path: string) => {
   try {
     const response = await fetch(`${baseUrl}/${path}`, {
       method: 'PUT',
@@ -68,15 +67,15 @@ export const login = async (data: LoginCredentialsType) => {
   }
 }
 
-export const getUserData = async (token:string) => {
-try {
-  const response = await fetch(`${baseUrl}/users`, {
-    headers: {
-      Authorization:`Bearer ${token}`
-    }
-  })
-  return getDataFromJson(response)
-} catch (error) {
-console.error(error)
-}
+export const getUserData = async (token: string) => {
+  try {
+    const response = await fetch(`${baseUrl}/users`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return getDataFromJson(response)
+  } catch (error) {
+    console.error(error)
+  }
 }

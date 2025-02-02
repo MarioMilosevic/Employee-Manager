@@ -79,9 +79,7 @@ const router = useRouter()
 const submitLogin = async () => {
   try {
     const validation = loginSchema.safeParse(loginCredentials.value)
-    console.log(validation)
     if (validation.success) {
-      console.log('dobra')
       const response = await login(loginCredentials.value)
       console.log(response)
       if (response.data) {

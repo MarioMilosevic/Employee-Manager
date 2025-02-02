@@ -3,14 +3,13 @@
   <template v-else>
     <TitleName align="center">Employee Manager</TitleName>
     <h2>Employee List</h2>
-    <ActionButton
-      color="white"
-      size="big"
-      :style="{ alignSelf: 'flex-start' }"
-      @click="setModal(true)"
-    >
-      Add New Employee
-    </ActionButton>
+    <div class="buttons">
+      <ActionButton color="white" size="big" @click="setModal(true)">
+        Add New Employee
+      </ActionButton>
+
+      <ActionButton color="white" size="big" @click="signOut"> Sign Out </ActionButton>
+    </div>
     <EmployeeList>
       <template #employees>
         <Employee
@@ -46,6 +45,7 @@ import { EmployeeType, UserType } from 'src/utils/types'
 import { ref, onBeforeMount } from 'vue'
 import { getData, deleteData, postData, editData, getUserData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
+import { useRouter } from 'vue-router'
 
 onBeforeMount(async () => {
   try {
@@ -59,6 +59,9 @@ onBeforeMount(async () => {
     const token = localStorage.getItem('login-token')
     const response = await getUserData(token as string)
     user.value = response.data
+    setTimeout(() => {
+      showToast(`Welcome back ${user.value?.firstName}`)
+    }, 1000);
   } catch (error) {
     console.log(error)
   }
@@ -72,6 +75,8 @@ const singleEmployee = ref<EmployeeType>(emptySingleEmployee)
 const formErrors = ref(emptyEmployeeErrors)
 const loading = ref<boolean>(true)
 
+const router = useRouter()
+
 const addEmployee = (employee: EmployeeType) => employees.value.push(employee)
 
 const removeEmployee = (id: number) => {
@@ -83,7 +88,6 @@ const resetForm = () => {
 }
 
 const submitForm = async (employee: EmployeeType) => {
-  console.log(employee)
   try {
     const response = await postData(employee, 'employee')
     addEmployee(response.data)
@@ -122,6 +126,14 @@ const deleteEmployee = async (id: number) => {
   }
 }
 
+const signOut = () => {
+  localStorage.removeItem('login-token')
+  router.push('/login')
+  setTimeout(() => {
+    showToast( `${user.value?.firstName} logged out`)
+  }, 1000);
+}
+
 const setModal = (value: boolean) => {
   isModalOpen.value = value
 }
@@ -137,5 +149,10 @@ const setModal = (value: boolean) => {
   background-color: $primary-shade-color;
   padding: $big;
   border-radius: $small-radius;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

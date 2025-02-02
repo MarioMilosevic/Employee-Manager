@@ -8,27 +8,23 @@ import jwt from "jsonwebtoken";
 const user = {
   async getIdFromToken(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      console.log('potrefio')
       const authHeader = req.headers.authorization;
       if (!authHeader || !authHeader.startsWith("Bearer ")) {
-          errorFactory.notAuthorized(res);
-          return;
-        }
-        const token = authHeader.split(" ")[1];
-        const { id } = jwt.verify(token, process.env.JWT_SECRET);
-        if (!id) {
-            errorFactory.forbidden(res);
-            return;
-          }
-      console.log(typeof id, id);
-       req.requestPayload = {
-         id,
-         body: req.body,
-       };
-          // successResponseFactory.created(res, 'mario')
+        errorFactory.notAuthorized(res);
+        return;
+      }
+      const token = authHeader.split(" ")[1];
+      const { id } = jwt.verify(token, process.env.JWT_SECRET);
+      if (!id) {
+        errorFactory.forbidden(res);
+        return;
+      }
+      req.requestPayload = {
+        id,
+        body: req.body,
+      };
       next();
     } catch (error) {
-      console.log('udje odje')
       errorFactory.internalError(res);
     }
   },
@@ -41,8 +37,6 @@ const user = {
   },
   async getData(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      console.log("uslo odjeeeeeee", req.requestPayload.id);
-
       if (!req.requestPayload.id) {
         errorFactory.badRequest(res);
         return;
