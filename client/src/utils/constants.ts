@@ -46,7 +46,6 @@ export const homeInputs = [
   },
 ]
 
-
 export const signUpInputs = [
   {
     id: 1,
@@ -86,5 +85,5 @@ export const emptySignUpObject = {
   email: '',
   password: '',
   passwordConfirm: '',
-  role:"USER"
+  role: 'USER',
 }

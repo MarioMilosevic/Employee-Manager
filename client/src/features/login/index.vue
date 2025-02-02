@@ -28,7 +28,7 @@
       <ActionButton type="submit" color="purple">Login</ActionButton>
     </template>
     <template #text>
-      <FormGuest link-text="Sign Up" @guest-event="mario"/>
+      <FormGuest link-text="Sign Up" @guest-event="guestSignIn"/>
     </template>
   </AuthForm>
 </template>
@@ -45,9 +45,10 @@ import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { loginSchema } from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
 import { ref, watch, onBeforeMount } from 'vue'
-import { getData, login } from 'src/api/api'
+import { getData, login, postData, signInAnonymously } from 'src/api/api'
 import { compareObjectFieldChange, renderValidationErrors } from 'src/utils/helpers'
 import { showToast } from 'src/utils/toast'
+import { baseUrl } from 'src/utils/constants'
 
 onBeforeMount(async () => {
   const { data } = await getData('inputs/login')
@@ -60,8 +61,12 @@ const loginFormError = ref({})
 const loginInputs = ref()
 const loading = ref(true)
 
-const mario = () =>  {
-  console.log( 'nesto')
+const guestSignIn = async () =>  {
+  const response = await signInAnonymously()
+  if (response.data) {
+    localStorage.setItem('login-token', response.data)
+    router.push('/')
+  }
 }
 
 watch(

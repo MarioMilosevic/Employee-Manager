@@ -6,6 +6,7 @@ const userRouter = Router();
 
 userRouter.route("/sign-up").post(auth.signUp);
 userRouter.route("/login").post(auth.login);
+userRouter.route("/login/guest").post(auth.guestLogin);
 
 userRouter.route("/").get(user.getIdFromToken, user.getData, user.getUser);
 

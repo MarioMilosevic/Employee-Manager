@@ -128,6 +128,9 @@ const deleteEmployee = async (id: number) => {
 
 const signOut = () => {
   localStorage.removeItem('login-token')
+  if (user.value?.role === "GUEST") {
+    console.log('odje je guest trebam da ga izbrisem iz baze')
+  }
   router.push('/login')
   setTimeout(() => {
     showToast( `${user.value?.firstName} logged out`)

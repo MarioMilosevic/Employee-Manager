@@ -56,7 +56,7 @@ const authController = {
       });
       successResponseFactory.created(res, user);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       errorFactory.internalError(res);
     }
   },
@@ -101,25 +101,27 @@ const authController = {
       errorFactory.internalError(res);
     }
   },
-  async getUserData(req:Request, res:Response) {
+  async guestLogin(req: Request, res: Response) {
     try {
-      const authHeader = req.headers.authorization;
-      if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        errorFactory.notAuthorized(res)
-        return
-       }
-      const token = authHeader.split(' ')[1]
-      // console.log(token)
-      const decoded = jwt.verify(token, process.env.JWT_SECRET)
-      console.log(decoded)
-      res.json({
-        status: 200,
-        message:"uspjelo"
-      })
+      const guestEmail = `guest${Date.now()}@gmail.com`;
+      const guest = await prisma.user.create({
+        data: {
+          role: "GUEST",
+          firstName: "Guest",
+          lastName: "User",
+          email: guestEmail,
+          password: "12345678",
+        },
+        select: {
+          id: true,
+        },
+      });
+      const token = signToken(guest.id);
+      successResponseFactory.ok(res, token);
     } catch (error) {
-      errorFactory.internalError(res)
+      errorFactory.internalError(res);
     }
-  }
+  },
 };
 
 export default authController;

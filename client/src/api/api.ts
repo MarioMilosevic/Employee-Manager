@@ -79,3 +79,14 @@ export const getUserData = async (token: string) => {
     console.error(error)
   }
 }
+
+export const signInAnonymously = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/users/login/guest`, {
+      method: 'POST',
+    })
+    return getDataFromJson(response)
+  } catch (error) {
+    console.error(error)
+  }
+}
