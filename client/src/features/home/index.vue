@@ -61,7 +61,7 @@ onBeforeMount(async () => {
     user.value = response.data
     setTimeout(() => {
       showToast(`Welcome back ${user.value?.firstName}`)
-    }, 1000);
+    }, 1000)
   } catch (error) {
     console.log(error)
   }
@@ -126,15 +126,15 @@ const deleteEmployee = async (id: number) => {
   }
 }
 
-const signOut = () => {
-  localStorage.removeItem('login-token')
-  if (user.value?.role === "GUEST") {
-    console.log('odje je guest trebam da ga izbrisem iz baze')
-  }
+const signOut = async () => {
   router.push('/login')
+  localStorage.removeItem('login-token')
   setTimeout(() => {
-    showToast( `${user.value?.firstName} logged out`)
-  }, 1000);
+    showToast(`${user.value?.firstName} logged out`)
+  }, 1000)
+  if (user.value?.role === 'GUEST' && user.value.id) {
+    await deleteData('users', user.value.id)
+  }
 }
 
 const setModal = (value: boolean) => {
