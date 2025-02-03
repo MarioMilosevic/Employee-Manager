@@ -12,6 +12,19 @@
   color: $dark-color;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $medium;
+  background-color: $primary-shade-color;
+  background-color: $secondary-color;
+  padding: $big $very-big;
+  max-width: $max-form-width;
+  width: 100%;
+  border-radius: $medium-radius;
+  margin: 5rem auto;
+}
+
 .actions {
   display: flex;
   align-items: center;

@@ -36,6 +36,7 @@ export type SignUpCredentialsType = {
   email: string
   password: string
   passwordConfirm: string
+  role?:string
 }
 
 export type InputType = {

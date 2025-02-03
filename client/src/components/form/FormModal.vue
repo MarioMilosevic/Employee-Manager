@@ -4,37 +4,27 @@
       <BaseIcon class="overlay__modal-button" fill="black" @click="closeModal" size="very-big">
         <CloseIcon />
       </BaseIcon>
-      <AuthForm @submit.prevent="submitForm" class="overlay__modal-form" :inputs="props.inputs">
+      <AuthForm @submit.prevent="submitForm" class="overlay__modal-form form">
         <template #title>
           <TitleName color="black">Add New Employee</TitleName>
         </template>
-
-        <template v-for="input in props.inputs" :key="input.id" #[input.name]>
-          <FormBlock v-if="input.type === 'date'">
-            <template #label>
-              <FormLabel class="overlay__modal-form-label" id="date">Start Date ?</FormLabel>
+        <template #inputs>
+          <FormInputs>
+            <template v-for="input in props.inputs" :key="input.id" #[input.name]>
+              <FormBlock>
+                <template #input>
+                  <FormInput
+                    v-bind="input"
+                    v-model="employee[input.name as keyof typeof employee] as string"
+                  />
+                </template>
+                <template #error>
+                  <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
+                </template>
+              </FormBlock>
             </template>
-            <template #input>
-              <FormInput
-                v-bind="input"
-                v-model="employee[input.name as keyof typeof employee]"
-                class="overlay__modal-form-date"
-              />
-            </template>
-            <template #error>
-              <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
-            </template>
-          </FormBlock>
-          <FormBlock v-else>
-            <template #input>
-              <FormInput v-bind="input" v-model="employee[input.name as keyof typeof employee]" />
-            </template>
-            <template #error>
-              <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
-            </template>
-          </FormBlock>
+          </FormInputs>
         </template>
-
         <template #default>
           <FormBlock>
             <template #label>
@@ -78,13 +68,15 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import TitleName from 'src/components/layout/TitleName.vue'
 import FormLabel from 'src/components/form/FormLabel.vue'
-import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import { PropType, ref } from 'vue'
-import { EmployeeType } from 'src/utils/types'
-import { renderValidationErrors } from 'src/utils/helpers'
-import { InputType } from 'src/utils/types'
+import FormInputs from 'src/components/form/FormInputs.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
+import { employeeFormSchema } from 'src/validation/employeeFormSchema'
+import { PropType, ref } from 'vue'
+import { EmployeeErrorsType, EmployeeType } from 'src/utils/types'
+import { renderValidationErrors } from 'src/utils/helpers'
+import { InputType } from 'src/utils/types'
+import { emptyEmployeeErrors } from 'src/utils/constants'
 
 const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
@@ -98,15 +90,9 @@ const props = defineProps({
   },
 })
 
-const employee = ref({ ...props.singleEmployee })
+const employee = ref<EmployeeType>({ ...props.singleEmployee })
 
-const formErrors = ref({
-  firstName: '',
-  lastName: '',
-  address: '',
-  startYear: '',
-})
-
+const formErrors = ref<EmployeeErrorsType>({ ...emptyEmployeeErrors })
 
 const closeModal = () => {
   emits('close-modal')
@@ -120,29 +106,12 @@ const submitForm = async () => {
   if (validation.success) {
     emits('submit-event', employee.value)
   } else {
-    const updatedErorrs = renderValidationErrors(formErrors, validation.error.errors)
+    const updatedErorrs = renderValidationErrors(
+      formErrors,
+      validation.error.errors,
+    ) as EmployeeErrorsType
     formErrors.value = updatedErorrs
   }
-  // const validationData = {
-  //   id: employee.value.id,
-  //   ...validation.data,
-  // }
-
-  // const response = await editData(validationData, `employee/${employee.value.id}`)
-  // console.log(response)
-  // emits('update-event', response.data)
-  // } else {
-  //   console.log('nije dobro')
-
-  //   const updatedErorrs = renderValidationErrors(formErrors, validation.error.errors)
-  //   formErrors.value = updatedErorrs
-  // const errors = validation.error.errors
-  // errors.forEach((error) => {
-  //   console.log(error)
-  //   const field = error.path[0] as keyof typeof formErrors
-  //   formErrors[field] = error.message
-  // })
-  // }
 }
 </script>
 
@@ -180,16 +149,7 @@ const submitForm = async () => {
     }
 
     &-form {
-      display: flex;
-      flex-direction: column;
-      gap: $medium;
-      background-color: $primary-shade-color;
-      background-color: $secondary-color;
-      padding: $big $very-big;
-      max-width: $max-form-width;
-      width: 100%;
       margin: 0 auto;
-      border-radius: $medium-radius;
 
       &-label {
         font-size: $medium-font;

@@ -145,15 +145,6 @@ const setModal = (value: boolean) => {
 <style scoped lang="scss">
 @use 'src/scss/abstracts/_variables' as *;
 
-.form {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: $primary-shade-color;
-  padding: $big;
-  border-radius: $small-radius;
-}
-
 .buttons {
   display: flex;
   justify-content: space-between;
