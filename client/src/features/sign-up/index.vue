@@ -2,7 +2,11 @@
   <LoadingSpinner v-if="loading" />
   <AuthForm @submit.prevent="submitForm" v-else>
     <template #title>
-      <TitleName color="black" align="center">Sign Up</TitleName>
+      <HeaderComp color="black" align="center">
+        <template #title>
+          Sign Up
+        </template>
+      </HeaderComp>
     </template>
     <template #inputs>
       <FormInputs>
@@ -36,12 +40,12 @@
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormError from 'src/components/form/FormError.vue'
-import { emptySignUpObj } from 'src/utils/constants'
-import TitleName from 'src/components/layout/HeaderComp.vue'
 import AuthForm from 'src/components/form/AuthForm.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
+import HeaderComp from 'src/components/layout/HeaderComp.vue'
+import { emptySignUpObj } from 'src/utils/constants'
 import { postData, getData } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { signUpSchema } from 'src/validation/signUpSchema'

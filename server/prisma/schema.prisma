@@ -44,6 +44,12 @@ model InputField {
   inputsId    String  
 }
 
+model TableHeadings {
+  id          Int      @id @default(autoincrement()) 
+  name String
+  tableId String
+}
+
 enum Role {
   USER
   ADMIN

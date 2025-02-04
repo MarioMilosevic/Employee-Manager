@@ -2,7 +2,11 @@
   <LoadingSpinner v-if="loading" />
   <AuthForm @submit.prevent="submitLogin" class="form" v-else>
     <template #title>
-      <TitleName color="black" align="center">Login</TitleName>
+      <HeaderComp color="black" align="center">
+        <template #title>
+          Login
+        </template>
+      </HeaderComp>
     </template>
     <template #inputs>
       <FormInputs>
@@ -35,7 +39,6 @@ import AuthForm from 'src/components/form/AuthForm.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormError from 'src/components/form/FormError.vue'
-import TitleName from 'src/components/layout/HeaderComp.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
@@ -48,6 +51,7 @@ import { renderValidationErrors } from 'src/utils/helpers'
 import { showToast } from 'src/utils/toast'
 import { emptyLoginObj } from 'src/utils/constants'
 import { LoginCredentialsType } from 'src/utils/types'
+import HeaderComp from 'src/components/layout/HeaderComp.vue'
 
 onBeforeMount(async () => {
   const { data } = await getData('inputs/login')

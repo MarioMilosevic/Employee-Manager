@@ -21,7 +21,7 @@
     </div>
     <EmployeeList>
       <template #employees>
-        <Employee
+        <EmployeeComp
           v-for="employee in employees"
           :key="employee.id"
           :employee="employee"
@@ -46,7 +46,7 @@
 import FormModal from 'src/components/form/FormModal.vue'
 import EmployeeList from './EmployeeList.vue'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
-import Employee from 'src/features/home/EmployeeComp.vue'
+import EmployeeComp from 'src/features/home/EmployeeComp.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
