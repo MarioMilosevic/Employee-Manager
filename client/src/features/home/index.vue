@@ -8,7 +8,7 @@
         Add New Employee
       </ActionButton>
 
-      <ActionButton color="white" size="big" @click="signOut"> Sign Out </ActionButton>
+      <ActionButton color="white" size="big" @click="signOut">Sign Out</ActionButton>
     </div>
     <EmployeeList>
       <template #employees>

@@ -2,33 +2,30 @@
   <LoadingSpinner v-if="loading" />
   <AuthForm @submit.prevent="submitLogin" :inputs="loginInputs" class="form" v-else>
     <template #title>
-      <TitleName color="black" align="center"
-        >Login</TitleName
-      >
+      <TitleName color="black" align="center">Login</TitleName>
     </template>
-    <template v-for="input in loginInputs" :key="input.id" #[input.name]>
-      <FormBlock>
-        <template #input>
-          <FormInput
-            v-bind="input"
-            v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
-          />
+    <template #inputs>
+      <FormInputs>
+        <template v-for="input in loginInputs" :key="input.id" #[input.name]>
+          <FormBlock>
+            <template #input>
+              <FormInput
+                v-bind="input"
+                v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
+              />
+            </template>
+            <template #error>
+              <FormError>{{ loginFormError[input.name as keyof typeof loginFormError] }}</FormError>
+            </template>
+          </FormBlock>
         </template>
-        <template #error>
-          <FormError>{{ loginFormError[input.name as keyof typeof loginFormError] }}</FormError>
-        </template>
-      </FormBlock>
-      <!-- <FormInput
-        :type="input.type"
-        :placeholder="input.placeholder"
-        v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
-      /> -->
+      </FormInputs>
     </template>
     <template #submit>
       <ActionButton type="submit" color="purple">Login</ActionButton>
     </template>
     <template #text>
-      <FormGuest link-text="Sign Up" @guest-event="guestSignIn"/>
+      <FormGuest link-text="Sign Up" @guest-event="guestSignIn" />
     </template>
   </AuthForm>
 </template>
@@ -49,6 +46,7 @@ import { getData, login, postData, signInAnonymously } from 'src/api/api'
 import { compareObjectFieldChange, renderValidationErrors } from 'src/utils/helpers'
 import { showToast } from 'src/utils/toast'
 import { baseUrl } from 'src/utils/constants'
+import FormInputs from 'src/components/form/FormInputs.vue'
 
 onBeforeMount(async () => {
   const { data } = await getData('inputs/login')
@@ -61,7 +59,7 @@ const loginFormError = ref({})
 const loginInputs = ref()
 const loading = ref(true)
 
-const guestSignIn = async () =>  {
+const guestSignIn = async () => {
   const response = await signInAnonymously()
   if (response.data) {
     localStorage.setItem('login-token', response.data)
@@ -131,3 +129,23 @@ const submitLogin = async () => {
   border-radius: $medium-radius;
 }
 </style>
+
+<!-- <template v-for="input in loginInputs" :key="input.id" #[input.name]>
+      <FormBlock>
+        <template #input>
+          <FormInput
+            v-bind="input"
+            v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
+          />
+        </template>
+        <template #error>
+          <FormError>{{ loginFormError[input.name as keyof typeof loginFormError] }}</FormError>
+        </template>
+      </FormBlock>
+     <FormInput
+        :type="input.type"
+        :placeholder="input.placeholder"
+        v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
+      />
+    </template>
+    -->

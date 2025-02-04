@@ -10,7 +10,6 @@ import { RouterView } from 'vue-router'
 1) da napravim da AuthForm pravi slot za prop elemenata
 2) ubacim toast
 4) dodam za guest log in u prisma model role:admin, employee, guestUser tako
-3) computed umjesto watch
 3) da erorr iz servera ide u catch
 da napravim guest sign in
 da promjenim malo UI da imam checkbox
