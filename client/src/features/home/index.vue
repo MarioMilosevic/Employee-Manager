@@ -1,7 +1,16 @@
 <template>
   <LoadingSpinner v-if="loading" />
   <template v-else>
-    <TitleName align="center">Employee Manager</TitleName>
+    <HeaderComp align="center">
+      <template #title> Employee Manager </template>
+      <template #button v-if="user?.role === 'ADMIN'">
+        <ActionButton
+        @click="goToDashboard"
+          :style="{ position: 'absolute', top: '50%', right: '0%', transform: 'translateY(-50%)' }"
+          >Dashboard</ActionButton
+        >
+      </template>
+    </HeaderComp>
     <h2>Employee List</h2>
     <div class="buttons">
       <ActionButton color="white" size="big" @click="setModal(true)">
@@ -35,9 +44,9 @@
 
 <script setup lang="ts">
 import FormModal from 'src/components/form/FormModal.vue'
-import TitleName from 'src/components/layout/TitleName.vue'
 import EmployeeList from './EmployeeList.vue'
-import Employee from 'src/features/home/Employee.vue'
+import HeaderComp from 'src/components/layout/HeaderComp.vue'
+import Employee from 'src/features/home/EmployeeComp.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
@@ -140,6 +149,10 @@ const signOut = async () => {
 const setModal = (value: boolean) => {
   isModalOpen.value = value
 }
+const goToDashboard = () => {
+  router.push('/dashboard')
+}
+
 </script>
 
 <style scoped lang="scss">

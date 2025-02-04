@@ -1,7 +1,10 @@
 <template>
-  <h1 :style="{ textAlign: props.align, color:props.color, paddingBottom:'2rem' }" :class="titleColor">
-    <slot />
-  </h1>
+  <header class="header">
+    <h1 :style="{ alignContent: props.align, color: props.color }" :class="[titleColor, 'title']">
+      <slot name="title" />
+    </h1>
+    <slot name="button" />
+  </header>
 </template>
 
 <script setup lang="ts">
@@ -24,12 +27,23 @@ const titleColor = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@use "src/scss/abstracts/variables" as *;
+@use 'src/scss/abstracts/variables' as *;
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
 .white {
-  color:$secondary-color;
+  color: $secondary-color;
 }
 .black {
   color: $dark-color;
+}
+
+.title {
+  position: relative;
 }
 </style>

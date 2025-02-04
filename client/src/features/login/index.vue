@@ -4,7 +4,6 @@
     <template #title>
       <TitleName color="black" align="center">Login</TitleName>
     </template>
-
     <template #inputs>
       <FormInputs>
         <template v-for="input in logInInputs" :key="input.id" #[input.name]>
@@ -22,8 +21,6 @@
         </template>
       </FormInputs>
     </template>
-
-
     <template #submit>
       <ActionButton type="submit" color="purple">Login</ActionButton>
     </template>
@@ -38,7 +35,7 @@ import AuthForm from 'src/components/form/AuthForm.vue'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormError from 'src/components/form/FormError.vue'
-import TitleName from 'src/components/layout/TitleName.vue'
+import TitleName from 'src/components/layout/HeaderComp.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'

@@ -15,7 +15,6 @@ import { EmployeeType, InputType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
 import EmployeeInfo from 'src/features/home/EmployeeInfo.vue'
 import EmployeeEdit from 'src/features/home/EmployeeEdit.vue'
-import { deleteData } from 'src/api/api'
 
 const isEditing = ref<boolean>(false)
 
