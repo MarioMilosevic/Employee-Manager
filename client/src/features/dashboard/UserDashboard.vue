@@ -1,20 +1,30 @@
 <template>
-  <EmployeeHome
-    v-if="props.isMainPage"
-    :element="element"
+ <TableElementEdit
+    v-if="isEditing"
+    :element="props.element"
     :inputs="inputs"
-    :isMainPage="props.isMainPage"
+    :isMainPage="isMainPage"
+    @close-event="isEditing = false"
+    @delete-event="emit('delete-event', element.id)"
     @edit-event="editHandler"
-    @delete-event="emit('delete-event')"
   />
-  <UserDashboard v-else :element="element" :inputs="inputs" :isMainPage="props.isMainPage"/>
+  <TableElementInfo
+    v-else
+    :element="element"
+    :isMainPage="isMainPage"
+    @edit-event="isEditing = true"
+  />
 </template>
 
 <script setup lang="ts">
+import TableElementInfo from 'src/components/layout/TableElementInfo.vue'
+import TableElementEdit from 'src/components/layout/TableElementEdit.vue'
 import { EmployeeType, InputType, UserType } from 'src/utils/types'
-import { PropType } from 'vue'
+import { PropType, ref } from 'vue'
 import EmployeeHome from 'src/features/home/EmployeeHome.vue'
 import UserDashboard from 'src/features/dashboard/UserDashboard.vue'
+
+const isEditing = ref<boolean>(false)
 
 const props = defineProps({
   element: {
@@ -25,7 +35,7 @@ const props = defineProps({
     type: Array as PropType<InputType[]>,
     required: true,
   },
-  isMainPage: {
+  hasCheckbox: {
     type: Boolean,
     required: true,
   },
@@ -35,6 +45,6 @@ const emit = defineEmits(['edit-event', 'delete-event'])
 
 const editHandler = (element: EmployeeType | UserType) => {
   emit('edit-event', element)
-  // isEditing.value = false
+  isEditing.value = false
 }
 </script>

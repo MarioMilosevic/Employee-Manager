@@ -5,23 +5,23 @@
         <FormInput
           align="center"
           v-bind="input"
-          v-model="selectedEmployee[input.name as keyof typeof selectedEmployee] as string"
+          v-model="selectedElement[input.name as keyof typeof selectedElement] as string"
         />
       </template>
     </FormBlock>
     <FormCheckbox
-      v-if="hasCheckbox"
-      :trainingCompleted="selectedEmployee.trainingCompleted"
+      v-if="isMainPage"
+      :trainingCompleted="selectedElement.trainingCompleted"
       @checkbox-event="toggleTrainingCompleted"
     />
     <td class="actions">
-      <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event', selectedEmployee)">
+      <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event', selectedElement)">
         <ConfirmIcon />
       </BaseIcon>
       <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')">
         <DeleteIcon />
       </BaseIcon>
-      <BaseIcon size="big" @click="emit('close-event', props.employee.id)">
+      <BaseIcon size="big" @click="emit('close-event', props.element.id)">
         <CloseIcon />
       </BaseIcon>
     </td>
@@ -36,29 +36,33 @@ import CloseIcon from 'src/icons/CloseIcon.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import DeleteIcon from 'src/icons/DeleteIcon.vue'
 import ConfirmIcon from 'src/icons/ConfirmIcon.vue'
-import { EmployeeType, InputType } from 'src/utils/types'
-import { PropType, ref } from 'vue'
+import { EmployeeType, InputType, UserType } from 'src/utils/types'
+import { computed, PropType } from 'vue'
 
 const props = defineProps({
-  employee: {
-    type: Object as PropType<EmployeeType>,
+  element: {
+    type: Object as PropType<EmployeeType | UserType>,
     required: true,
   },
   inputs: {
     type: Array as PropType<InputType[]>,
     required: true,
   },
-  hasCheckbox: {
+  isMainPage: {
     type: Boolean,
-    required:true
+    required: true,
   },
 })
 
-const selectedEmployee = ref<EmployeeType>({ ...props.employee })
+// const selectedElement = ref<EmployeeType | UserType>({ ...props.element })
+const selectedElement = computed(() => props.element)
+
 const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])
 
 const toggleTrainingCompleted = (value: boolean) => {
-  selectedEmployee.value.trainingCompleted = value
+  if ('trainingCompleted' in selectedElement.value) {
+    selectedElement.value.trainingCompleted = value
+  }
 }
 </script>
 

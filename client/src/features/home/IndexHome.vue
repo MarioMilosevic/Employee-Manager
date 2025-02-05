@@ -18,7 +18,7 @@
       </ActionButton>
       <ActionButton color="white" size="big" @click="signOut">Sign Out</ActionButton>
     </div>
-    
+
     <TableList>
       <template #headings>
         <TableHeading v-for="heading in tableHeadings" :key="heading.id">
@@ -29,8 +29,9 @@
         <TableElement
           v-for="employee in employees"
           :key="employee.id"
-          :employee="employee"
+          :element="employee"
           :inputs="homeInputs"
+          :isMainPage="true"
           @delete-event="deleteEmployee"
           @edit-event="editEmployee"
         />
@@ -80,7 +81,7 @@ onBeforeMount(async () => {
       showToast(`Welcome back ${user.value?.firstName}`)
     }, 1000)
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 })
 
@@ -136,11 +137,10 @@ const deleteEmployee = async (id: number) => {
       removeEmployee(id)
     } else {
       const responseData = await response?.json()
-      console.log(responseData)
       showToast(responseData.message, 'error')
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 

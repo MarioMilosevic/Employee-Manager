@@ -1,15 +1,21 @@
 <template>
   <tr class="table__row employee">
-
-    <td>{{ employee.firstName }}</td>
-    <td>{{ employee.lastName }}</td>
-    <td>{{ employee.address }}</td>
-    <td>{{ formatDate(employee.startYear) }}</td>
-    <td>
+    <!-- <slot name="firstName"/>
+    <slot name="lastName"/>
+    <slot name="address"/>
+    <slot name="dateStarted"/>
+    <slot name="checkbox"/>
+    <slot name="role"/>
+    <slot name="email"/>
+    <slot name="actions"/> -->
+    <td>{{ element.firstName }}</td>
+    <td>{{ element.lastName }}</td>
+    <td>{{ element.address }}</td>
+    <td>{{ formatDate(element.startYear) }}</td>
+    <td :v-if="isMainPage">
       <FormCheckbox
-        v-if="props.hasCheckbox"
         :disabled="true"
-        :training-completed="employee.trainingCompleted"
+        :training-completed="element.trainingCompleted"
       />
     </td>
 
@@ -28,11 +34,11 @@ import BaseIcon from 'src/icons/BaseIcon.vue'
 import EditIcon from 'src/icons/EditIcon.vue'
 
 const props = defineProps({
-  employee: {
+  element: {
     type: Object as PropType<EmployeeType>,
     required: true,
   },
-  hasCheckbox: {
+  isMainPage: {
     type: Boolean,
     required: true,
   },
