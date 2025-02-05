@@ -2,16 +2,17 @@
   <tr class="table__row employee">
     <td>{{ element.firstName }}</td>
     <td>{{ element.lastName }}</td>
-    <td>{{ element.address }}</td>
+    <td v-if="isMainPage">{{ element.address }}</td>
+
     <td v-if="isMainPage">{{ formatDate(element.startYear) }}</td>
+    <td v-else>{{ element.role }}</td>
     <td v-if="isMainPage">
       <FormCheckbox
         :disabled="true"
         :training-completed="element.trainingCompleted"
       />
     </td>
-    <td v-if="!isMainPage">{{ element.role }}</td>
-    <td v-if="!isMainPage">{{ element.email }}</td>
+    <td v-else>{{ element.email }}</td>
 
     <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event')">
       <EditIcon />

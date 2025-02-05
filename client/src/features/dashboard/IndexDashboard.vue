@@ -1,12 +1,19 @@
 <template>
-  <TableList>
+  <LoadingSpinner v-if="loading" />
+  <TableList v-else>
     <template #headings>
       <TableHeading v-for="heading in dashboardHeadings" :key="heading.id">
         {{ heading.name }}
       </TableHeading>
     </template>
     <template #elements>
-      <TableElement v-for="user in users" :key="user.id" :element="user" :isMainPage="false"/>
+      <TableElement
+        v-for="user in users"
+        :key="user.id"
+        :element="user"
+        :isMainPage="false"
+        :inputs="dashboardInputs"
+      />
     </template>
   </TableList>
 </template>
@@ -17,25 +24,27 @@ import { getData } from 'src/api/api'
 import { UserType } from 'src/utils/types'
 import TableList from 'src/components/layout/TableList.vue'
 import TableElement from 'src/components/layout/TableElement.vue'
-import TableElementInfo from 'src/components/layout/TableElementInfo.vue'
-import TableElementEdit from 'src/components/layout/TableElementEdit.vue'
+import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import TableHeading from 'src/components/layout/TableHeading.vue'
 
 const users = ref<UserType[]>([])
 const dashboardHeadings = ref()
+const dashboardInputs = ref()
+const loading = ref<boolean>(true)
 
 onBeforeMount(async () => {
   try {
-    const [usersResponse, headingsResponse] = await Promise.all([
+    const [usersResponse, headingsResponse, inputsResponse] = await Promise.all([
       getData('users/all'),
       getData('table/dashboard'),
+      getData('inputs/admin'),
     ])
-    users.value = usersResponse.data
     dashboardHeadings.value = headingsResponse.data
+    users.value = usersResponse.data
+    dashboardInputs.value = inputsResponse.data
+    loading.value = false
   } catch (error) {
     console.error(error)
   }
 })
 </script>
-
-<style scoped></style>

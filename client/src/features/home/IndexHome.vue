@@ -64,20 +64,19 @@ import { showToast } from 'src/utils/toast'
 import { useRouter } from 'vue-router'
 
 onBeforeMount(async () => {
+  const token = localStorage.getItem('login-token')
   try {
-    const [employeeResponse, homeResponse, tableResponse] = await Promise.all([
+    const [employeeResponse, homeResponse, tableResponse, userResponse] = await Promise.all([
       getData('employee'),
       getData('inputs/home'),
-      getData('table/main')
+      getData('table/main'),
+      getUserData(token as string)
     ])
     employees.value = employeeResponse.data
     homeInputs.value = homeResponse.data
     tableHeadings.value = tableResponse.data
+    user.value = userResponse.data
     loading.value = false
-    const token = localStorage.getItem('login-token')
-    
-    const response = await getUserData(token as string)
-    user.value = response.data
     setTimeout(() => {
       showToast(`Welcome back ${user.value?.firstName}`)
     }, 1000)
