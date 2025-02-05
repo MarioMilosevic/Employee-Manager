@@ -15,25 +15,38 @@ const tableHeadingsController = {
   },
   async addHeading(req: Request, res: Response) {
     try {
-        const heading = await prisma.tableHeadings.create({
-          data:req.body
-      })
+      const heading = await prisma.tableHeadings.create({
+        data: req.body,
+      });
       successResponseFactory.created(res, heading);
     } catch (error) {
       errorFactory.internalError(res);
     }
   },
-  async getHeadings(req:Request, res:Response) {
+  async getHeadings(req: Request, res: Response) {
     try {
-       const headings = await prisma.tableHeadings.findMany({
-         where: { tableId:req.params.id },
-       });
-    
-      successResponseFactory.ok(res, headings)
+      const headings = await prisma.tableHeadings.findMany({
+        where: { tableId: req.params.id },
+      });
+
+      successResponseFactory.ok(res, headings);
     } catch (error) {
-      errorFactory.internalError(res)
+      errorFactory.internalError(res);
     }
-  }
+  },
+  async deleteHeadings(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      const heading = await prisma.tableHeadings.deleteMany({
+        where: { tableId: id },
+      });
+
+      successResponseFactory.ok(res, heading);
+    } catch (error) {
+      errorFactory.internalError(res);
+    }
+  },
 };
 
 export default tableHeadingsController;

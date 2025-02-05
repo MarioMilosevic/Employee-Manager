@@ -21,8 +21,8 @@ import TableElementInfo from 'src/components/layout/TableElementInfo.vue'
 import TableElementEdit from 'src/components/layout/TableElementEdit.vue'
 import { EmployeeType, InputType, UserType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
-import EmployeeHome from 'src/features/home/EmployeeHome.vue'
-import UserDashboard from 'src/features/dashboard/UserDashboard.vue'
+// import EmployeeHome from 'src/features/home/EmployeeHome.vue'
+// import UserDashboard from 'src/features/dashboard/UserDashboard.vue'
 
 const isEditing = ref<boolean>(false)
 
@@ -35,11 +35,13 @@ const props = defineProps({
     type: Array as PropType<InputType[]>,
     required: true,
   },
-  hasCheckbox: {
+  isMainPage: {
     type: Boolean,
     required: true,
   },
 })
+
+console.log(props.inputs)
 
 const emit = defineEmits(['edit-event', 'delete-event'])
 

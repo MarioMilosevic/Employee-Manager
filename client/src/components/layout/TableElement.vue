@@ -5,7 +5,7 @@
     :inputs="inputs"
     :isMainPage="props.isMainPage"
     @edit-event="editHandler"
-    @delete-event="emit('delete-event')"
+    @delete-event="emit('delete-event', props.element.id)"
   />
   <UserDashboard v-else :element="element" :inputs="inputs" :isMainPage="props.isMainPage"/>
 </template>

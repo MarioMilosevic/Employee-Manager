@@ -1,23 +1,17 @@
 <template>
   <tr class="table__row employee">
-    <!-- <slot name="firstName"/>
-    <slot name="lastName"/>
-    <slot name="address"/>
-    <slot name="dateStarted"/>
-    <slot name="checkbox"/>
-    <slot name="role"/>
-    <slot name="email"/>
-    <slot name="actions"/> -->
     <td>{{ element.firstName }}</td>
     <td>{{ element.lastName }}</td>
     <td>{{ element.address }}</td>
-    <td>{{ formatDate(element.startYear) }}</td>
-    <td :v-if="isMainPage">
+    <td v-if="isMainPage">{{ formatDate(element.startYear) }}</td>
+    <td v-if="isMainPage">
       <FormCheckbox
         :disabled="true"
         :training-completed="element.trainingCompleted"
       />
     </td>
+    <td v-if="!isMainPage">{{ element.role }}</td>
+    <td v-if="!isMainPage">{{ element.email }}</td>
 
     <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event')">
       <EditIcon />
@@ -26,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { EmployeeType } from 'src/utils/types'
+import { EmployeeType, UserType } from 'src/utils/types'
 import { PropType } from 'vue'
 import { formatDate } from 'src/utils/helpers'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
@@ -35,7 +29,7 @@ import EditIcon from 'src/icons/EditIcon.vue'
 
 const props = defineProps({
   element: {
-    type: Object as PropType<EmployeeType>,
+    type: Object as PropType<EmployeeType | UserType>,
     required: true,
   },
   isMainPage: {

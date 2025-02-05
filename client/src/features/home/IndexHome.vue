@@ -68,13 +68,14 @@ onBeforeMount(async () => {
     const [employeeResponse, homeResponse, tableResponse] = await Promise.all([
       getData('employee'),
       getData('inputs/home'),
-      getData('table/home')
+      getData('table/main')
     ])
     employees.value = employeeResponse.data
     homeInputs.value = homeResponse.data
     tableHeadings.value = tableResponse.data
     loading.value = false
     const token = localStorage.getItem('login-token')
+    
     const response = await getUserData(token as string)
     user.value = response.data
     setTimeout(() => {

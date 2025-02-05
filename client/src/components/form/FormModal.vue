@@ -103,7 +103,6 @@ const closeModal = () => {
 const setTrainingCompleted = (value: boolean) => (employee.value.trainingCompleted = value)
 
 const submitForm = async () => {
-  console.log('kada submitam', employee.value)
   const validation = employeeFormSchema.safeParse(employee.value)
   if (validation.success) {
     emits('submit-event', employee.value)

@@ -69,7 +69,7 @@ export const login = async (data: LoginCredentialsType) => {
 
 export const getUserData = async (token: string) => {
   try {
-    const response = await fetch(`${baseUrl}/users`, {
+    const response = await fetch(`${baseUrl}/users/user`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
