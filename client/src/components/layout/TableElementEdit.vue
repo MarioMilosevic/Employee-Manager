@@ -5,11 +5,12 @@
         <FormInput
           align="center"
           v-bind="input"
-          v-model="selectedEmployee[input.name as keyof typeof selectedEmployee]"
+          v-model="selectedEmployee[input.name as keyof typeof selectedEmployee] as string"
         />
       </template>
     </FormBlock>
     <FormCheckbox
+      v-if="hasCheckbox"
       :trainingCompleted="selectedEmployee.trainingCompleted"
       @checkbox-event="toggleTrainingCompleted"
     />
@@ -29,7 +30,6 @@
 
 <script setup lang="ts">
 import FormBlock from 'src/components/form/FormBlock.vue'
-// import FormError from 'src/components/form/FormError.vue'
 import FormInput from 'src/components/form/FormInput.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
@@ -48,6 +48,10 @@ const props = defineProps({
     type: Array as PropType<InputType[]>,
     required: true,
   },
+  hasCheckbox: {
+    type: Boolean,
+    required:true
+  },
 })
 
 const selectedEmployee = ref<EmployeeType>({ ...props.employee })
@@ -56,7 +60,6 @@ const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])
 const toggleTrainingCompleted = (value: boolean) => {
   selectedEmployee.value.trainingCompleted = value
 }
-
 </script>
 
 <style scoped lang="scss">
@@ -65,11 +68,4 @@ const toggleTrainingCompleted = (value: boolean) => {
   top: 0px;
   right: 0px;
 }
-/* @use 'src/scss/abstracts/variables' as *; */
-
-/* .actions {
-  border: 1px solid black;
-  display: flex;
-  gap: $small;
-} */
 </style>

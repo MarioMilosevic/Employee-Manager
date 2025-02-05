@@ -16,17 +16,17 @@
       <ActionButton color="white" size="big" @click="setModal(true)">
         Add New Employee
       </ActionButton>
-
       <ActionButton color="white" size="big" @click="signOut">Sign Out</ActionButton>
     </div>
-    <EmployeeList>
+    
+    <TableList>
       <template #headings>
         <TableHeading v-for="heading in tableHeadings" :key="heading.id">
           {{ heading.name }}
         </TableHeading>
       </template>
-      <template #employees>
-        <EmployeeComp
+      <template #elements>
+        <TableElement
           v-for="employee in employees"
           :key="employee.id"
           :employee="employee"
@@ -35,7 +35,7 @@
           @edit-event="editEmployee"
         />
       </template>
-    </EmployeeList>
+    </TableList>
 
     <FormModal
       v-if="isModalOpen"
@@ -49,9 +49,9 @@
 
 <script setup lang="ts">
 import FormModal from 'src/components/form/FormModal.vue'
-import EmployeeList from './EmployeeList.vue'
+import TableList from 'src/components/layout/TableList.vue'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
-import EmployeeComp from 'src/features/home/EmployeeComp.vue'
+import TableElement from 'src/components/layout/TableElement.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import TableHeading from 'src/components/layout/TableHeading.vue'

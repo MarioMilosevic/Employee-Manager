@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <h1 :style="{ alignContent: props.align, color: props.color }" :class="[titleColor, 'title']">
+    <h1 :style="{ alignContent: props.align, color: props.color, marginBottom:props.marginBottom }" :class="[titleColor, 'title']">
       <slot name="title" />
     </h1>
     <slot name="button" />
@@ -19,6 +19,10 @@ const props = defineProps({
     type: String as PropType<'white' | 'black'>,
     default: 'white',
   },
+  marginBottom: {
+    type: String,
+    default:'0rem'
+  }
 })
 
 const titleColor = computed(() => {

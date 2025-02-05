@@ -6,7 +6,9 @@
       </BaseIcon>
       <AuthForm @submit.prevent="submitForm" class="overlay__modal-form form">
         <template #title>
-          <TitleName color="black">Add New Employee</TitleName>
+          <HeaderComp color="black" margin-bottom="2rem">
+            <template #title> Add New Employee </template>
+          </HeaderComp>
         </template>
         <template #inputs>
           <FormInputs>
@@ -66,7 +68,7 @@ import AuthForm from 'src/components/form/AuthForm.vue'
 import FormError from 'src/components/form/FormError.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
-import TitleName from 'src/components/layout/HeaderComp.vue'
+import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import FormLabel from 'src/components/form/FormLabel.vue'
 import FormInputs from 'src/components/form/FormInputs.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
