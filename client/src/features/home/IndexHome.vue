@@ -20,6 +20,11 @@
       <ActionButton color="white" size="big" @click="signOut">Sign Out</ActionButton>
     </div>
     <EmployeeList>
+      <template #headings>
+        <TableHeading v-for="heading in tableHeadings" :key="heading.id">
+          {{ heading.name }}
+        </TableHeading>
+      </template>
       <template #employees>
         <EmployeeComp
           v-for="employee in employees"
@@ -49,6 +54,7 @@ import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import EmployeeComp from 'src/features/home/EmployeeComp.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
+import TableHeading from 'src/components/layout/TableHeading.vue'
 import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
 import { EmployeeType, UserType } from 'src/utils/types'
 import { ref, onBeforeMount } from 'vue'
@@ -58,12 +64,14 @@ import { useRouter } from 'vue-router'
 
 onBeforeMount(async () => {
   try {
-    const [employeeResponse, homeResponse] = await Promise.all([
+    const [employeeResponse, homeResponse, tableResponse] = await Promise.all([
       getData('employee'),
       getData('inputs/home'),
+      getData('table/home')
     ])
     employees.value = employeeResponse.data
     homeInputs.value = homeResponse.data
+    tableHeadings.value = tableResponse.data
     loading.value = false
     const token = localStorage.getItem('login-token')
     const response = await getUserData(token as string)
@@ -83,6 +91,7 @@ const homeInputs = ref()
 const singleEmployee = ref<EmployeeType>(emptySingleEmployee)
 const formErrors = ref(emptyEmployeeErrors)
 const loading = ref<boolean>(true)
+const tableHeadings = ref()
 
 const router = useRouter()
 

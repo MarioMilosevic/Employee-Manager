@@ -1,7 +1,8 @@
 <template>
   <table class="table">
     <thead class="table__row">
-      <tr>
+          <slot name="headings"/>
+      <!-- <tr>
         <th>First Name</th>
       </tr>
       <tr>
@@ -18,7 +19,7 @@
       </tr>
       <tr>
         <th>Actions</th>
-      </tr>
+      </tr> -->
     </thead>
     <slot name="employees" />
   </table>

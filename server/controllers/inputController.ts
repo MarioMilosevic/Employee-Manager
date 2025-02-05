@@ -8,7 +8,6 @@ const input = {
   async getAllInputs(req: Request, res: Response) {
     try {
       const allInputs = await prisma.inputField.findMany({});
-      console.log(allInputs);
       successResponseFactory.ok(res, allInputs);
     } catch (error) {
       errorFactory.internalError(res);
@@ -33,7 +32,6 @@ const input = {
 
       successResponseFactory.created(res, input);
     } catch (error) {
-      console.error(error);
       errorFactory.internalError(res);
     }
   },

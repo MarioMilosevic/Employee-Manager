@@ -6,5 +6,4 @@ const inputRouter = Router();
 inputRouter.route("/").get(input.getAllInputs).post(input.createInput)
 inputRouter.route("/:id").get(input.getInputs).delete(input.deleteInput)
 
-
 export default inputRouter;

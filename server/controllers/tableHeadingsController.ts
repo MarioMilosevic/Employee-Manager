@@ -5,16 +5,35 @@ import errorFactory from "../services/errorFactory";
 import successResponseFactory from "../services/successResponseFactory";
 
 const tableHeadingsController = {
-    async getAll(req: Request, res: Response) {
-      console.log('uslo odje')
+  async getAll(req: Request, res: Response) {
     try {
-      const headings = prisma.tableHeadings.findMany();
-      console.log(headings);
+      const headings = await prisma.tableHeadings.findMany();
       successResponseFactory.ok(res, headings);
     } catch (error) {
       errorFactory.internalError(res);
     }
   },
+  async addHeading(req: Request, res: Response) {
+    try {
+        const heading = await prisma.tableHeadings.create({
+          data:req.body
+      })
+      successResponseFactory.created(res, heading);
+    } catch (error) {
+      errorFactory.internalError(res);
+    }
+  },
+  async getHeadings(req:Request, res:Response) {
+    try {
+       const headings = await prisma.tableHeadings.findMany({
+         where: { tableId:req.params.id },
+       });
+    
+      successResponseFactory.ok(res, headings)
+    } catch (error) {
+      errorFactory.internalError(res)
+    }
+  }
 };
 
 export default tableHeadingsController;
