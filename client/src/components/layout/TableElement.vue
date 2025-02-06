@@ -1,12 +1,12 @@
 <template>
   <EmployeeHome
     v-if="'startYear' in props.element"
-    :element="element"
+    :element="element as EmployeeType"
     :inputs="inputs"
     @edit-event="editHandler"
     @delete-event="emit('delete-event', props.element.id)"
   />
-  <UserDashboard v-else :element="element" :inputs="inputs"/>
+  <UserDashboard v-else :element="element as UserType" :inputs="inputs" />
 </template>
 
 <script setup lang="ts">
@@ -29,7 +29,7 @@ const props = defineProps({
 const emit = defineEmits(['edit-event', 'delete-event'])
 
 const editHandler = (element: EmployeeType | UserType) => {
-  emit('edit-event', element)
-  // isEditing.value = false
+  console.log('odje ide edit')
+  // emit('edit-event', element)
 }
 </script>

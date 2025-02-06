@@ -24,7 +24,7 @@ const isEditing = ref<boolean>(false)
 
 const props = defineProps({
   element: {
-    type: Object as PropType<EmployeeType | UserType>,
+    type: Object as PropType<EmployeeType>,
     required: true,
   },
   inputs: {

@@ -1,6 +1,7 @@
 <template>
  <TableElementEdit
     v-if="isEditing"
+    class="dashboard"
     :element="props.element"
     :inputs="inputs"
     @close-event="isEditing = false"
@@ -9,6 +10,7 @@
   />
   <TableElementInfo
     v-else
+    class="dashboard"
     :element="element"
     @edit-event="isEditing = true"
   />
@@ -17,16 +19,14 @@
 <script setup lang="ts">
 import TableElementInfo from 'src/components/layout/TableElementInfo.vue'
 import TableElementEdit from 'src/components/layout/TableElementEdit.vue'
-import { EmployeeType, InputType, UserType } from 'src/utils/types'
+import {  InputType, UserType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
-// import EmployeeHome from 'src/features/home/EmployeeHome.vue'
-// import UserDashboard from 'src/features/dashboard/UserDashboard.vue'
 
 const isEditing = ref<boolean>(false)
 
 const props = defineProps({
   element: {
-    type: Object as PropType<EmployeeType | UserType>,
+    type: Object as PropType<UserType>,
     required: true,
   },
   inputs: {
@@ -37,7 +37,7 @@ const props = defineProps({
 
 const emit = defineEmits(['edit-event', 'delete-event'])
 
-const editHandler = (element: EmployeeType | UserType) => {
+const editHandler = (element: UserType) => {
   emit('edit-event', element)
   isEditing.value = false
 }

@@ -19,7 +19,7 @@
       <ActionButton color="white" size="big" @click="signOut">Sign Out</ActionButton>
     </div>
 
-    <TableList>
+    <TableList page="home">
       <template #headings>
         <TableHeading v-for="heading in tableHeadings" :key="heading.id">
           {{ heading.name }}
@@ -28,6 +28,7 @@
       <template #elements>
         <TableElement
           v-for="employee in employees"
+          class="home"
           :key="employee.id"
           :element="employee"
           :inputs="homeInputs"

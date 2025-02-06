@@ -37,7 +37,7 @@ import BaseIcon from 'src/icons/BaseIcon.vue'
 import DeleteIcon from 'src/icons/DeleteIcon.vue'
 import ConfirmIcon from 'src/icons/ConfirmIcon.vue'
 import { EmployeeType, InputType, UserType } from 'src/utils/types'
-import { computed, PropType } from 'vue'
+import { PropType, ref } from 'vue'
 
 const props = defineProps({
   element: {
@@ -50,7 +50,7 @@ const props = defineProps({
   },
 })
 
-const selectedElement = computed(() => props.element)
+const selectedElement = ref({ ...props.element })
 
 const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])
 

@@ -1,6 +1,6 @@
 <template>
   <LoadingSpinner v-if="loading" />
-  <TableList v-else>
+  <TableList v-else page="dashboard">
     <template #headings>
       <TableHeading v-for="heading in dashboardHeadings" :key="heading.id">
         {{ heading.name }}

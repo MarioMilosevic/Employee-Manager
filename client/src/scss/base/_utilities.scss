@@ -2,7 +2,6 @@
 
 .table__row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
   text-align: center;
   align-items: center;
   justify-items: center;
@@ -10,6 +9,14 @@
   padding: $medium;
   background-color: $secondary-color;
   color: $dark-color;
+}
+
+.home{
+  grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
+}
+
+.dashboard{
+grid-template-columns: repeat(5, 1fr);
 }
 
 .form {
