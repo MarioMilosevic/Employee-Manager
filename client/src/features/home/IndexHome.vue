@@ -62,9 +62,14 @@ import { ref, onBeforeMount } from 'vue'
 import { getData, deleteData, postData, editData, getUserData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 import { useRouter } from 'vue-router'
+import { useFetchData } from 'src/composables/useFetchData'
 
 onBeforeMount(async () => {
   const token = localStorage.getItem('login-token')
+  const {data, tableData, inputsData} = await useFetchData('employee', 'inputs/home', 'table/main')
+  console.log(data.value)
+  console.log(tableData.value)
+  console.log(inputsData.value)
   try {
     const [employeeResponse, homeResponse, tableResponse, userResponse] = await Promise.all([
       getData('employee'),

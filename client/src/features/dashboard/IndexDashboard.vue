@@ -26,11 +26,6 @@ import TableElement from 'src/components/layout/TableElement.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import TableHeading from 'src/components/layout/TableHeading.vue'
 
-const users = ref<UserType[]>([])
-const dashboardHeadings = ref()
-const dashboardInputs = ref()
-const loading = ref<boolean>(true)
-
 onBeforeMount(async () => {
   try {
     const [usersResponse, headingsResponse, inputsResponse] = await Promise.all([
@@ -46,4 +41,10 @@ onBeforeMount(async () => {
     console.error(error)
   }
 })
+
+const users = ref<UserType[]>([])
+const dashboardHeadings = ref()
+const dashboardInputs = ref()
+const loading = ref<boolean>(true)
+
 </script>
