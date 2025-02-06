@@ -26,6 +26,8 @@ const props = defineProps({
   },
 })
 
+console.log(props.element)
+
 const emit = defineEmits(['edit-event', 'delete-event'])
 
 const editHandler = (element: EmployeeType | UserType) => {

@@ -1,28 +1,25 @@
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { getData } from 'src/api/api'
 
-export const useFetchData = async (dataPath: string, tablePath: string, inputsPath: string) => {
-  // const loading = ref<boolean>(true)
-  const data = ref([])
+export const useFetchData = (tablePath: string, inputsPath: string) => {
   const tableData = ref()
   const inputsData = ref()
+  const loading = ref<boolean>(true)
 
-  const [dataResponse, tableResponse, inputsResponse] = await Promise.all([
-    getData(dataPath),
-    getData(tablePath),
-    getData(inputsPath),
-  ])
-  //  getData('users/all'),
-  //  getData('table/dashboard'),
-  //  getData('inputs/admin'),
+  onBeforeMount(async () => {
+    const [tableResponse, inputsResponse] = await Promise.all([
+      getData(tablePath),
+      getData(inputsPath),
+    ])
 
-  data.value = dataResponse.data
-  tableData.value = tableResponse.data
-  inputsData.value = inputsResponse.data
+    tableData.value = tableResponse.data
+    inputsData.value = inputsResponse.data
+    loading.value = false
+  })
 
   return {
-    data,
     tableData,
     inputsData,
+    loading,
   }
 }

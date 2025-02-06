@@ -50,6 +50,8 @@ const props = defineProps({
   },
 })
 
+console.log(props.element)
+
 const selectedElement = ref({ ...props.element })
 
 const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])

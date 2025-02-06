@@ -5,7 +5,7 @@
       <template #title> Employee Manager </template>
       <template #button v-if="user?.role === 'ADMIN'">
         <ActionButton
-        @click="goToDashboard"
+          @click="goToDashboard"
           :style="{ position: 'absolute', top: '50%', right: '0%', transform: 'translateY(-50%)' }"
           >Dashboard</ActionButton
         >
@@ -57,55 +57,35 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import TableHeading from 'src/components/layout/TableHeading.vue'
 import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
-import { EmployeeType, UserType } from 'src/utils/types'
-import { ref, onBeforeMount } from 'vue'
-import { getData, deleteData, postData, editData, getUserData } from 'src/api/api'
+import { EmployeeType } from 'src/utils/types'
+import { ref } from 'vue'
+import { deleteData, postData, editData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 import { useRouter } from 'vue-router'
 import { useFetchData } from 'src/composables/useFetchData'
+import { useFetchUser } from 'src/composables/useFetchUser'
+import { useFetchMainData } from 'src/composables/useFetchMainData'
 
-onBeforeMount(async () => {
-  const token = localStorage.getItem('login-token')
-  const {data, tableData, inputsData} = await useFetchData('employee', 'inputs/home', 'table/main')
-  console.log(data.value)
-  console.log(tableData.value)
-  console.log(inputsData.value)
-  try {
-    const [employeeResponse, homeResponse, tableResponse, userResponse] = await Promise.all([
-      getData('employee'),
-      getData('inputs/home'),
-      getData('table/main'),
-      getUserData(token as string)
-    ])
-    employees.value = employeeResponse.data
-    homeInputs.value = homeResponse.data
-    tableHeadings.value = tableResponse.data
-    user.value = userResponse.data
-    loading.value = false
-    setTimeout(() => {
-      showToast(`Welcome back ${user.value?.firstName}`)
-    }, 1000)
-  } catch (error) {
-    console.error(error)
-  }
-})
+const { user } = useFetchUser()
+const { data: employees, addMainData, editMainData, removeMainData } = useFetchMainData('employee')
+const {
+  inputsData: homeInputs,
+  tableData: tableHeadings,
+  loading,
+} = useFetchData('inputs/home', 'table/main')
 
-const user = ref<UserType>()
-const employees = ref([] as EmployeeType[])
+
 const isModalOpen = ref<boolean>(false)
-const homeInputs = ref()
 const singleEmployee = ref<EmployeeType>(emptySingleEmployee)
 const formErrors = ref(emptyEmployeeErrors)
-const loading = ref<boolean>(true)
-const tableHeadings = ref()
 
 const router = useRouter()
 
-const addEmployee = (employee: EmployeeType) => employees.value.push(employee)
+// const addEmployee = (employee: EmployeeType) => employees.value.push(employee)
 
-const removeEmployee = (id: number) => {
-  employees.value = employees.value.filter((emp) => emp.id !== id)
-}
+// const removeEmployee = (id: number) => {
+//   employees.value = employees.value.filter((emp) => emp.id !== id)
+// }
 
 const resetForm = () => {
   formErrors.value = emptyEmployeeErrors
@@ -114,7 +94,8 @@ const resetForm = () => {
 const submitForm = async (employee: EmployeeType) => {
   try {
     const response = await postData(employee, 'employee')
-    addEmployee(response.data)
+    // addEmployee(response.data)
+    addMainData(response.data)
     resetForm()
     setModal(false)
   } catch (error) {
@@ -126,7 +107,8 @@ const editEmployee = async (employee: EmployeeType) => {
   try {
     const response = await editData(employee, `employee/${employee.id}`)
     if (response.data) {
-      employees.value = employees.value.map((emp) => (emp.id === employee.id ? employee : emp))
+      // employees.value = employees.value.map((emp) => (emp.id === employee.id ? employee : emp))
+      editMainData(employee)
     } else {
       showToast(response.message, 'error')
     }
@@ -139,7 +121,8 @@ const deleteEmployee = async (id: number) => {
   try {
     const response = await deleteData('employee', id)
     if (response && response.ok) {
-      removeEmployee(id)
+      // removeEmployee(id)
+      removeMainData(id)
     } else {
       const responseData = await response?.json()
       showToast(responseData.message, 'error')
@@ -166,7 +149,6 @@ const setModal = (value: boolean) => {
 const goToDashboard = () => {
   router.push('/dashboard')
 }
-
 </script>
 
 <style scoped lang="scss">
