@@ -7,7 +7,7 @@ export const useFetchData = (tablePath: string, inputsPath: string) => {
   const loading = ref<boolean>(true)
 
   onBeforeMount(async () => {
-    const [tableResponse, inputsResponse] = await Promise.all([
+    const [inputsResponse, tableResponse] = await Promise.all([
       getData(tablePath),
       getData(inputsPath),
     ])

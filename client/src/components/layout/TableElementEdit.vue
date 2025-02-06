@@ -50,7 +50,6 @@ const props = defineProps({
   },
 })
 
-console.log(props.element)
 
 const selectedElement = ref({ ...props.element })
 

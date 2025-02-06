@@ -18,33 +18,17 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
-import { getData } from 'src/api/api'
-import { UserType } from 'src/utils/types'
 import TableList from 'src/components/layout/TableList.vue'
 import TableElement from 'src/components/layout/TableElement.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import TableHeading from 'src/components/layout/TableHeading.vue'
+import { useFetchData } from 'src/composables/useFetchData'
+import { useFetchMainData } from 'src/composables/useFetchMainData'
 
-onBeforeMount(async () => {
-  try {
-    const [usersResponse, headingsResponse, inputsResponse] = await Promise.all([
-      getData('users/all'),
-      getData('table/dashboard'),
-      getData('inputs/admin'),
-    ])
-    dashboardHeadings.value = headingsResponse.data
-    users.value = usersResponse.data
-    dashboardInputs.value = inputsResponse.data
-    loading.value = false
-  } catch (error) {
-    console.error(error)
-  }
-})
-
-const users = ref<UserType[]>([])
-const dashboardHeadings = ref()
-const dashboardInputs = ref()
-const loading = ref<boolean>(true)
-
+const { data: users, addMainData, editMainData, removeMainData } = useFetchMainData('users/all')
+const {
+  inputsData: dashboardInputs,
+  tableData: dashboardHeadings,
+  loading,
+} = useFetchData('inputs/admin', 'table/dashboard')
 </script>
