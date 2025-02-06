@@ -3,7 +3,6 @@
     v-if="isEditing"
     :element="props.element"
     :inputs="inputs"
-    :isMainPage="isMainPage"
     @close-event="isEditing = false"
     @delete-event="emit('delete-event', element.id)"
     @edit-event="editHandler"
@@ -11,7 +10,6 @@
   <TableElementInfo
     v-else
     :element="element"
-    :isMainPage="isMainPage"
     @edit-event="isEditing = true"
   />
 </template>
@@ -33,10 +31,6 @@ const props = defineProps({
   },
   inputs: {
     type: Array as PropType<InputType[]>,
-    required: true,
-  },
-  isMainPage: {
-    type: Boolean,
     required: true,
   },
 })

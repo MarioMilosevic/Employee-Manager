@@ -31,7 +31,6 @@
           :key="employee.id"
           :element="employee"
           :inputs="homeInputs"
-          :isMainPage="true"
           @delete-event="deleteEmployee"
           @edit-event="editEmployee"
         />

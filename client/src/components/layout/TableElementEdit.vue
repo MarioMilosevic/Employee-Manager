@@ -10,8 +10,8 @@
       </template>
     </FormBlock>
     <FormCheckbox
-      v-if="isMainPage"
-      :trainingCompleted="selectedElement.trainingCompleted"
+      v-if="'address' in props.element"
+      :trainingCompleted="(selectedElement as EmployeeType).trainingCompleted"
       @checkbox-event="toggleTrainingCompleted"
     />
     <td class="actions">
@@ -48,13 +48,8 @@ const props = defineProps({
     type: Array as PropType<InputType[]>,
     required: true,
   },
-  isMainPage: {
-    type: Boolean,
-    required: true,
-  },
 })
 
-// const selectedElement = ref<EmployeeType | UserType>({ ...props.element })
 const selectedElement = computed(() => props.element)
 
 const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])

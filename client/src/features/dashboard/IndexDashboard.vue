@@ -11,7 +11,6 @@
         v-for="user in users"
         :key="user.id"
         :element="user"
-        :isMainPage="false"
         :inputs="dashboardInputs"
       />
     </template>

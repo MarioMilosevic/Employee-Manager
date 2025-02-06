@@ -1,13 +1,12 @@
 <template>
   <EmployeeHome
-    v-if="props.isMainPage"
+    v-if="'startYear' in props.element"
     :element="element"
     :inputs="inputs"
-    :isMainPage="props.isMainPage"
     @edit-event="editHandler"
     @delete-event="emit('delete-event', props.element.id)"
   />
-  <UserDashboard v-else :element="element" :inputs="inputs" :isMainPage="props.isMainPage"/>
+  <UserDashboard v-else :element="element" :inputs="inputs"/>
 </template>
 
 <script setup lang="ts">
@@ -23,10 +22,6 @@ const props = defineProps({
   },
   inputs: {
     type: Array as PropType<InputType[]>,
-    required: true,
-  },
-  isMainPage: {
-    type: Boolean,
     required: true,
   },
 })
