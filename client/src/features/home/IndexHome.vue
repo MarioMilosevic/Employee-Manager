@@ -62,17 +62,14 @@ import { ref } from 'vue'
 import { deleteData, postData, editData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 import { useRouter } from 'vue-router'
-import { useFetchData } from 'src/composables/useFetchData'
+import { useFetchSideData } from 'src/composables/useFetchSideData'
 import { useFetchUser } from 'src/composables/useFetchUser'
-import { useFetchMainData } from 'src/composables/useFetchMainData'
+import { useFetchData } from 'src/composables/useFetchData'
 
 const { user } = useFetchUser()
-const { data: employees, addMainData, editMainData, removeMainData } = useFetchMainData('employee')
-const {
-  inputsData: homeInputs,
-  tableData: tableHeadings,
-  loading,
-} = useFetchData('inputs/home', 'table/main')
+const { data: employees, addMainData, editMainData, removeMainData } = useFetchData('employee')
+const { data: homeInputs, loading } = useFetchSideData('inputs/home')
+const { data: tableHeadings } = useFetchSideData('table/main')
 
 
 const isModalOpen = ref<boolean>(false)

@@ -3,7 +3,7 @@ import { getUserData } from 'src/api/api'
 import { UserType } from 'src/utils/types'
 
 export const useFetchUser = () => {
-  const user = ref<UserType>()
+  const user = ref<UserType | null>(null)
   const token = localStorage.getItem('login-token')
 
   onBeforeMount(async () => {

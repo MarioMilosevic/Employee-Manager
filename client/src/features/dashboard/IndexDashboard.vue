@@ -22,13 +22,10 @@ import TableList from 'src/components/layout/TableList.vue'
 import TableElement from 'src/components/layout/TableElement.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import TableHeading from 'src/components/layout/TableHeading.vue'
+import { useFetchSideData } from 'src/composables/useFetchSideData'
 import { useFetchData } from 'src/composables/useFetchData'
-import { useFetchMainData } from 'src/composables/useFetchMainData'
 
-const { data: users, addMainData, editMainData, removeMainData } = useFetchMainData('users/all')
-const {
-  inputsData: dashboardInputs,
-  tableData: dashboardHeadings,
-  loading,
-} = useFetchData('inputs/admin', 'table/dashboard')
+const { data: users, addMainData, editMainData, removeMainData } = useFetchData('users/all')
+const { data: dashboardHeadings } = useFetchSideData('table/dashboard')
+const { data: dashboardInputs, loading } = useFetchSideData('inputs/admin')
 </script>
