@@ -7,7 +7,7 @@
       <AuthForm @submit.prevent="submitForm" class="overlay__modal-form form">
         <template #title>
           <HeaderComp color="black" margin-bottom="2rem">
-            <template #title> Add New Employee </template>
+            <template #title> <slot name="modalTitle" /> </template>
           </HeaderComp>
         </template>
         <template #inputs>

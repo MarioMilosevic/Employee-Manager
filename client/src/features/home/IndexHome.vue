@@ -1,16 +1,17 @@
 <template>
-  <LoadingSpinner v-if="loading" />
+  <LoadingSpinner v-if="loadingStore.loading" />
   <MainComponent
     v-else
     :elements="employees"
     :inputs="homeInputs"
     :table-headings="homeHeadings"
     page="home"
-    :user="(user as UserType)"
+    :user="user"
     @delete-event="deleteEmployee"
     @edit-event="editEmployee"
     @submit-event="submitForm"
   >
+    <template #title> Employee Manager </template>
     <template #button>
       <ActionButton
         @click="goToDashboard"
@@ -22,6 +23,7 @@
       <h2>Employee List</h2>
     </template>
     <template #leftButton> Add New Employee </template>
+    <template #modalTitle>Add New Employee</template>
   </MainComponent>
 </template>
 
@@ -30,33 +32,33 @@ import MainComponent from 'src/components/layout/MainComponent.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { emptyEmployeeErrors } from 'src/utils/constants'
-import { EmployeeType, InputType, TableHeadingType, UserType } from 'src/utils/types'
+import { EmployeeType, InputType, TableHeadingType } from 'src/utils/types'
 import { onBeforeMount, ref } from 'vue'
-import { deleteData, postData, editData, getData, getUserData } from 'src/api/api'
+import { deleteData, postData, editData, getData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 import { useRouter } from 'vue-router'
+import { useUserStore } from 'src/stores/userStore'
+import { useLoadingStore } from 'src/stores/loadingStore'
 
 onBeforeMount(async () => {
-  const token = localStorage.getItem('login-token')
-  const [employeeResponse, tableResponse, inputsResponse, userResponse] = await Promise.all([
+  const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
     getData('employee'),
     getData('table/main'),
     getData('inputs/home'),
-    getUserData(token as string),
   ])
   employees.value = employeeResponse.data
   homeHeadings.value = tableResponse.data
   homeInputs.value = inputsResponse.data
-  user.value = userResponse.data
-  loading.value = false
+  loadingStore.setLoading(false)
 })
+
+const { user } = useUserStore()
+const loadingStore = useLoadingStore()
 
 const employees = ref<EmployeeType[]>([])
 const homeHeadings = ref<TableHeadingType[]>([])
 const homeInputs = ref<InputType[]>([])
-const user = ref<UserType>()
 
-const loading = ref<boolean>(true)
 const isModalOpen = ref<boolean>(false)
 const formErrors = ref(emptyEmployeeErrors)
 

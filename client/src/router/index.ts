@@ -6,8 +6,6 @@ import SignUp from 'src/features/sign-up/IndexSignUp.vue'
 import Dashboard from 'src/features/dashboard/IndexDashboard.vue'
 import { useUserStore } from 'src/stores/userStore'
 
-const userStore = useUserStore()
-
 export const routes = [
   {
     path: '/',
@@ -37,6 +35,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  const userStore = useUserStore()
   const userToken = localStorage.getItem('login-token')
   const isAuthenticationRoute = to.name === 'Login' || to.name === 'Sign Up'
 
