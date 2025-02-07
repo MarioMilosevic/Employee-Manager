@@ -1,6 +1,8 @@
 import { EmployeeType, LoginCredentialsType, UserType } from 'src/utils/types'
 import { baseUrl } from 'src/utils/constants'
 import { getDataFromJson } from 'src/utils/helpers'
+import { Router } from 'vue-router'
+import { showToast } from 'src/utils/toast'
 
 export const postData = async (postData: EmployeeType | UserType, path: string) => {
   try {
@@ -88,5 +90,20 @@ export const signInAnonymously = async () => {
     return getDataFromJson(response)
   } catch (error) {
     console.error(error)
+  }
+}
+
+export const signOut = async (router: Router, user: UserType) => {
+  router.push('/login')
+  localStorage.removeItem('login-token')
+  setTimeout(() => {
+    showToast(`${user.firstName} logged out`)
+  }, 500)
+  if (user.role === 'GUEST' && user.id) {
+    try {
+      await deleteData('users', user.id)
+    } catch (error) {
+      console.error(error)
+    }
   }
 }

@@ -28,7 +28,7 @@
           </FormInputs>
         </template>
         <template #default>
-          <FormBlock>
+          <FormBlock v-if="'trainingCompleted' in singleElement">
             <template #label>
               <FormLabel id="checkbox" class="overlay__modal-form-label"
                 >Completed Training ?</FormLabel
@@ -82,18 +82,17 @@ import { emptyEmployeeErrors } from 'src/utils/constants'
 
 const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
-  // singleElement: {
-  //   type: Object as PropType<EmployeeType | UserType>,
-  //   required: true,
-  // },
+  singleElement: {
+    type: Object as PropType<EmployeeType | UserType>,
+    required: true,
+  },
   inputs: {
     type: Array as PropType<InputType[]>,
     required: true,
   },
 })
 
-const element = ref<EmployeeType | UserType>()
-// console.log(props.singleElement)
+const element = ref({ ...props.singleElement })
 
 const formErrors = ref<EmployeeErrorsType>({ ...emptyEmployeeErrors })
 
@@ -101,12 +100,12 @@ const closeModal = () => {
   emits('close-modal')
 }
 
-const setTrainingCompleted = (value: boolean) => (employee.value.trainingCompleted = value)
+const setTrainingCompleted = (value: boolean) => (element.value.trainingCompleted = value)
 
 const submitForm = async () => {
-  const validation = employeeFormSchema.safeParse(employee.value)
+  const validation = employeeFormSchema.safeParse(element.value)
   if (validation.success) {
-    emits('submit-event', employee.value)
+    emits('submit-event', element.value)
   } else {
     const updatedErorrs = renderValidationErrors(
       formErrors,
