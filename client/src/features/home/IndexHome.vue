@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <LoadingSpinner v-if="loading" />
   <template v-else>
     <HeaderComp align="center">
@@ -41,7 +41,7 @@
     <FormModal
       v-if="isModalOpen"
       :singleEmployee="singleEmployee"
-      :inputs="homeInputs"
+      :inputs="props.inputs"
       @close-modal="setModal(false)"
       @submit-event="submitForm"
     />
@@ -58,18 +58,25 @@ import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import TableHeading from 'src/components/layout/TableHeading.vue'
 import { emptyEmployeeErrors, emptySingleEmployee } from 'src/utils/constants'
 import { EmployeeType } from 'src/utils/types'
-import { ref } from 'vue'
+import { PropType, ref } from 'vue'
 import { deleteData, postData, editData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 import { useRouter } from 'vue-router'
 import { useFetchSideData } from 'src/composables/useFetchSideData'
 import { useFetchUser } from 'src/composables/useFetchUser'
 import { useFetchData } from 'src/composables/useFetchData'
+import { InputType } from 'src/utils/types'
 
+
+const props = defineProps({
+  inputs: {
+    type:Array as PropType<InputType[]>
+  }
+})
 const { user } = useFetchUser()
 const { data: employees, addMainData, editMainData, removeMainData } = useFetchData('employee')
-const { data: homeInputs, loading } = useFetchSideData('inputs/home')
 const { data: tableHeadings } = useFetchSideData('table/main')
+const { data: homeInputs, loading } = useFetchSideData('inputs/home')
 
 
 const isModalOpen = ref<boolean>(false)
@@ -143,16 +150,8 @@ const signOut = async () => {
 const setModal = (value: boolean) => {
   isModalOpen.value = value
 }
+
 const goToDashboard = () => {
   router.push('/dashboard')
 }
-</script>
-
-<style scoped lang="scss">
-@use 'src/scss/abstracts/_variables' as *;
-
-.buttons {
-  display: flex;
-  justify-content: space-between;
-}
-</style>
+</script> -->

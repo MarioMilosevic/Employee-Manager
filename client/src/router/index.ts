@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from 'src/features/home/IndexHome.vue'
+// import Home from 'src/features/home/IndexHome.vue'
+import Home from "src/features/home/IndexHomeMario.vue"
 import Login from 'src/features/login/IndexLogin.vue'
 import SignUp from 'src/features/sign-up/IndexSignUp.vue'
 import Dashboard from "src/features/dashboard/IndexDashboard.vue"

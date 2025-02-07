@@ -45,24 +45,20 @@ import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import FormInputs from 'src/components/form/FormInputs.vue'
 import { loginSchema } from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
-import { ref, onBeforeMount } from 'vue'
-import { getData, login, signInAnonymously } from 'src/api/api'
+import { ref } from 'vue'
+import { login, signInAnonymously } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { showToast } from 'src/utils/toast'
 import { emptyLoginObj } from 'src/utils/constants'
 import { LoginCredentialsType } from 'src/utils/types'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
+import { useFetchSideData } from 'src/composables/useFetchSideData'
 
-onBeforeMount(async () => {
-  const { data } = await getData('inputs/login')
-  logInInputs.value = data
-  loading.value = false
-})
+
+const {data:logInInputs, loading} = useFetchSideData('inputs/login')
 
 const loginCredentials = ref<LoginCredentialsType>({ ...emptyLoginObj })
 const loginFormError = ref<LoginCredentialsType>({ ...emptyLoginObj })
-const logInInputs = ref()
-const loading = ref(true)
 
 const guestSignIn = async () => {
   const response = await signInAnonymously()

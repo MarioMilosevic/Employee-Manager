@@ -45,3 +45,9 @@ export type InputType = {
   type: string;
   placeholder:string
 }
+
+export type TableHeadingType = {
+  id: number;
+  name: string;
+  tableId:string
+}

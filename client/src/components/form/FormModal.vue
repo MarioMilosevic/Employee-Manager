@@ -17,7 +17,7 @@
                 <template #input>
                   <FormInput
                     v-bind="input"
-                    v-model="employee[input.name as keyof typeof employee] as string"
+                    v-model="element[input.name as keyof typeof element] as string"
                   />
                 </template>
                 <template #error>
@@ -39,7 +39,7 @@
                 class="overlay__modal-form-checkbox"
                 id="checkbox"
                 :disabled="false"
-                :trainingCompleted="singleEmployee.trainingCompleted"
+                :trainingCompleted="element.trainingCompleted"
                 @checkbox-event="setTrainingCompleted"
               />
             </template>
@@ -75,24 +75,25 @@ import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { PropType, ref } from 'vue'
-import { EmployeeErrorsType, EmployeeType } from 'src/utils/types'
+import { EmployeeErrorsType, EmployeeType, UserType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { InputType } from 'src/utils/types'
 import { emptyEmployeeErrors } from 'src/utils/constants'
 
 const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
-  singleEmployee: {
-    type: Object as PropType<EmployeeType>,
-    required: true,
-  },
+  // singleElement: {
+  //   type: Object as PropType<EmployeeType | UserType>,
+  //   required: true,
+  // },
   inputs: {
     type: Array as PropType<InputType[]>,
     required: true,
   },
 })
 
-const employee = ref<EmployeeType>({ ...props.singleEmployee })
+const element = ref<EmployeeType | UserType>()
+// console.log(props.singleElement)
 
 const formErrors = ref<EmployeeErrorsType>({ ...emptyEmployeeErrors })
 

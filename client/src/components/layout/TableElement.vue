@@ -30,7 +30,6 @@ const props = defineProps({
 const emit = defineEmits(['edit-event', 'delete-event'])
 
 const editHandler = (element: EmployeeType | UserType) => {
-  console.log('odje ide edit')
   emit('edit-event', element)
 }
 </script>

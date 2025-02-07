@@ -8,8 +8,12 @@ export const useFetchData = (dataPath: string) => {
   const data = ref<MainDataType[]>([])
 
   onBeforeMount(async () => {
-    const dataResponse = await getData(dataPath)
-    data.value = dataResponse.data
+    try {
+      const dataResponse = await getData(dataPath)
+      data.value = dataResponse.data
+    } catch (error) {
+      console.error(error)
+    }
   })
 
   const addMainData = (obj: EmployeeType | UserType) => data.value.push(obj)

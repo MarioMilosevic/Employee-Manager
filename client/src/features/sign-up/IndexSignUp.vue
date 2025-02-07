@@ -46,25 +46,20 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import { emptySignUpObj } from 'src/utils/constants'
-import { postData, getData } from 'src/api/api'
+import { postData } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
-import { ref, onBeforeMount } from 'vue'
+import { ref } from 'vue'
 import { SignUpCredentialsType, UserType } from 'src/utils/types'
 import { showToast } from 'src/utils/toast'
 import FormInputs from 'src/components/form/FormInputs.vue'
+import { useFetchSideData } from 'src/composables/useFetchSideData'
 
-onBeforeMount(async () => {
-  const { data } = await getData('inputs/signUp')
-  signUpInputs.value = data
-  loading.value = false
-})
+const {data:signUpInputs, loading} = useFetchSideData('inputs/signUp')
 
 const signUpCredentials = ref<SignUpCredentialsType>({ ...emptySignUpObj })
 const signUpFormErrors = ref<SignUpCredentialsType>({ ...emptySignUpObj })
-const signUpInputs = ref()
-const loading = ref(true)
 
 const router = useRouter()
 
