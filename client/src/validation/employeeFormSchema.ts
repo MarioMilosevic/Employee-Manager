@@ -14,4 +14,4 @@ export const employeeFormSchema = z.object({
   trainingCompleted:z.boolean()
 })
 
-export type modalFormValues = z.infer<typeof employeeFormSchema>
+export type employeeFormValues = z.infer<typeof employeeFormSchema>

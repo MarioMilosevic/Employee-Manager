@@ -14,4 +14,4 @@ export const userFormSchema = z.object({
   }),
 })
 
-export type modalFormValues = z.infer<typeof userFormSchema>
+export type userFormValues = z.infer<typeof userFormSchema>

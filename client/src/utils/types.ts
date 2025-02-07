@@ -1,3 +1,6 @@
+import { employeeFormValues } from 'src/validation/employeeFormSchema'
+import { userFormValues } from 'src/validation/userFormSchema'
+
 export type EmployeeType = {
   id?: number
   firstName: string
@@ -21,13 +24,12 @@ export type UserType = {
   email: string
   password: string
   passwordConfirm: string
-  role:string
+  role: string
 }
 
-
 export type LoginCredentialsType = {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 export type SignUpCredentialsType = {
@@ -36,18 +38,18 @@ export type SignUpCredentialsType = {
   email: string
   password: string
   passwordConfirm: string
-  role?:string
+  role?: string
 }
 
 export type InputType = {
-  id: number,
-  name: string;
-  type: string;
-  placeholder:string
+  id: number
+  name: string
+  type: string
+  placeholder: string
 }
 
 export type TableHeadingType = {
-  id: number;
-  name: string;
-  tableId:string
+  id: number
+  name: string
+  tableId: string
 }

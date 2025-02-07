@@ -15,10 +15,7 @@
             <template v-for="input in props.inputs" :key="input.id" #[input.name]>
               <FormBlock>
                 <template #input>
-                  <FormInput
-                    v-bind="input"
-                    v-model="element[input.name as keyof typeof element] as string"
-                  />
+                  <FormInput v-bind="input" v-model="element[input.name as keyof typeof element]" />
                 </template>
                 <template #error>
                   <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
@@ -39,7 +36,7 @@
                 class="overlay__modal-form-checkbox"
                 id="checkbox"
                 :disabled="false"
-                :trainingCompleted="element.trainingCompleted"
+                :trainingCompleted="'trainingCompleted' in element"
                 @checkbox-event="setTrainingCompleted"
               />
             </template>
@@ -73,12 +70,13 @@ import FormLabel from 'src/components/form/FormLabel.vue'
 import FormInputs from 'src/components/form/FormInputs.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
-import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import { PropType, ref } from 'vue'
+import { PropType, ref, computed } from 'vue'
 import { EmployeeErrorsType, EmployeeType, UserType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { InputType } from 'src/utils/types'
 import { emptyEmployeeErrors } from 'src/utils/constants'
+import { employeeFormSchema } from 'src/validation/employeeFormSchema'
+import { userFormSchema } from 'src/validation/userFormSchema'
 
 const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
@@ -94,6 +92,10 @@ const props = defineProps({
 
 const element = ref({ ...props.singleElement })
 
+const schema = computed(() => {
+  return 'trainingCompleted' in element.value ? employeeFormSchema : userFormSchema
+})
+
 const formErrors = ref<EmployeeErrorsType>({ ...emptyEmployeeErrors })
 
 const closeModal = () => {
@@ -103,10 +105,12 @@ const closeModal = () => {
 const setTrainingCompleted = (value: boolean) => (element.value.trainingCompleted = value)
 
 const submitForm = async () => {
-  const validation = employeeFormSchema.safeParse(element.value)
+  const validation = schema.value.safeParse(element.value)
   if (validation.success) {
+    console.log('prosla validacija')
     emits('submit-event', element.value)
   } else {
+    console.log(validation.error.errors)
     const updatedErorrs = renderValidationErrors(
       formErrors,
       validation.error.errors,

@@ -1,7 +1,7 @@
 <template>
   <HeaderComp align="center">
     <template #title>
-      <slot v-if="slots.title" name="title"/>
+      <slot v-if="slots.title" name="title" />
     </template>
     <template #button v-if="user?.role === 'ADMIN'">
       <slot name="button" />
@@ -43,9 +43,9 @@
     @close-modal="setModal(false)"
     @submit-event="submitHandler"
   >
-  <template v-if="slots.modalTitle" #modalTitle>
-    <slot name="modalTitle"/>
-  </template>
+    <template v-if="slots.modalTitle" #modalTitle>
+      <slot name="modalTitle" />
+    </template>
   </FormModal>
 </template>
 
@@ -61,6 +61,8 @@ import { ref, PropType, computed } from 'vue'
 import { EmployeeType, UserType, InputType, TableHeadingType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
+import { userFormSchema } from 'src/validation/userFormSchema'
+import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 
 const slots = defineSlots()
 
@@ -90,9 +92,8 @@ const props = defineProps({
 const isModalOpen = ref<boolean>(false)
 
 const singleElement = computed(() =>
-  props.page === 'home' ? emptySingleEmployee : emptySingleUser
-);
-
+  props.page === 'home' ? emptySingleEmployee : emptySingleUser,
+)
 
 const router = useRouter()
 
