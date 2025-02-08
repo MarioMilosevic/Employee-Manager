@@ -26,7 +26,7 @@
     <template #elements>
       <TableElement
         v-for="el in elements"
-        class="home"
+        :class="props.page"
         :key="el.id"
         :element="el"
         :inputs="props.inputs"
@@ -61,8 +61,6 @@ import { ref, PropType, computed } from 'vue'
 import { EmployeeType, UserType, InputType, TableHeadingType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
-import { userFormSchema } from 'src/validation/userFormSchema'
-import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 
 const slots = defineSlots()
 
@@ -88,6 +86,7 @@ const props = defineProps({
     required: true,
   },
 })
+
 
 const isModalOpen = ref<boolean>(false)
 

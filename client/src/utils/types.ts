@@ -1,6 +1,3 @@
-import { employeeFormValues } from 'src/validation/employeeFormSchema'
-import { userFormValues } from 'src/validation/userFormSchema'
-
 export type EmployeeType = {
   id?: number
   firstName: string
@@ -22,8 +19,8 @@ export type UserType = {
   firstName: string
   lastName: string
   email: string
-  password: string
-  passwordConfirm: string
+  password?: string
+  passwordConfirm?: string
   role: string
 }
 

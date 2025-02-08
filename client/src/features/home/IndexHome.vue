@@ -31,7 +31,6 @@
 import MainComponent from 'src/components/layout/MainComponent.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
-import { emptyEmployeeErrors } from 'src/utils/constants'
 import { EmployeeType, InputType, TableHeadingType } from 'src/utils/types'
 import { onBeforeMount, ref } from 'vue'
 import { deleteData, postData, editData, getData } from 'src/api/api'
@@ -60,20 +59,14 @@ const homeHeadings = ref<TableHeadingType[]>([])
 const homeInputs = ref<InputType[]>([])
 
 const isModalOpen = ref<boolean>(false)
-const formErrors = ref(emptyEmployeeErrors)
 
 const router = useRouter()
-
-const resetForm = () => {
-  formErrors.value = emptyEmployeeErrors
-}
 
 const submitForm = async (employee: EmployeeType) => {
   try {
     const response = await postData(employee, 'employee')
     addEmployee(response.data)
     // addMainData(response.data)
-    resetForm()
     setModal(false)
   } catch (error) {
     console.error(error)

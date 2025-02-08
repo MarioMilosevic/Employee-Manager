@@ -1,12 +1,12 @@
 <template>
   <EmployeeHome
-    v-if="'startYear' in props.element"
+    v-if="('startYear' in props.element)"
     :element="element as EmployeeType"
     :inputs="inputs"
     @edit-event="editHandler"
-    @delete-event="emit('delete-event', props.element.id)"
+    @delete-event="emit('delete-event')"
   />
-  <UserDashboard v-else :element="element as UserType" :inputs="inputs" />
+  <UserDashboard v-else :element="element as UserType" :inputs="inputs" @delete-event="emit('delete-event')"/>
 </template>
 
 <script setup lang="ts">

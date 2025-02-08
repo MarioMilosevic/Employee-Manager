@@ -35,6 +35,7 @@ const props = defineProps({
   },
 })
 
+
 const emit = defineEmits(['edit-event', 'delete-event'])
 
 const editHandler = (element: UserType) => {

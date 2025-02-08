@@ -36,7 +36,7 @@
                 class="overlay__modal-form-checkbox"
                 id="checkbox"
                 :disabled="false"
-                :trainingCompleted="'trainingCompleted' in element"
+                :trainingCompleted="singleElement.trainingCompleted"
                 @checkbox-event="setTrainingCompleted"
               />
             </template>
@@ -74,7 +74,6 @@ import { PropType, ref, computed } from 'vue'
 import { EmployeeErrorsType, EmployeeType, UserType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { InputType } from 'src/utils/types'
-import { emptyEmployeeErrors } from 'src/utils/constants'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
 import { userFormSchema } from 'src/validation/userFormSchema'
 
@@ -90,13 +89,15 @@ const props = defineProps({
   },
 })
 
+console.log(props.inputs)
+
 const element = ref({ ...props.singleElement })
 
 const schema = computed(() => {
   return 'trainingCompleted' in element.value ? employeeFormSchema : userFormSchema
 })
 
-const formErrors = ref<EmployeeErrorsType>({ ...emptyEmployeeErrors })
+const formErrors = ref<UserType | EmployeeType>({ ...props.singleElement })
 
 const closeModal = () => {
   emits('close-modal')
@@ -108,6 +109,7 @@ const submitForm = async () => {
   const validation = schema.value.safeParse(element.value)
   if (validation.success) {
     console.log('prosla validacija')
+    console.log(element.value)
     emits('submit-event', element.value)
   } else {
     console.log(validation.error.errors)
@@ -116,6 +118,8 @@ const submitForm = async () => {
       validation.error.errors,
     ) as EmployeeErrorsType
     formErrors.value = updatedErorrs
+    console.log(updatedErorrs)
+    console.log(formErrors.value)
   }
 }
 </script>

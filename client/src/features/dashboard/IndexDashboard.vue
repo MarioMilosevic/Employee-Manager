@@ -1,5 +1,5 @@
 <template>
-  <LoadingSpinner v-if="loading" />
+  <LoadingSpinner v-if="loadingStore.loading" />
   <MainComponent
     v-else
     :inputs="dashboardInputs"
@@ -9,9 +9,7 @@
     :table-headings="dashboardHeadings"
     @delete-event="deleteUser"
   >
-  <template #title>
-    User Manager
-  </template>
+    <template #title> User Manager </template>
     <template #button>
       <ActionButton
         @click="goToHome"
@@ -29,36 +27,51 @@
 import MainComponent from 'src/components/layout/MainComponent.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
-import { getData, getUserData } from 'src/api/api'
+import { getData, deleteData } from 'src/api/api'
 import { useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
+import { useUserStore } from 'src/stores/userStore'
 import { InputType, TableHeadingType, UserType } from 'src/utils/types'
+import { useLoadingStore } from 'src/stores/loadingStore'
+import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {
-  const token = localStorage.getItem('login-token')
-  const [usersResponse, tableResponse, inputsResponse, userResponse] = await Promise.all([
-    getData('users/all'),
+  const [usersResponse, tableResponse, inputsResponse] = await Promise.all([
+    getData('users'),
     getData('table/dashboard'),
     getData('inputs/admin'),
-    getUserData(token as string),
   ])
   users.value = usersResponse.data
   dashboardHeadings.value = tableResponse.data
   dashboardInputs.value = inputsResponse.data
-  user.value = userResponse.data
-  loading.value = false
+  loadingStore.setLoading(false)
 })
 
-const loading = ref<boolean>(true)
+const { user } = useUserStore()
+const loadingStore = useLoadingStore()
+
 const users = ref<UserType[]>([])
 const dashboardHeadings = ref<TableHeadingType[]>([])
 const dashboardInputs = ref<InputType[]>([])
-const user = ref<UserType>()
 const router = useRouter()
 
 const deleteUser = async (id: number) => {
-  console.log('radi')
-  console.log(id)
+  try {
+    const response = await deleteData('users', id)
+    if (response && response.ok) {
+      removeUser(id)
+      showToast(`User with id ${id} has been deleted`)
+    } else {
+      const responseData = await response?.json()
+      showToast(responseData.message, 'error')
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const removeUser = (id: number) => {
+  users.value = users.value.filter((user) => user.id !== id)
 }
 
 const goToHome = () => {
