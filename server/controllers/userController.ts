@@ -33,17 +33,14 @@ const user = {
       id: Number(req.params.id),
       body: req.body,
     };
-    console.log('uslo u getId', req.requestPayload)
     next();
   },
   async getData(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      console.log('uslo u getData')
       if (!req.requestPayload.id) {
         errorFactory.badRequest(res);
         return;
       }
-      console.log('u getData ima id')
 
       const data = await prisma.user.findUnique({
         where: { id: req.requestPayload.id },
@@ -55,12 +52,10 @@ const user = {
           lastName: true,
         },
       });
-      console.log('nakon date', data)
       if (!data) {
         errorFactory.notFound(res);
         return;
       }
-      console.log('ima datu')
 
       req.requestPayload.data = data;
       next();
@@ -98,7 +93,6 @@ const user = {
   },
   async deleteUser(req: CustomRequest, res: Response) {
     try {
-      console.log('ovo me zanima', req.requestPayload.data)
       if (!req.requestPayload.data) {
         errorFactory.notFound(res, "User has not been found");
         return;

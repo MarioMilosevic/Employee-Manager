@@ -36,4 +36,4 @@ export const getDataFromJson = async (response: Response) => await response.json
 //   return hasFieldChanged
 // }
 
-export const formatDate = (date: string) => format(new Date(date), 'MMM dd yyyy')
+export const formatDate = (date: Date) => format(new Date(date), 'MMM dd yyyy')

@@ -17,7 +17,7 @@ userRouter.route("/").get(user.getAll);
 
 userRouter
   .route("/:id")
-  .get(user.getId, user.getData, user.getUser)
+  .get(user.getUser)
   .delete(user.deleteUser);
 
 export default userRouter;

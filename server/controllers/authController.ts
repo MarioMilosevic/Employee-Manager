@@ -60,10 +60,10 @@ const authController = {
       errorFactory.internalError(res);
     }
   },
+
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
-
       const userInfo = await prisma.user.findUnique({
         where: { email },
         select: {

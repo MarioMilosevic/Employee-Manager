@@ -45,15 +45,15 @@ import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
+import FormInputs from 'src/components/form/FormInputs.vue'
 import { emptySignUpObj } from 'src/utils/constants'
 import { postData } from 'src/api/api'
-import { renderValidationErrors } from 'src/utils/helpers'
+import { formatDate, renderValidationErrors } from 'src/utils/helpers'
 import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { SignUpCredentialsType, UserType } from 'src/utils/types'
 import { showToast } from 'src/utils/toast'
-import FormInputs from 'src/components/form/FormInputs.vue'
 import { useFetchSideData } from 'src/composables/useFetchSideData'
 
 const {data:signUpInputs, loading} = useFetchSideData('inputs/signUp')
@@ -68,15 +68,20 @@ const submitForm = async () => {
     const validation = signUpSchema.safeParse(signUpCredentials.value)
     if (validation.success) {
       signUpFormErrors.value = { ...emptySignUpObj }
-      const response = await postData(signUpCredentials.value as UserType, `users/sign-up`)
-      if (response.data) {
-        router.push('/login')
-        setTimeout(() => {
-          showToast('User Created')
-        }, 1000)
-      } else {
-        showToast(`${response.message}`, 'error')
-      }
+      const date = new Date()
+      const formatedDate = formatDate(date)
+      const newUser = { ...signUpCredentials.value, formatedDate }
+      console.log(newUser)
+      // const createdDate = formatDate(Date.now())
+      // const response = await postData(signUpCredentials.value as UserType, `users/sign-up`)
+      // if (response.data) {
+      //   router.push('/login')
+      //   setTimeout(() => {
+      //     showToast('User Created')
+      //   }, 1000)
+      // } else {
+      //   showToast(`${response.message}`, 'error')
+      // }
     } else {
       const updatedErorrs = renderValidationErrors(
         signUpFormErrors,
