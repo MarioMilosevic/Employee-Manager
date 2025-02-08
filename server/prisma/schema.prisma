@@ -28,6 +28,7 @@ model User {
   id      Int      @id @default(autoincrement()) 
   role Role @default(USER)
   email   String   @unique 
+  createdDate String
   firstName    String
   lastName    String
   password String 

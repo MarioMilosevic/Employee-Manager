@@ -1,6 +1,6 @@
 import { EmployeeType, LoginCredentialsType, UserType } from 'src/utils/types'
 import { baseUrl } from 'src/utils/constants'
-import { getDataFromJson } from 'src/utils/helpers'
+import { getDataFromJson, formatDate } from 'src/utils/helpers'
 import { Router } from 'vue-router'
 import { showToast } from 'src/utils/toast'
 
@@ -84,8 +84,22 @@ export const getUserData = async (token: string) => {
 
 export const signInAnonymously = async () => {
   try {
+    const date = new Date()
+    const guest = {
+      role: 'GUEST',
+      firstName: 'Guest',
+      lastName: 'User',
+      email: `guest${Date.now()}@gmail.com`,
+      password: '12345678',
+      createdDate: formatDate(date),
+    }
+
     const response = await fetch(`${baseUrl}/users/login/guest`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(guest),
     })
     return getDataFromJson(response)
   } catch (error) {

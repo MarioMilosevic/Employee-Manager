@@ -72,6 +72,7 @@ const user = {
           email: true,
           firstName: true,
           lastName: true,
+          createdDate:true
         },
       });
       successResponseFactory.ok(res, users);

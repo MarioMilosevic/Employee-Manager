@@ -69,19 +69,17 @@ const submitForm = async () => {
     if (validation.success) {
       signUpFormErrors.value = { ...emptySignUpObj }
       const date = new Date()
-      const formatedDate = formatDate(date)
-      const newUser = { ...signUpCredentials.value, formatedDate }
-      console.log(newUser)
-      // const createdDate = formatDate(Date.now())
-      // const response = await postData(signUpCredentials.value as UserType, `users/sign-up`)
-      // if (response.data) {
-      //   router.push('/login')
-      //   setTimeout(() => {
-      //     showToast('User Created')
-      //   }, 1000)
-      // } else {
-      //   showToast(`${response.message}`, 'error')
-      // }
+      const createdDate = formatDate(date)
+      const newUser = { ...signUpCredentials.value, createdDate }
+      const response = await postData(newUser, `users/sign-up`)
+      if (response.data) {
+        router.push('/login')
+        setTimeout(() => {
+          showToast('User Created')
+        }, 1000)
+      } else {
+        showToast(`${response.message}`, 'error')
+      }
     } else {
       const updatedErorrs = renderValidationErrors(
         signUpFormErrors,

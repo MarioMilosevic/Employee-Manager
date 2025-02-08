@@ -3,9 +3,7 @@
   <AuthForm @submit.prevent="submitLogin" class="form" v-else>
     <template #title>
       <HeaderComp color="black" align="center">
-        <template #title>
-          Login
-        </template>
+        <template #title> Login </template>
       </HeaderComp>
     </template>
     <template #inputs>
@@ -54,8 +52,7 @@ import { LoginCredentialsType } from 'src/utils/types'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import { useFetchSideData } from 'src/composables/useFetchSideData'
 
-
-const {data:logInInputs, loading} = useFetchSideData('inputs/login')
+const { data: logInInputs, loading } = useFetchSideData('inputs/login')
 
 const loginCredentials = ref<LoginCredentialsType>({ ...emptyLoginObj })
 const loginFormError = ref<LoginCredentialsType>({ ...emptyLoginObj })

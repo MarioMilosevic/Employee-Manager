@@ -22,6 +22,7 @@ export type UserType = {
   password?: string
   passwordConfirm?: string
   role: string
+  createdDate:Date
 }
 
 export type LoginCredentialsType = {
