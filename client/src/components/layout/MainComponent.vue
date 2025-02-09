@@ -14,32 +14,37 @@
     <ActionButton color="white" size="big" @click="setModal(true)" v-if="slots.leftButton">
       <slot name="leftButton" />
     </ActionButton>
-    <ActionButton color="white" :style="{marginLeft:'auto'}" size="big" @click="signOut(router, user)">Sign Out</ActionButton>
+    <ActionButton
+      color="white"
+      :style="{ marginLeft: 'auto' }"
+      size="big"
+      @click="signOut(router, user)"
+      >Sign Out</ActionButton
+    >
   </div>
 
-<main class="main">
-
-  <aside class="main__sidebar">Mario</aside>
-
-  <TableList :page="props.page">
-    <template #headings>
-      <TableHeading v-for="heading in tableHeadings" :key="heading.id">
-        {{ heading.name }}
-      </TableHeading>
-    </template>
-    <template #elements>
-      <TableElement
-      v-for="el in elements"
-      :class="props.page"
-      :key="el.id"
-      :element="el"
-      :inputs="props.inputs"
-      @delete-event="emits('delete-event', el.id)"
-      @edit-event="editHandler"
-      />
-    </template>
-  </TableList>
-</main>
+  <main class="main">
+    <SortNavigation />
+    <Sidebar />
+    <TableList :page="props.page" class="main__table">
+      <template #headings>
+        <TableHeading v-for="heading in tableHeadings" :key="heading.id">
+          {{ heading.name }}
+        </TableHeading>
+      </template>
+      <template #elements>
+        <TableElement
+          v-for="el in elements"
+          :class="props.page"
+          :key="el.id"
+          :element="el"
+          :inputs="props.inputs"
+          @delete-event="emits('delete-event', el.id)"
+          @edit-event="editHandler"
+        />
+      </template>
+    </TableList>
+  </main>
 
   <FormModal
     v-if="isModalOpen"
@@ -61,11 +66,13 @@ import TableList from 'src/components/layout/TableList.vue'
 import TableHeading from 'src/components/layout/TableHeading.vue'
 import TableElement from 'src/components/layout/TableElement.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
+import Sidebar from 'src/components/layout/FilterSidebar.vue'
 import { signOut } from 'src/api/api'
 import { ref, PropType, computed } from 'vue'
 import { EmployeeType, UserType, InputType, TableHeadingType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
+import SortNavigation from './SortNavigation.vue'
 
 const slots = defineSlots()
 
@@ -92,7 +99,6 @@ const props = defineProps({
   },
 })
 
-
 const isModalOpen = ref<boolean>(false)
 
 const singleElement = computed(() =>
@@ -116,13 +122,13 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
 @use 'src/scss/abstracts/_variables' as *;
 
 .main {
-border: 1px solid white;
-display: grid;
-grid-template-columns: 1fr 3fr;
-gap: $medium;
+  border: 1px solid white;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: $medium;
 
-&__sidebar {
-background-color: red;
-}
+  &__table {
+    grid-column: 3/9;
+  }
 }
 </style>
