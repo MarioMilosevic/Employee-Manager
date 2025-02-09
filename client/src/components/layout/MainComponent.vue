@@ -25,16 +25,7 @@
 
   <main class="main">
     <SortNavigation />
-    <MainSidebar :options="options">
-      <template #title>Employment</template>
-    </MainSidebar>
-      <!-- <template #options>
-       <RenderlessComp>
-          <template v-for="option in departmentOptions" :key="option" #[option]>
-            {{ option }}
-          </template>
-        </RenderlessComp>
-      </template> -->
+    <MainSidebar :options="options"/>
 
     <TableList :page="props.page" class="main__table">
       <template #headings>
@@ -111,7 +102,7 @@ const props = defineProps({
     required: true,
   },
   options: {
-    type: Array as PropType<string[]>,
+    type: Array as PropType<string[] | string[][]>,
     required:true
   }
 })
@@ -146,7 +137,7 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
   gap: $medium;
 
   &__table {
-    grid-column: 3/9;
+    grid-column: 2/9;
   }
 }
 </style>

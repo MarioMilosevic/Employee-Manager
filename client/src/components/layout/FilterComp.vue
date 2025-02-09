@@ -1,11 +1,13 @@
 <template>
   <section class="section">
-    <h1>
+    <h3 class="section__title">
       <slot name="title"/>
-    </h1>
-    <RenderlessComp>
+    </h3>
+    <RenderlessComp class="section__options">
         <template v-for="option in props.options" :key="option" #[option]>
-          {{ option }}
+          <OptionButton>
+            {{ option }}
+          </OptionButton>
         </template>
     </RenderlessComp>
 </section>
@@ -13,11 +15,12 @@
 
 <script setup lang="ts">
 import RenderlessComp from 'src/components/layout/RenderlessComp.vue';
+import OptionButton from 'src/components/layout/OptionButton.vue';
 import { PropType } from 'vue';
 
 const props = defineProps({
   options: {
-    type: Array as PropType<string[] | string[][]>,
+    type: Array as PropType<string[]>,
     required:true
   }
 })
@@ -31,10 +34,22 @@ console.log(props.options)
 @use 'src/scss/abstracts/_variables' as *;
 .section {
   grid-column: 1 / 3;
-  background-color: red;
-  display: flex;
-  flex-direction: column;
-  padding: $medium;
+  /* display: flex; */
+  /* flex-direction: column; */
+  border: 1px solid black;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: $medium;
+margin-bottom: $medium;
+
+&__title {
+  grid-column: 1/3;
+}
+
+
+  &__options {
+    border: 1px solid white;
+  }
 }
 
 </style>
