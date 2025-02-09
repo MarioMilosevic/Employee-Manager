@@ -17,6 +17,10 @@
     <ActionButton color="white" :style="{marginLeft:'auto'}" size="big" @click="signOut(router, user)">Sign Out</ActionButton>
   </div>
 
+<main class="main">
+
+  <aside class="main__sidebar">Mario</aside>
+
   <TableList :page="props.page">
     <template #headings>
       <TableHeading v-for="heading in tableHeadings" :key="heading.id">
@@ -25,16 +29,17 @@
     </template>
     <template #elements>
       <TableElement
-        v-for="el in elements"
-        :class="props.page"
-        :key="el.id"
-        :element="el"
-        :inputs="props.inputs"
-        @delete-event="emits('delete-event', el.id)"
-        @edit-event="editHandler"
+      v-for="el in elements"
+      :class="props.page"
+      :key="el.id"
+      :element="el"
+      :inputs="props.inputs"
+      @delete-event="emits('delete-event', el.id)"
+      @edit-event="editHandler"
       />
     </template>
   </TableList>
+</main>
 
   <FormModal
     v-if="isModalOpen"
@@ -106,3 +111,18 @@ const submitHandler = (element: EmployeeType | UserType) => {
 
 const setModal = (value: boolean) => (isModalOpen.value = value)
 </script>
+
+<style scoped lang="scss">
+@use 'src/scss/abstracts/_variables' as *;
+
+.main {
+border: 1px solid white;
+display: grid;
+grid-template-columns: 1fr 3fr;
+gap: $medium;
+
+&__sidebar {
+background-color: red;
+}
+}
+</style>
