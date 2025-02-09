@@ -40,15 +40,20 @@ import { useLoadingStore } from 'src/stores/loadingStore'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 
 onBeforeMount(async () => {
-  const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
-    getData('employee'),
-    getData('table/main'),
-    getData('inputs/home'),
-  ])
-  employees.value = employeeResponse.data
-  homeHeadings.value = tableResponse.data
-  homeInputs.value = inputsResponse.data
-  loadingStore.setLoading(false)
+  try {
+    loadingStore.setLoading(true)
+    const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
+      getData('employee'),
+      getData('table/main'),
+      getData('inputs/home'),
+    ])
+    employees.value = employeeResponse.data
+    homeHeadings.value = tableResponse.data
+    homeInputs.value = inputsResponse.data
+    loadingStore.setLoading(false)
+  } catch (error) {
+    console.error(error)
+  }
 })
 
 const { user } = useUserStore()

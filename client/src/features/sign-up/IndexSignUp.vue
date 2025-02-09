@@ -1,11 +1,9 @@
 <template>
-  <LoadingSpinner v-if="loading" />
+  <LoadingSpinner v-if="loadingStore.loading" />
   <AuthForm @submit.prevent="submitForm" v-else>
     <template #title>
       <HeaderComp color="black" align="center">
-        <template #title>
-          Sign Up
-        </template>
+        <template #title> Sign Up </template>
       </HeaderComp>
     </template>
     <template #inputs>
@@ -47,17 +45,28 @@ import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import FormInputs from 'src/components/form/FormInputs.vue'
 import { emptySignUpObj } from 'src/utils/constants'
-import { postData } from 'src/api/api'
+import { getData, postData } from 'src/api/api'
 import { formatDate, renderValidationErrors } from 'src/utils/helpers'
 import { signUpSchema } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
-import { SignUpCredentialsType, UserType } from 'src/utils/types'
+import { onBeforeMount, ref } from 'vue'
+import { SignUpCredentialsType } from 'src/utils/types'
 import { showToast } from 'src/utils/toast'
-import { useFetchSideData } from 'src/composables/useFetchSideData'
+import { useLoadingStore } from 'src/stores/loadingStore'
 
-const {data:signUpInputs, loading} = useFetchSideData('inputs/signUp')
 
+onBeforeMount(async () => {
+  try {
+    loadingStore.setLoading(true)
+    const { data } = await getData('inputs/signUp')
+    signUpInputs.value = data
+    loadingStore.setLoading(false)
+  } catch (error) {
+console.error(error)
+  }
+})
+const loadingStore = useLoadingStore()
+const signUpInputs = ref()
 const signUpCredentials = ref<SignUpCredentialsType>({ ...emptySignUpObj })
 const signUpFormErrors = ref<SignUpCredentialsType>({ ...emptySignUpObj })
 

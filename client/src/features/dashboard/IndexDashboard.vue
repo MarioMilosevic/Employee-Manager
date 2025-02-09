@@ -35,15 +35,20 @@ import { useLoadingStore } from 'src/stores/loadingStore'
 import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {
-  const [usersResponse, tableResponse, inputsResponse] = await Promise.all([
-    getData('users'),
-    getData('table/dashboard'),
-    getData('inputs/admin'),
-  ])
-  users.value = usersResponse.data
-  dashboardHeadings.value = tableResponse.data
-  dashboardInputs.value = inputsResponse.data
-  loadingStore.setLoading(false)
+  try {
+    loadingStore.setLoading(true)
+    const [usersResponse, tableResponse, inputsResponse] = await Promise.all([
+      getData('users'),
+      getData('table/dashboard'),
+      getData('inputs/admin'),
+    ])
+    users.value = usersResponse.data
+    dashboardHeadings.value = tableResponse.data
+    dashboardInputs.value = inputsResponse.data
+    loadingStore.setLoading(false)
+  } catch (error) {
+    console.error(error)
+  }
 })
 
 const { user } = useUserStore()
