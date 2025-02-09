@@ -4,12 +4,11 @@
     <td>{{ props.element.lastName }}</td>
     <td>{{ props.element.role }}</td>
     <td>{{ props.element.email }}</td>
-    <ActionsRow @click="emit('edit-event')" />
+    <td>{{ props.element.createdDate }}</td>
   </tr>
 </template>
 
 <script setup lang="ts">
-import ActionsRow from 'src/components/layout/ActionsRow.vue'
 import { UserType } from 'src/utils/types'
 import { PropType } from 'vue'
 
@@ -20,7 +19,6 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['edit-event'])
 </script>
 
 <style scoped></style>

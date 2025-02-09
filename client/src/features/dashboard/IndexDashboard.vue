@@ -18,7 +18,6 @@
       >
     </template>
     <template #subtitle> Users List </template>
-    <template #leftButton>Add New User</template>
     <template #modalTitle>Add New User</template>
   </MainComponent>
 </template>

@@ -11,10 +11,10 @@
     <slot name="subtitle" />
   </h2>
   <div class="buttons">
-    <ActionButton color="white" size="big" @click="setModal(true)">
+    <ActionButton color="white" size="big" @click="setModal(true)" v-if="slots.leftButton">
       <slot name="leftButton" />
     </ActionButton>
-    <ActionButton color="white" size="big" @click="signOut(router, user)">Sign Out</ActionButton>
+    <ActionButton color="white" :style="{marginLeft:'auto'}" size="big" @click="signOut(router, user)">Sign Out</ActionButton>
   </div>
 
   <TableList :page="props.page">

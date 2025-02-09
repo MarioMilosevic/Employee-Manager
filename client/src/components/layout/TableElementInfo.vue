@@ -15,14 +15,4 @@ const props = defineProps({
     required: true,
   },
 })
-// const emit = defineEmits(['edit-event', 'delete-event'])
 </script>
-
-<style lang="scss" scoped>
-@use 'src/scss/abstracts/_variables' as *;
-
-/* .employee {
-  background-color: $secondary-color;
-  color: $dark-color;
-} */
-</style>

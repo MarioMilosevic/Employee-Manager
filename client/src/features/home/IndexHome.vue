@@ -29,7 +29,6 @@
 
 <script setup lang="ts">
 import MainComponent from 'src/components/layout/MainComponent.vue'
-import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import { EmployeeType, InputType, TableHeadingType } from 'src/utils/types'
 import { onBeforeMount, ref } from 'vue'
@@ -38,6 +37,7 @@ import { showToast } from 'src/utils/toast'
 import { useRouter } from 'vue-router'
 import { useUserStore } from 'src/stores/userStore'
 import { useLoadingStore } from 'src/stores/loadingStore'
+import ActionButton from 'src/components/layout/ActionButton.vue'
 
 onBeforeMount(async () => {
   const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
