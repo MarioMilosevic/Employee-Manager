@@ -5,6 +5,7 @@
     :elements="employees"
     :inputs="homeInputs"
     :table-headings="homeHeadings"
+    :options="optionsArray"
     page="home"
     :user="user"
     @delete-event="deleteEmployee"
@@ -35,7 +36,7 @@ import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType, InputType, TableHeadingType } from 'src/utils/types'
 import { departmentOptions, employmentStatusOptions } from 'src/utils/constants'
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, computed } from 'vue'
 import { deleteData, postData, editData, getData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 import { useRouter } from 'vue-router'
@@ -67,6 +68,10 @@ const homeHeadings = ref<TableHeadingType[]>([])
 const homeInputs = ref<InputType[]>([])
 
 const isModalOpen = ref<boolean>(false)
+
+const optionsArray = computed(() => {
+  return [departmentOptions, employmentStatusOptions]
+})
 
 const router = useRouter()
 

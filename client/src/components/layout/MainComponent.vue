@@ -25,15 +25,8 @@
 
   <main class="main">
     <SortNavigation />
-    <MainSidebar :options="departmentOptions">
-      <template #title>
-        Department
-      </template>
-    </MainSidebar>
-    <MainSidebar :options="employmentStatusOptions">
-      <template #title>
-        Department
-      </template>
+    <MainSidebar :options="options">
+      <template #title>Employment</template>
     </MainSidebar>
       <!-- <template #options>
        <RenderlessComp>
@@ -117,6 +110,10 @@ const props = defineProps({
     type: Object as PropType<UserType>,
     required: true,
   },
+  options: {
+    type: Array as PropType<string[]>,
+    required:true
+  }
 })
 
 const isModalOpen = ref<boolean>(false)

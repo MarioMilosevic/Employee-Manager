@@ -31,6 +31,12 @@ export const emptyLoginObj = {
   password: '',
 }
 
-export const departmentOptions = ['All', 'Engineering', 'HR', 'Sales']
+export const departmentOptions = ['Department', 'All', 'Engineering', 'HR', 'Sales']
 
-export const employmentStatusOptions = ['All', 'Full Time', 'Part Time', 'Contractor']
+export const employmentStatusOptions = [
+  'Employment Status',
+  'All',
+  'Full Time',
+  'Part Time',
+  'Contractor',
+]

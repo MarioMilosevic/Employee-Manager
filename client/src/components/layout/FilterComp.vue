@@ -1,6 +1,8 @@
 <template>
   <section class="section">
-    <slot name="title"/>
+    <h1>
+      <slot name="title"/>
+    </h1>
     <RenderlessComp>
         <template v-for="option in props.options" :key="option" #[option]>
           {{ option }}
@@ -12,15 +14,15 @@
 <script setup lang="ts">
 import RenderlessComp from 'src/components/layout/RenderlessComp.vue';
 import { PropType } from 'vue';
-const slots = defineSlots()
-console.log(slots)
 
 const props = defineProps({
   options: {
-    type: Array as PropType<string[]>,
+    type: Array as PropType<string[] | string[][]>,
     required:true
   }
 })
+
+console.log(props.options)
 
 </script>
 
