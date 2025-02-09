@@ -7,7 +7,7 @@
       </HeaderComp>
     </template>
     <template #inputs>
-      <FormInputs>
+      <RenderlessComp>
         <template v-for="input in loginInputs" :key="input.id" #[input.name]>
           <FormBlock>
             <template #input>
@@ -21,7 +21,7 @@
             </template>
           </FormBlock>
         </template>
-      </FormInputs>
+      </RenderlessComp>
     </template>
     <template #submit>
       <ActionButton type="submit" color="purple">Login</ActionButton>
@@ -40,7 +40,7 @@ import FormError from 'src/components/form/FormError.vue'
 import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
-import FormInputs from 'src/components/form/FormInputs.vue'
+import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import { loginSchema } from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'

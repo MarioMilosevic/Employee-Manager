@@ -1,6 +1,6 @@
 <template>
   <nav class="nav">
-    ovo je navigacina
+    ovo je navigacija
   </nav>
 </template>
 

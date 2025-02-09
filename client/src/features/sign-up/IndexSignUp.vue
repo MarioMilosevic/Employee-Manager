@@ -7,7 +7,7 @@
       </HeaderComp>
     </template>
     <template #inputs>
-      <FormInputs>
+      <RenderlessComp>
         <template v-for="input in signUpInputs" :key="input.id" #[input.name]>
           <FormBlock>
             <template #input>
@@ -23,7 +23,7 @@
             </template>
           </FormBlock>
         </template>
-      </FormInputs>
+      </RenderlessComp>
     </template>
     <template #submit>
       <ActionButton type="submit" color="purple">Sign Up</ActionButton>
@@ -43,7 +43,7 @@ import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
-import FormInputs from 'src/components/form/FormInputs.vue'
+import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import { emptySignUpObj } from 'src/utils/constants'
 import { getData, postData } from 'src/api/api'
 import { formatDate, renderValidationErrors } from 'src/utils/helpers'
@@ -54,7 +54,6 @@ import { SignUpCredentialsType } from 'src/utils/types'
 import { showToast } from 'src/utils/toast'
 import { useLoadingStore } from 'src/stores/loadingStore'
 
-
 onBeforeMount(async () => {
   try {
     loadingStore.setLoading(true)
@@ -62,7 +61,7 @@ onBeforeMount(async () => {
     signUpInputs.value = data
     loadingStore.setLoading(false)
   } catch (error) {
-console.error(error)
+    console.error(error)
   }
 })
 const loadingStore = useLoadingStore()

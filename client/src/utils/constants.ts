@@ -9,12 +9,11 @@ export const emptySingleEmployee = {
 }
 
 export const emptySingleUser = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  role:""
+  firstName: '',
+  lastName: '',
+  email: '',
+  role: '',
 }
-
 
 export const passwordMessage = { message: 'Password must be at least 8 characters' }
 
@@ -31,3 +30,7 @@ export const emptyLoginObj = {
   email: '',
   password: '',
 }
+
+export const departmentOptions = ['All', 'Engineering', 'HR', 'Sales']
+
+export const employmentStatusOptions = ['All', 'Full Time', 'Part Time', 'Contractor']

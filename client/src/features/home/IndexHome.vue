@@ -24,20 +24,23 @@
     </template>
     <template #leftButton> Add New Employee </template>
     <template #modalTitle>Add New Employee</template>
+    <template #firstFilter>{{ departmentOptions }}</template>
+    <template #secondFilter>{{ employmentStatusOptions }}</template>
   </MainComponent>
 </template>
 
 <script setup lang="ts">
 import MainComponent from 'src/components/layout/MainComponent.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
+import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType, InputType, TableHeadingType } from 'src/utils/types'
+import { departmentOptions, employmentStatusOptions } from 'src/utils/constants'
 import { onBeforeMount, ref } from 'vue'
 import { deleteData, postData, editData, getData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
 import { useRouter } from 'vue-router'
 import { useUserStore } from 'src/stores/userStore'
 import { useLoadingStore } from 'src/stores/loadingStore'
-import ActionButton from 'src/components/layout/ActionButton.vue'
 
 onBeforeMount(async () => {
   try {

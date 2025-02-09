@@ -11,7 +11,7 @@
           </HeaderComp>
         </template>
         <template #inputs>
-          <FormInputs>
+          <RenderlessComp>
             <template v-for="input in props.inputs" :key="input.id" #[input.name]>
               <FormBlock>
                 <template #input>
@@ -22,7 +22,7 @@
                 </template>
               </FormBlock>
             </template>
-          </FormInputs>
+          </RenderlessComp>
         </template>
         <template #default>
           <FormBlock v-if="'trainingCompleted' in singleElement">
@@ -67,7 +67,7 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import FormCheckbox from 'src/components/form/FormCheckbox.vue'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import FormLabel from 'src/components/form/FormLabel.vue'
-import FormInputs from 'src/components/form/FormInputs.vue'
+import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
 import { PropType, ref, computed } from 'vue'

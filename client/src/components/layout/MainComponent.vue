@@ -25,7 +25,24 @@
 
   <main class="main">
     <SortNavigation />
-    <Sidebar />
+    <MainSidebar :options="departmentOptions">
+      <template #title>
+        Department
+      </template>
+    </MainSidebar>
+    <MainSidebar :options="employmentStatusOptions">
+      <template #title>
+        Department
+      </template>
+    </MainSidebar>
+      <!-- <template #options>
+       <RenderlessComp>
+          <template v-for="option in departmentOptions" :key="option" #[option]>
+            {{ option }}
+          </template>
+        </RenderlessComp>
+      </template> -->
+
     <TableList :page="props.page" class="main__table">
       <template #headings>
         <TableHeading v-for="heading in tableHeadings" :key="heading.id">
@@ -66,13 +83,16 @@ import TableList from 'src/components/layout/TableList.vue'
 import TableHeading from 'src/components/layout/TableHeading.vue'
 import TableElement from 'src/components/layout/TableElement.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
-import Sidebar from 'src/components/layout/FilterSidebar.vue'
+import MainSidebar from 'src/components/layout/MainSidebar.vue'
+import FilterComp from 'src/components/layout/FilterComp.vue'
+import { departmentOptions, employmentStatusOptions } from 'src/utils/constants'
 import { signOut } from 'src/api/api'
 import { ref, PropType, computed } from 'vue'
 import { EmployeeType, UserType, InputType, TableHeadingType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
 import SortNavigation from './SortNavigation.vue'
+import RenderlessComp from './RenderlessComp.vue'
 
 const slots = defineSlots()
 
@@ -104,6 +124,7 @@ const isModalOpen = ref<boolean>(false)
 const singleElement = computed(() =>
   props.page === 'home' ? emptySingleEmployee : emptySingleUser,
 )
+
 
 const router = useRouter()
 
