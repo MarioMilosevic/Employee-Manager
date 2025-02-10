@@ -48,8 +48,7 @@ const user = {
           id: true,
           role: true,
           email: true,
-          firstName: true,
-          lastName: true,
+          fullName: true,
         },
       });
       if (!data) {
@@ -70,8 +69,7 @@ const user = {
           id: true,
           role: true,
           email: true,
-          firstName: true,
-          lastName: true,
+          fullName: true,
           createdDate:true
         },
       });

@@ -1,7 +1,6 @@
 <template>
   <tr class="table__row employee">
-    <td>{{ props.element.firstName }}</td>
-    <td>{{ props.element.lastName }}</td>
+    <td>{{ props.element.fullName }}</td>
     <td>{{ props.element.address }}</td>
     <td>{{ formatDate(props.element.startYear) }}</td>
     <FormCheckbox :disabled="true" :training-completed="props.element.trainingCompleted" />

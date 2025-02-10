@@ -33,9 +33,9 @@ export const emptyLoginObj = {
 
 export const departmentOptions = ['Department', 'All', 'Engineering', 'HR', 'Sales']
 
-export const employmentStatusOptions = ['Employment Status', 'All', 'Contractor', 'Part', 'Full']
+export const employmentStatusOptions = ['Employment Status', 'All', 'Contractor', 'Full', 'Part']
 
-export const userRoles = ['Role', 'All' ,'Admin', 'User', 'Guest']
+export const userRoles = ['Role', 'All', 'Admin', 'User', 'Guest']
 
 export const sortEmployeesOptions = [
   'Name: A-Z',

@@ -23,7 +23,7 @@ const tableHeadingsController = {
       errorFactory.internalError(res);
     }
   },
-  async getHeadings(req: Request, res: Response) {
+  async getHeadingsByTableId(req: Request, res: Response) {
     try {
       const headings = await prisma.tableHeadings.findMany({
         where: { tableId: req.params.id },
@@ -34,12 +34,12 @@ const tableHeadingsController = {
       errorFactory.internalError(res);
     }
   },
-  async deleteHeadings(req: Request, res: Response) {
+  async deleteHeading(req: Request, res: Response) {
     try {
-      const id = req.params.id;
+      const id = Number(req.params.id);
 
-      const heading = await prisma.tableHeadings.deleteMany({
-        where: { tableId: id },
+      const heading = await prisma.tableHeadings.delete({
+        where: { id },
       });
 
       successResponseFactory.ok(res, heading);

@@ -26,7 +26,6 @@
   <main class="main">
     <SortNavigation :elements="elements" :page="page" :sort-options="sortOptions"/>
     <MainSidebar :options="options"/>
-
     <TableList :page="props.page" class="main__table">
       <template #headings>
         <TableHeading v-for="heading in tableHeadings" :key="heading.id">

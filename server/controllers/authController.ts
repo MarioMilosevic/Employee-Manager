@@ -13,18 +13,11 @@ const signToken = (id: number) =>
 const authController = {
   async signUp(req: Request, res: Response) {
     try {
-      const {
-        firstName,
-        lastName,
-        email,
-        password,
-        passwordConfirm,
-        role,
-        createdDate,
-      } = req.body;
+      const { fullName, email, password, passwordConfirm, role, createdDate } =
+        req.body;
 
-      if (validator.isEmpty(firstName) || validator.isEmpty(lastName)) {
-        errorFactory.badRequest(res, "First or last name cannot be empty");
+      if (validator.isEmpty(fullName)) {
+        errorFactory.badRequest(res, "Full name cannot be empty");
         return;
       }
 
@@ -54,8 +47,7 @@ const authController = {
       const user = await prisma.user.create({
         data: {
           role,
-          firstName,
-          lastName,
+          fullName,
           email,
           password,
           createdDate,
@@ -96,8 +88,7 @@ const authController = {
         where: { email },
         select: {
           id: true,
-          firstName: true,
-          lastName: true,
+          fullName: true,
           email: true,
         },
       });
@@ -110,21 +101,18 @@ const authController = {
   },
   async guestLogin(req: Request, res: Response) {
     try {
-      const { role, firstName, lastName, email, password, createdDate } =
-        req.body;
+      const { role, fullName, email, password, createdDate } = req.body;
       const guest = await prisma.user.create({
         data: {
           role,
-          firstName,
-          lastName,
+          fullName,
           email,
           password,
           createdDate,
         },
         select: {
           id: true,
-          firstName: true,
-          lastName: true,
+          fullName: true,
           email: true,
           createdDate: true,
         },
