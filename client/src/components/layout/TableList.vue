@@ -24,5 +24,6 @@ const props = defineProps({
 .table {
   display: flex;
   flex-direction: column;
+  gap: 0.1rem;
 }
 </style>

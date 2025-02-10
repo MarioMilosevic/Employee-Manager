@@ -17,8 +17,6 @@ const props = defineProps({
   }
 })
 
-console.log(props.modelValue)
-
 </script>
 
 <style scoped lang="scss">

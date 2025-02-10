@@ -28,5 +28,6 @@ const props = defineProps({
   grid-column: 1 / 2;
   display: flex;
   flex-direction: column;
+  gap: $medium;
 }
 </style>

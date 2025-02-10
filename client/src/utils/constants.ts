@@ -35,6 +35,8 @@ export const departmentOptions = ['Department', 'All', 'Engineering', 'HR', 'Sal
 
 export const employmentStatusOptions = ['Employment Status', 'All', 'Contractor', 'Part', 'Full']
 
+export const userRoles = ['Role', 'All' ,'Admin', 'User', 'Guest']
+
 export const sortEmployeesOptions = [
   'Name: A-Z',
   'Name: Z-A',
@@ -44,7 +46,7 @@ export const sortEmployeesOptions = [
   'Date: Newest to Oldest',
 ]
 
-export const sortUsesrOptions = [
+export const sortUsersOptions = [
   'Name:A-Z',
   'Name:Z-A',
   'Date: Oldest to Newest',

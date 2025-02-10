@@ -2,11 +2,13 @@
   <LoadingSpinner v-if="loadingStore.loading" />
   <MainComponent
     v-else
-    :inputs="dashboardInputs"
-    page="dashboard"
-    :user="user"
     :elements="users"
+    :inputs="dashboardInputs"
     :table-headings="dashboardHeadings"
+    :options="[userRoles]"
+    :sortOptions="sortUsersOptions"
+    :user="user"
+    page="dashboard"
     @delete-event="deleteUser"
   >
     <template #title> User Manager </template>
@@ -32,6 +34,7 @@ import { onBeforeMount, ref } from 'vue'
 import { useUserStore } from 'src/stores/userStore'
 import { InputType, TableHeadingType, UserType } from 'src/utils/types'
 import { useLoadingStore } from 'src/stores/loadingStore'
+import { sortUsersOptions, userRoles } from 'src/utils/constants'
 import { showToast } from 'src/utils/toast'
 
 onBeforeMount(async () => {

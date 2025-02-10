@@ -31,7 +31,6 @@ const props = defineProps({
 })
 
 const filterHandler = (index: number) => {
-  console.log(index)
   selectedIndex.value = index
 }
 </script>
@@ -45,7 +44,6 @@ const filterHandler = (index: number) => {
   padding: $medium;
   grid-template-columns: repeat(2, 1fr);
   gap: $medium;
-  margin-bottom: $medium;
   border-radius: $medium-radius;
 
   &__title {
