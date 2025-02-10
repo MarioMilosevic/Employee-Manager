@@ -1,6 +1,6 @@
 <template>
-  <select class="select">
-    <option v-for="(option, index) in options" :key="index" :value="option">
+  <select class="select" :value="modelValue">
+    <option v-for="(option, index) in props.options" :key="index" :value="option">
       {{ option }}
     </option>
   </select>
@@ -11,20 +11,24 @@ const props = defineProps({
   options: {
     type: Array,
   },
+  modelValue: {
+    type: String,
+    required:true
+  }
 })
 
-console.log(props.options)
+console.log(props.modelValue)
+
 </script>
 
 <style scoped lang="scss">
 @use 'src/scss/abstracts/_variables' as *;
 
 .select {
-  padding: $small;
-  border-radius: $medium-radius;
+  padding: 0.6rem;
+  border-radius: $small-radius;
   border: none;
   height: fit-content;
-
   background-color: $secondary-color;
 }
 

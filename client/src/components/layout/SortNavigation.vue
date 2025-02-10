@@ -8,7 +8,7 @@
         </FormLabel>
       </template>
       <template #input>
-        <FormSelect id="sort" :options="props.sortOptions"/>
+        <FormSelect id="sort" :options="props.sortOptions"  />
       </template>
     </FormBlock>
   </nav>
@@ -35,7 +35,6 @@ const props = defineProps({
     required: true,
   },
 })
-
 
 const elementsLength = computed(() => {
   return props.elements.length

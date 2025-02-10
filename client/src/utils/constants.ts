@@ -33,13 +33,7 @@ export const emptyLoginObj = {
 
 export const departmentOptions = ['Department', 'All', 'Engineering', 'HR', 'Sales']
 
-export const employmentStatusOptions = [
-  'Employment Status',
-  'All',
-  'Full Time',
-  'Part Time',
-  'Contractor',
-]
+export const employmentStatusOptions = ['Employment Status', 'All', 'Contractor', 'Part', 'Full']
 
 export const sortEmployeesOptions = [
   'Name: A-Z',
