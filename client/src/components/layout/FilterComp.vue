@@ -4,10 +4,10 @@
       <slot name="title"/>
     </h3>
     <RenderlessComp class="section__options">
-        <template v-for="option in props.options" :key="option" #[option]>
-          <OptionButton>
+        <template v-for="(option, index) in props.options" :key="option" #[option]>
+          <ActionButton :color="index === selectedIndex ? 'purple' : 'white'" @click="mario(index)">
             {{ option }}
-          </OptionButton>
+          </ActionButton>
         </template>
     </RenderlessComp>
 </section>
@@ -15,8 +15,12 @@
 
 <script setup lang="ts">
 import RenderlessComp from 'src/components/layout/RenderlessComp.vue';
-import OptionButton from 'src/components/layout/OptionButton.vue';
-import { PropType } from 'vue';
+import ActionButton from 'src/components/layout/ActionButton.vue';
+import { PropType, ref } from 'vue';
+
+
+const selectedIndex = ref<number>(0)
+
 
 const props = defineProps({
   options: {
@@ -27,6 +31,11 @@ const props = defineProps({
 
 console.log(props.options)
 
+const mario = (index:number) => {
+  console.log(index)
+selectedIndex.value = index
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -34,13 +43,14 @@ console.log(props.options)
 @use 'src/scss/abstracts/_variables' as *;
 .section {
   grid-column: 1 / 3;
-  /* display: flex; */
-  /* flex-direction: column; */
-  border: 1px solid black;
 display: grid;
+/* background-color: red; */
+background-color: #35184a;
+padding: $medium;
 grid-template-columns: repeat(2, 1fr);
 gap: $medium;
 margin-bottom: $medium;
+border-radius: $medium-radius;
 
 &__title {
   grid-column: 1/3;

@@ -30,9 +30,9 @@ const props = defineProps({
 .button {
   border: none;
   cursor: pointer;
-  /* padding: $small $medium; */
   border-radius: $small-radius;
   font-size: $medium;
+    transition: all 0.3s;
 
   &.white {
     color: $dark-color;

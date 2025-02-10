@@ -68,15 +68,12 @@ import TableHeading from 'src/components/layout/TableHeading.vue'
 import TableElement from 'src/components/layout/TableElement.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import MainSidebar from 'src/components/layout/MainSidebar.vue'
-import FilterComp from 'src/components/layout/FilterComp.vue'
-import { departmentOptions, employmentStatusOptions } from 'src/utils/constants'
 import { signOut } from 'src/api/api'
 import { ref, PropType, computed } from 'vue'
 import { EmployeeType, UserType, InputType, TableHeadingType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
 import SortNavigation from './SortNavigation.vue'
-import RenderlessComp from './RenderlessComp.vue'
 
 const slots = defineSlots()
 
@@ -131,7 +128,6 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
 @use 'src/scss/abstracts/_variables' as *;
 
 .main {
-  border: 1px solid white;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   gap: $medium;
