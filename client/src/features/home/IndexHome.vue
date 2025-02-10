@@ -6,8 +6,9 @@
     :inputs="homeInputs"
     :table-headings="homeHeadings"
     :options="optionsArray"
-    page="home"
+    :sortOptions="sortEmployeesOptions"
     :user="user"
+    page="home"
     @delete-event="deleteEmployee"
     @edit-event="editEmployee"
     @submit-event="submitForm"
@@ -35,7 +36,7 @@ import MainComponent from 'src/components/layout/MainComponent.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType, InputType, TableHeadingType } from 'src/utils/types'
-import { departmentOptions, employmentStatusOptions } from 'src/utils/constants'
+import { departmentOptions, employmentStatusOptions, sortEmployeesOptions } from 'src/utils/constants'
 import { onBeforeMount, ref, computed } from 'vue'
 import { deleteData, postData, editData, getData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'

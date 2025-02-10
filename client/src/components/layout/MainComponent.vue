@@ -24,7 +24,7 @@
   </div>
 
   <main class="main">
-    <SortNavigation />
+    <SortNavigation :elements="elements" :page="page" :sort-options="sortOptions"/>
     <MainSidebar :options="options"/>
 
     <TableList :page="props.page" class="main__table">
@@ -99,7 +99,11 @@ const props = defineProps({
     required: true,
   },
   options: {
-    type: Array as PropType<string[] | string[][]>,
+    type: Array as PropType<string[][]>,
+    required:true
+  },
+  sortOptions: {
+    type: Array as PropType<string[]>,
     required:true
   }
 })

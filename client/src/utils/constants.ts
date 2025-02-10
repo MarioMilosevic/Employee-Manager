@@ -40,3 +40,19 @@ export const employmentStatusOptions = [
   'Part Time',
   'Contractor',
 ]
+
+export const sortEmployeesOptions = [
+  'Name: A-Z',
+  'Name: Z-A',
+  'Training: Yes-No',
+  'Training: No-Yes',
+  'Date: Oldest to Newest',
+  'Date: Newest to Oldest',
+]
+
+export const sortUsesrOptions = [
+  'Name:A-Z',
+  'Name:Z-A',
+  'Date: Oldest to Newest',
+  'Date: Newest to Oldest',
+]
