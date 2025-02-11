@@ -26,9 +26,8 @@ const input = {
   },
   async createInput(req: CustomRequest, res: Response) {
     try {
-      console.log(req.body)
-      successResponseFactory.ok(res, req.body)
-      return
+      
+      // return
       const input = await prisma.inputField.create({
         data: req.body,
       });
@@ -45,7 +44,11 @@ const input = {
       const input = await prisma.inputField.delete({
         where: { id: Number(id) },
       });
-      successResponseFactory.ok(res, input);
+      if (!input) {
+        errorFactory.badRequest(res);
+        res;
+      }
+      successResponseFactory.noContent(res);
     } catch (error) {
       errorFactory.internalError(res);
     }

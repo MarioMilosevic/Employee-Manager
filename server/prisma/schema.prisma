@@ -43,14 +43,7 @@ model InputField {
   type           String
   placeholder    String
   inputsId       String
-  options        InputOptions? @relation(fields: [inputOptionsId], references: [id])
-  inputOptionsId Int?
-}
-
-model InputOptions {
-  id Int @id @default(autoincrement())
-  option     String[]
-  InputField InputField[]
+  options        String[] @default([])
 }
 
 model TableHeadings {
