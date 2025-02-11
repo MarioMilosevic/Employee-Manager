@@ -89,7 +89,6 @@ const props = defineProps({
   },
 })
 
-console.log(props.inputs)
 
 const element = ref({ ...props.singleElement })
 

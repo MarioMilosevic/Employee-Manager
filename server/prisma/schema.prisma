@@ -14,40 +14,48 @@ datasource db {
 }
 
 model Employee {
-  id Int @id @default(autoincrement())
-  fullName String
-  address String
-  startYear String 
-  department Department @default(Engineering)
-  employmentStatus EmploymentStatus @default(Full)
+  id                Int              @id @default(autoincrement())
+  fullName          String
+  address           String
+  startYear         String
+  department        Department       @default(Engineering)
+  employmentStatus  EmploymentStatus @default(Full)
   trainingCompleted Boolean
 
-  @@map ("employees")
+  @@map("employees")
 }
 
 model User {
-  id      Int      @id @default(autoincrement()) 
-  role Role @default(USER)
-  email   String   @unique 
-  createdDate String
-  fullName    String
-  password String 
+  id              Int     @id @default(autoincrement())
+  role            Role    @default(USER)
+  email           String  @unique
+  createdDate     String
+  fullName        String
+  password        String
   passwordConfirm String?
 
-  @@map ("users")
+  @@map("users")
 }
 
 model InputField {
-  id          Int      @id @default(autoincrement()) 
-  name        String
-  type        String
-  placeholder String
-  inputsId    String  
+  id             Int           @id @default(autoincrement())
+  name           String
+  type           String
+  placeholder    String
+  inputsId       String
+  options        InputOptions? @relation(fields: [inputOptionsId], references: [id])
+  inputOptionsId Int?
+}
+
+model InputOptions {
+  id Int @id @default(autoincrement())
+  option     String[]
+  InputField InputField[]
 }
 
 model TableHeadings {
-  id          Int      @id @default(autoincrement()) 
-  name String
+  id      Int    @id @default(autoincrement())
+  name    String
   tableId String
 }
 
@@ -62,10 +70,9 @@ enum EmploymentStatus {
   Part
   Full
 }
+
 enum Department {
   Engineering
   HR
   Sales
 }
-
-

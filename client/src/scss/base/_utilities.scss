@@ -13,7 +13,7 @@
 }
 
 .home{
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 0.5fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
 }
 
 .dashboard{
@@ -36,7 +36,6 @@ grid-template-columns: repeat(5, 1fr);
 .actions {
   display: flex;
   align-items: center;
-  gap: $small;
 }
 
 .icon-small {

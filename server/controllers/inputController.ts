@@ -26,6 +26,9 @@ const input = {
   },
   async createInput(req: CustomRequest, res: Response) {
     try {
+      console.log(req.body)
+      successResponseFactory.ok(res, req.body)
+      return
       const input = await prisma.inputField.create({
         data: req.body,
       });

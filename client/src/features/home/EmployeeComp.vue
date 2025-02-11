@@ -3,6 +3,8 @@
     <td>{{ props.element.fullName }}</td>
     <td>{{ props.element.address }}</td>
     <td>{{ formatDate(props.element.startYear) }}</td>
+    <td>{{ props.element.employmentStatus }}</td>
+    <td>{{ props.element.department }}</td>
     <FormCheckbox :disabled="true" :training-completed="props.element.trainingCompleted" />
     <ActionsRow @click="emit('edit-event')" />
   </tr>
@@ -21,6 +23,9 @@ const props = defineProps({
     required: true,
   },
 })
+
+console.log(props.element)
+
 const emit = defineEmits(['edit-event', 'delete-event'])
 </script>
 

@@ -2,10 +2,15 @@
   <tr class="table__row" :style="{ position: 'relative' }">
     <FormBlock v-for="input in props.inputs" :key="input.id">
       <template #input>
+        <FormSelect
+          v-if="input.name === 'department' || input.name === 'employmentStatus'"
+          v-model="selectedElement[input.name as keyof typeof selectedElement] as string"
+        />
         <FormInput
-          align="center"
+          v-else
           v-bind="input"
           v-model="selectedElement[input.name as keyof typeof selectedElement] as string"
+          align="center"
         />
       </template>
     </FormBlock>
@@ -38,6 +43,7 @@ import DeleteIcon from 'src/icons/DeleteIcon.vue'
 import ConfirmIcon from 'src/icons/ConfirmIcon.vue'
 import { EmployeeType, InputType, UserType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
+import FormSelect from '../form/FormSelect.vue'
 
 const props = defineProps({
   element: {
@@ -50,6 +56,7 @@ const props = defineProps({
   },
 })
 
+console.log(props.inputs)
 
 const selectedElement = ref({ ...props.element })
 

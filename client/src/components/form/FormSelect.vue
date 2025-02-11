@@ -1,5 +1,5 @@
 <template>
-  <select class="select" :value="modelValue">
+  <select class="select" :value="props.modelValue">
     <option v-for="(option, index) in props.options" :key="index" :value="option">
       {{ option }}
     </option>
@@ -16,6 +16,8 @@ const props = defineProps({
     required:true
   }
 })
+
+console.log(props.modelValue)
 
 </script>
 
