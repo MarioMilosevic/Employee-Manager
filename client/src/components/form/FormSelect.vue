@@ -18,6 +18,7 @@ const props = defineProps({
 })
 
 console.log(props.modelValue)
+console.log(props.options)
 
 </script>
 

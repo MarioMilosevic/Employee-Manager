@@ -4,7 +4,9 @@
       <template #input>
         <FormSelect
           v-if="input.name === 'department' || input.name === 'employmentStatus'"
+          :options="input.options"
           v-model="selectedElement[input.name as keyof typeof selectedElement] as string"
+
         />
         <FormInput
           v-else
@@ -56,7 +58,7 @@ const props = defineProps({
   },
 })
 
-console.log(props.inputs)
+console.log("OVO ME ZANIMA",props.inputs)
 
 const selectedElement = ref({ ...props.element })
 

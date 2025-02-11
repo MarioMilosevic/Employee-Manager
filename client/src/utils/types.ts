@@ -44,6 +44,7 @@ export type InputType = {
   name: string
   type: string
   placeholder: string
+  options:string[]
 }
 
 export type TableHeadingType = {
