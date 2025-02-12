@@ -35,8 +35,6 @@ const props = defineProps({
     required: true,
   },
 })
-console.log(props.options)
-console.log(props.category)
 
 const filter = computed(() => {
   return props.category === 'Department' ? 'department' : 'employment'

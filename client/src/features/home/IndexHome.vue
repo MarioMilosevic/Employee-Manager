@@ -53,7 +53,9 @@ onBeforeMount(async () => {
   try {
     loadingStore.setLoading(true)
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
-      getData(`employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}`),
+      getData(
+        `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}`,
+      ),
       getData('table/main'),
       getData('inputs/home'),
     ])
@@ -70,7 +72,7 @@ const loadingStore = useLoadingStore()
 const sortFilterOptionsStore = useSortFilterStore()
 // route.params = sortFilterOptionsStore.sortFilterOptions.filter
 const route = useRoute()
-console.log("route u home",route)
+console.log('route u home', route)
 
 const employees = ref<EmployeeType[]>([])
 const homeHeadings = ref<TableHeadingType[]>([])
@@ -94,7 +96,7 @@ watch(
     if (route.query.sort !== newSort) {
       router.replace({ query: { ...route.query, sort: newSort } })
     }
-  }
+  },
 )
 
 const router = useRouter()
