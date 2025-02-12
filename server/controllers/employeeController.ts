@@ -1,4 +1,5 @@
 import prisma from "../services/database";
+import { Department } from "@prisma/client";
 import errorFactory from "../services/errorFactory";
 import successResponseFactory from "../services/successResponseFactory";
 import { Response, NextFunction } from "express";
@@ -37,12 +38,18 @@ const employee = {
     }
   },
   async getAll(req: CustomRequest, res: Response) {
+    const { filter } = req.params;
     try {
-      const employees = await prisma.employee.findMany();
-      if (!employees) {
+      if (
+        filter !== "All" &&
+        !Object.values(Department).includes(filter as Department)
+      ) {
         errorFactory.badRequest(res);
         return;
       }
+      const employees = await prisma.employee.findMany({
+        where: filter === "All" ? {} : { department: filter as Department },
+      });
       successResponseFactory.ok(res, employees);
     } catch (error) {
       errorFactory.internalError(res);
@@ -82,7 +89,7 @@ const employee = {
     try {
       if (!req.requestPayload.data) {
         errorFactory.notFound(res, "Employee has not been found");
-        return
+        return;
       }
 
       const updatedEmployee = await prisma.employee.update({

@@ -1,5 +1,9 @@
 <template>
-  <select class="select" :value="props.modelValue">
+  <select
+    class="select"
+    :value="props.modelValue"
+    @change="(e: Event) => emits('update:modelValue', (e.target as HTMLSelectElement).value)"
+  >
     <option v-for="(option, index) in props.options" :key="index" :value="option">
       {{ option }}
     </option>
@@ -13,13 +17,10 @@ const props = defineProps({
   },
   modelValue: {
     type: String,
-    required:true
-  }
+    required: true,
+  },
 })
-
-console.log(props.modelValue)
-console.log(props.options)
-
+const emits = defineEmits(['update:modelValue'])
 </script>
 
 <style scoped lang="scss">
@@ -32,5 +33,4 @@ console.log(props.options)
   height: fit-content;
   background-color: $secondary-color;
 }
-
 </style>

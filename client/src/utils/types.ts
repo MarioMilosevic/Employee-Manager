@@ -1,7 +1,7 @@
 export type EmployeeType = {
   id?: number
   fullName: string
-  startYear: Date
+  startYear: Date | null
   address: string
   department: string
   employmentStatus: string
@@ -9,10 +9,12 @@ export type EmployeeType = {
 }
 
 export type EmployeeErrorsType = {
-  firstName: string
+  fullName: string
   lastName: string
   address: string
   startYear: string
+  department: string
+  employmentStatus: string
 }
 
 export type UserType = {
@@ -22,7 +24,7 @@ export type UserType = {
   password?: string
   passwordConfirm?: string
   role: string
-  createdDate: Date
+  createdDate: Date | null
 }
 
 export type LoginCredentialsType = {

@@ -1,29 +1,32 @@
+import { EmployeeType, UserType } from './types'
+
 export const baseUrl = 'http://localhost:3000/api/v1'
 
-export const emptySingleEmployee = {
-  firstName: '',
-  lastName: '',
+export const emptySingleEmployee: EmployeeType = {
+  fullName: '',
   address: '',
-  startYear: '',
+  startYear: null,
+  department: '',
+  employmentStatus: '',
   trainingCompleted: false,
 }
 
-export const emptySingleUser = {
-  firstName: '',
-  lastName: '',
+export const emptySingleUser: UserType = {
+  fullName: '',
   email: '',
   role: '',
+  createdDate: null,
 }
 
 export const passwordMessage = { message: 'Password must be at least 8 characters' }
 
-export const emptySignUpObj = {
-  firstName: '',
-  lastName: '',
+export const emptySignUpObj: UserType = {
+  fullName: '',
   email: '',
   password: '',
   passwordConfirm: '',
   role: 'USER',
+  createdDate: null,
 }
 
 export const emptyLoginObj = {

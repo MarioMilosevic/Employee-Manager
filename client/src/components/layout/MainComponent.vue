@@ -112,6 +112,9 @@ const isModalOpen = ref<boolean>(false)
 const singleElement = computed(() =>
   props.page === 'home' ? emptySingleEmployee : emptySingleUser,
 )
+// const singleElement = computed(() =>
+//   props.page === 'home' ? emptySingleEmployee : emptySingleUser,
+// )
 
 
 const router = useRouter()

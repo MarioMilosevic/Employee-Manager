@@ -1,7 +1,7 @@
 <template>
   <aside class="sidebar">
     <template v-for="array in props.options" :key="array[0]">
-      <FilterComp :options="array.slice(1)">
+      <FilterComp :options="array.slice(1)" :category="array[0]">
         <template #title>
           {{ array[0] }}
         </template>

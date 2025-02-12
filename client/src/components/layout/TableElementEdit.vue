@@ -3,10 +3,9 @@
     <FormBlock v-for="input in props.inputs" :key="input.id">
       <template #input>
         <FormSelect
-          v-if="input.name === 'department' || input.name === 'employmentStatus'"
-          :options="input.options"
-          v-model="selectedElement[input.name as keyof typeof selectedElement] as string"
-
+        v-if="input.name === 'department' || input.name === 'employmentStatus'"
+        :options="input.options"
+        v-model="selectedElement[input.name as keyof typeof selectedElement] as string"
         />
         <FormInput
           v-else
@@ -58,9 +57,10 @@ const props = defineProps({
   },
 })
 
-console.log("OVO ME ZANIMA",props.inputs)
-
 const selectedElement = ref({ ...props.element })
+console.log(selectedElement)
+// const mario = ref({ ...props.inputs })
+// console.log(mario.value)
 
 const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])
 

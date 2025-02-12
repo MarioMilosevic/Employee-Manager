@@ -116,6 +116,7 @@ const submitForm = async () => {
       formErrors,
       validation.error.errors,
     ) as EmployeeErrorsType
+    console.log(formErrors.value)
     formErrors.value = updatedErorrs
     console.log(updatedErorrs)
     console.log(formErrors.value)

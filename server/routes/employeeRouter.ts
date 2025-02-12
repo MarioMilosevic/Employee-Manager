@@ -6,7 +6,8 @@ const employeeRouter = Router();
 employeeRouter.param("id", employee.getId);
 employeeRouter.param("id", employee.getData);
 
-employeeRouter.route("/").get(employee.getAll).post(employee.create);
+employeeRouter.route("/").post(employee.create);
+employeeRouter.route('/:filter').get(employee.getAll)
 
 employeeRouter
   .route("/:id")

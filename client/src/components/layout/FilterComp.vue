@@ -7,7 +7,7 @@
       <template v-for="(option, index) in props.options" :key="option" #[option]>
         <ActionButton
           :color="index === selectedIndex ? 'purple' : 'white'"
-          @click="filterHandler(index)"
+          @click="filterHandler(option, index)"
         >
           {{ option }}
         </ActionButton>
@@ -19,8 +19,10 @@
 <script setup lang="ts">
 import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
-import { PropType, ref } from 'vue'
+import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
+import { computed, PropType, ref } from 'vue'
 
+const sortFilterOptions = useSortFilterStore()
 const selectedIndex = ref<number>(0)
 
 const props = defineProps({
@@ -28,9 +30,20 @@ const props = defineProps({
     type: Array as PropType<string[]>,
     required: true,
   },
+  category: {
+    type: String,
+    required: true,
+  },
+})
+console.log(props.options)
+console.log(props.category)
+
+const filter = computed(() => {
+  return props.category === 'Department' ? 'department' : 'employment'
 })
 
-const filterHandler = (index: number) => {
+const filterHandler = (option: string, index: number) => {
+  sortFilterOptions.setSortFilterOptions(option, `${filter.value}Filter`)
   selectedIndex.value = index
 }
 </script>

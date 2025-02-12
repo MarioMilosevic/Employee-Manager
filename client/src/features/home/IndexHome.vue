@@ -36,19 +36,24 @@ import MainComponent from 'src/components/layout/MainComponent.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType, InputType, TableHeadingType } from 'src/utils/types'
-import { departmentOptions, employmentStatusOptions, sortEmployeesOptions } from 'src/utils/constants'
-import { onBeforeMount, ref, computed } from 'vue'
+import {
+  departmentOptions,
+  employmentStatusOptions,
+  sortEmployeesOptions,
+} from 'src/utils/constants'
+import { onBeforeMount, ref, computed, watch } from 'vue'
 import { deleteData, postData, editData, getData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from 'src/stores/userStore'
 import { useLoadingStore } from 'src/stores/loadingStore'
+import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 
 onBeforeMount(async () => {
   try {
     loadingStore.setLoading(true)
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
-      getData('employee'),
+      getData(`employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}`),
       getData('table/main'),
       getData('inputs/home'),
     ])
@@ -60,9 +65,12 @@ onBeforeMount(async () => {
     console.error(error)
   }
 })
-
 const { user } = useUserStore()
 const loadingStore = useLoadingStore()
+const sortFilterOptionsStore = useSortFilterStore()
+// route.params = sortFilterOptionsStore.sortFilterOptions.filter
+const route = useRoute()
+console.log("route u home",route)
 
 const employees = ref<EmployeeType[]>([])
 const homeHeadings = ref<TableHeadingType[]>([])
@@ -73,6 +81,21 @@ const isModalOpen = ref<boolean>(false)
 const optionsArray = computed(() => {
   return [departmentOptions, employmentStatusOptions]
 })
+
+watch(sortFilterOptionsStore.sortFilterOptions, async () => {
+  const { data } = await getData(`employee/${sortFilterOptionsStore.sortFilterOptions.filter}`)
+  employees.value = data
+})
+
+watch(
+  () => sortFilterOptionsStore.sortFilterOptions.sort,
+  (newSort) => {
+    console.log('uslo')
+    if (route.query.sort !== newSort) {
+      router.replace({ query: { ...route.query, sort: newSort } })
+    }
+  }
+)
 
 const router = useRouter()
 
