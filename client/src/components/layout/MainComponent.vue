@@ -33,9 +33,7 @@
         </TableHeading>
       </template>
       <template #elements>
-        <BaseIcon v-if="elements.length === 0" size="big">
-          <NotFound />
-        </BaseIcon>
+        <NoElements v-if="elements.length === 0" :page="page"/>
         <TableElement
           v-else
           v-for="el in elements"
@@ -73,12 +71,13 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import MainSidebar from 'src/components/layout/MainSidebar.vue'
 import SortNavigation from 'src/components/layout/SortNavigation.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
-import NotFound from 'src/icons/NotFound.vue'
+import InspectorIcon from 'src/icons/InspectorIcon.vue'
 import { signOut } from 'src/api/api'
 import { ref, PropType, computed } from 'vue'
 import { EmployeeType, UserType, InputType, TableHeadingType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
+import NoElements from './NoElements.vue'
 
 const slots = defineSlots()
 

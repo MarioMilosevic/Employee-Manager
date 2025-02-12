@@ -42,8 +42,6 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
-@use 'src/scss/abstracts/_variables.scss' as *;
-
 .icon {
   cursor: pointer;
 }

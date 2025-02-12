@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getUserData } from 'src/api/api'
+import { useUserStore } from 'src/stores/userStore'
+import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import Home from 'src/features/home/IndexHome.vue'
 import Login from 'src/features/login/IndexLogin.vue'
 import SignUp from 'src/features/sign-up/IndexSignUp.vue'
 import Dashboard from 'src/features/dashboard/IndexDashboard.vue'
-import { useUserStore } from 'src/stores/userStore'
-import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
+import NotFound from 'src/features/notFound/IndexNotFound.vue'
 
 export const routes = [
   {
@@ -26,8 +27,12 @@ export const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-
     component: Dashboard,
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound,
   },
 ]
 
