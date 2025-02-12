@@ -85,19 +85,21 @@ const optionsArray = computed(() => {
 })
 
 watch(sortFilterOptionsStore.sortFilterOptions, async () => {
-  const { data } = await getData(`employee/${sortFilterOptionsStore.sortFilterOptions.filter}`)
+  const { data } = await getData(
+    `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}`,
+  )
   employees.value = data
 })
 
-watch(
-  () => sortFilterOptionsStore.sortFilterOptions.sort,
-  (newSort) => {
-    console.log('uslo')
-    if (route.query.sort !== newSort) {
-      router.replace({ query: { ...route.query, sort: newSort } })
-    }
-  },
-)
+// watch(
+//   () => sortFilterOptionsStore.sortFilterOptions.sort,
+//   (newSort) => {
+//     console.log('uslo')
+//     if (route.query.sort !== newSort) {
+//       router.replace({ query: { ...route.query, sort: newSort } })
+//     }
+//   },
+// )
 
 const router = useRouter()
 

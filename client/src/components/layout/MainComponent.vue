@@ -24,8 +24,8 @@
   </div>
 
   <main class="main">
-    <SortNavigation :elements="elements" :page="page" :sort-options="sortOptions"/>
-    <MainSidebar :options="options"/>
+    <SortNavigation :elements="elements" :page="page" :sort-options="sortOptions" />
+    <MainSidebar :options="options" />
     <TableList :page="props.page" class="main__table">
       <template #headings>
         <TableHeading v-for="heading in tableHeadings" :key="heading.id">
@@ -33,7 +33,11 @@
         </TableHeading>
       </template>
       <template #elements>
+        <BaseIcon v-if="elements.length === 0" size="big">
+          <NotFound />
+        </BaseIcon>
         <TableElement
+          v-else
           v-for="el in elements"
           :class="props.page"
           :key="el.id"
@@ -67,12 +71,14 @@ import TableHeading from 'src/components/layout/TableHeading.vue'
 import TableElement from 'src/components/layout/TableElement.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import MainSidebar from 'src/components/layout/MainSidebar.vue'
+import SortNavigation from 'src/components/layout/SortNavigation.vue'
+import BaseIcon from 'src/icons/BaseIcon.vue'
+import NotFound from 'src/icons/NotFound.vue'
 import { signOut } from 'src/api/api'
 import { ref, PropType, computed } from 'vue'
 import { EmployeeType, UserType, InputType, TableHeadingType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
-import SortNavigation from './SortNavigation.vue'
 
 const slots = defineSlots()
 
@@ -99,12 +105,12 @@ const props = defineProps({
   },
   options: {
     type: Array as PropType<string[][]>,
-    required:true
+    required: true,
   },
   sortOptions: {
     type: Array as PropType<string[]>,
-    required:true
-  }
+    required: true,
+  },
 })
 
 const isModalOpen = ref<boolean>(false)
@@ -115,7 +121,6 @@ const singleElement = computed(() =>
 // const singleElement = computed(() =>
 //   props.page === 'home' ? emptySingleEmployee : emptySingleUser,
 // )
-
 
 const router = useRouter()
 
