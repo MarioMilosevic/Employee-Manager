@@ -8,14 +8,14 @@ export type EmployeeType = {
   trainingCompleted: boolean
 }
 
-export type EmployeeErrorsType = {
-  fullName: string
-  lastName: string
-  address: string
-  startYear: string
-  department: string
-  employmentStatus: string
-}
+// export type EmployeeErrorsType = {
+//   fullName: string
+//   lastName: string
+//   address: string
+//   startYear: string
+//   department: string
+//   employmentStatus: string
+// }
 
 export type UserType = {
   id?: number

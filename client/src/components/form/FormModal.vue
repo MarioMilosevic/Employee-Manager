@@ -15,7 +15,10 @@
             <template v-for="input in props.inputs" :key="input.id" #[input.name]>
               <FormBlock>
                 <template #input>
-                  <FormInput v-bind="input" v-model="element[input.name as keyof typeof element]" />
+                  <FormInput
+                    v-bind="input"
+                    v-model="(element[input.name as keyof typeof element] as string | undefined)"
+                  />
                 </template>
                 <template #error>
                   <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
@@ -71,7 +74,7 @@ import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
 import { PropType, ref, computed } from 'vue'
-import { EmployeeErrorsType, ElementType } from 'src/utils/types'
+import { ElementType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { InputType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
@@ -89,20 +92,24 @@ const props = defineProps({
   },
 })
 
-
-const element = ref({ ...props.singleElement })
+const element = ref<ElementType>({ ...props.singleElement })
 
 const schema = computed(() => {
   return 'trainingCompleted' in element.value ? employeeFormSchema : userFormSchema
 })
 
-const formErrors = ref<ElementType>({ ...props.singleElement })
+const formErrors = ref<Record<string, string>>({})
+// const formErrors = ref({ ...props.singleElement })
 
 const closeModal = () => {
   emits('close-modal')
 }
 
-const setTrainingCompleted = (value: boolean) => (element.value.trainingCompleted = value)
+const setTrainingCompleted = (value: boolean) => {
+  if ('trainingCompleted' in element.value) {
+    element.value.trainingCompleted = value
+  }
+}
 
 const submitForm = async () => {
   const validation = schema.value.safeParse(element.value)
@@ -112,10 +119,7 @@ const submitForm = async () => {
     emits('submit-event', element.value)
   } else {
     console.log(validation.error.errors)
-    const updatedErorrs = renderValidationErrors(
-      formErrors,
-      validation.error.errors,
-    ) as EmployeeErrorsType
+    const updatedErorrs = renderValidationErrors(validation.error.errors)
     formErrors.value = updatedErorrs
   }
 }
