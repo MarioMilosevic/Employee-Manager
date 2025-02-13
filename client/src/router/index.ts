@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getUserData } from 'src/api/api'
 import { useUserStore } from 'src/stores/userStore'
-import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import Home from 'src/features/home/IndexHome.vue'
 import Login from 'src/features/login/IndexLogin.vue'
 import SignUp from 'src/features/sign-up/IndexSignUp.vue'
@@ -42,25 +41,18 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  // console.log('kada se ovo desi')
   const userStore = useUserStore()
-  const sortFilterStore = useSortFilterStore()
   const userToken = localStorage.getItem('login-token')
   const isAuthenticationRoute = to.name === 'Login' || to.name === 'Sign Up'
 
   if (!userToken && !isAuthenticationRoute) return { name: 'Login' }
-  if (userToken && isAuthenticationRoute) {
-    // console.log('uslo odje')
-    return { name: 'Home', query: { sort: sortFilterStore.sortFilterOptions.sort } }
-  }
+  if (userToken && isAuthenticationRoute) return { name: 'Home' }
 
   if (userToken) {
     const { data: user } = await getUserData(userToken as string)
     userStore.setUser(user)
     if (user?.role !== 'ADMIN' && to.name !== 'Home') {
-      // return { name: 'Home' }
-      // console.log('uslo mozd aodje')
-      return { name: 'Home', query: { sort: sortFilterStore.sortFilterOptions.sort } }
+      return { name: 'Home' }
     }
   }
 })

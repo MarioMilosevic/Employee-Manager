@@ -1,10 +1,10 @@
-import { EmployeeType, LoginCredentialsType, UserType } from 'src/utils/types'
+import { LoginCredentialsType, UserType, ElementType } from 'src/utils/types'
 import { baseUrl } from 'src/utils/constants'
 import { getDataFromJson, formatDate } from 'src/utils/helpers'
 import { Router } from 'vue-router'
 import { showToast } from 'src/utils/toast'
 
-export const postData = async (postData: EmployeeType | UserType, path: string) => {
+export const postData = async (postData: ElementType, path: string) => {
   try {
     const response = await fetch(`${baseUrl}/${path}`, {
       method: 'POST',
@@ -28,7 +28,7 @@ export const getData = async (path: string) => {
   }
 }
 
-export const editData = async (data: EmployeeType | UserType, path: string) => {
+export const editData = async (data: ElementType, path: string) => {
   try {
     const response = await fetch(`${baseUrl}/${path}`, {
       method: 'PUT',
@@ -111,7 +111,7 @@ export const signOut = async (router: Router, user: UserType) => {
   router.push('/login')
   localStorage.removeItem('login-token')
   setTimeout(() => {
-    showToast(`${user.firstName} logged out`)
+    showToast(`${user.fullName} logged out`)
   }, 500)
   if (user.role === 'GUEST' && user.id) {
     try {

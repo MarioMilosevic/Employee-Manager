@@ -51,6 +51,7 @@ import { emptyLoginObj } from 'src/utils/constants'
 import { LoginCredentialsType } from 'src/utils/types'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import { useLoadingStore } from 'src/stores/loadingStore'
+import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 
 onBeforeMount(async () => {
   try {
@@ -64,15 +65,27 @@ onBeforeMount(async () => {
 })
 
 const loadingStore = useLoadingStore()
+const sortFilterStore = useSortFilterStore()
 const loginInputs = ref()
 const loginCredentials = ref<LoginCredentialsType>({ ...emptyLoginObj })
 const loginFormError = ref<LoginCredentialsType>({ ...emptyLoginObj })
+
+const goToHomePage = () => {
+  router.push({
+    path: '/',
+    query: {
+      department: sortFilterStore.sortFilterOptions.departmentFilter,
+      employment: sortFilterStore.sortFilterOptions.employmentFilter,
+      sort: sortFilterStore.sortFilterOptions.sort,
+    },
+  })
+}
 
 const guestSignIn = async () => {
   const response = await signInAnonymously()
   if (response.data) {
     localStorage.setItem('login-token', response.data)
-    router.push('/')
+    goToHomePage()
   }
 }
 
@@ -84,8 +97,8 @@ const submitLogin = async () => {
     if (validation.success) {
       const response = await login(loginCredentials.value)
       if (response.data) {
-        router.push('/')
         localStorage.setItem('login-token', response.data)
+        goToHomePage()
       } else {
         showToast(response.message, 'error')
       }

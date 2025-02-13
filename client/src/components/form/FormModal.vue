@@ -71,7 +71,7 @@ import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
 import { PropType, ref, computed } from 'vue'
-import { EmployeeErrorsType, EmployeeType, UserType } from 'src/utils/types'
+import { EmployeeErrorsType, ElementType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { InputType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
@@ -80,7 +80,7 @@ import { userFormSchema } from 'src/validation/userFormSchema'
 const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
   singleElement: {
-    type: Object as PropType<EmployeeType | UserType>,
+    type: Object as PropType<ElementType>,
     required: true,
   },
   inputs: {
@@ -96,7 +96,7 @@ const schema = computed(() => {
   return 'trainingCompleted' in element.value ? employeeFormSchema : userFormSchema
 })
 
-const formErrors = ref<UserType | EmployeeType>({ ...props.singleElement })
+const formErrors = ref<ElementType>({ ...props.singleElement })
 
 const closeModal = () => {
   emits('close-modal')
@@ -116,10 +116,7 @@ const submitForm = async () => {
       formErrors,
       validation.error.errors,
     ) as EmployeeErrorsType
-    console.log(formErrors.value)
     formErrors.value = updatedErorrs
-    console.log(updatedErorrs)
-    console.log(formErrors.value)
   }
 }
 </script>

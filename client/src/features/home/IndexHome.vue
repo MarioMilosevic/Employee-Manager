@@ -44,7 +44,7 @@ import {
 import { onBeforeMount, ref, computed, watch } from 'vue'
 import { deleteData, postData, editData, getData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useUserStore } from 'src/stores/userStore'
 import { useLoadingStore } from 'src/stores/loadingStore'
 import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
@@ -68,14 +68,9 @@ onBeforeMount(async () => {
   }
 })
 
-// /${sortFilterOptionsStore.sortFilterOptions.sort}
 const { user } = useUserStore()
 const loadingStore = useLoadingStore()
 const sortFilterOptionsStore = useSortFilterStore()
-console.log(sortFilterOptionsStore.sortFilterOptions.sort)
-// route.params = sortFilterOptionsStore.sortFilterOptions.filter
-const route = useRoute()
-// console.log('route u home', route)
 
 const employees = ref<EmployeeType[]>([])
 const homeHeadings = ref<TableHeadingType[]>([])
@@ -93,16 +88,6 @@ watch(sortFilterOptionsStore.sortFilterOptions, async () => {
   )
   employees.value = data
 })
-
-// watch(
-//   () => sortFilterOptionsStore.sortFilterOptions.sort,
-//   (newSort) => {
-//     console.log('uslo')
-//     if (route.query.sort !== newSort) {
-//       router.replace({ query: { ...route.query, sort: newSort } })
-//     }
-//   },
-// )
 
 const router = useRouter()
 

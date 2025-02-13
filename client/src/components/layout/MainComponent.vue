@@ -72,7 +72,7 @@ import MainSidebar from 'src/components/layout/MainSidebar.vue'
 import SortNavigation from 'src/components/layout/SortNavigation.vue'
 import { signOut } from 'src/api/api'
 import { ref, PropType, computed } from 'vue'
-import { EmployeeType, UserType, InputType, TableHeadingType } from 'src/utils/types'
+import {  UserType, InputType, TableHeadingType, ElementType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
 import NoElements from './NoElements.vue'
@@ -85,7 +85,7 @@ const props = defineProps({
     required: true,
   },
   elements: {
-    type: Array as PropType<EmployeeType[] | UserType[]>,
+    type: Array as PropType<ElementType[]>,
     required: true,
   },
   tableHeadings: {
@@ -115,16 +115,13 @@ const isModalOpen = ref<boolean>(false)
 const singleElement = computed(() =>
   props.page === 'home' ? emptySingleEmployee : emptySingleUser,
 )
-// const singleElement = computed(() =>
-//   props.page === 'home' ? emptySingleEmployee : emptySingleUser,
-// )
 
 const router = useRouter()
 
 const emits = defineEmits(['delete-event', 'edit-event', 'submit-event'])
 
-const editHandler = (element: EmployeeType | UserType) => emits('edit-event', element)
-const submitHandler = (element: EmployeeType | UserType) => {
+const editHandler = (element: ElementType) => emits('edit-event', element)
+const submitHandler = (element: ElementType) => {
   emits('submit-event', element)
   setModal(false)
 }

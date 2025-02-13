@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { EmployeeType, UserType } from 'src/utils/types'
+import { ElementType } from 'src/utils/types'
 import { PropType, computed } from 'vue'
 import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import FormBlock from 'src/components/form/FormBlock.vue'
@@ -30,7 +30,7 @@ const filterOptionsStore = useSortFilterStore()
 
 const props = defineProps({
   elements: {
-    type: Array as PropType<EmployeeType[] | UserType[]>,
+    type: Array as PropType<ElementType[]>,
     required: true,
   },
   page: {

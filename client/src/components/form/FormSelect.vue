@@ -2,7 +2,7 @@
   <select
     class="select"
     :value="props.modelValue"
-    @change="(e: Event) => emits('update:modelValue', (e.target as HTMLSelectElement).value)"
+    @change="changeHandler"
   >
     <option v-for="(option, index) in props.options" :key="index" :value="option">
       {{ option }}
@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
+import { useRouter } from 'vue-router'
 const props = defineProps({
   options: {
     type: Array,
@@ -20,7 +22,21 @@ const props = defineProps({
     required: true,
   },
 })
+
+const sortFilterOptions = useSortFilterStore()
+const router = useRouter()
 const emits = defineEmits(['update:modelValue'])
+
+const changeHandler = (e: Event) => {
+  const target = (e.target as HTMLSelectElement).value
+  const currentQuery = { ...router.currentRoute.value.query }
+  router.push({
+    path: router.currentRoute.value.path,
+    query: { ...currentQuery, sort: target },
+  })
+  sortFilterOptions.setSortFilterOptions(target, 'sort')
+  emits('update:modelValue', target)
+}
 </script>
 
 <style scoped lang="scss">

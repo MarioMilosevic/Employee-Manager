@@ -42,28 +42,13 @@ const filter = computed(() => {
   return props.category === 'Department' ? 'department' : 'employment'
 })
 
-// const filterHandler = (option: string, index: number) => {
-//   console.log('opcija', option)
-//   console.log('filter', filter.value)
-//   router.push({ path: '/', query: { [filter.value]: option } })
-//   sortFilterOptions.setSortFilterOptions(option, `${filter.value}Filter`)
-//   selectedIndex.value = index
-// }
-
 const filterHandler = (option: string, index: number) => {
-  console.log('opcija', option)
-  console.log('filter', filter.value)
-
   const currentQuery = { ...router.currentRoute.value.query }
-  console.log(currentQuery)
-
   router.push({
-    path: '/',
+    path: router.currentRoute.value.path,
     query: { ...currentQuery, [filter.value]: option },
   })
-
   sortFilterOptions.setSortFilterOptions(option, `${filter.value}Filter`)
-
   selectedIndex.value = index
 }
 </script>

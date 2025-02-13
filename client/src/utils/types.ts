@@ -41,6 +41,8 @@ export type SignUpCredentialsType = {
   role?: string
 }
 
+export type ElementType = EmployeeType | UserType
+
 export type InputType = {
   id: number
   name: string

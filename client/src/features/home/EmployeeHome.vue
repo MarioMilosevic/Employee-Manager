@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import TableElementInfo from 'src/components/layout/TableElementInfo.vue'
 import TableElementEdit from 'src/components/layout/TableElementEdit.vue'
-import { EmployeeType, InputType, UserType } from 'src/utils/types'
+import { EmployeeType, InputType, ElementType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
 
 const isEditing = ref<boolean>(false)
@@ -35,7 +35,7 @@ const props = defineProps({
 
 const emit = defineEmits(['edit-event', 'delete-event'])
 
-const editHandler = (element: EmployeeType | UserType) => {
+const editHandler = (element: ElementType) => {
   emit('edit-event', element)
   isEditing.value = false
 }

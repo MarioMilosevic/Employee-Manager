@@ -4,14 +4,14 @@
 </template>
 
 <script setup lang="ts">
-import { EmployeeType, UserType } from 'src/utils/types'
+import { ElementType } from 'src/utils/types'
 import { PropType } from 'vue'
 import EmployeeComp from 'src/features/home/EmployeeComp.vue'
 import UserComp from 'src/features/dashboard/UserComp.vue'
 
 const props = defineProps({
   element: {
-    type: Object as PropType<EmployeeType | UserType>,
+    type: Object as PropType<ElementType>,
     required: true,
   },
 })

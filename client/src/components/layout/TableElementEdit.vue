@@ -3,9 +3,9 @@
     <FormBlock v-for="input in props.inputs" :key="input.id">
       <template #input>
         <FormSelect
-        v-if="input.name === 'department' || input.name === 'employmentStatus'"
-        :options="input.options"
-        v-model="selectedElement[input.name as keyof typeof selectedElement] as string"
+          v-if="input.name === 'department' || input.name === 'employmentStatus'"
+          :options="input.options"
+          v-model="selectedElement[input.name as keyof typeof selectedElement] as string"
         />
         <FormInput
           v-else
@@ -27,7 +27,7 @@
       <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')">
         <DeleteIcon />
       </BaseIcon>
-      <BaseIcon size="big" @click="emit('close-event', props.element.id)">
+      <BaseIcon size="big" @click="emit('close-event', props.element.id)" class="close">
         <CloseIcon />
       </BaseIcon>
     </td>
@@ -42,13 +42,13 @@ import CloseIcon from 'src/icons/CloseIcon.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import DeleteIcon from 'src/icons/DeleteIcon.vue'
 import ConfirmIcon from 'src/icons/ConfirmIcon.vue'
-import { EmployeeType, InputType, UserType } from 'src/utils/types'
+import { EmployeeType, InputType, ElementType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
 import FormSelect from '../form/FormSelect.vue'
 
 const props = defineProps({
   element: {
-    type: Object as PropType<EmployeeType | UserType>,
+    type: Object as PropType<ElementType>,
     required: true,
   },
   inputs: {
@@ -58,9 +58,6 @@ const props = defineProps({
 })
 
 const selectedElement = ref({ ...props.element })
-console.log(selectedElement)
-// const mario = ref({ ...props.inputs })
-// console.log(mario.value)
 
 const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])
 
