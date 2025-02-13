@@ -21,9 +21,11 @@ import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import { computed, PropType, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const sortFilterOptions = useSortFilterStore()
 const selectedIndex = ref<number>(0)
+const router = useRouter()
 
 const props = defineProps({
   options: {
@@ -40,8 +42,28 @@ const filter = computed(() => {
   return props.category === 'Department' ? 'department' : 'employment'
 })
 
+// const filterHandler = (option: string, index: number) => {
+//   console.log('opcija', option)
+//   console.log('filter', filter.value)
+//   router.push({ path: '/', query: { [filter.value]: option } })
+//   sortFilterOptions.setSortFilterOptions(option, `${filter.value}Filter`)
+//   selectedIndex.value = index
+// }
+
 const filterHandler = (option: string, index: number) => {
+  console.log('opcija', option)
+  console.log('filter', filter.value)
+
+  const currentQuery = { ...router.currentRoute.value.query }
+  console.log(currentQuery)
+
+  router.push({
+    path: '/',
+    query: { ...currentQuery, [filter.value]: option },
+  })
+
   sortFilterOptions.setSortFilterOptions(option, `${filter.value}Filter`)
+
   selectedIndex.value = index
 }
 </script>
