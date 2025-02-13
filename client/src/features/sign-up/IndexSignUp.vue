@@ -67,7 +67,7 @@ onBeforeMount(async () => {
 const loadingStore = useLoadingStore()
 const signUpInputs = ref()
 const signUpCredentials = ref<SignUpCredentialsType>({ ...emptySignUpObj })
-const signUpFormErrors = ref<SignUpCredentialsType>({ ...emptySignUpObj })
+const signUpFormErrors = ref<Record<string, string>>({})
 
 const router = useRouter()
 
@@ -75,7 +75,6 @@ const submitForm = async () => {
   try {
     const validation = signUpSchema.safeParse(signUpCredentials.value)
     if (validation.success) {
-      signUpFormErrors.value = { ...emptySignUpObj }
       const date = new Date()
       const createdDate = formatDate(date)
       const newUser = { ...signUpCredentials.value, createdDate }
@@ -89,10 +88,7 @@ const submitForm = async () => {
         showToast(`${response.message}`, 'error')
       }
     } else {
-      const updatedErorrs = renderValidationErrors(
-        signUpFormErrors,
-        validation.error.errors,
-      ) as SignUpCredentialsType
+      const updatedErorrs = renderValidationErrors(validation.error.errors)
       signUpFormErrors.value = updatedErorrs
     }
   } catch (error) {

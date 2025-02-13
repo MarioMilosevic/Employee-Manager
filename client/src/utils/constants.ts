@@ -1,4 +1,4 @@
-import { EmployeeType, UserType } from './types'
+import { EmployeeType, SignUpCredentialsType, UserType } from './types'
 
 export const baseUrl = 'http://localhost:3000/api/v1'
 
@@ -20,7 +20,7 @@ export const emptySingleUser: UserType = {
 
 export const passwordMessage = { message: 'Password must be at least 8 characters' }
 
-export const emptySignUpObj: UserType = {
+export const emptySignUpObj: SignUpCredentialsType = {
   fullName: '',
   email: '',
   password: '',

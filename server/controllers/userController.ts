@@ -64,14 +64,25 @@ const user = {
   },
   async getAll(req: CustomRequest, res: Response) {
     try {
+      const { role } = req.params;
+      console.log(role);
+      const where: any = {}
+      where.role = role
+
+      if (role === "Mario") {
+        errorFactory.badRequest(res);
+        return;
+      }
+
       const users = await prisma.user.findMany({
         select: {
           id: true,
           role: true,
           email: true,
           fullName: true,
-          createdDate:true
+          createdDate: true,
         },
+        where
       });
       successResponseFactory.ok(res, users);
     } catch (error) {

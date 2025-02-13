@@ -3,12 +3,14 @@ import { passwordMessage } from 'src/utils/constants'
 
 export const signUpSchema = z
   .object({
-    firstName: z.string().min(2, {
-      message: 'First name not long enough',
-    }),
-    lastName: z.string().min(2, {
-      message: 'Last name not long enough',
-    }),
+    fullName: z
+      .string()
+      .min(5, {
+        message: 'Must be at least 5 characters long',
+      })
+      .includes(' ', {
+        message: 'Must contain at least 2 words',
+      }),
     email: z.string().min(2, {
       message: 'Not valid input',
     }),

@@ -8,15 +8,6 @@ export type EmployeeType = {
   trainingCompleted: boolean
 }
 
-// export type EmployeeErrorsType = {
-//   fullName: string
-//   lastName: string
-//   address: string
-//   startYear: string
-//   department: string
-//   employmentStatus: string
-// }
-
 export type UserType = {
   id?: number
   fullName: string
@@ -24,7 +15,7 @@ export type UserType = {
   password?: string
   passwordConfirm?: string
   role: string
-  createdDate: Date | null
+  createdDate: Date | null | string
 }
 
 export type LoginCredentialsType = {
@@ -33,12 +24,12 @@ export type LoginCredentialsType = {
 }
 
 export type SignUpCredentialsType = {
-  firstName: string
-  lastName: string
+  fullName: string
   email: string
   password: string
   passwordConfirm: string
-  role?: string
+  role: string
+  createdDate:Date | null
 }
 
 export type ElementType = EmployeeType | UserType

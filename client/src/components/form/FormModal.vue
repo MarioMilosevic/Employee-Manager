@@ -73,12 +73,11 @@ import FormLabel from 'src/components/form/FormLabel.vue'
 import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
-import { PropType, ref, computed } from 'vue'
+import { PropType, ref } from 'vue'
 import { ElementType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { InputType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import { userFormSchema } from 'src/validation/userFormSchema'
 
 const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
@@ -94,12 +93,8 @@ const props = defineProps({
 
 const element = ref<ElementType>({ ...props.singleElement })
 
-const schema = computed(() => {
-  return 'trainingCompleted' in element.value ? employeeFormSchema : userFormSchema
-})
 
 const formErrors = ref<Record<string, string>>({})
-// const formErrors = ref({ ...props.singleElement })
 
 const closeModal = () => {
   emits('close-modal')
@@ -112,13 +107,10 @@ const setTrainingCompleted = (value: boolean) => {
 }
 
 const submitForm = async () => {
-  const validation = schema.value.safeParse(element.value)
+  const validation = employeeFormSchema.safeParse(element.value)
   if (validation.success) {
-    console.log('prosla validacija')
-    console.log(element.value)
     emits('submit-event', element.value)
   } else {
-    console.log(validation.error.errors)
     const updatedErorrs = renderValidationErrors(validation.error.errors)
     formErrors.value = updatedErorrs
   }

@@ -110,8 +110,9 @@ export const signInAnonymously = async () => {
 export const signOut = async (router: Router, user: UserType) => {
   router.push('/login')
   localStorage.removeItem('login-token')
+  const firstName = user.fullName.split(' ')[0]
   setTimeout(() => {
-    showToast(`${user.fullName} logged out`)
+    showToast(`${firstName} signed out`)
   }, 500)
   if (user.role === 'GUEST' && user.id) {
     try {
