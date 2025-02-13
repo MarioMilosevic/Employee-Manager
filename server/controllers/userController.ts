@@ -1,6 +1,7 @@
 import prisma from "../services/database";
 import successResponseFactory from "../services/successResponseFactory";
 import errorFactory from "../services/errorFactory";
+import { Role } from "@prisma/client";
 import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
 import jwt from "jsonwebtoken";
@@ -64,15 +65,18 @@ const user = {
   },
   async getAll(req: CustomRequest, res: Response) {
     try {
-      const { role } = req.params;
-      console.log(role);
-      const where: any = {}
-      where.role = role
+      const { role, sort } = req.params;
 
-      if (role === "Mario") {
+      if (role !== "All" && !Object.values(Role).includes(role as Role)) {
         errorFactory.badRequest(res);
         return;
       }
+
+      const where: any = {};
+      const orderBy: any = {};
+      if (role !== "All") where.role = role as Role;
+      if (sort === "Name: A-Z") orderBy.fullName = "asc";
+      if (sort === "Name: Z-A") orderBy.fullName = "desc";
 
       const users = await prisma.user.findMany({
         select: {
@@ -82,15 +86,16 @@ const user = {
           fullName: true,
           createdDate: true,
         },
-        where
+        where,
+        orderBy,
       });
+
       successResponseFactory.ok(res, users);
     } catch (error) {
       errorFactory.internalError(res);
     }
   },
-
-  async getUser(req: CustomRequest, res: Response, next: NextFunction) {
+  async getUser(req: CustomRequest, res: Response) {
     try {
       if (!req.requestPayload.data) {
         errorFactory.notFound(res);

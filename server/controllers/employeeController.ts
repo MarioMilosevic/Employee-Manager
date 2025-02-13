@@ -64,6 +64,7 @@ const employee = {
       if (sort === "Training: False-True") orderBy.trainingCompleted = "asc";
       if (sort === "Date: Oldest to Newest") orderBy.startYear = "asc";
       if (sort === "Date: Newest to Oldest") orderBy.startYear = "desc";
+      
       const employees = await prisma.employee.findMany({
         where,
         orderBy,
