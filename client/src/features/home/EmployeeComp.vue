@@ -2,8 +2,8 @@
   <tr class="table__row employee">
     <td>{{ props.element.fullName }}</td>
     <td>{{ props.element.address }}</td>
-    <td>{{ formatDate(props.element.startYear) }}</td>
-    <td>{{ props.element.employmentStatus }}</td>
+    <td>{{ formatDate(props.element.startYear as Date) }}</td>
+    <td>{{ props.element.employment }}</td>
     <td>{{ props.element.department }}</td>
     <FormCheckbox :disabled="true" :training-completed="props.element.trainingCompleted" />
     <ActionsRow @click="emit('edit-event')" />

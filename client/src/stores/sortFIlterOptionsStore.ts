@@ -1,17 +1,18 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { SortFilterOptions } from 'src/utils/types'
 
-type Options = 'sort' | 'departmentFilter' | 'employmentFilter' | 'roleFilter'
 
 export const useSortFilterStore = defineStore('sortFilterStore', () => {
   const sortFilterOptions = ref({
     sort: 'Name: A-Z',
-    departmentFilter: 'All',
-    employmentFilter: 'All',
-    roleFilter: 'All',
+    department: 'All',
+    employment: 'All',
+    role: 'All',
   })
 
-  function setSortFilterOptions(value: string, option: Options) {
+  function setSortFilterOptions(value: string, option: SortFilterOptions) {
+    console.log(option)
     sortFilterOptions.value[option] = value
   }
 

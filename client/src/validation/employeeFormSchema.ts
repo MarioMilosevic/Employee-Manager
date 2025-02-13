@@ -14,7 +14,7 @@ export const employeeFormSchema = z.object({
   }),
   address: z.string().min(5, { message: 'Must be at least 5 characters long' }),
 
-  employmentStatus: z.string().refine((value) => ['Contractor', 'Full', 'Part'].includes(value), {
+  employment: z.string().refine((value) => ['Contractor', 'Full', 'Part'].includes(value), {
     message: 'Contractor or Full or Part',
   }) as z.ZodType<'Contractor' | 'Full' | 'Part'>,
   department: z.string().refine((value) => ['Engineering', 'HR', 'Sales'].includes(value), {

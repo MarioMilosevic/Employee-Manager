@@ -15,8 +15,6 @@ userRouter.route("/:role/:sort").get(user.getAll);
 
 userRouter.route("/user").get(user.getIdFromToken, user.getData, user.getUser);
 
-// dodam sort
-
 userRouter
   .route("/:id")
   .get(user.getUser)

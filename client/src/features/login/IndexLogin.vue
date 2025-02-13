@@ -103,10 +103,7 @@ const submitLogin = async () => {
         showToast(response.message, 'error')
       }
     } else {
-      const updatedErorrs = renderValidationErrors(
-        loginFormError,
-        validation.error.errors,
-      ) as LoginCredentialsType
+      const updatedErorrs = renderValidationErrors(validation.error.errors) as LoginCredentialsType
       loginFormError.value = updatedErorrs
     }
   } catch (error) {

@@ -3,7 +3,7 @@
     <FormBlock v-for="input in props.inputs" :key="input.id">
       <template #input>
         <FormSelect
-          v-if="input.name === 'department' || input.name === 'employmentStatus'"
+          v-if="input.name === 'department' || input.name === 'employment'"
           :options="input.options"
           v-model="selectedElement[input.name as keyof typeof selectedElement] as string"
         />

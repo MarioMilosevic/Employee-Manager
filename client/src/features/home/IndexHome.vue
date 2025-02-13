@@ -27,7 +27,7 @@
     <template #leftButton> Add New Employee </template>
     <template #modalTitle>Add New Employee</template>
     <template #firstFilter>{{ departmentOptions }}</template>
-    <template #secondFilter>{{ employmentStatusOptions }}</template>
+    <template #secondFilter>{{ employmentOptions }}</template>
   </MainComponent>
 </template>
 
@@ -38,7 +38,7 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType, InputType, TableHeadingType } from 'src/utils/types'
 import {
   departmentOptions,
-  employmentStatusOptions,
+  employmentOptions,
   sortEmployeesOptions,
 } from 'src/utils/constants'
 import { onBeforeMount, ref, computed, watch } from 'vue'
@@ -54,7 +54,7 @@ onBeforeMount(async () => {
     loadingStore.setLoading(true)
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
+        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
       ),
       getData('table/main'),
       getData('inputs/home'),
@@ -79,12 +79,12 @@ const homeInputs = ref<InputType[]>([])
 const isModalOpen = ref<boolean>(false)
 
 const optionsArray = computed(() => {
-  return [departmentOptions, employmentStatusOptions]
+  return [departmentOptions, employmentOptions]
 })
 
 watch(sortFilterOptionsStore.sortFilterOptions, async () => {
   const { data } = await getData(
-    `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
+    `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
   )
   employees.value = data
 })
@@ -142,5 +142,11 @@ const setModal = (value: boolean) => {
 
 const goToDashboard = () => {
   router.push('/dashboard')
+  router.push({
+    path: '/dashboard',
+    query: {
+      role: sortFilterOptionsStore.sortFilterOptions.role,
+    },
+  })
 }
 </script>

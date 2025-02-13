@@ -1,10 +1,10 @@
 export type EmployeeType = {
   id?: number
   fullName: string
-  startYear: Date | null
+  startYear: Date | string
   address: string
   department: string
-  employmentStatus: string
+  employment: string
   trainingCompleted: boolean
 }
 
@@ -47,3 +47,5 @@ export type TableHeadingType = {
   name: string
   tableId: string
 }
+
+export type SortFilterOptions = 'sort' | 'department' | 'employment' | 'role'

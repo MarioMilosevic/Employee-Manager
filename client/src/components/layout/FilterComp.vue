@@ -22,6 +22,7 @@ import ActionButton from 'src/components/layout/ActionButton.vue'
 import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import { computed, PropType, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { SortFilterOptions } from 'src/utils/types'
 
 const sortFilterOptions = useSortFilterStore()
 const selectedIndex = ref<number>(0)
@@ -38,8 +39,10 @@ const props = defineProps({
   },
 })
 
+console.log(props.category)
+
 const filter = computed(() => {
-  return props.category === 'Department' ? 'department' : 'employment'
+  return `${props.category.toLowerCase()}`
 })
 
 const filterHandler = (option: string, index: number) => {
@@ -48,7 +51,7 @@ const filterHandler = (option: string, index: number) => {
     path: router.currentRoute.value.path,
     query: { ...currentQuery, [filter.value]: option },
   })
-  sortFilterOptions.setSortFilterOptions(option, `${filter.value}Filter`)
+  sortFilterOptions.setSortFilterOptions(option, filter.value as SortFilterOptions)
   selectedIndex.value = index
 }
 </script>

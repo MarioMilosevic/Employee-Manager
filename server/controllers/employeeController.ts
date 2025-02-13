@@ -1,5 +1,5 @@
 import prisma from "../services/database";
-import { Department, EmploymentStatus } from "@prisma/client";
+import { Department, Employment } from "@prisma/client";
 import errorFactory from "../services/errorFactory";
 import successResponseFactory from "../services/successResponseFactory";
 import { Response, NextFunction, Request } from "express";
@@ -44,8 +44,8 @@ const employee = {
         (department !== "All" &&
           !Object.values(Department).includes(department as Department)) ||
         (employment !== "All" &&
-          !Object.values(EmploymentStatus).includes(
-            employment as EmploymentStatus
+          !Object.values(Employment).includes(
+            employment as Employment
           ))
       ) {
         errorFactory.badRequest(res);
@@ -56,7 +56,7 @@ const employee = {
       const orderBy: any = {};
       if (department !== "All") where.department = department as Department;
       if (employment !== "All")
-        where.employmentStatus = employment as EmploymentStatus;
+        where.employment = employment as Employment;
 
       if (sort === "Name: A-Z") orderBy.fullName = "asc";
       if (sort === "Name: Z-A") orderBy.fullName = "desc";

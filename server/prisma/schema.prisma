@@ -19,7 +19,7 @@ model Employee {
   address           String
   startYear         String
   department        Department       @default(Engineering)
-  employmentStatus  EmploymentStatus @default(Full)
+  employment  Employment @default(Full)
   trainingCompleted Boolean
 
   @@map("employees")
@@ -58,7 +58,7 @@ enum Role {
   GUEST
 }
 
-enum EmploymentStatus {
+enum Employment {
   Contractor
   Part
   Full

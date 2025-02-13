@@ -30,18 +30,21 @@ import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { getData, deleteData } from 'src/api/api'
 import { useRouter } from 'vue-router'
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import { useUserStore } from 'src/stores/userStore'
 import { InputType, TableHeadingType, UserType } from 'src/utils/types'
 import { useLoadingStore } from 'src/stores/loadingStore'
 import { sortUsersOptions, userRoles } from 'src/utils/constants'
 import { showToast } from 'src/utils/toast'
+import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 
 onBeforeMount(async () => {
   try {
     loadingStore.setLoading(true)
     const [usersResponse, tableResponse, inputsResponse] = await Promise.all([
-      getData('users'),
+      getData(
+        `users/${sortFilterOptionsStore.sortFilterOptions.roleFilter}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
+      ),
       getData('table/dashboard'),
       getData('inputs/admin'),
     ])
@@ -56,11 +59,19 @@ onBeforeMount(async () => {
 
 const { user } = useUserStore()
 const loadingStore = useLoadingStore()
+const sortFilterOptionsStore = useSortFilterStore()
 
 const users = ref<UserType[]>([])
 const dashboardHeadings = ref<TableHeadingType[]>([])
 const dashboardInputs = ref<InputType[]>([])
 const router = useRouter()
+
+watch(sortFilterOptionsStore.sortFilterOptions, async () => {
+  const { data } = await getData(
+    `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
+  )
+  users.value = data
+})
 
 const deleteUser = async (id: number) => {
   try {
@@ -82,6 +93,13 @@ const removeUser = (id: number) => {
 }
 
 const goToHome = () => {
-  router.push('/')
+  router.push({
+    path: '/',
+    query: {
+      department: sortFilterOptionsStore.sortFilterOptions.departmentFilter,
+      employment: sortFilterOptionsStore.sortFilterOptions.employmentFilter,
+      sort: sortFilterOptionsStore.sortFilterOptions.sort,
+    },
+  })
 }
 </script>

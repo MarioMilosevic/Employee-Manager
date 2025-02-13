@@ -5,9 +5,9 @@ export const baseUrl = 'http://localhost:3000/api/v1'
 export const emptySingleEmployee: EmployeeType = {
   fullName: '',
   address: '',
-  startYear: null,
+  startYear: "",
   department: '',
-  employmentStatus: '',
+  employment: '',
   trainingCompleted: false,
 }
 
@@ -36,7 +36,7 @@ export const emptyLoginObj = {
 
 export const departmentOptions = ['Department', 'All', 'Engineering', 'HR', 'Sales']
 
-export const employmentStatusOptions = ['Employment Status', 'All', 'Contractor', 'Full', 'Part']
+export const employmentOptions = ['Employment', 'All', 'Contractor', 'Full', 'Part']
 
 export const userRoles = ['Role', 'All', 'Admin', 'User', 'Guest']
 
