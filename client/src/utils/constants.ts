@@ -43,8 +43,8 @@ export const userRoles = ['Role', 'All', 'Admin', 'User', 'Guest']
 export const sortEmployeesOptions = [
   'Name: A-Z',
   'Name: Z-A',
-  'Training: Yes-No',
-  'Training: No-Yes',
+  'Training: True-False',
+  'Training: False-True',
   'Date: Oldest to Newest',
   'Date: Newest to Oldest',
 ]

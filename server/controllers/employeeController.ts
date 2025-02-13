@@ -39,7 +39,7 @@ const employee = {
   },
   async getAll(req: Request, res: Response) {
     try {
-      const { department, employment } = req.params;
+      const { department, employment, sort } = req.params;
       if (
         (department !== "All" &&
           !Object.values(Department).includes(department as Department)) ||
@@ -53,11 +53,21 @@ const employee = {
       }
 
       const where: any = {};
+      const orderBy: any = {};
       if (department !== "All") where.department = department as Department;
       if (employment !== "All")
         where.employmentStatus = employment as EmploymentStatus;
 
-      const employees = await prisma.employee.findMany({ where });
+      if (sort === "Name: A-Z") orderBy.fullName = "asc";
+      if (sort === "Name: Z-A") orderBy.fullName = "desc";
+      if (sort === "Training: True-False") orderBy.trainingCompleted = "desc";
+      if (sort === "Training: False-True") orderBy.trainingCompleted = "asc";
+      if (sort === "Date: Oldest to Newest") orderBy.startYear = "asc";
+      if (sort === "Date: Newest to Oldest") orderBy.startYear = "desc";
+      const employees = await prisma.employee.findMany({
+        where,
+        orderBy,
+      });
       successResponseFactory.ok(res, employees);
     } catch (error) {
       errorFactory.internalError(res);

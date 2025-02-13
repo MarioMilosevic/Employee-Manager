@@ -7,7 +7,7 @@ employeeRouter.param("id", employee.getId);
 employeeRouter.param("id", employee.getData);
 
 employeeRouter.route("/").post(employee.create);
-employeeRouter.route('/:department/:employment').get(employee.getAll)
+employeeRouter.route('/:department/:employment/:sort').get(employee.getAll)
 
 employeeRouter
   .route("/:id")

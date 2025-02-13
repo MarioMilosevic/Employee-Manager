@@ -42,7 +42,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  console.log('kada se ovo desi')
+  // console.log('kada se ovo desi')
   const userStore = useUserStore()
   const sortFilterStore = useSortFilterStore()
   const userToken = localStorage.getItem('login-token')
@@ -50,7 +50,7 @@ router.beforeEach(async (to) => {
 
   if (!userToken && !isAuthenticationRoute) return { name: 'Login' }
   if (userToken && isAuthenticationRoute) {
-    console.log('uslo odje')
+    // console.log('uslo odje')
     return { name: 'Home', query: { sort: sortFilterStore.sortFilterOptions.sort } }
   }
 
@@ -59,7 +59,7 @@ router.beforeEach(async (to) => {
     userStore.setUser(user)
     if (user?.role !== 'ADMIN' && to.name !== 'Home') {
       // return { name: 'Home' }
-      console.log('uslo mozd aodje')
+      // console.log('uslo mozd aodje')
       return { name: 'Home', query: { sort: sortFilterStore.sortFilterOptions.sort } }
     }
   }

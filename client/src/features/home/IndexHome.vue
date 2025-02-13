@@ -54,7 +54,7 @@ onBeforeMount(async () => {
     loadingStore.setLoading(true)
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}`,
+        `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
       ),
       getData('table/main'),
       getData('inputs/home'),
@@ -67,12 +67,15 @@ onBeforeMount(async () => {
     console.error(error)
   }
 })
+
+// /${sortFilterOptionsStore.sortFilterOptions.sort}
 const { user } = useUserStore()
 const loadingStore = useLoadingStore()
 const sortFilterOptionsStore = useSortFilterStore()
+console.log(sortFilterOptionsStore.sortFilterOptions.sort)
 // route.params = sortFilterOptionsStore.sortFilterOptions.filter
 const route = useRoute()
-console.log('route u home', route)
+// console.log('route u home', route)
 
 const employees = ref<EmployeeType[]>([])
 const homeHeadings = ref<TableHeadingType[]>([])
@@ -86,7 +89,7 @@ const optionsArray = computed(() => {
 
 watch(sortFilterOptionsStore.sortFilterOptions, async () => {
   const { data } = await getData(
-    `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}`,
+    `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
   )
   employees.value = data
 })
