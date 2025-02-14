@@ -60,67 +60,9 @@ input[type='checkbox']:focus {
 
 .label {
   position: relative;
-  border: 1px solid black;
+  border: 1px solid $dark-color;
   width: 100%;
-
-
-  /* &__slider {
-  background-color: red;
-  position: absolute;
-  top: 0;
-  right: 0;
-  left:0;
-  bottom:0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 34px; */
-
-  /* &::before {
-      position: absolute;
-      content: '';
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    } */
-  /* } */
 }
 
-/* .switch {
-  position: relative;
-  width: 60px;
-  height: 34px;
 
-  &__slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    &::before {
-      position: absolute;
-      content: '';
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-  }
-
-  &__input:checked + .slider {
-    background-color: $primary-color;
-
-    &::before {
-      transform: translateX(26px);
-    }
-  }
-} */
 </style>

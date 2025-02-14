@@ -1,9 +1,5 @@
 <template>
-  <select
-    class="select"
-    :value="props.modelValue"
-    @change="changeHandler"
-  >
+  <select class="select" :value="props.modelValue" @change="changeHandler">
     <option v-for="(option, index) in props.options" :key="index" :value="option">
       {{ option }}
     </option>
@@ -22,6 +18,8 @@ const props = defineProps({
     required: true,
   },
 })
+
+console.log(props.modelValue)
 
 const sortFilterOptions = useSortFilterStore()
 const router = useRouter()
@@ -46,7 +44,8 @@ const changeHandler = (e: Event) => {
   padding: 0.6rem;
   border-radius: $small-radius;
   border: none;
-  height: fit-content;
   background-color: $secondary-color;
+  outline: none;
+  border: 1px solid $dark-color;
 }
 </style>

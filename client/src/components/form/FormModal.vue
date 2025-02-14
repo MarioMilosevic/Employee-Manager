@@ -15,9 +15,16 @@
             <template v-for="input in props.inputs" :key="input.id" #[input.name]>
               <FormBlock>
                 <template #input>
+                  <FormSelect
+                    v-if="input.name === 'department' || input.name === 'employment'"
+                    :options="input.options"
+                    class="overlay__modal-form-select"
+                    v-model="(element[input.name as keyof typeof element] as string)"
+                  />
                   <FormInput
+                    v-else
                     v-bind="input"
-                    v-model="(element[input.name as keyof typeof element] as string | undefined)"
+                    v-model="element[input.name as keyof typeof element] as string | undefined"
                   />
                 </template>
                 <template #error>
@@ -78,6 +85,7 @@ import { ElementType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { InputType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
+import FormSelect from './FormSelect.vue'
 
 const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
@@ -91,8 +99,9 @@ const props = defineProps({
   },
 })
 
-const element = ref<ElementType>({ ...props.singleElement })
+console.log(props.inputs)
 
+const element = ref<ElementType>({ ...props.singleElement })
 
 const formErrors = ref<Record<string, string>>({})
 
@@ -155,7 +164,11 @@ const submitForm = async () => {
 
       &-label {
         font-size: $medium-font;
-        color: $placeholder-color;
+      }
+
+      &-select {
+        border: 1px solid $dark-color;
+        width: 100%;
       }
 
       &-checkbox {

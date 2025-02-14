@@ -6,8 +6,8 @@ export const emptySingleEmployee: EmployeeType = {
   fullName: '',
   address: '',
   startYear: "",
-  department: '',
-  employment: '',
+  department: 'Engineering',
+  employment: 'Full',
   trainingCompleted: false,
 }
 

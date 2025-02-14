@@ -39,8 +39,6 @@ const props = defineProps({
   },
 })
 
-console.log(props.category)
-
 const filter = computed(() => {
   return `${props.category.toLowerCase()}`
 })
