@@ -13,11 +13,11 @@
           :options="props.sortOptions"
           v-model="filterOptionsStore.sortFilterOptions.sort"
           @update:model-value="sortHandler"
-          />
-        </template>
-      </FormBlock>
-    </nav>
-  </template>
+        />
+      </template>
+    </FormBlock>
+  </nav>
+</template>
 
 <script setup lang="ts">
 import { ElementType } from 'src/utils/types'
@@ -46,7 +46,7 @@ const props = defineProps({
 })
 const router = useRouter()
 
-const sortHandler = (target:string) => {
+const sortHandler = (target: string) => {
   const currentQuery = { ...router.currentRoute.value.query }
   router.push({
     path: router.currentRoute.value.path,

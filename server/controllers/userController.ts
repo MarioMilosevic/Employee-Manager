@@ -66,17 +66,20 @@ const user = {
   async getAll(req: CustomRequest, res: Response) {
     try {
       const { role, sort } = req.params;
+      console.log(role, sort);
 
-      if (role !== "All" && !Object.values(Role).includes(role as Role)) {
+      if (role !== "ALL" && !Object.values(Role).includes(role as Role)) {
         errorFactory.badRequest(res);
         return;
       }
 
       const where: any = {};
       const orderBy: any = {};
-      if (role !== "All") where.role = role as Role;
+      if (role !== "ALL") where.role = role as Role;
       if (sort === "Name: A-Z") orderBy.fullName = "asc";
       if (sort === "Name: Z-A") orderBy.fullName = "desc";
+      if (sort === "Date: Oldest to Newest") orderBy.createdDate = "asc";
+      if (sort === "Date: Newest to Oldest") orderBy.createdDate = "desc";
 
       const users = await prisma.user.findMany({
         select: {

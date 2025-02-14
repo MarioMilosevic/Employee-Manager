@@ -52,6 +52,7 @@ import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 onBeforeMount(async () => {
   try {
     loadingStore.setLoading(true)
+    sortFilterOptionsStore.resetOptions()
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
         `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
@@ -146,6 +147,7 @@ const goToDashboard = () => {
     path: '/dashboard',
     query: {
       role: sortFilterOptionsStore.sortFilterOptions.role,
+      sort:sortFilterOptionsStore.sortFilterOptions.sort
     },
   })
 }

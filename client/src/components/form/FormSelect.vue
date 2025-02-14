@@ -1,7 +1,7 @@
 <template>
   <select
     class="select"
-    :value="props.modelValue"
+    :value="modelValue"
     @change="(e) => emits('update:modelValue', (e.target as HTMLSelectElement).value)"
   >
     <option v-for="(option, index) in props.options" :key="index" :value="option">

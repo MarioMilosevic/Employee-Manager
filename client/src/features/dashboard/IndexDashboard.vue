@@ -41,9 +41,10 @@ import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 onBeforeMount(async () => {
   try {
     loadingStore.setLoading(true)
+    sortFilterOptionsStore.resetOptions()
     const [usersResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `users/${sortFilterOptionsStore.sortFilterOptions.roleFilter}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
+        `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
       ),
       getData('table/dashboard'),
       getData('inputs/admin'),
@@ -68,7 +69,7 @@ const router = useRouter()
 
 watch(sortFilterOptionsStore.sortFilterOptions, async () => {
   const { data } = await getData(
-    `employee/${sortFilterOptionsStore.sortFilterOptions.departmentFilter}/${sortFilterOptionsStore.sortFilterOptions.employmentFilter}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
+    `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
   )
   users.value = data
 })
@@ -96,8 +97,8 @@ const goToHome = () => {
   router.push({
     path: '/',
     query: {
-      department: sortFilterOptionsStore.sortFilterOptions.departmentFilter,
-      employment: sortFilterOptionsStore.sortFilterOptions.employmentFilter,
+      department: sortFilterOptionsStore.sortFilterOptions.department,
+      employment: sortFilterOptionsStore.sortFilterOptions.employment,
       sort: sortFilterOptionsStore.sortFilterOptions.sort,
     },
   })

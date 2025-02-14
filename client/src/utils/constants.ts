@@ -50,8 +50,8 @@ export const sortEmployeesOptions = [
 ]
 
 export const sortUsersOptions = [
-  'Name:A-Z',
-  'Name:Z-A',
+  'Name: A-Z',
+  'Name: Z-A',
   'Date: Oldest to Newest',
   'Date: Newest to Oldest',
 ]
