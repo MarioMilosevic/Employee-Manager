@@ -12,15 +12,17 @@
           id="sort"
           :options="props.sortOptions"
           v-model="filterOptionsStore.sortFilterOptions.sort"
-        />
-      </template>
-    </FormBlock>
-  </nav>
-</template>
+          @update:model-value="sortHandler"
+          />
+        </template>
+      </FormBlock>
+    </nav>
+  </template>
 
 <script setup lang="ts">
 import { ElementType } from 'src/utils/types'
 import { PropType, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormLabel from 'src/components/form/FormLabel.vue'
@@ -42,6 +44,16 @@ const props = defineProps({
     required: true,
   },
 })
+const router = useRouter()
+
+const sortHandler = (target:string) => {
+  const currentQuery = { ...router.currentRoute.value.query }
+  router.push({
+    path: router.currentRoute.value.path,
+    query: { ...currentQuery, sort: target },
+  })
+  filterOptionsStore.setSortFilterOptions(target, 'sort')
+}
 
 const elementsLength = computed(() => {
   return props.elements.length

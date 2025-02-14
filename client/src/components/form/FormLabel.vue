@@ -25,6 +25,5 @@ const props = defineProps({
   background-color: $secondary-color;
   border: 1px solid $dark-color;
   border-radius: $small-radius;
-  /* font-size: 14px; */
 }
 </style>
