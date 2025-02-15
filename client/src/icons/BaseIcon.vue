@@ -5,7 +5,8 @@
     :viewBox="viewBox"
     :stroke-width="strokeWidth"
     :stroke="stroke"
-    :class="[`icon-${props.size}`, 'icon']"
+    :class="[`icon-${props.size}`]"
+    :style="{ cursor }"
     :size="size"
   >
     <slot />
@@ -13,6 +14,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 const props = defineProps({
   xmlns: {
     type: String,
@@ -38,11 +41,13 @@ const props = defineProps({
     type: String,
     default: 'medium',
   },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const cursor = computed(() => {
+  return props.isDisabled ? 'not-allowed' : 'pointer'
 })
 </script>
-
-<style lang="scss" scoped>
-.icon {
-  cursor: pointer;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <nav class="nav">
-    <h3>{{ pageStore.elementsCount }} {{ elementName }} found in total</h3>
+    <h3>Found {{ pageStore.elementsCount }} {{ elementName }} in total</h3>
     <FormBlock>
       <template #label>
         <FormLabel id="sort">

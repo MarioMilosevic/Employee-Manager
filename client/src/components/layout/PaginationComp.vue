@@ -2,10 +2,17 @@
   <nav class="pagination">
     <p>Showing {{ showResultsFrom }} to {{ showResultsTo }} out of {{ pageStore.elementsCount }}</p>
     <div class="pagination__icons">
-      <BaseIcon @click="emits('previous-page-event')">
+      <BaseIcon
+        @click="emits('previous-page-event')"
+        :is-disabled="pageStore.page === 1"
+      >
         <ChevronLeft />
       </BaseIcon>
-      <BaseIcon @click="emits('next-page-event')">
+
+      <BaseIcon
+        @click="emits('next-page-event')"
+        :is-disabled="pageStore.page > pageStore.elementsCount / pageStore.itemsPerPage"
+      >
         <ChevronRight />
       </BaseIcon>
     </div>
@@ -27,23 +34,11 @@ const showResultsFrom = computed(() => {
 })
 
 const showResultsTo = computed(() => {
-  return showResultsFrom.value + pageStore.itemsPerPage - 1
+  const to = showResultsFrom.value + pageStore.itemsPerPage - 1
+  return to > pageStore.elementsCount ? pageStore.elementsCount : to
 })
 
-
-// console.log(showResultsFrom.value)
-// console.log(showResultsTo.value)
-
-
-// const showResultsFrom = (pageStore.page - 1) * pageStore.itemsPerPage + 1
-// let showResultsTo = showResultsFrom + pageStore.itemsPerPage  - 1
-// console.log(showResultsTo)
-//  const showResultsFrom = (currentPage - 1) * itemsPerPage + 1; // 1 , 11 ,21, 31...
-//   let showResultsTo = showResultsFrom + itemsPerPage - 1; // 10,20,30,40...
-//   if (showResultsTo > numberOfRooms) {
-//     showResultsTo = numberOfRooms;
-//   }
-// const showResultsFrom =
+// isDisabled={currentPage === 1 ? true : false}
 </script>
 
 <style lang="scss" scoped>

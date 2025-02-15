@@ -135,10 +135,15 @@ const submitHandler = (element: ElementType) => {
 }
 
 const nextPage = () => {
-  pageStore.setPage(pageStore.page + 1)
+  if (pageStore.page < pageStore.elementsCount / pageStore.itemsPerPage) {
+    pageStore.setPage(pageStore.page + 1)
+  }
 }
+
 const previousPage = () => {
-  pageStore.setPage(pageStore.page - 1)
+  if (pageStore.page > 1) {
+    pageStore.setPage(pageStore.page - 1)
+  }
 }
 
 const setModal = (value: boolean) => (isModalOpen.value = value)

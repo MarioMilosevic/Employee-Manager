@@ -95,6 +95,7 @@ watch(
         `employee/${newDepartment}/${newEmployment}/${newSort}/${newPage}`,
       )
       employees.value = data.employees
+      pageStore.setElementsCount(data.count)
     } catch (error) {
       showToast('Unexpected error occured', 'error')
       console.error('Error fetching employees:', error)
