@@ -37,26 +37,34 @@ const employee = {
       errorFactory.internalError(res);
     }
   },
+  // /////////////////////////////////////////////////
+  // /////////////////////////////////////////////////
+  // /////////////////////////////////////////////////
+  // /////////////////////////////////////////////////
+
   async getAll(req: Request, res: Response) {
     try {
-      const { department, employment, sort } = req.params;
+      const { department, employment, sort, page } = req.params;
+      console.log(typeof page, page);
+      console.log('uslo')
       if (
         (department !== "All" &&
           !Object.values(Department).includes(department as Department)) ||
         (employment !== "All" &&
-          !Object.values(Employment).includes(
-            employment as Employment
-          ))
+          !Object.values(Employment).includes(employment as Employment))
       ) {
         errorFactory.badRequest(res);
         return;
       }
 
+      const pageNumber = Number(page) || 1;
+      const pageSize = 8;
+      const skip = (pageNumber - 1) * pageSize;
+
       const where: any = {};
       const orderBy: any = {};
       if (department !== "All") where.department = department as Department;
-      if (employment !== "All")
-        where.employment = employment as Employment;
+      if (employment !== "All") where.employment = employment as Employment;
 
       if (sort === "Name: A-Z") orderBy.fullName = "asc";
       if (sort === "Name: Z-A") orderBy.fullName = "desc";
@@ -64,16 +72,32 @@ const employee = {
       if (sort === "Training: False-True") orderBy.trainingCompleted = "asc";
       if (sort === "Date: Oldest to Newest") orderBy.startYear = "asc";
       if (sort === "Date: Newest to Oldest") orderBy.startYear = "desc";
-      
-      const employees = await prisma.employee.findMany({
-        where,
-        orderBy,
-      });
-      successResponseFactory.ok(res, employees);
+
+      const [employees, count] = await prisma.$transaction([
+        prisma.employee.findMany({
+          where,
+          orderBy,
+          take: pageSize,
+          skip,
+        }),
+        prisma.employee.count({ where }),
+      ]);
+
+      const data = {
+        employees,
+        count,
+      };
+      successResponseFactory.ok(res, data);
     } catch (error) {
       errorFactory.internalError(res);
     }
   },
+
+  // /////////////////////////////////////////////////
+  // /////////////////////////////////////////////////
+  // /////////////////////////////////////////////////
+  // /////////////////////////////////////////////////
+
   async getSingle(req: CustomRequest, res: Response) {
     try {
       if (!req.requestPayload.data) {

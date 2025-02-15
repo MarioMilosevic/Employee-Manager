@@ -13,8 +13,7 @@ export const useSortFilterStore = defineStore('sortFilterStore', () => {
   const sortFilterOptions = ref({ ...baseOptions })
 
   function resetOptions() {
-    Object.assign(sortFilterOptions.value, baseOptions)
-    // sortFilterOptions.value = { ...baseOptions }
+    sortFilterOptions.value = { ...baseOptions }
   }
 
   function setSortFilterOptions(value: string, option: SortFilterOptions) {

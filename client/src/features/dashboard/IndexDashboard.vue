@@ -67,12 +67,13 @@ const dashboardHeadings = ref<TableHeadingType[]>([])
 const dashboardInputs = ref<InputType[]>([])
 const router = useRouter()
 
-watch(sortFilterOptionsStore.sortFilterOptions, async () => {
-  const { data } = await getData(
-    `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
-  )
-  users.value = data
-})
+// watch(sortFilterOptionsStore.sortFilterOptions, async () => {
+//   console.log('uslo odje')
+//   const { data } = await getData(
+//     `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
+//   )
+//   users.value = data
+// })
 
 const deleteUser = async (id: number) => {
   try {

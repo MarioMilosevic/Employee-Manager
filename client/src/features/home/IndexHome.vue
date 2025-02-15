@@ -36,11 +36,7 @@ import MainComponent from 'src/components/layout/MainComponent.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import { EmployeeType, InputType, TableHeadingType } from 'src/utils/types'
-import {
-  departmentOptions,
-  employmentOptions,
-  sortEmployeesOptions,
-} from 'src/utils/constants'
+import { departmentOptions, employmentOptions, sortEmployeesOptions } from 'src/utils/constants'
 import { onBeforeMount, ref, computed, watch } from 'vue'
 import { deleteData, postData, editData, getData } from 'src/api/api'
 import { showToast } from 'src/utils/toast'
@@ -48,6 +44,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from 'src/stores/userStore'
 import { useLoadingStore } from 'src/stores/loadingStore'
 import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
+import { usePageStore } from 'src/stores/pageStore'
 
 onBeforeMount(async () => {
   try {
@@ -55,12 +52,13 @@ onBeforeMount(async () => {
     sortFilterOptionsStore.resetOptions()
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
+        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.page}`,
       ),
       getData('table/main'),
       getData('inputs/home'),
     ])
-    employees.value = employeeResponse.data
+    employees.value = employeeResponse.data.employees
+    pageStore.setElementsCount(employeeResponse.data.count)
     homeHeadings.value = tableResponse.data
     homeInputs.value = inputsResponse.data
     loadingStore.setLoading(false)
@@ -72,6 +70,7 @@ onBeforeMount(async () => {
 const { user } = useUserStore()
 const loadingStore = useLoadingStore()
 const sortFilterOptionsStore = useSortFilterStore()
+const pageStore = usePageStore()
 
 const employees = ref<EmployeeType[]>([])
 const homeHeadings = ref<TableHeadingType[]>([])
@@ -83,13 +82,25 @@ const optionsArray = computed(() => {
   return [departmentOptions, employmentOptions]
 })
 
-watch(sortFilterOptionsStore.sortFilterOptions, async () => {
-  const { data } = await getData(
-    `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
-  )
-  employees.value = data
-})
-
+watch(
+  [
+    () => sortFilterOptionsStore.sortFilterOptions.sort,
+    () => sortFilterOptionsStore.sortFilterOptions.employment,
+    () => sortFilterOptionsStore.sortFilterOptions.department,
+    () => pageStore.page,
+  ],
+  async ([newSort, newEmployment, newDepartment, newPage]) => {
+    try {
+      const { data } = await getData(
+        `employee/${newDepartment}/${newEmployment}/${newSort}/${newPage}`,
+      )
+      employees.value = data.employees
+    } catch (error) {
+      showToast('Unexpected error occured', 'error')
+      console.error('Error fetching employees:', error)
+    }
+  },
+)
 const router = useRouter()
 
 const submitForm = async (employee: EmployeeType) => {
@@ -147,7 +158,7 @@ const goToDashboard = () => {
     path: '/dashboard',
     query: {
       role: sortFilterOptionsStore.sortFilterOptions.role,
-      sort:sortFilterOptionsStore.sortFilterOptions.sort
+      sort: sortFilterOptionsStore.sortFilterOptions.sort,
     },
   })
 }

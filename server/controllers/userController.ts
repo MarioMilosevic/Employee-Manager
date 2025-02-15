@@ -99,6 +99,7 @@ const user = {
     }
   },
   async getUser(req: CustomRequest, res: Response) {
+    console.log('uslo odje')
     try {
       if (!req.requestPayload.data) {
         errorFactory.notFound(res);

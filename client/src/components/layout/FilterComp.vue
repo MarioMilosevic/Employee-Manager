@@ -46,7 +46,6 @@ const filter = computed(() => {
 const filterHandler = (option: string, index: number) => {
   const currentQuery = { ...router.currentRoute.value.query }
   router.push({
-    path: router.currentRoute.value.path,
     query: { ...currentQuery, [filter.value]: option },
   })
   sortFilterOptions.setSortFilterOptions(option, filter.value as SortFilterOptions)

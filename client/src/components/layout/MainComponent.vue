@@ -33,7 +33,7 @@
         </TableHeading>
       </template>
       <template #elements>
-        <NoElements v-if="elements.length === 0" :page="page"/>
+        <NoElements v-if="elements.length === 0" :page="page" />
         <TableElement
           v-else
           v-for="el in elements"
@@ -47,8 +47,8 @@
       </template>
     </TableList>
 
-    <PaginationComp />
-    <FooterComp/>
+    <PaginationComp @next-page-event="nextPage" @previous-page-event="previousPage" />
+    <FooterComp />
   </main>
 
   <FormModal
@@ -78,9 +78,10 @@ import NoElements from 'src/components/layout/NoElements.vue'
 import FooterComp from 'src/components/layout/FooterComp.vue'
 import { signOut } from 'src/api/api'
 import { ref, PropType, computed } from 'vue'
-import {  UserType, InputType, TableHeadingType, ElementType } from 'src/utils/types'
+import { UserType, InputType, TableHeadingType, ElementType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
+import { usePageStore } from 'src/stores/pageStore'
 
 const slots = defineSlots()
 
@@ -117,6 +118,8 @@ const props = defineProps({
 
 const isModalOpen = ref<boolean>(false)
 
+const pageStore = usePageStore()
+
 const singleElement = computed(() =>
   props.page === 'home' ? emptySingleEmployee : emptySingleUser,
 )
@@ -129,6 +132,13 @@ const editHandler = (element: ElementType) => emits('edit-event', element)
 const submitHandler = (element: ElementType) => {
   emits('submit-event', element)
   setModal(false)
+}
+
+const nextPage = () => {
+  pageStore.setPage(pageStore.page + 1)
+}
+const previousPage = () => {
+  pageStore.setPage(pageStore.page - 1)
 }
 
 const setModal = (value: boolean) => (isModalOpen.value = value)

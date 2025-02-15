@@ -1,6 +1,6 @@
 <template>
   <nav class="nav">
-    <h3>{{ elementsLength }} {{ elementName }} found</h3>
+    <h3>{{ pageStore.elementsCount }} {{ elementName }} found in total</h3>
     <FormBlock>
       <template #label>
         <FormLabel id="sort">
@@ -27,6 +27,7 @@ import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormLabel from 'src/components/form/FormLabel.vue'
 import FormSelect from 'src/components/form/FormSelect.vue'
+import { usePageStore } from 'src/stores/pageStore'
 
 const filterOptionsStore = useSortFilterStore()
 
@@ -45,6 +46,7 @@ const props = defineProps({
   },
 })
 const router = useRouter()
+const pageStore = usePageStore()
 
 const sortHandler = (target: string) => {
   const currentQuery = { ...router.currentRoute.value.query }
@@ -54,10 +56,6 @@ const sortHandler = (target: string) => {
   })
   filterOptionsStore.setSortFilterOptions(target, 'sort')
 }
-
-const elementsLength = computed(() => {
-  return props.elements.length
-})
 
 const elementName = computed(() => {
   return props.page === 'home' ? 'employees' : 'users'
