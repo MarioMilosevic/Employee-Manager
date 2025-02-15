@@ -141,7 +141,6 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   gap: $medium;
-  border: 1px solid white;
 
   &__table {
     grid-column: 2/9;
