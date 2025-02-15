@@ -46,6 +46,9 @@
         />
       </template>
     </TableList>
+
+    <PaginationComp />
+    <FooterComp/>
   </main>
 
   <FormModal
@@ -70,12 +73,14 @@ import TableElement from 'src/components/layout/TableElement.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import MainSidebar from 'src/components/layout/MainSidebar.vue'
 import SortNavigation from 'src/components/layout/SortNavigation.vue'
+import PaginationComp from 'src/components/layout/PaginationComp.vue'
+import NoElements from 'src/components/layout/NoElements.vue'
+import FooterComp from 'src/components/layout/FooterComp.vue'
 import { signOut } from 'src/api/api'
 import { ref, PropType, computed } from 'vue'
 import {  UserType, InputType, TableHeadingType, ElementType } from 'src/utils/types'
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
-import NoElements from './NoElements.vue'
 
 const slots = defineSlots()
 
@@ -136,6 +141,7 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   gap: $medium;
+  border: 1px solid white;
 
   &__table {
     grid-column: 2/9;
