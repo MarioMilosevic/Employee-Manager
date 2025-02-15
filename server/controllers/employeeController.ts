@@ -37,16 +37,9 @@ const employee = {
       errorFactory.internalError(res);
     }
   },
-  // /////////////////////////////////////////////////
-  // /////////////////////////////////////////////////
-  // /////////////////////////////////////////////////
-  // /////////////////////////////////////////////////
-
   async getAll(req: Request, res: Response) {
     try {
       const { department, employment, sort, page, size } = req.params;
-      console.log(typeof page, page);
-      console.log('uslo')
       if (
         (department !== "All" &&
           !Object.values(Department).includes(department as Department)) ||
@@ -91,12 +84,6 @@ const employee = {
       errorFactory.internalError(res);
     }
   },
-
-  // /////////////////////////////////////////////////
-  // /////////////////////////////////////////////////
-  // /////////////////////////////////////////////////
-  // /////////////////////////////////////////////////
-
   async getSingle(req: CustomRequest, res: Response) {
     try {
       if (!req.requestPayload.data) {

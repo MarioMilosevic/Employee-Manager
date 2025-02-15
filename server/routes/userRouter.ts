@@ -11,7 +11,7 @@ userRouter.route("/sign-up").post(auth.signUp);
 userRouter.route("/login").post(auth.login);
 userRouter.route("/login/guest").post(auth.guestLogin);
 
-userRouter.route("/:role/:sort").get(user.getAll);
+userRouter.route("/:role/:sort/:page/:size").get(user.getAll);
 
 userRouter.route("/user").get(user.getIdFromToken, user.getData, user.getUser);
 

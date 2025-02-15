@@ -35,7 +35,7 @@ const emits = defineEmits(['update:modelValue'])
 
 .select {
   border-radius: $small-radius;
-  outline: none;
+  border: none;
 }
 
 .white {
@@ -48,6 +48,5 @@ const emits = defineEmits(['update:modelValue'])
   background-color: $primary-dark-color;
   color: $secondary-color;
   padding: 0.3rem;
-  outline-color: $secondary-color;
 }
 </style>

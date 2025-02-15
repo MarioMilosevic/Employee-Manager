@@ -37,6 +37,7 @@ import { useLoadingStore } from 'src/stores/loadingStore'
 import { sortUsersOptions, userRoles } from 'src/utils/constants'
 import { showToast } from 'src/utils/toast'
 import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
+import { usePageStore } from 'src/stores/pageStore'
 
 onBeforeMount(async () => {
   try {
@@ -44,12 +45,13 @@ onBeforeMount(async () => {
     sortFilterOptionsStore.resetOptions()
     const [usersResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
+        `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.page}/${pageStore.itemsPerPage}`,
       ),
       getData('table/dashboard'),
       getData('inputs/admin'),
     ])
-    users.value = usersResponse.data
+    users.value = usersResponse.data.users
+    pageStore.setElementsCount(usersResponse.data.count)
     dashboardHeadings.value = tableResponse.data
     dashboardInputs.value = inputsResponse.data
     loadingStore.setLoading(false)
@@ -61,19 +63,39 @@ onBeforeMount(async () => {
 const { user } = useUserStore()
 const loadingStore = useLoadingStore()
 const sortFilterOptionsStore = useSortFilterStore()
+const pageStore = usePageStore()
 
 const users = ref<UserType[]>([])
 const dashboardHeadings = ref<TableHeadingType[]>([])
 const dashboardInputs = ref<InputType[]>([])
 const router = useRouter()
 
-// watch(sortFilterOptionsStore.sortFilterOptions, async () => {
-//   console.log('uslo odje')
-//   const { data } = await getData(
-//     `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}`,
-//   )
-//   users.value = data
-// })
+
+watch(
+  [
+    () => sortFilterOptionsStore.sortFilterOptions.sort,
+    () => sortFilterOptionsStore.sortFilterOptions.role,
+    () => pageStore.page,
+    () => pageStore.itemsPerPage,
+  ],
+  async ([newSort, newRole, newPage, newItemsPerPage]) => {
+    try {
+      console.log(newRole)
+      console.log(newSort)
+      console.log(newPage)
+      console.log(newItemsPerPage)
+      const { data } = await getData(
+        `users/${newRole}/${newSort}/${newPage}/${newItemsPerPage}`,
+      )
+      users.value = data.users
+      pageStore.setElementsCount(data.count)
+    } catch (error) {
+      showToast('Unexpected error occured', 'error')
+      console.error('Error fetching employees:', error)
+    }
+  },
+)
+
 
 const deleteUser = async (id: number) => {
   try {

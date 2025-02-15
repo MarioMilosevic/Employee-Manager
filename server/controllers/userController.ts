@@ -65,14 +65,16 @@ const user = {
   },
   async getAll(req: CustomRequest, res: Response) {
     try {
-      const { role, sort } = req.params;
-      console.log(role, sort);
+      const { role, sort, page, size } = req.params;
+      console.log(page, size);
 
       if (role !== "ALL" && !Object.values(Role).includes(role as Role)) {
         errorFactory.badRequest(res);
         return;
       }
 
+      const pageNumber = Number(page);
+      const skip = (pageNumber - 1) * Number(size);
       const where: any = {};
       const orderBy: any = {};
       if (role !== "ALL") where.role = role as Role;
@@ -81,25 +83,26 @@ const user = {
       if (sort === "Date: Oldest to Newest") orderBy.createdDate = "asc";
       if (sort === "Date: Newest to Oldest") orderBy.createdDate = "desc";
 
-      const users = await prisma.user.findMany({
-        select: {
-          id: true,
-          role: true,
-          email: true,
-          fullName: true,
-          createdDate: true,
-        },
-        where,
-        orderBy,
-      });
+      const [users, count] = await prisma.$transaction([
+        prisma.user.findMany({
+          where,
+          orderBy,
+          take: Number(size),
+          skip,
+        }),
+        prisma.user.count({ where }),
+      ]);
+      const data = {
+        users,
+        count,
+      };
 
-      successResponseFactory.ok(res, users);
+      successResponseFactory.ok(res, data);
     } catch (error) {
       errorFactory.internalError(res);
     }
   },
   async getUser(req: CustomRequest, res: Response) {
-    console.log('uslo odje')
     try {
       if (!req.requestPayload.data) {
         errorFactory.notFound(res);
