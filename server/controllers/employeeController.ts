@@ -44,7 +44,7 @@ const employee = {
 
   async getAll(req: Request, res: Response) {
     try {
-      const { department, employment, sort, page } = req.params;
+      const { department, employment, sort, page, size } = req.params;
       console.log(typeof page, page);
       console.log('uslo')
       if (
@@ -57,9 +57,8 @@ const employee = {
         return;
       }
 
-      const pageNumber = Number(page) || 1;
-      const pageSize = 8;
-      const skip = (pageNumber - 1) * pageSize;
+      const pageNumber = Number(page);
+      const skip = (pageNumber - 1) * Number(size);
 
       const where: any = {};
       const orderBy: any = {};
@@ -77,7 +76,7 @@ const employee = {
         prisma.employee.findMany({
           where,
           orderBy,
-          take: pageSize,
+          take: Number(size),
           skip,
         }),
         prisma.employee.count({ where }),

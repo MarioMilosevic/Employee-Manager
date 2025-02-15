@@ -1,44 +1,26 @@
 <template>
   <nav class="pagination">
-    <p>Showing {{ showResultsFrom }} to {{ showResultsTo }} out of {{ pageStore.elementsCount }}</p>
-    <div class="pagination__icons">
-      <BaseIcon
-        @click="emits('previous-page-event')"
-        :is-disabled="pageStore.page === 1"
-      >
-        <ChevronLeft />
-      </BaseIcon>
-
-      <BaseIcon
-        @click="emits('next-page-event')"
-        :is-disabled="pageStore.page > pageStore.elementsCount / pageStore.itemsPerPage"
-      >
-        <ChevronRight />
-      </BaseIcon>
-    </div>
+    <ElementsPerPageController />
+    <PagesController
+      @next-page-event="nextPageHandler"
+      @previous-page-event="previousPageHandler"
+    />
   </nav>
 </template>
 
 <script setup lang="ts">
-import BaseIcon from 'src/icons/BaseIcon.vue'
-import ChevronRight from 'src/icons/ChevronRight.vue'
-import ChevronLeft from 'src/icons/ChevronLeft.vue'
-import { usePageStore } from 'src/stores/pageStore'
-import { computed } from 'vue'
+import PagesController from 'src/components/layout/PagesController.vue'
+import ElementsPerPageController from 'src/components/layout//ElementsPerPageController.vue'
 
 const emits = defineEmits(['next-page-event', 'previous-page-event'])
 
-const pageStore = usePageStore()
-const showResultsFrom = computed(() => {
-  return (pageStore.page - 1) * pageStore.itemsPerPage + 1
-})
+const nextPageHandler = () => {
+  emits('next-page-event')
+}
 
-const showResultsTo = computed(() => {
-  const to = showResultsFrom.value + pageStore.itemsPerPage - 1
-  return to > pageStore.elementsCount ? pageStore.elementsCount : to
-})
-
-// isDisabled={currentPage === 1 ? true : false}
+const previousPageHandler = () => {
+  emits('previous-page-event')
+}
 </script>
 
 <style lang="scss" scoped>
@@ -47,17 +29,11 @@ const showResultsTo = computed(() => {
 .pagination {
   margin-top: $medium;
   background-color: $primary-dark-color;
-  grid-column: 7/9;
+  grid-column: 2/9;
   padding: $small $medium;
   border-radius: $small-radius;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  &__icons {
-    display: flex;
-    align-items: center;
-    gap: $small;
-  }
 }
 </style>

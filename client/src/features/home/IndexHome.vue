@@ -52,7 +52,7 @@ onBeforeMount(async () => {
     sortFilterOptionsStore.resetOptions()
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.page}`,
+        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.page}/${pageStore.itemsPerPage}`,
       ),
       getData('table/main'),
       getData('inputs/home'),
@@ -88,11 +88,12 @@ watch(
     () => sortFilterOptionsStore.sortFilterOptions.employment,
     () => sortFilterOptionsStore.sortFilterOptions.department,
     () => pageStore.page,
+    () => pageStore.itemsPerPage,
   ],
-  async ([newSort, newEmployment, newDepartment, newPage]) => {
+  async ([newSort, newEmployment, newDepartment, newPage, newItemsPerPage]) => {
     try {
       const { data } = await getData(
-        `employee/${newDepartment}/${newEmployment}/${newSort}/${newPage}`,
+        `employee/${newDepartment}/${newEmployment}/${newSort}/${newPage}/${newItemsPerPage}`,
       )
       employees.value = data.employees
       pageStore.setElementsCount(data.count)
