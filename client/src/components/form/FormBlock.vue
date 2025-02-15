@@ -1,12 +1,17 @@
 <template>
   <fieldset class="block">
-    <slot name="label"/>
+    <slot name="label" />
     <slot name="input" />
-    <span class="block__span">
+    <span class="block__span" v-if="slots.error">
       <slot name="error" />
     </span>
   </fieldset>
 </template>
+
+<script setup lang="ts">
+import { defineSlots } from 'vue'
+const slots = defineSlots()
+</script>
 
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
