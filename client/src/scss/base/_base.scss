@@ -1,4 +1,4 @@
-@use "../abstracts/index" as *;
+@use '../abstracts/index' as *;
 * {
   margin: 0;
   padding: 0;
@@ -17,8 +17,12 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   min-height: 100vh;
-  padding: $very-big 0;
+  padding: $big;
   display: flex;
   flex-direction: column;
   gap: $very-big;
+
+  @include respond(small) {
+    padding: $medium $big;
+  }
 }

@@ -11,7 +11,7 @@
     <slot name="subtitle" />
   </h2>
   <div class="buttons">
-    <ActionButton color="white" size="big" @click="setModal(true)" v-if="slots.leftButton">
+    <ActionButton color="white" size="big" @click="setModal(true)" v-if="slots.leftButton" class="leftButton">
       <slot name="leftButton" />
     </ActionButton>
     <ActionButton
@@ -151,6 +151,7 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
 
 <style scoped lang="scss">
 @use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
 
 .main {
   display: grid;
@@ -159,6 +160,10 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
 
   &__table {
     grid-column: 2/9;
+
+     @include mixins.respond(small) {
+      grid-column: 1/9;
+    }
   }
 }
 </style>

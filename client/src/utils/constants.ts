@@ -22,9 +22,9 @@ export const passwordMessage = { message: 'Password must be at least 8 character
 
 export const emptySignUpObj: SignUpCredentialsType = {
   fullName: '',
-  email: '@gmail.com',
-  password: '11111111',
-  passwordConfirm: '11111111',
+  email: '',
+  password: '',
+  passwordConfirm: '',
   role: 'USER',
   createdDate: null,
 }

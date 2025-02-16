@@ -25,10 +25,21 @@ const props = defineProps({
 
 <style scoped lang="scss">
 @use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
+
+
 .sidebar {
   grid-column: 1 / 2;
   display: flex;
   flex-direction: column;
   gap: $medium;
+
+
+ @include mixins.respond(small) {
+  position: fixed;
+  left: 0%;
+  top: 30%;
+}
+
 }
 </style>

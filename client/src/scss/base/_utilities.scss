@@ -11,6 +11,10 @@
   padding: $medium;
   background-color: $secondary-color;
   color: $dark-color;
+
+  @include mixins.respond(small) {
+    font-size: $medium-font;
+  }
 }
 
 .home {
@@ -34,7 +38,8 @@
   margin: 5rem auto;
 
   @include mixins.respond(small) {
-    background-color: red;
+    width: 90%;
+    padding: $medium $big;
   }
 }
 
@@ -74,6 +79,11 @@
 .button-big {
   padding: $medium $very-big;
   font-size: $big;
+
+  @include mixins.respond(small) {
+    padding: $small $medium;
+    font-size: $medium-font;
+  }
 }
 
 .buttons {

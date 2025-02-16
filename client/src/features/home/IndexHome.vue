@@ -17,15 +17,18 @@
     <template #button>
       <ActionButton
         v-if="user.role === 'ADMIN'"
+        :style="{
+          position: 'absolute',
+          top: '50%',
+          right: '0%',
+          transform: 'translateY(-50%)',
+        }"
         @click="goToDashboard"
-        :style="{ position: 'absolute', top: '50%', right: '0%', transform: 'translateY(-50%)' }"
         >Dashboard</ActionButton
       >
     </template>
-    <template #subtitle>
-      <h2>Employee List</h2>
-    </template>
-    <template #leftButton> Add New Employee </template>
+    <template #subtitle> Employee List </template>
+    <template #leftButton>Add New Employee</template>
     <template #modalTitle>Add New Employee</template>
     <template #firstFilter>{{ departmentOptions }}</template>
     <template #secondFilter>{{ employmentOptions }}</template>
@@ -68,7 +71,6 @@ onBeforeMount(async () => {
     console.error(error)
   }
 })
-
 
 const { user } = useUserStore()
 const loadingStore = useLoadingStore()

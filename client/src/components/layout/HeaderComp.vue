@@ -1,6 +1,9 @@
 <template>
   <header class="header">
-    <h1 :style="{ alignContent: props.align, color: props.color, marginBottom:props.marginBottom }" :class="[titleColor, 'title']">
+    <h1
+      :style="{ alignContent: props.align, color: props.color, marginBottom: props.marginBottom }"
+      :class="[titleColor, 'title']"
+    >
       <slot name="title" />
     </h1>
     <slot name="button" />
@@ -21,8 +24,8 @@ const props = defineProps({
   },
   marginBottom: {
     type: String,
-    default:'0rem'
-  }
+    default: '0rem',
+  },
 })
 
 const titleColor = computed(() => {
@@ -31,13 +34,19 @@ const titleColor = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@use 'src/scss/abstracts/variables' as *;
+@use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
 
 .header {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+
+ @include mixins.respond(small) {
+  justify-content: start;
+}
+
 }
 
 .white {
