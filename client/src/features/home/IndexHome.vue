@@ -16,6 +16,7 @@
     <template #title> Employee Manager </template>
     <template #button>
       <ActionButton
+        v-if="user.role === 'ADMIN'"
         @click="goToDashboard"
         :style="{ position: 'absolute', top: '50%', right: '0%', transform: 'translateY(-50%)' }"
         >Dashboard</ActionButton
@@ -68,6 +69,7 @@ onBeforeMount(async () => {
   }
 })
 
+
 const { user } = useUserStore()
 const loadingStore = useLoadingStore()
 const sortFilterOptionsStore = useSortFilterStore()
@@ -111,7 +113,6 @@ const submitForm = async (employee: EmployeeType) => {
   try {
     const response = await postData(employee, 'employee')
     addEmployee(response.data)
-    // addMainData(response.data)
     setModal(false)
   } catch (error) {
     console.error(error)
@@ -123,7 +124,6 @@ const editEmployee = async (employee: EmployeeType) => {
     const response = await editData(employee, `employee/${employee.id}`)
     if (response.data) {
       employees.value = employees.value.map((emp) => (emp.id === employee.id ? employee : emp))
-      // editMainData(employee)
     } else {
       showToast(response.message, 'error')
     }
@@ -137,7 +137,6 @@ const deleteEmployee = async (id: number) => {
     const response = await deleteData('employee', id)
     if (response && response.ok) {
       removeEmployee(id)
-      // removeMainData(id)
     } else {
       const responseData = await response?.json()
       showToast(responseData.message, 'error')

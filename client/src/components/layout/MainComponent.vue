@@ -3,7 +3,7 @@
     <template #title>
       <slot v-if="slots.title" name="title" />
     </template>
-    <template #button v-if="user?.role === 'ADMIN'">
+    <template #button v-if="slots.button">
       <slot name="button" />
     </template>
   </HeaderComp>

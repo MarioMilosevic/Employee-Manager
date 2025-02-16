@@ -46,9 +46,8 @@ router.beforeEach(async (to) => {
   const isAuthenticationRoute = to.name === 'Login' || to.name === 'Sign Up'
 
   if (!userToken && !isAuthenticationRoute) return { name: 'Login' }
-  if (userToken && isAuthenticationRoute) return { name: 'Home' }
-
-  if (userToken && !userStore.user.email) {
+  if (userToken && isAuthenticationRoute)  return { name: 'Home' }
+  if (userToken) {
     const { data: user } = await getUserData(userToken as string)
     userStore.setUser(user)
     if (user?.role !== 'ADMIN' && to.name !== 'Home') {
