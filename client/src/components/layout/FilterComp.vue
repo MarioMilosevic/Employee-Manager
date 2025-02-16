@@ -23,8 +23,10 @@ import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import { computed, PropType, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { SortFilterOptions } from 'src/utils/types'
+import { usePageStore } from 'src/stores/pageStore'
 
 const sortFilterOptions = useSortFilterStore()
+const pageStore = usePageStore()
 const selectedIndex = ref<number>(0)
 const router = useRouter()
 
@@ -44,6 +46,7 @@ const filter = computed(() => {
 })
 
 const filterHandler = (option: string, index: number) => {
+  pageStore.setPage(1)
   const currentQuery = { ...router.currentRoute.value.query }
   router.push({
     query: { ...currentQuery, [filter.value]: option },

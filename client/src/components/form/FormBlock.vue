@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineSlots } from 'vue'
 const slots = defineSlots()
 </script>
 
