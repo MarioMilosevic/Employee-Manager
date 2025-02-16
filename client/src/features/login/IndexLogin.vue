@@ -74,8 +74,8 @@ const goToHomePage = () => {
   router.push({
     path: '/',
     query: {
-      department: sortFilterStore.sortFilterOptions.departmentFilter,
-      employment: sortFilterStore.sortFilterOptions.employmentFilter,
+      department: sortFilterStore.sortFilterOptions.department,
+      employment: sortFilterStore.sortFilterOptions.employment,
       sort: sortFilterStore.sortFilterOptions.sort,
     },
   })
@@ -86,6 +86,8 @@ const guestSignIn = async () => {
   if (response.data) {
     localStorage.setItem('login-token', response.data)
     goToHomePage()
+  } else {
+    showToast('Unable to login as guest', 'error')
   }
 }
 

@@ -87,8 +87,7 @@ export const signInAnonymously = async () => {
     const date = new Date()
     const guest = {
       role: 'GUEST',
-      firstName: 'Guest',
-      lastName: 'User',
+      fullName: 'Guest',
       email: `guest${Date.now()}@gmail.com`,
       password: '12345678',
       createdDate: formatDate(date),
