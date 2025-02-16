@@ -50,6 +50,7 @@ onBeforeMount(async () => {
   try {
     loadingStore.setLoading(true)
     sortFilterOptionsStore.resetOptions()
+    pageStore.resetStore()
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
         `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.page}/${pageStore.itemsPerPage}`,
@@ -160,8 +161,8 @@ const goToDashboard = () => {
   router.push({
     path: '/dashboard',
     query: {
-      role: sortFilterOptionsStore.sortFilterOptions.role,
-      sort: sortFilterOptionsStore.sortFilterOptions.sort,
+      role: sortFilterOptionsStore.sortFilterOptions.role.toLowerCase(),
+      sort: sortFilterOptionsStore.sortFilterOptions.sort.toLowerCase(),
     },
   })
 }

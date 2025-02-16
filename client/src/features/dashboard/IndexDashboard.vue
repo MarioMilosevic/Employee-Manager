@@ -43,6 +43,7 @@ onBeforeMount(async () => {
   try {
     loadingStore.setLoading(true)
     sortFilterOptionsStore.resetOptions()
+    pageStore.resetStore()
     const [usersResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
         `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.page}/${pageStore.itemsPerPage}`,
@@ -64,12 +65,10 @@ const { user } = useUserStore()
 const loadingStore = useLoadingStore()
 const sortFilterOptionsStore = useSortFilterStore()
 const pageStore = usePageStore()
-
 const users = ref<UserType[]>([])
 const dashboardHeadings = ref<TableHeadingType[]>([])
 const dashboardInputs = ref<InputType[]>([])
 const router = useRouter()
-
 
 watch(
   [
@@ -80,12 +79,8 @@ watch(
   ],
   async ([newSort, newRole, newPage, newItemsPerPage]) => {
     try {
-      console.log(newRole)
-      console.log(newSort)
-      console.log(newPage)
-      console.log(newItemsPerPage)
       const { data } = await getData(
-        `users/${newRole}/${newSort}/${newPage}/${newItemsPerPage}`,
+        `users/${newRole.toUpperCase()}/${newSort}/${newPage}/${newItemsPerPage}`,
       )
       users.value = data.users
       pageStore.setElementsCount(data.count)
@@ -95,7 +90,6 @@ watch(
     }
   },
 )
-
 
 const deleteUser = async (id: number) => {
   try {
@@ -120,9 +114,9 @@ const goToHome = () => {
   router.push({
     path: '/',
     query: {
-      department: sortFilterOptionsStore.sortFilterOptions.department,
-      employment: sortFilterOptionsStore.sortFilterOptions.employment,
-      sort: sortFilterOptionsStore.sortFilterOptions.sort,
+      department: sortFilterOptionsStore.sortFilterOptions.department.toLowerCase(),
+      employment: sortFilterOptionsStore.sortFilterOptions.employment.toLowerCase(),
+      sort: sortFilterOptionsStore.sortFilterOptions.sort.toLowerCase(),
     },
   })
 }

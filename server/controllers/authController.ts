@@ -102,7 +102,6 @@ const authController = {
   async guestLogin(req: Request, res: Response) {
     try {
       const { role, fullName, email, password, createdDate } = req.body;
-      console.log(role, fullName, email, password, createdDate)
       const guest = await prisma.user.create({
         data: {
           role,

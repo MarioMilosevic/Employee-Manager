@@ -15,6 +15,11 @@ export const usePageStore = defineStore('pageStore', () => {
   function setElementsCount(value: number) {
     elementsCount.value = value
   }
+  function resetStore() {
+    page.value = 1;
+    itemsPerPage.value = 8;
+    elementsCount.value = 0
+  }
 
   return {
     page,
@@ -22,6 +27,7 @@ export const usePageStore = defineStore('pageStore', () => {
     itemsPerPage,
     setItemsPerPage,
     elementsCount,
-    setElementsCount
+    setElementsCount,
+    resetStore
   }
 })

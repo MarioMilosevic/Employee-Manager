@@ -51,9 +51,9 @@ const pageStore = usePageStore()
 const sortHandler = (target: string) => {
   const currentQuery = { ...router.currentRoute.value.query }
   router.push({
-    path: router.currentRoute.value.path,
-    query: { ...currentQuery, sort: target },
+    query: { ...currentQuery, sort: target.toLowerCase() },
   })
+  pageStore.setPage(1)
   filterOptionsStore.setSortFilterOptions(target, 'sort')
 }
 

@@ -49,7 +49,7 @@ const filterHandler = (option: string, index: number) => {
   pageStore.setPage(1)
   const currentQuery = { ...router.currentRoute.value.query }
   router.push({
-    query: { ...currentQuery, [filter.value]: option },
+    query: { ...currentQuery, [filter.value]: option.toLowerCase() },
   })
   sortFilterOptions.setSortFilterOptions(option, filter.value as SortFilterOptions)
   selectedIndex.value = index

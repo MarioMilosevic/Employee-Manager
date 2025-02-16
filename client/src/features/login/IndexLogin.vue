@@ -74,9 +74,9 @@ const goToHomePage = () => {
   router.push({
     path: '/',
     query: {
-      department: sortFilterStore.sortFilterOptions.department,
-      employment: sortFilterStore.sortFilterOptions.employment,
-      sort: sortFilterStore.sortFilterOptions.sort,
+      department: sortFilterStore.sortFilterOptions.department.toLowerCase(),
+      employment: sortFilterStore.sortFilterOptions.employment.toLowerCase(),
+      sort: sortFilterStore.sortFilterOptions.sort.toLowerCase(),
     },
   })
 }

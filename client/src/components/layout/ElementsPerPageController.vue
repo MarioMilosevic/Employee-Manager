@@ -24,6 +24,7 @@ const elementsPerPageOptions = [4, 5, 6, 8, 9, 10]
 
 const elemenetsPerPageHandler = (value: string) => {
   const arg = Number(value)
+  pageStore.setPage(1)
   pageStore.setItemsPerPage(arg)
 }
 </script>
