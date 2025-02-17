@@ -1,5 +1,5 @@
 <template>
-  <tr class="table__row employee">
+  <tr class="table__row">
     <td>{{ props.element.fullName }}</td>
     <td>{{ props.element.address }}</td>
     <td>{{ formatDate(props.element.startYear as Date) }}</td>
@@ -26,12 +26,3 @@ const props = defineProps({
 
 const emit = defineEmits(['edit-event', 'delete-event'])
 </script>
-
-<style lang="scss" scoped>
-@use 'src/scss/abstracts/_variables' as *;
-
-.employee {
-  background-color: $secondary-color;
-  color: $dark-color;
-}
-</style>

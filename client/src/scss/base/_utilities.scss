@@ -2,6 +2,7 @@
 @use '../abstracts/mixins' as mixins;
 
 .table__row {
+  width: 100%;
   display: grid;
   text-align: center;
   align-items: center;
@@ -9,13 +10,18 @@
   border-bottom: 1px solid $dark-color;
   border-radius: $medium-radius;
   padding: $medium;
+  gap: $medium;
   background-color: $secondary-color;
   color: $dark-color;
+  white-space: nowrap;
 
   @include mixins.respond(small) {
     font-size: $medium-font;
+    padding: $small;
+    overflow-x: scroll;
   }
 }
+
 
 .home {
   grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr 0.5fr 0.5fr;

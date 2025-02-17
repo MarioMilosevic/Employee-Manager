@@ -17,13 +17,3 @@ const props = defineProps({
   },
 })
 </script>
-
-<style lang="scss" scoped>
-@use 'src/scss/abstracts/_variables' as *;
-
-.table {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-}
-</style>

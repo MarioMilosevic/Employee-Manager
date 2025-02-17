@@ -11,7 +11,13 @@
     <slot name="subtitle" />
   </h2>
   <div class="buttons">
-    <ActionButton color="white" size="big" @click="setModal(true)" v-if="slots.leftButton" class="leftButton">
+    <ActionButton
+      color="white"
+      size="big"
+      @click="setModal(true)"
+      v-if="slots.leftButton"
+      class="leftButton"
+    >
       <slot name="leftButton" />
     </ActionButton>
     <ActionButton
@@ -24,8 +30,17 @@
   </div>
 
   <main class="main">
-    <SortNavigation :elements="elements" :page="page" :sort-options="sortOptions" @navigation-event="isSidebarOpen = true"/>
-    <MainSidebar :options="options" :is-sidebar-open="isSidebarOpen" @sidebar-event="isSidebarOpen = false"/>
+    <SortNavigation
+      :elements="elements"
+      :page="page"
+      :sort-options="sortOptions"
+      @navigation-event="isSidebarOpen = true"
+    />
+    <MainSidebar
+      :options="options"
+      :is-sidebar-open="isSidebarOpen"
+      @sidebar-event="isSidebarOpen = false"
+    />
     <TableList :page="props.page" class="main__table">
       <template #headings>
         <TableHeading v-for="heading in tableHeadings" :key="heading.id">
@@ -162,9 +177,12 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
 
   &__table {
     grid-column: 2/9;
+    display: flex;
+    flex-direction: column;
 
-     @include mixins.respond(small) {
+    @include mixins.respond(small) {
       grid-column: 1/9;
+      background-color: $secondary-color;
     }
   }
 }
