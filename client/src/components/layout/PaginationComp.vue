@@ -39,6 +39,9 @@ const previousPageHandler = () => {
 
 @include mixins.respond(small) {
   grid-column: 1/9;
+  padding: $small;
+  flex-direction: column;
+  gap: $medium;
 }
 
 }

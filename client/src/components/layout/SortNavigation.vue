@@ -93,7 +93,7 @@ const elementName = computed(() => {
 
     &-title {
       @include mixins.respond(small) {
-        font-size: $medium;
+        font-size: 0.8rem;
       }
     }
 

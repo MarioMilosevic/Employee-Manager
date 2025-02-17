@@ -14,8 +14,8 @@
     <template #title> User Manager </template>
     <template #button>
       <ActionButton
+      class="adminButton"
         @click="goToHome"
-        :style="{ position: 'absolute', top: '50%', right: '0%', transform: 'translateY(-50%)' }"
         >Homepage</ActionButton
       >
     </template>

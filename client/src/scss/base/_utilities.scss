@@ -96,3 +96,15 @@
   display: flex;
   justify-content: space-between;
 }
+
+.adminButton {
+  position: absolute;
+  top: 50%;
+  right: 0%;
+
+@include mixins.respond(small){
+  position: absolute;
+  top: 150%;
+  right: 0%;
+}
+}

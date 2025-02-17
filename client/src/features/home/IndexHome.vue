@@ -17,12 +17,7 @@
     <template #button>
       <ActionButton
         v-if="user.role === 'ADMIN'"
-        :style="{
-          position: 'absolute',
-          top: '50%',
-          right: '0%',
-          transform: 'translateY(-50%)',
-        }"
+        class="adminButton"
         @click="goToDashboard"
         >Dashboard</ActionButton
       >

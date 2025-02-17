@@ -1,12 +1,15 @@
 <template>
   <FormBlock class="elements">
-    <template #label>Show elements per page</template>
+    <template #label>
+      <p class="elements__p">Show elements per page</p>
+    </template>
     <template #input>
       <FormSelect
         :options="elementsPerPageOptions"
         v-model="initialElementCount"
         color="purple"
         @update:model-value="elemenetsPerPageHandler"
+        class="elements__select"
       />
     </template>
   </FormBlock>
@@ -31,11 +34,25 @@ const elemenetsPerPageHandler = (value: string) => {
 
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
 
 .elements {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  padding: $small;
   gap: $medium;
+
+  @include mixins.respond(small){
+    padding: 0;
+    gap:0;
+  }
+
+  &__p {
+    font-size: $medium;
+  }
+
+  &__select {
+    width: 20%;
+  }
 }
 </style>

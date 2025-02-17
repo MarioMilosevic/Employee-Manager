@@ -183,6 +183,7 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
     @include mixins.respond(small) {
       grid-column: 1/9;
       background-color: $secondary-color;
+      border-radius: $medium-radius;
     }
   }
 }

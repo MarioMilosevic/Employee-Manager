@@ -40,6 +40,7 @@ const emits = defineEmits(['update:modelValue'])
 
   @include mixins.respond(small) {
     font-size: $medium-font;
+    width: 100%;
   }
 }
 
