@@ -25,6 +25,7 @@ const previousPageHandler = () => {
 
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
 
 .pagination {
   margin-top: $medium;
@@ -35,5 +36,10 @@ const previousPageHandler = () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+@include mixins.respond(small) {
+  grid-column: 1/9;
+}
+
 }
 </style>

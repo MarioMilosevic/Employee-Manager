@@ -24,8 +24,8 @@
   </div>
 
   <main class="main">
-    <SortNavigation :elements="elements" :page="page" :sort-options="sortOptions" />
-    <MainSidebar :options="options" />
+    <SortNavigation :elements="elements" :page="page" :sort-options="sortOptions" @navigation-event="isSidebarOpen = true"/>
+    <MainSidebar :options="options" :is-sidebar-open="isSidebarOpen" @sidebar-event="isSidebarOpen = false"/>
     <TableList :page="props.page" class="main__table">
       <template #headings>
         <TableHeading v-for="heading in tableHeadings" :key="heading.id">
@@ -82,6 +82,8 @@ import { UserType, InputType, TableHeadingType, ElementType } from 'src/utils/ty
 import { emptySingleEmployee, emptySingleUser } from 'src/utils/constants'
 import { useRouter } from 'vue-router'
 import { usePageStore } from 'src/stores/pageStore'
+
+const isSidebarOpen = ref<boolean>(false)
 
 const slots = defineSlots()
 

@@ -1,7 +1,7 @@
 <template>
   <nav class="nav">
     <div class="nav__left">
-      <BaseIcon class="nav__left-icon" size="big" @click="mario">
+      <BaseIcon class="nav__left-icon" size="big" @click="emits('navigation-event')">
         <HamburgerIcon />
       </BaseIcon>
       <h3 class="nav__left-title">
@@ -54,6 +54,9 @@ const props = defineProps({
     required: true,
   },
 })
+
+const emits = defineEmits(['navigation-event'])
+
 const router = useRouter()
 const pageStore = usePageStore()
 
@@ -64,10 +67,6 @@ const sortHandler = (target: string) => {
   })
   pageStore.setPage(1)
   filterOptionsStore.setSortFilterOptions(target, 'sort')
-}
-
-const mario = () => {
-  console.log('radi')
 }
 
 const elementName = computed(() => {

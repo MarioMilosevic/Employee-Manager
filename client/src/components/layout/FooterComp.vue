@@ -19,6 +19,8 @@
 
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
+
 footer {
   display: flex;
   justify-content: center;
@@ -26,6 +28,10 @@ footer {
   gap: $small;
   padding-top: $medium;
   grid-column: 4 / 6;
+
+  @include mixins.respond(small) {
+    grid-column: 1/9;
+  }
 
   a {
     transition: all 700ms;

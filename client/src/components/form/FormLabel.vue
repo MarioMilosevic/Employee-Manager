@@ -15,6 +15,7 @@ const props = defineProps({
 
 <style scoped lang="scss">
 @use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
 
 .label {
   position: relative;
@@ -25,5 +26,9 @@ const props = defineProps({
   background-color: $secondary-color;
   border: 1px solid $dark-color;
   border-radius: $small-radius;
+
+  @include mixins.respond(small){
+    font-size: $medium-font;
+  }
 }
 </style>
