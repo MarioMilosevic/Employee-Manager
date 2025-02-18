@@ -35,11 +35,14 @@
 
     <OverlayComp v-if="isModalOpen">
       <template #default>
-        <ModalComp>
+        <ModalComp class="editModal">
           <template #button>
-            <BaseIcon class="closeButton" fill="black" @click="isModalOpen = false" size="very-big">
+            <BaseIcon class="closeButton" fill="white" @click="isModalOpen = false" size="very-big">
               <CloseIcon />
             </BaseIcon>
+          </template>
+          <template #default>
+           <DeleteForm @close-event="isModalOpen = false" @delete-event="emit('delete-event')"/>
           </template>
         </ModalComp>
       </template>
@@ -60,6 +63,7 @@ import OverlayComp from 'src/components/layout/OverlayComp.vue'
 import ModalComp from 'src/components/layout/ModalComp.vue'
 import { EmployeeType, InputType, ElementType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
+import DeleteForm from 'src/components/layout/DeleteForm.vue'
 
 const props = defineProps({
   element: {
@@ -85,9 +89,19 @@ const toggleTrainingCompleted = (value: boolean) => {
 </script>
 
 <style scoped lang="scss">
+@use 'src/scss/abstracts/_variables' as *;
+
 .close {
   position: absolute;
   top: 0px;
   right: 0px;
+}
+
+.editModal {
+  width: 500px;
+  /* height: 500px; */
+  padding: $very-big;
+  background-color: $secondary-color;
+  z-index: 20;
 }
 </style>

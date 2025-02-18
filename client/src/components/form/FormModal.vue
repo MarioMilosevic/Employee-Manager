@@ -1,72 +1,71 @@
 <template>
-
   <OverlayComp>
     <template #default>
       <ModalComp>
         <template #button>
-    <BaseIcon class="closeButton" fill="black" @click="closeModal" size="very-big">
-        <CloseIcon />
-      </BaseIcon>
+          <BaseIcon class="closeButton" fill="black" @click="closeModal" size="very-big">
+            <CloseIcon />
+          </BaseIcon>
         </template>
         <template #default>
- <AuthForm @submit.prevent="submitForm" class="authForm form">
-        <template #title>
-          <HeaderComp color="black" margin-bottom="2rem">
-            <template #title> <slot name="modalTitle" /> </template>
-          </HeaderComp>
-        </template>
-        <template #inputs>
-          <RenderlessComp>
-            <template v-for="input in props.inputs" :key="input.id" #[input.name]>
-              <FormBlock>
-                <template #input>
-                  <FormSelect
-                    v-if="input.name === 'department' || input.name === 'employment'"
-                    :options="input.options"
-                    class="authForm__select"
-                    v-model="element[input.name as keyof typeof element] as string"
-                  />
-                  <FormInput
-                    v-else
-                    v-bind="input"
-                    v-model="element[input.name as keyof typeof element] as string | undefined"
-                  />
+          <AuthForm @submit.prevent="submitForm" class="authForm form">
+            <template #title>
+              <HeaderComp color="black" margin-bottom="2rem">
+                <template #title> <slot name="modalTitle" /> </template>
+              </HeaderComp>
+            </template>
+            <template #inputs>
+              <RenderlessComp>
+                <template v-for="input in props.inputs" :key="input.id" #[input.name]>
+                  <FormBlock>
+                    <template #input>
+                      <FormSelect
+                        v-if="input.name === 'department' || input.name === 'employment'"
+                        :options="input.options"
+                        class="authForm__select"
+                        v-model="element[input.name as keyof typeof element] as string"
+                      />
+                      <FormInput
+                        v-else
+                        v-bind="input"
+                        v-model="element[input.name as keyof typeof element] as string | undefined"
+                      />
+                    </template>
+                    <template #error>
+                      <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
+                    </template>
+                  </FormBlock>
                 </template>
-                <template #error>
-                  <FormError>{{ formErrors[input.name as keyof typeof formErrors] }}</FormError>
+              </RenderlessComp>
+            </template>
+            <template #default>
+              <FormBlock v-if="'trainingCompleted' in singleElement">
+                <template #label>
+                  <FormLabel id="checkbox" class="authForm__label">Completed Training ?</FormLabel>
+                </template>
+                <template #input>
+                  <FormCheckbox
+                    class="authForm__checkbox"
+                    id="checkbox"
+                    :disabled="false"
+                    :trainingCompleted="singleElement.trainingCompleted"
+                    @checkbox-event="setTrainingCompleted"
+                  />
                 </template>
               </FormBlock>
             </template>
-          </RenderlessComp>
-        </template>
-        <template #default>
-          <FormBlock v-if="'trainingCompleted' in singleElement">
-            <template #label>
-              <FormLabel id="checkbox" class="authForm__label">Completed Training ?</FormLabel>
-            </template>
-            <template #input>
-              <FormCheckbox
-                class="authForm__checkbox"
-                id="checkbox"
-                :disabled="false"
-                :trainingCompleted="singleElement.trainingCompleted"
-                @checkbox-event="setTrainingCompleted"
-              />
-            </template>
-          </FormBlock>
-        </template>
 
-        <template #submit>
-          <ActionButton
-            size="medium"
-            color="purple"
-            type="submit"
-            :style="{ justifySelf: 'start' }"
-          >
-            Submit
-          </ActionButton>
-        </template>
-      </AuthForm>
+            <template #submit>
+              <ActionButton
+                size="medium"
+                color="purple"
+                type="submit"
+                :style="{ justifySelf: 'start' }"
+              >
+                Submit
+              </ActionButton>
+            </template>
+          </AuthForm>
         </template>
       </ModalComp>
     </template>

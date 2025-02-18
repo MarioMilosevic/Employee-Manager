@@ -45,6 +45,7 @@ const props = defineProps({
 
   &.red {
     background-color: $red-color;
+    color: $secondary-color;
 
     &:hover {
       background-color: $red-color-hover;
@@ -53,6 +54,8 @@ const props = defineProps({
 
   &.green {
     background-color: $green-color;
+    color: $secondary-color;
+
     &:hover {
       background-color: $green-color-hover;
     }
