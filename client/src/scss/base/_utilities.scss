@@ -22,7 +22,6 @@
   }
 }
 
-
 .home {
   grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr 0.5fr 0.5fr;
 }
@@ -102,9 +101,17 @@
   top: 50%;
   right: 0%;
 
-@include mixins.respond(small){
-  position: absolute;
-  top: 150%;
-  right: 0%;
+  @include mixins.respond(small) {
+    position: absolute;
+    top: 150%;
+    right: 0%;
+  }
 }
+
+.closeButton {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  border: none;
+  cursor: pointer;
 }

@@ -1,13 +1,15 @@
 <template>
-  <OverlayModal>
-    <template #button>
-      <BaseIcon class="closeButton" fill="black" @click="closeModal" size="very-big">
+
+  <OverlayComp>
+    <template #default>
+      <ModalComp>
+        <template #button>
+    <BaseIcon class="closeButton" fill="black" @click="closeModal" size="very-big">
         <CloseIcon />
       </BaseIcon>
-    </template>
-
-    <template #default>
-      <AuthForm @submit.prevent="submitForm" class="authForm form">
+        </template>
+        <template #default>
+ <AuthForm @submit.prevent="submitForm" class="authForm form">
         <template #title>
           <HeaderComp color="black" margin-bottom="2rem">
             <template #title> <slot name="modalTitle" /> </template>
@@ -65,8 +67,10 @@
           </ActionButton>
         </template>
       </AuthForm>
+        </template>
+      </ModalComp>
     </template>
-  </OverlayModal>
+  </OverlayComp>
 </template>
 
 <script lang="ts" setup>
@@ -82,7 +86,8 @@ import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
 import FormSelect from 'src/components/form/FormSelect.vue'
-import OverlayModal from 'src/components/layout/OverlayModal.vue'
+import ModalComp from 'src/components/layout/ModalComp.vue'
+import OverlayComp from 'src/components/layout/OverlayComp.vue'
 import { PropType, ref } from 'vue'
 import { ElementType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
@@ -128,14 +133,6 @@ const submitForm = async () => {
 
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
-
-.closeButton {
-  position: absolute;
-  top: 1%;
-  right: 1%;
-  border: none;
-  cursor: pointer;
-}
 
 .authForm {
   margin: 0 auto;

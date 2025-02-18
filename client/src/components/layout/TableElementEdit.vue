@@ -25,14 +25,25 @@
         <ConfirmIcon />
       </BaseIcon>
       <BaseIcon size="big" stroke="#ef4444" @click="isModalOpen = true">
-      <!-- <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')"> -->
+        <!-- <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')"> -->
         <DeleteIcon />
       </BaseIcon>
       <BaseIcon size="big" @click="emit('close-event', props.element.id)" class="close">
         <CloseIcon />
       </BaseIcon>
     </td>
-    <ConfirmModal v-if="isModalOpen"/>
+
+    <OverlayComp v-if="isModalOpen">
+      <template #default>
+        <ModalComp>
+          <template #button>
+            <BaseIcon class="closeButton" fill="black" @click="isModalOpen = false" size="very-big">
+              <CloseIcon />
+            </BaseIcon>
+          </template>
+        </ModalComp>
+      </template>
+    </OverlayComp>
   </tr>
 </template>
 
@@ -45,7 +56,8 @@ import BaseIcon from 'src/icons/BaseIcon.vue'
 import DeleteIcon from 'src/icons/DeleteIcon.vue'
 import ConfirmIcon from 'src/icons/ConfirmIcon.vue'
 import FormSelect from 'src/components/form/FormSelect.vue'
-import ConfirmModal from 'src/components/layout/OverlayModal.vue'
+import OverlayComp from 'src/components/layout/OverlayComp.vue'
+import ModalComp from 'src/components/layout/ModalComp.vue'
 import { EmployeeType, InputType, ElementType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
 
