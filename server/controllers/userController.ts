@@ -66,7 +66,6 @@ const user = {
   async getAll(req: CustomRequest, res: Response) {
     try {
       const { role, sort, page, size } = req.params;
-      console.log(page, size);
 
       if (role !== "ALL" && !Object.values(Role).includes(role as Role)) {
         errorFactory.badRequest(res);
