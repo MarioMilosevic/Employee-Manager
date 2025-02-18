@@ -1,7 +1,8 @@
 <template>
   <div class="wrapper">
     <p v-if="pageStore.pageStore.elementsCount > 0">
-      Showing {{ showResultsFrom }} to {{ showResultsTo }} out of {{ pageStore.pageStore.elementsCount }}
+      Showing {{ showResultsFrom }} to {{ showResultsTo }} out of
+      {{ pageStore.pageStore.elementsCount }}
     </p>
     <p v-else>No results found</p>
     <div class="wrapper__icons">
@@ -11,7 +12,10 @@
 
       <BaseIcon
         @click="emits('next-page-event')"
-        :is-disabled="pageStore.pageStore.page >= pageStore.pageStore.elementsCount / pageStore.pageStore.itemsPerPage"
+        :is-disabled="
+          pageStore.pageStore.page >=
+          pageStore.pageStore.elementsCount / pageStore.pageStore.itemsPerPage
+        "
       >
         <ChevronRight />
       </BaseIcon>

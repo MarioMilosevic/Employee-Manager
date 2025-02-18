@@ -1,14 +1,14 @@
 <template>
   <FormBlock class="elements">
     <template #label>
-      <p class="elements__p">Show elements per page</p>
+      <p class="elements__p">Show {{ elements }} per page</p>
     </template>
     <template #input>
       <FormSelect
         :options="elementsPerPageOptions"
         v-model="initialElementCount"
         color="purple"
-        @update:model-value="elemenetsPerPageHandler"
+        @update:model-value="elementsPerPageHandler"
         class="elements__select"
       />
     </template>
@@ -19,13 +19,19 @@
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormSelect from 'src/components/form/FormSelect.vue'
 import { usePageStore } from 'src/stores/pageStore'
-import { ref } from 'vue'
+import {  ref } from 'vue'
+import { useGetElement } from 'src/composables/useGetElement'
 
 const pageStore = usePageStore()
 const initialElementCount = ref<number>(8)
 const elementsPerPageOptions = [4, 5, 6, 8, 9, 10]
+const {elements} = useGetElement()
 
-const elemenetsPerPageHandler = (value: string) => {
+
+
+
+
+const elementsPerPageHandler = (value: string) => {
   const arg = Number(value)
   pageStore.setPageStore('page', 1)
   pageStore.setPageStore('itemsPerPage', arg)

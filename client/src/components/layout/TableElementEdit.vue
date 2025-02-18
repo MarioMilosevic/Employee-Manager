@@ -25,7 +25,6 @@
         <ConfirmIcon />
       </BaseIcon>
       <BaseIcon size="big" stroke="#ef4444" @click="isModalOpen = true">
-        <!-- <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')"> -->
         <DeleteIcon />
       </BaseIcon>
       <BaseIcon size="big" @click="emit('close-event', props.element.id)" class="close">
@@ -89,22 +88,9 @@ const toggleTrainingCompleted = (value: boolean) => {
 </script>
 
 <style scoped lang="scss">
-@use 'src/scss/abstracts/_variables' as *;
-@use 'src/scss/abstracts/_mixins' as mixins;
-
 .close {
   position: absolute;
   top: 0px;
   right: 0px;
-}
-
-.editModal {
-  padding: $very-big;
-  background-color: $secondary-color;
-  z-index: 20;
-
-  @include mixins.respond(small) {
-    padding: $medium;
-  }
 }
 </style>

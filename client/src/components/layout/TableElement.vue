@@ -1,18 +1,18 @@
 <template>
   <EmployeeHome
     v-if="'startYear' in props.element"
-    :element="element as EmployeeType"
+    :element="(element as EmployeeType)"
     :inputs="inputs"
     @edit-event="editHandler"
     @delete-event="emit('delete-event')"
   />
   <UserDashboard
     v-else
-    :element="element as UserType"
+    :element="(element as UserType)"
     :inputs="inputs"
     @delete-event="emit('delete-event')"
-  />
-</template>
+    />
+  </template>
 
 <script setup lang="ts">
 import { EmployeeType, InputType, UserType, ElementType } from 'src/utils/types'

@@ -13,11 +13,7 @@
   >
     <template #title> User Manager </template>
     <template #button>
-      <ActionButton
-      class="adminButton"
-        @click="goToHome"
-        >Homepage</ActionButton
-      >
+      <ActionButton class="adminButton" @click="goToHome">Homepage</ActionButton>
     </template>
     <template #subtitle> Users List </template>
     <template #modalTitle>Add New User</template>
@@ -108,6 +104,7 @@ const deleteUser = async (id: number) => {
 
 const removeUser = (id: number) => {
   users.value = users.value.filter((user) => user.id !== id)
+  pageStore.setPageStore('elementsCount', pageStore.pageStore.elementsCount - 1)
 }
 
 const goToHome = () => {

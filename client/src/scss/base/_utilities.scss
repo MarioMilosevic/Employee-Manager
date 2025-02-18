@@ -115,3 +115,13 @@
   border: none;
   cursor: pointer;
 }
+
+.editModal {
+  padding: $very-big;
+  background-color: $secondary-color;
+  z-index: 20;
+
+  @include mixins.respond(small) {
+    padding: $medium;
+  }
+}

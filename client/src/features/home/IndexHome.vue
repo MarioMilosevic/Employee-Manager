@@ -15,10 +15,7 @@
   >
     <template #title> Employee Manager </template>
     <template #button>
-      <ActionButton
-        v-if="user.role === 'ADMIN'"
-        class="adminButton"
-        @click="goToDashboard"
+      <ActionButton v-if="user.role === 'ADMIN'" class="adminButton" @click="goToDashboard"
         >Dashboard</ActionButton
       >
     </template>
@@ -110,6 +107,7 @@ const submitForm = async (employee: EmployeeType) => {
   try {
     const response = await postData(employee, 'employee')
     addEmployee(response.data)
+    pageStore.setPageStore('elementsCount', pageStore.pageStore.elementsCount + 1)
     setModal(false)
   } catch (error) {
     console.error(error)
@@ -134,6 +132,7 @@ const deleteEmployee = async (id: number) => {
     const response = await deleteData('employee', id)
     if (response && response.ok) {
       removeEmployee(id)
+      pageStore.setPageStore('elementsCount', pageStore.pageStore.elementsCount - 1)
     } else {
       const responseData = await response?.json()
       showToast(responseData.message, 'error')
