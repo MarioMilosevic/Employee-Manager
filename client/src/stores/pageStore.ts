@@ -1,33 +1,32 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const usePageStore = defineStore('pageStore', () => {
-  const page = ref<number>(1)
-  const itemsPerPage = ref<number>(8)
-  const elementsCount = ref<number>(0)
+type PageStoreType = {
+  page: number
+  itemsPerPage: number
+  elementsCount: number
+}
 
-  function setPage(value: number) {
-    page.value = value
+const basePageStore = {
+  page: 1,
+  itemsPerPage: 8,
+  elementsCount: 0,
+}
+
+export const usePageStore = defineStore('pageStore', () => {
+  const pageStore = ref<PageStoreType>({ ...basePageStore })
+
+  function setPageStore(key: keyof PageStoreType, value: number) {
+    pageStore.value[key] = value
   }
-  function setItemsPerPage(value: number) {
-    itemsPerPage.value = value
-  }
-  function setElementsCount(value: number) {
-    elementsCount.value = value
-  }
+
   function resetStore() {
-    page.value = 1;
-    itemsPerPage.value = 8;
-    elementsCount.value = 0
+    pageStore.value = { ...basePageStore }
   }
 
   return {
-    page,
-    setPage,
-    itemsPerPage,
-    setItemsPerPage,
-    elementsCount,
-    setElementsCount,
-    resetStore
+    pageStore,
+    setPageStore,
+    resetStore,
   }
 })

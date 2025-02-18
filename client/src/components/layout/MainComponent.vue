@@ -152,14 +152,14 @@ const submitHandler = (element: ElementType) => {
 }
 
 const nextPage = () => {
-  if (pageStore.page < pageStore.elementsCount / pageStore.itemsPerPage) {
-    pageStore.setPage(pageStore.page + 1)
+  if (pageStore.pageStore.page < pageStore.pageStore.elementsCount / pageStore.pageStore.itemsPerPage) {
+    pageStore.setPageStore('page', pageStore.pageStore.page + 1)
   }
 }
 
 const previousPage = () => {
-  if (pageStore.page > 1) {
-    pageStore.setPage(pageStore.page - 1)
+  if (pageStore.pageStore.page > 1) {
+    pageStore.setPageStore('page', pageStore.pageStore.page)
   }
 }
 

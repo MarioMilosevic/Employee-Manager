@@ -42,7 +42,7 @@
             </BaseIcon>
           </template>
           <template #default>
-           <DeleteForm @close-event="isModalOpen = false" @delete-event="emit('delete-event')"/>
+            <DeleteForm @close-event="isModalOpen = false" @delete-event="emit('delete-event')" />
           </template>
         </ModalComp>
       </template>
@@ -90,6 +90,7 @@ const toggleTrainingCompleted = (value: boolean) => {
 
 <style scoped lang="scss">
 @use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
 
 .close {
   position: absolute;
@@ -98,10 +99,12 @@ const toggleTrainingCompleted = (value: boolean) => {
 }
 
 .editModal {
-  width: 500px;
-  /* height: 500px; */
   padding: $very-big;
   background-color: $secondary-color;
   z-index: 20;
+
+  @include mixins.respond(small) {
+    padding: $medium;
+  }
 }
 </style>

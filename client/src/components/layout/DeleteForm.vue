@@ -27,6 +27,8 @@ const emits = defineEmits(['close-event', 'delete-event'])
   gap: $very-big;
   text-align: justify;
 
+
+
   &__buttons {
     display: flex;
     justify-content: flex-end;

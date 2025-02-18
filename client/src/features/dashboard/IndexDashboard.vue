@@ -46,13 +46,13 @@ onBeforeMount(async () => {
     pageStore.resetStore()
     const [usersResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.page}/${pageStore.itemsPerPage}`,
+        `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.pageStore.page}/${pageStore.pageStore.itemsPerPage}`,
       ),
       getData('table/dashboard'),
       getData('inputs/admin'),
     ])
     users.value = usersResponse.data.users
-    pageStore.setElementsCount(usersResponse.data.count)
+    pageStore.setPageStore('elementsCount', usersResponse.data.count)
     dashboardHeadings.value = tableResponse.data
     dashboardInputs.value = inputsResponse.data
     loadingStore.setLoading(false)
@@ -74,8 +74,8 @@ watch(
   [
     () => sortFilterOptionsStore.sortFilterOptions.sort,
     () => sortFilterOptionsStore.sortFilterOptions.role,
-    () => pageStore.page,
-    () => pageStore.itemsPerPage,
+    () => pageStore.pageStore.page,
+    () => pageStore.pageStore.itemsPerPage,
   ],
   async ([newSort, newRole, newPage, newItemsPerPage]) => {
     try {
@@ -83,7 +83,7 @@ watch(
         `users/${newRole.toUpperCase()}/${newSort}/${newPage}/${newItemsPerPage}`,
       )
       users.value = data.users
-      pageStore.setElementsCount(data.count)
+      pageStore.setPageStore('elementsCount', data.count)
     } catch (error) {
       showToast('Unexpected error occured', 'error')
       console.error('Error fetching employees:', error)

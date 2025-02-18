@@ -46,7 +46,7 @@ const filter = computed(() => {
 })
 
 const filterHandler = (option: string, index: number) => {
-  pageStore.setPage(1)
+  pageStore.setPageStore('page', 1)
   const currentQuery = { ...router.currentRoute.value.query }
   router.push({
     query: { ...currentQuery, [filter.value]: option.toLowerCase() },
@@ -58,6 +58,8 @@ const filterHandler = (option: string, index: number) => {
 
 <style scoped lang="scss">
 @use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
+
 .section {
   grid-column: 1 / 3;
   display: grid;
@@ -66,6 +68,10 @@ const filterHandler = (option: string, index: number) => {
   grid-template-columns: repeat(2, 1fr);
   gap: $medium;
   border-radius: $medium-radius;
+
+  @include mixins.respond(small){
+    padding: $small;
+  }
 
   &__title {
     grid-column: 1/3;

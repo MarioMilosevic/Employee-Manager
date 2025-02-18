@@ -52,13 +52,13 @@ onBeforeMount(async () => {
     pageStore.resetStore()
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.page}/${pageStore.itemsPerPage}`,
+        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.pageStore.page}/${pageStore.pageStore.itemsPerPage}`,
       ),
       getData('table/main'),
       getData('inputs/home'),
     ])
     employees.value = employeeResponse.data.employees
-    pageStore.setElementsCount(employeeResponse.data.count)
+    pageStore.setPageStore('elementsCount', employeeResponse.data.count)
     homeHeadings.value = tableResponse.data
     homeInputs.value = inputsResponse.data
     loadingStore.setLoading(false)
@@ -87,8 +87,8 @@ watch(
     () => sortFilterOptionsStore.sortFilterOptions.sort,
     () => sortFilterOptionsStore.sortFilterOptions.employment,
     () => sortFilterOptionsStore.sortFilterOptions.department,
-    () => pageStore.page,
-    () => pageStore.itemsPerPage,
+    () => pageStore.pageStore.page,
+    () => pageStore.pageStore.itemsPerPage,
   ],
   async ([newSort, newEmployment, newDepartment, newPage, newItemsPerPage]) => {
     try {
@@ -96,7 +96,7 @@ watch(
         `employee/${newDepartment}/${newEmployment}/${newSort}/${newPage}/${newItemsPerPage}`,
       )
       employees.value = data.employees
-      pageStore.setElementsCount(data.count)
+      pageStore.setPageStore('elementsCount', data.count)
     } catch (error) {
       showToast('Unexpected error occured', 'error')
       console.error('Error fetching employees:', error)

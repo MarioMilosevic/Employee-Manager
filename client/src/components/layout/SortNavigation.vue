@@ -5,7 +5,7 @@
         <HamburgerIcon />
       </BaseIcon>
       <h3 class="nav__left-title">
-        Found {{ pageStore.elementsCount }} {{ elementName }} in total
+        Found {{ pageStore.pageStore.elementsCount }} {{ elementName }} in total
       </h3>
     </div>
     <FormBlock>
@@ -65,7 +65,7 @@ const sortHandler = (target: string) => {
   router.push({
     query: { ...currentQuery, sort: target.toLowerCase() },
   })
-  pageStore.setPage(1)
+  pageStore.setPageStore('page', 1)
   filterOptionsStore.setSortFilterOptions(target, 'sort')
 }
 
