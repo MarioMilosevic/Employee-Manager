@@ -24,13 +24,15 @@
       <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event', selectedElement)">
         <ConfirmIcon />
       </BaseIcon>
-      <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')">
+      <BaseIcon size="big" stroke="#ef4444" @click="isModalOpen = true">
+      <!-- <BaseIcon size="big" stroke="#ef4444" @click="emit('delete-event')"> -->
         <DeleteIcon />
       </BaseIcon>
       <BaseIcon size="big" @click="emit('close-event', props.element.id)" class="close">
         <CloseIcon />
       </BaseIcon>
     </td>
+    <ConfirmModal v-if="isModalOpen"/>
   </tr>
 </template>
 
@@ -42,9 +44,10 @@ import CloseIcon from 'src/icons/CloseIcon.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import DeleteIcon from 'src/icons/DeleteIcon.vue'
 import ConfirmIcon from 'src/icons/ConfirmIcon.vue'
+import FormSelect from 'src/components/form/FormSelect.vue'
+import ConfirmModal from 'src/components/layout/OverlayModal.vue'
 import { EmployeeType, InputType, ElementType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
-import FormSelect from '../form/FormSelect.vue'
 
 const props = defineProps({
   element: {
@@ -58,6 +61,7 @@ const props = defineProps({
 })
 
 const selectedElement = ref({ ...props.element })
+const isModalOpen = ref<boolean>(false)
 
 const emit = defineEmits(['edit-event', 'delete-event', 'close-event'])
 

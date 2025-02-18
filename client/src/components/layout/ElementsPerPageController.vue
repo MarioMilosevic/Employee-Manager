@@ -42,9 +42,9 @@ const elemenetsPerPageHandler = (value: string) => {
   padding: $small;
   gap: $medium;
 
-  @include mixins.respond(small){
+  @include mixins.respond(small) {
     padding: 0;
-    gap:0;
+    gap: 0;
   }
 
   &__p {
@@ -52,7 +52,9 @@ const elemenetsPerPageHandler = (value: string) => {
   }
 
   &__select {
-    width: 20%;
+    @include mixins.respond(small) {
+      width: 20%;
+    }
   }
 }
 </style>

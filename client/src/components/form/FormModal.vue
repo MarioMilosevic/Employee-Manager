@@ -1,10 +1,13 @@
 <template>
-  <div class="overlay">
-    <div class="overlay__modal">
-      <BaseIcon class="overlay__modal-button" fill="black" @click="closeModal" size="very-big">
+  <OverlayModal>
+    <template #button>
+      <BaseIcon class="closeButton" fill="black" @click="closeModal" size="very-big">
         <CloseIcon />
       </BaseIcon>
-      <AuthForm @submit.prevent="submitForm" class="overlay__modal-form form">
+    </template>
+
+    <template #default>
+      <AuthForm @submit.prevent="submitForm" class="authForm form">
         <template #title>
           <HeaderComp color="black" margin-bottom="2rem">
             <template #title> <slot name="modalTitle" /> </template>
@@ -18,8 +21,8 @@
                   <FormSelect
                     v-if="input.name === 'department' || input.name === 'employment'"
                     :options="input.options"
-                    class="overlay__modal-form-select"
-                    v-model="(element[input.name as keyof typeof element] as string)"
+                    class="authForm__select"
+                    v-model="element[input.name as keyof typeof element] as string"
                   />
                   <FormInput
                     v-else
@@ -37,13 +40,11 @@
         <template #default>
           <FormBlock v-if="'trainingCompleted' in singleElement">
             <template #label>
-              <FormLabel id="checkbox" class="overlay__modal-form-label"
-                >Completed Training ?</FormLabel
-              >
+              <FormLabel id="checkbox" class="authForm__label">Completed Training ?</FormLabel>
             </template>
             <template #input>
               <FormCheckbox
-                class="overlay__modal-form-checkbox"
+                class="authForm__checkbox"
                 id="checkbox"
                 :disabled="false"
                 :trainingCompleted="singleElement.trainingCompleted"
@@ -64,8 +65,8 @@
           </ActionButton>
         </template>
       </AuthForm>
-    </div>
-  </div>
+    </template>
+  </OverlayModal>
 </template>
 
 <script lang="ts" setup>
@@ -80,12 +81,13 @@ import FormLabel from 'src/components/form/FormLabel.vue'
 import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
+import FormSelect from 'src/components/form/FormSelect.vue'
+import OverlayModal from 'src/components/layout/OverlayModal.vue'
 import { PropType, ref } from 'vue'
 import { ElementType } from 'src/utils/types'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { InputType } from 'src/utils/types'
 import { employeeFormSchema } from 'src/validation/employeeFormSchema'
-import FormSelect from './FormSelect.vue'
 
 const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
@@ -98,8 +100,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-console.log(props.inputs)
 
 const element = ref<ElementType>({ ...props.singleElement })
 
@@ -129,64 +129,40 @@ const submitForm = async () => {
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
 
-.overlay {
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  backdrop-filter: blur(3px);
-  background-color: rgba(0, 0, 0, 0.6);
+.closeButton {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  border: none;
+  cursor: pointer;
+}
 
-  &__modal {
-    border-radius: $medium-radius;
-    z-index: 20;
-    position: fixed;
+.authForm {
+  margin: 0 auto;
+
+  &__label {
+    font-size: $medium-font;
+  }
+
+  &__select {
+    border: 1px solid $dark-color;
+    width: 100%;
+  }
+
+  &__checkbox {
+    position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    right: 3%;
+    transform: translateY(-50%);
+  }
 
-    display: flex;
-    flex-direction: column;
-    gap: $very-big;
-
-    &-button {
-      position: absolute;
-      top: 1%;
-      right: 1%;
-      border: none;
-      cursor: pointer;
-    }
-
-    &-form {
-      margin: 0 auto;
-
-      &-label {
-        font-size: $medium-font;
-      }
-
-      &-select {
-        border: 1px solid $dark-color;
-        width: 100%;
-      }
-
-      &-checkbox {
-        position: absolute;
-        top: 50%;
-        right: 3%;
-        transform: translateY(-50%);
-      }
-
-      &-date {
+  /* &-date {
         position: absolute;
         top: 0;
         right: 0;
         width: 40%;
         border-left: none;
         border-radius: 0;
-      }
-    }
-  }
+      } */
 }
 </style>
