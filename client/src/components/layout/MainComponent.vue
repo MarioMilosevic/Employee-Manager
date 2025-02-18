@@ -176,6 +176,8 @@ const setModal = (value: boolean) => (isModalOpen.value = value)
   gap: $medium;
 
   &__table {
+    width: 100%;
+    border-collapse: collapse;
     grid-column: 2/9;
     display: flex;
     flex-direction: column;

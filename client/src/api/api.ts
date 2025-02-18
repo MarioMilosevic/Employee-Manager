@@ -50,7 +50,7 @@ export const deleteData = async (path: string, id: number) => {
     })
     return response
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 

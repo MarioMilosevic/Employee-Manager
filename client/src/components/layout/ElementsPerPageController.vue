@@ -1,7 +1,7 @@
 <template>
   <FormBlock class="elements">
     <template #label>
-      <p class="elements__p">Show {{ elements }} per page</p>
+      <p class="elements__p">Show {{ element }}s per page</p>
     </template>
     <template #input>
       <FormSelect
@@ -25,7 +25,7 @@ import { useGetElement } from 'src/composables/useGetElement'
 const pageStore = usePageStore()
 const initialElementCount = ref<number>(8)
 const elementsPerPageOptions = [4, 5, 6, 8, 9, 10]
-const {elements} = useGetElement()
+const {element} = useGetElement()
 
 
 

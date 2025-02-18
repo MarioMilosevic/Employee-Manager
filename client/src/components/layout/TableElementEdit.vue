@@ -15,22 +15,24 @@
         />
       </template>
     </FormBlock>
-    <FormCheckbox
-      v-if="'address' in props.element"
-      :trainingCompleted="(selectedElement as EmployeeType).trainingCompleted"
-      @checkbox-event="toggleTrainingCompleted"
-    />
-    <td class="actions">
+    <td data-cell="Training">
+      <FormCheckbox
+        v-if="'address' in props.element"
+        :trainingCompleted="(selectedElement as EmployeeType).trainingCompleted"
+        @checkbox-event="toggleTrainingCompleted"
+      />
+    </td>
+    <BaseIcon size="big" @click="emit('close-event', props.element.id)" class="close">
+      <CloseIcon />
+    </BaseIcon>
+    <th class="smallActions actions">
       <BaseIcon size="big" stroke="#22c55e" @click="emit('edit-event', selectedElement)">
         <ConfirmIcon />
       </BaseIcon>
       <BaseIcon size="big" stroke="#ef4444" @click="isModalOpen = true">
         <DeleteIcon />
       </BaseIcon>
-      <BaseIcon size="big" @click="emit('close-event', props.element.id)" class="close">
-        <CloseIcon />
-      </BaseIcon>
-    </td>
+    </th>
 
     <OverlayComp v-if="isModalOpen">
       <template #default>
@@ -41,7 +43,11 @@
             </BaseIcon>
           </template>
           <template #default>
-            <DeleteForm @close-event="isModalOpen = false" @delete-event="emit('delete-event')" />
+            <DeleteForm
+              @close-event="isModalOpen = false"
+              @delete-event="emit('delete-event')"
+              :full-name="props.element.fullName"
+            />
           </template>
         </ModalComp>
       </template>

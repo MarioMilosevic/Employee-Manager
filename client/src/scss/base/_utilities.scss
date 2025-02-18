@@ -16,9 +16,28 @@
   white-space: nowrap;
 
   @include mixins.respond(small) {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: start;
     font-size: $medium-font;
-    padding: $small;
-    overflow-x: scroll;
+  }
+
+  td {
+    @include mixins.respond(small){
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $small;
+    }
+  }
+
+  td::before {
+    @include mixins.respond(small) {
+      content: attr(data-cell) ":";
+      font-weight: 700;
+      text-transform: capitalize;
+  }
   }
 }
 
@@ -98,13 +117,13 @@
 
 .adminButton {
   position: absolute;
-  top: 50%;
-  right: 0%;
+  top: 3%;
+  right: 2%;
 
   @include mixins.respond(small) {
     position: absolute;
-    top: 150%;
-    right: 0%;
+    top: 3%;
+    right: 2%;
   }
 }
 
@@ -123,5 +142,13 @@
 
   @include mixins.respond(small) {
     padding: $medium;
+  }
+}
+
+.smallActions {
+  @include mixins.respond(small) {
+    position: absolute;
+    bottom: 14%;
+    right: 10%;
   }
 }

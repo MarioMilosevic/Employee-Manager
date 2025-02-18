@@ -1,6 +1,6 @@
 <template>
-  <table class="table">
-    <thead :class="['table__row', props.page]">
+  <table>
+    <thead :class="['table__row', 'head', props.page]">
       <slot name="headings" />
     </thead>
     <slot name="elements" />
@@ -17,3 +17,13 @@ const props = defineProps({
   },
 })
 </script>
+
+<style scoped lang="scss">
+@use 'src/scss/abstracts/_mixins' as mixins;
+
+.head {
+  @include mixins.respond(small) {
+    display: none;
+  }
+}
+</style>

@@ -5,7 +5,7 @@
         <HamburgerIcon />
       </BaseIcon>
       <h3 class="nav__left-title">
-        Found {{ pageStore.pageStore.elementsCount }} {{ elementName }} in total
+        Found {{ pageStore.pageStore.elementsCount }} {{ element }}s in total
       </h3>
     </div>
     <FormBlock>
@@ -33,12 +33,14 @@ import FormSelect from 'src/components/form/FormSelect.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import HamburgerIcon from 'src/icons/HamburgerIcon.vue'
 import { ElementType } from 'src/utils/types'
-import { PropType, computed } from 'vue'
+import { PropType } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import { usePageStore } from 'src/stores/pageStore'
+import { useGetElement } from 'src/composables/useGetElement'
 
 const filterOptionsStore = useSortFilterStore()
+const { element } = useGetElement()
 
 const props = defineProps({
   elements: {
@@ -68,10 +70,6 @@ const sortHandler = (target: string) => {
   pageStore.setPageStore('page', 1)
   filterOptionsStore.setSortFilterOptions(target, 'sort')
 }
-
-const elementName = computed(() => {
-  return props.page === 'home' ? 'employees' : 'users'
-})
 </script>
 
 <style scoped lang="scss">
@@ -93,7 +91,7 @@ const elementName = computed(() => {
 
     &-title {
       @include mixins.respond(small) {
-        font-size: 0.8rem;
+        display: none;
       }
     }
 

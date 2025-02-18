@@ -1,12 +1,12 @@
 <template>
   <tr class="table__row">
-    <td>{{ props.element.fullName }}</td>
-    <td>{{ props.element.role }}</td>
-    <td>{{ props.element.email }}</td>
-    <td>{{ props.element.createdDate }}</td>
-    <BaseIcon size="big" stroke="#ef4444" @click="isModalOpen = true">
-      <DeleteIcon />
-    </BaseIcon>
+    <td data-cell="Full Name">{{ props.element.fullName }}</td>
+    <td data-cell="Role">{{ props.element.role }}</td>
+    <td data-cell="Email">{{ props.element.email }}</td>
+    <td data-cell="Created Date">{{ props.element.createdDate }}</td>
+      <BaseIcon class="smallActions" size="big" stroke="#ef4444" @click="isModalOpen = true">
+        <DeleteIcon />
+      </BaseIcon>
 
     <OverlayComp v-if="isModalOpen">
       <template #default>
@@ -17,7 +17,7 @@
             </BaseIcon>
           </template>
           <template #default>
-            <DeleteForm @close-event="isModalOpen = false" @delete-event="emits('delete-event')" />
+            <DeleteForm @close-event="isModalOpen = false" @delete-event="emits('delete-event')" :full-name="props.element.fullName"/>
           </template>
         </ModalComp>
       </template>
@@ -46,5 +46,3 @@ const props = defineProps({
 
 const emits = defineEmits(['delete-event'])
 </script>
-
-<style scoped></style>

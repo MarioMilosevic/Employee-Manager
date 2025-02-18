@@ -1,12 +1,14 @@
 <template>
   <tr class="table__row">
-    <td>{{ props.element.fullName }}</td>
-    <td>{{ props.element.address }}</td>
-    <td>{{ formatDate(props.element.startYear as Date) }}</td>
-    <td>{{ props.element.employment }}</td>
-    <td>{{ props.element.department }}</td>
-    <FormCheckbox :disabled="true" :training-completed="props.element.trainingCompleted" />
-    <ActionsRow @click="emit('edit-event')" />
+    <td data-cell="Full Name">{{ props.element.fullName }}</td>
+    <td data-cell="Address">{{ props.element.address }}</td>
+    <td data-cell="Start Date">{{ formatDate(props.element.startYear as Date) }}</td>
+    <td data-cell="Employment">{{ props.element.employment }}</td>
+    <td data-cell="Department">{{ props.element.department }}</td>
+    <td data-cell="Training">
+      <FormCheckbox :disabled="true" :training-completed="props.element.trainingCompleted" />
+    </td>
+    <ActionsRow class="smallActions" @click="emit('edit-event')" />
   </tr>
 </template>
 

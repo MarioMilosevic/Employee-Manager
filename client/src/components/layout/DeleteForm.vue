@@ -1,8 +1,8 @@
 <template>
   <form class="modalForm">
-    <h1>Delete employee ?</h1>
+    <h1>Delete {{ element }} ?</h1>
     <p>
-      Are you sure you want to delete this employee permanently ? <br />
+      Are you sure you want to delete {{ props.fullName }} permanently ? <br />
       This action cannot be undone
     </p>
     <div class="modalForm__buttons">
@@ -14,6 +14,15 @@
 
 <script setup lang="ts">
 import ActionButton from 'src/components/layout/ActionButton.vue'
+import { useGetElement } from 'src/composables/useGetElement'
+
+const { element } = useGetElement()
+const props = defineProps({
+  fullName: {
+    type: String,
+    required:true
+  },
+})
 
 const emits = defineEmits(['close-event', 'delete-event'])
 </script>
@@ -26,8 +35,6 @@ const emits = defineEmits(['close-event', 'delete-event'])
   flex-direction: column;
   gap: $very-big;
   text-align: justify;
-
-
 
   &__buttons {
     display: flex;

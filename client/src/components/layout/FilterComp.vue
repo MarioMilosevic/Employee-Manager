@@ -69,10 +69,6 @@ const filterHandler = (option: string, index: number) => {
   gap: $medium;
   border-radius: $medium-radius;
 
-  @include mixins.respond(small){
-    padding: $small;
-  }
-
   &__title {
     grid-column: 1/3;
   }

@@ -2,7 +2,7 @@
   <header class="header">
     <h1
       :style="{ alignContent: props.align, color: props.color, marginBottom: props.marginBottom }"
-      :class="[titleColor, 'title']"
+      :class="[titleColor]"
     >
       <slot name="title" />
     </h1>
@@ -41,12 +41,10 @@ const titleColor = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 
- @include mixins.respond(small) {
-  justify-content: start;
-}
-
+  @include mixins.respond(small) {
+    justify-content: start;
+  }
 }
 
 .white {
@@ -54,9 +52,5 @@ const titleColor = computed(() => {
 }
 .black {
   color: $dark-color;
-}
-
-.title {
-  position: relative;
 }
 </style>
