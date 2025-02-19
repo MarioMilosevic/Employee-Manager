@@ -16,13 +16,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/employee/", employeeRouter);
 app.use("/api/v1/users/", userRouter);
-app.use('/api/v1/inputs/', inputRouter)
-app.use('/api/v1/table/', tableHeadingsRouter)
+app.use("/api/v1/inputs/", inputRouter);
+app.use("/api/v1/table/", tableHeadingsRouter);
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Server running");
+});
 
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
   errorFactory.notFound(res);
 });
 
-
 export default app;
-
