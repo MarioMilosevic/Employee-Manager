@@ -4,6 +4,7 @@ import errorFactory from "../services/errorFactory";
 import { Role } from "@prisma/client";
 import { Response, NextFunction } from "express";
 import { CustomRequest } from "../services/customRequest";
+import config from "../config"
 import jwt from "jsonwebtoken";
 
 const user = {
@@ -15,7 +16,7 @@ const user = {
         return;
       }
       const token = authHeader.split(" ")[1];
-      const { id } = jwt.verify(token, process.env.JWT_SECRET);
+      const { id } = jwt.verify(token, config.secrets.JWT_SECRET);
       if (!id) {
         errorFactory.forbidden(res);
         return;

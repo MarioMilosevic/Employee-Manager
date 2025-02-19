@@ -4,10 +4,9 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "build": "tsc",
-    "dev": "nodemon server/server.ts",
-    "start": "nodemon server",
-    "serve": "node dist/server.js"
+    "build": "tsc -p tsconfig.json",
+    "dev": "ts-node server.ts",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +18,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "lodash.merge": "^4.6.2",
     "morgan": "^1.10.0",
     "postgres": "^3.4.5",
     "validator": "^13.12.0"

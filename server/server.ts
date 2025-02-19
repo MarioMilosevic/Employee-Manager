@@ -1,11 +1,11 @@
 import app from "./app";
 import { Request, Response } from "express";
-const port = 3000;
+import config from "./config"
 
 app.get("/", (req:Request, res:Response) => {
   res.send("Server running");
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+app.listen(config.port, () => {
+  console.log(`Server listening on port ${config.port}`);
 });

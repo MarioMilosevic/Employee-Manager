@@ -3,11 +3,13 @@ import successResponseFactory from "../services/successResponseFactory";
 import prisma from "../services/database";
 import jwt from "jsonwebtoken";
 import validator from "validator";
+import config from "../config"
+
 import { NextFunction, Request, Response } from "express";
 
 const signToken = (id: number) =>
-  jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
+  jwt.sign({ id }, config.secrets.JWT_SECRET, {
+    expiresIn: config.secrets.JWT_EXPIRES_IN,
   });
 
 const authController = {
