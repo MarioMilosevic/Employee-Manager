@@ -16,7 +16,7 @@ const user = {
         return;
       }
       const token = authHeader.split(" ")[1];
-      const { id } = jwt.verify(token, config.secrets.JWT_SECRET);
+      const { id } = jwt.verify(token, config.secrets.jwt);
       if (!id) {
         errorFactory.forbidden(res);
         return;

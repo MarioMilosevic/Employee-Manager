@@ -19,17 +19,20 @@
 import FormBlock from 'src/components/form/FormBlock.vue'
 import FormSelect from 'src/components/form/FormSelect.vue'
 import { usePageStore } from 'src/stores/pageStore'
-import {  ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useGetElement } from 'src/composables/useGetElement'
 
 const pageStore = usePageStore()
-const initialElementCount = ref<number>(8)
+const initialElementCount = ref<number>(pageStore.pageStore.itemsPerPage)
 const elementsPerPageOptions = [4, 5, 6, 8, 9, 10]
-const {element} = useGetElement()
+const { element } = useGetElement()
 
-
-
-
+watch(
+  () => pageStore.pageStore.itemsPerPage,
+  (newItemsPerPage) => {
+    initialElementCount.value = newItemsPerPage
+  },
+)
 
 const elementsPerPageHandler = (value: string) => {
   const arg = Number(value)

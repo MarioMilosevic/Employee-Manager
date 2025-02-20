@@ -108,6 +108,8 @@ const submitForm = async (employee: EmployeeType) => {
     const response = await postData(employee, 'employee')
     addEmployee(response.data)
     pageStore.setPageStore('elementsCount', pageStore.pageStore.elementsCount + 1)
+    pageStore.setPageStore('itemsPerPage', pageStore.pageStore.itemsPerPage + 1)
+
     setModal(false)
   } catch (error) {
     console.error(error)
@@ -133,6 +135,7 @@ const deleteEmployee = async (id: number) => {
     if (response && response.ok) {
       removeEmployee(id)
       pageStore.setPageStore('elementsCount', pageStore.pageStore.elementsCount - 1)
+      pageStore.setPageStore('itemsPerPage', pageStore.pageStore.itemsPerPage - 1)
     } else {
       const responseData = await response?.json()
       showToast(responseData.message, 'error')
