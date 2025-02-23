@@ -42,7 +42,7 @@ const accountText = computed(() => {
   &__link {
     text-decoration: none;
     cursor: pointer;
-    color: $primary-shade-color;
+    color: $terniary-color;
   }
 }
 </style>

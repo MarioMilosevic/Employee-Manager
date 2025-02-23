@@ -3,7 +3,7 @@
     <template #default>
       <ModalComp>
         <template #button>
-          <BaseIcon class="closeButton" fill="black" @click="closeModal" size="very-big">
+          <BaseIcon class="closeButton"  @click="closeModal" size="very-big">
             <CloseIcon />
           </BaseIcon>
         </template>
@@ -58,7 +58,7 @@
             <template #submit>
               <ActionButton
                 size="medium"
-                color="purple"
+                color="blue"
                 type="submit"
                 :style="{ justifySelf: 'start' }"
               >

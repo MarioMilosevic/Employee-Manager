@@ -9,8 +9,8 @@ import { PropType } from 'vue'
 
 const props = defineProps({
   color: {
-    type: String as PropType<'white' | 'red' | 'green' | 'purple'>,
-    default: 'white',
+    type: String as PropType< 'red' | 'green' | 'blue' | 'sky'>,
+    default: 'blue',
   },
   type: {
     type: String as PropType<'button' | 'submit' | 'reset'>,
@@ -34,15 +34,6 @@ const props = defineProps({
   font-size: $medium;
     transition: all 0.3s;
 
-  &.white {
-    color: $dark-color;
-    background-color: $secondary-color;
-
-    &:hover {
-      background-color: $secondary-shade-color;
-    }
-  }
-
   &.red {
     background-color: $red-color;
     color: $secondary-color;
@@ -61,12 +52,16 @@ const props = defineProps({
     }
   }
 
-  &.purple {
-    background-color: $primary-color;
+  &.blue {
+    background-color: $terniary-color;
     color: $secondary-color;
     &:hover {
-      background-color: $primary-shade-color;
+      background-color: $terniary-color-hover;
     }
+  }
+
+  &.sky {
+    background-color: $primary-color;
   }
 }
 

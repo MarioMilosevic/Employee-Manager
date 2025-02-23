@@ -1,5 +1,5 @@
 <template>
-  <label :for="props.id" class="label">
+  <label :for="props.id" :class="['label', { border: props.border }]">
     <slot />
   </label>
 </template>
@@ -9,6 +9,10 @@ const props = defineProps({
   id: {
     type: String,
     required: true,
+  },
+  border: {
+    type: Boolean,
+    default: true,
   },
 })
 </script>
@@ -24,10 +28,9 @@ const props = defineProps({
   height: 100%;
   padding: $small;
   background-color: $secondary-color;
-  border: 1px solid $dark-color;
   border-radius: $small-radius;
 
-  @include mixins.respond(small){
+  @include mixins.respond(small) {
     font-size: $medium-font;
     width: 55%;
   }

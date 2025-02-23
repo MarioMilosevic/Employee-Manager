@@ -1,5 +1,9 @@
 <template>
-  <LoadingSpinner v-if="loadingStore.loading" />
+  <LoadingSpinner v-if="loadingStore.loading">
+    <template #default>
+      <p class="wakeUp">Waking up the server, this may take a few moments...</p>
+    </template>
+  </LoadingSpinner>
   <AuthForm @submit.prevent="submitLogin" class="form" v-else>
     <template #title>
       <HeaderComp color="black" align="center">
@@ -24,7 +28,7 @@
       </RenderlessComp>
     </template>
     <template #submit>
-      <ActionButton type="submit" color="purple">Login</ActionButton>
+      <ActionButton type="submit" color="blue">Login</ActionButton>
     </template>
     <template #text>
       <FormGuest link-text="Sign Up" @guest-event="guestSignIn" />

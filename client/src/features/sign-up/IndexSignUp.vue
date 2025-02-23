@@ -26,7 +26,7 @@
       </RenderlessComp>
     </template>
     <template #submit>
-      <ActionButton type="submit" color="purple">Sign Up</ActionButton>
+      <ActionButton type="submit" color="blue">Sign Up</ActionButton>
     </template>
     <template #text>
       <FormGuest link-text="Login" />

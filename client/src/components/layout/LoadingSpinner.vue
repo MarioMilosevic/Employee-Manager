@@ -1,6 +1,8 @@
 <template>
   <div class="loader"></div>
+  <slot />
 </template>
+
 
 <style lang="scss" scoped>
 .loader {

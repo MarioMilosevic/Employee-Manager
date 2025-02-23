@@ -29,7 +29,8 @@ const previousPageHandler = () => {
 
 .pagination {
   margin-top: $medium;
-  background-color: $primary-dark-color;
+  background-color: $terniary-color;
+  color: $secondary-color;
   grid-column: 2/9;
   padding: $small $medium;
   border-radius: $small-radius;

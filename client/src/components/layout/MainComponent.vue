@@ -12,7 +12,7 @@
   </h2>
   <div class="buttons">
     <ActionButton
-      color="white"
+      color="blue"
       size="big"
       @click="setModal(true)"
       v-if="slots.leftButton"
@@ -21,7 +21,7 @@
       <slot name="leftButton" />
     </ActionButton>
     <ActionButton
-      color="white"
+      color="red"
       :style="{ marginLeft: 'auto' }"
       size="big"
       @click="signOut(router, user)"

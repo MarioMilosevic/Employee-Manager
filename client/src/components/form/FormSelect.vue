@@ -1,6 +1,6 @@
 <template>
   <select
-    :class="['select', props.color]"
+    :class="['select', props.color, { border: props.border }]"
     :value="modelValue"
     @change="(e) => emits('update:modelValue', (e.target as HTMLSelectElement).value)"
   >
@@ -20,6 +20,10 @@ const props = defineProps({
   color: {
     type: String,
     default: 'white',
+  },
+  border: {
+    type: Boolean,
+    default: true,
   },
   modelValue: {
     type: [String, Number] as PropType<string | number>,
@@ -47,7 +51,6 @@ const emits = defineEmits(['update:modelValue'])
 .white {
   padding: 0.6rem;
   background-color: $secondary-color;
-  border: 1px solid $dark-color;
 
   @include mixins.respond(small) {
     padding: 0.5rem;
@@ -55,9 +58,13 @@ const emits = defineEmits(['update:modelValue'])
   }
 }
 
-.purple {
-  background-color: $primary-dark-color;
+.blue {
+  background-color: $terniary-color;
   color: $secondary-color;
   padding: 0.3rem;
+}
+
+.border {
+  border: 1px solid $dark-color;
 }
 </style>

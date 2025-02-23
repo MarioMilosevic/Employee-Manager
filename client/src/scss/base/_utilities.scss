@@ -8,7 +8,6 @@
   align-items: center;
   justify-items: center;
   border-bottom: 1px solid $dark-color;
-  border-radius: $medium-radius;
   padding: $medium;
   gap: $medium;
   background-color: $secondary-color;
@@ -151,4 +150,13 @@
     bottom: 14%;
     right: 10%;
   }
+}
+
+.wakeUp {
+  color: $dark-color;
+  text-align: center;
+}
+
+.border {
+  border: 1px solid $dark-color;
 }

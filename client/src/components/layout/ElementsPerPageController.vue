@@ -7,7 +7,8 @@
       <FormSelect
         :options="elementsPerPageOptions"
         v-model="initialElementCount"
-        color="purple"
+        :border="false"
+        color="blue"
         @update:model-value="elementsPerPageHandler"
         class="elements__select"
       />

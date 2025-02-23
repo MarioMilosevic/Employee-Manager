@@ -8,9 +8,7 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: $primary-color;
-  background: -webkit-linear-gradient(to right, #a044ff, #6a3093);
-  background: linear-gradient(to right, #a044ff, #6a3093);
-  color: $secondary-color;
+  color: $dark-color;
 }
 
 #app {

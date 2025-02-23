@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1
-      :style="{ alignContent: props.align, color: props.color, marginBottom: props.marginBottom }"
+      :style="{ alignContent: props.align, marginBottom: props.marginBottom }"
       :class="[titleColor]"
     >
       <slot name="title" />
@@ -20,7 +20,7 @@ const props = defineProps({
   },
   color: {
     type: String as PropType<'white' | 'black'>,
-    default: 'white',
+    default: 'black',
   },
   marginBottom: {
     type: String,

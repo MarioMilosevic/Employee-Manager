@@ -4,7 +4,7 @@
     <a href="https://github.com/MarioMilosevic" target="_blank">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill="white"
+        fill="blue"
         width="24"
         height="24"
         viewBox="0 0 24 24"

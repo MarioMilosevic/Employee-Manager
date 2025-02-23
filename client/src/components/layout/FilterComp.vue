@@ -6,7 +6,7 @@
     <RenderlessComp>
       <template v-for="(option, index) in props.options" :key="option" #[option]>
         <ActionButton
-          :color="index === selectedIndex ? 'purple' : 'white'"
+          :color="index === selectedIndex ? 'blue' : 'sky'"
           @click="filterHandler(option, index)"
         >
           {{ option }}
@@ -63,7 +63,7 @@ const filterHandler = (option: string, index: number) => {
 .section {
   grid-column: 1 / 3;
   display: grid;
-  background-color: $primary-dark-color;
+  background-color: $secondary-color;
   padding: $medium;
   grid-template-columns: repeat(2, 1fr);
   gap: $medium;

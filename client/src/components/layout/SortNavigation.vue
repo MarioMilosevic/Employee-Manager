@@ -10,13 +10,14 @@
     </div>
     <FormBlock>
       <template #label>
-        <FormLabel id="sort">
+        <FormLabel id="sort" :border="false">
           <p>Sort by:</p>
         </FormLabel>
       </template>
       <template #input>
         <FormSelect
           id="sort"
+          :border="false"
           :options="props.sortOptions"
           v-model="filterOptionsStore.sortFilterOptions.sort"
           @update:model-value="sortHandler"
