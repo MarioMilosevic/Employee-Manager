@@ -12,14 +12,13 @@
           <FormBlock>
             <template #input>
               <FormInput
+                @blur-event="blurHandler(input.name as SignUpFields)"
                 v-bind="input"
                 v-model="signUpCredentials[input.name as keyof typeof signUpCredentials]"
               />
             </template>
             <template #error>
-              <FormError>{{
-                signUpFormErrors[input.name as keyof typeof signUpFormErrors]
-              }}</FormError>
+              <FormError>{{ formErrors[input.name as SignUpFields] }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -46,13 +45,19 @@ import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
 import { emptySignUpObj } from 'src/utils/constants'
 import { getData, postData } from 'src/api/api'
-import { formatDate, renderValidationErrors } from 'src/utils/helpers'
-import { signUpSchema } from 'src/validation/signUpSchema'
+import { formatDate } from 'src/utils/helpers'
+import {
+  SignUpFieldErorrs,
+  SignUpFields,
+  signUpSchema,
+  SignupTouchedFields,
+} from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
 import { SignUpCredentialsType } from 'src/utils/types'
 import { showToast } from 'src/utils/toast'
 import { useLoadingStore } from 'src/stores/loadingStore'
+import { getFieldError } from 'src/validation/signUpSchema'
 
 onBeforeMount(async () => {
   try {
@@ -64,12 +69,20 @@ onBeforeMount(async () => {
     console.error(error)
   }
 })
+
 const loadingStore = useLoadingStore()
 const signUpInputs = ref()
 const signUpCredentials = ref<SignUpCredentialsType>({ ...emptySignUpObj })
-const signUpFormErrors = ref<Record<string, string>>({})
+const formErrors = ref<SignUpFieldErorrs>({})
+const touchedFields = ref<SignupTouchedFields>({})
 
 const router = useRouter()
+
+const blurHandler = (property: SignUpFields) => {
+  const message = getFieldError(property, signUpCredentials.value[property])
+  formErrors.value[property] = message
+  touchedFields.value[property] = true
+}
 
 const submitForm = async () => {
   try {
@@ -88,8 +101,8 @@ const submitForm = async () => {
         showToast(`${response.message}`, 'error')
       }
     } else {
-      const updatedErorrs = renderValidationErrors(validation.error.errors)
-      signUpFormErrors.value = updatedErorrs
+      // const updatedErorrs = renderValidationErrors(validation.error.errors)
+      // signUpFormErrors.value = updatedErorrs
     }
   } catch (error) {
     console.error(error)

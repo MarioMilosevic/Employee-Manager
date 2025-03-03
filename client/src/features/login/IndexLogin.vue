@@ -46,6 +46,7 @@ import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
+import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import {
   getErrors,
   getFieldError,
@@ -57,10 +58,8 @@ import {
 import { useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
 import { getData, login, signInAnonymously } from 'src/api/api'
-import { renderValidationErrors } from 'src/utils/helpers'
 import { showToast } from 'src/utils/toast'
 import { LoginCredentialsType } from 'src/utils/types'
-import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import { useLoadingStore } from 'src/stores/loadingStore'
 import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 
