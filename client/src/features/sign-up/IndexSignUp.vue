@@ -47,6 +47,7 @@ import { emptySignUpObj } from 'src/utils/constants'
 import { getData, postData } from 'src/api/api'
 import { formatDate } from 'src/utils/helpers'
 import {
+  getErrors,
   SignUpFieldErorrs,
   SignUpFields,
   signUpSchema,
@@ -86,26 +87,28 @@ const blurHandler = (property: SignUpFields) => {
 
 const submitForm = async () => {
   try {
-    const validation = signUpSchema.safeParse(signUpCredentials.value)
-    if (validation.success) {
+    const { error } = signUpSchema.safeParse(signUpCredentials.value)
+    if (error) {
+      Object.entries(getErrors(error)).forEach(([key, value]) => {
+        formErrors.value[key as SignUpFields] = value
+      })
+    } else {
       const date = new Date()
       const createdDate = formatDate(date)
       const newUser = { ...signUpCredentials.value, createdDate }
-      const response = await postData(newUser, `users/sign-up`)
-      if (response.data) {
+      const { data, message } = await postData(newUser, `users/sign-up`)
+      if (data) {
         router.push('/login')
         setTimeout(() => {
           showToast('User Created')
         }, 1000)
       } else {
-        showToast(`${response.message}`, 'error')
+        showToast(message, 'error')
       }
-    } else {
-      // const updatedErorrs = renderValidationErrors(validation.error.errors)
-      // signUpFormErrors.value = updatedErorrs
     }
   } catch (error) {
     console.error(error)
+    showToast('Unexpected error occured', 'error')
   }
 }
 </script>
