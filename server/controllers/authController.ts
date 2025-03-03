@@ -83,7 +83,7 @@ const authController = {
       );
 
       if (!checkPassword) {
-        errorFactory.notAuthorized(res, "Invalid login credentials password");
+        errorFactory.notAuthorized(res, "Invalid login credentials");
         return;
       }
       const user = await prisma.user.findUnique({

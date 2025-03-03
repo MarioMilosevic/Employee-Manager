@@ -16,12 +16,13 @@
           <FormBlock>
             <template #input>
               <FormInput
+                @blur-event="blurHandler(input.name as LoginFields)"
                 v-bind="input"
                 v-model="loginCredentials[input.name as keyof typeof loginCredentials]"
               />
             </template>
             <template #error>
-              <FormError>{{ loginFormError[input.name as keyof typeof loginFormError] }}</FormError>
+              <FormError>{{ formErrors[input.name as LoginFields] }}</FormError>
             </template>
           </FormBlock>
         </template>
@@ -45,13 +46,19 @@ import FormGuest from 'src/components/form/FormGuest.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import LoadingSpinner from 'src/components/layout/LoadingSpinner.vue'
 import RenderlessComp from 'src/components/layout/RenderlessComp.vue'
-import { loginSchema } from 'src/validation/loginSchema'
+import {
+  getErrors,
+  getFieldError,
+  LoginFieldErrors,
+  LoginFields,
+  loginSchema,
+  LoginTouchedFields,
+} from 'src/validation/loginSchema'
 import { useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
 import { getData, login, signInAnonymously } from 'src/api/api'
 import { renderValidationErrors } from 'src/utils/helpers'
 import { showToast } from 'src/utils/toast'
-import { emptyLoginObj } from 'src/utils/constants'
 import { LoginCredentialsType } from 'src/utils/types'
 import HeaderComp from 'src/components/layout/HeaderComp.vue'
 import { useLoadingStore } from 'src/stores/loadingStore'
@@ -71,8 +78,9 @@ onBeforeMount(async () => {
 const loadingStore = useLoadingStore()
 const sortFilterStore = useSortFilterStore()
 const loginInputs = ref()
-const loginCredentials = ref<LoginCredentialsType>({ ...emptyLoginObj })
-const loginFormError = ref<LoginCredentialsType>({ ...emptyLoginObj })
+const formErrors = ref<LoginFieldErrors>({})
+const touchedFields = ref<LoginTouchedFields>({})
+const loginCredentials = ref<LoginCredentialsType>({ email: '', password: '' })
 
 const goToHomePage = () => {
   router.push({
@@ -83,6 +91,12 @@ const goToHomePage = () => {
       sort: sortFilterStore.sortFilterOptions.sort.toLowerCase(),
     },
   })
+}
+
+const blurHandler = (property: LoginFields) => {
+  const message = getFieldError(property, loginCredentials.value[property])
+  formErrors.value[property] = message
+  touchedFields.value[property] = true
 }
 
 const guestSignIn = async () => {
@@ -99,18 +113,19 @@ const router = useRouter()
 
 const submitLogin = async () => {
   try {
-    const validation = loginSchema.safeParse(loginCredentials.value)
-    if (validation.success) {
-      const response = await login(loginCredentials.value)
-      if (response.data) {
-        localStorage.setItem('login-token', response.data)
+    const { error } = loginSchema.safeParse(loginCredentials.value)
+    if (error) {
+      Object.entries(getErrors(error)).forEach(([key, value]) => {
+        formErrors.value[key as LoginFields] = value
+      })
+    } else {
+      const { data, message } = await login(loginCredentials.value)
+      if (data) {
+        localStorage.setItem('login-token', data)
         goToHomePage()
       } else {
-        showToast(response.message, 'error')
+        showToast(message, 'error')
       }
-    } else {
-      const updatedErorrs = renderValidationErrors(validation.error.errors) as LoginCredentialsType
-      loginFormError.value = updatedErorrs
     }
   } catch (error) {
     console.error(error)

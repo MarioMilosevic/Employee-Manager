@@ -3,6 +3,7 @@
     :value="props.modelValue"
     class="input"
     :style="{textAlign:`${props.align}`}"
+    @blur="emit('blur-event')"
     @input="(e) => emit('update:modelValue', (e.target as HTMLInputElement)?.value)"
   />
 </template>
@@ -10,7 +11,7 @@
 <script lang="ts" setup>
 import { PropType } from 'vue';
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'blur-event'])
 
 const props = defineProps({
   modelValue: {

@@ -2,7 +2,6 @@ import { EmployeeType, SignUpCredentialsType, UserType } from './types'
 
 export const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'
 
-
 export const emptySingleEmployee: EmployeeType = {
   fullName: '',
   address: '',
@@ -28,11 +27,6 @@ export const emptySignUpObj: SignUpCredentialsType = {
   passwordConfirm: '',
   role: 'USER',
   createdDate: null,
-}
-
-export const emptyLoginObj = {
-  email: '',
-  password: '',
 }
 
 export const departmentOptions = ['Department', 'All', 'Engineering', 'HR', 'Sales']
