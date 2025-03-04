@@ -7,7 +7,9 @@ employeeRouter.param("id", employee.getId);
 employeeRouter.param("id", employee.getData);
 
 employeeRouter.route("/").post(employee.create);
-employeeRouter.route('/:department/:employment/:sort/:page/:size').get(employee.getAll)
+employeeRouter
+  .route("/:department/:employment/:sort/:page/:size/:search?")
+  .get(employee.getAll);
 
 employeeRouter
   .route("/:id")

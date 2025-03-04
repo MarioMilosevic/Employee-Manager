@@ -39,7 +39,7 @@ const employee = {
   },
   async getAll(req: Request, res: Response) {
     try {
-      const { department, employment, sort, page, size } = req.params;
+      const { department, employment, sort, page, size, search } = req.params;
       if (
         (department !== "All" &&
           !Object.values(Department).includes(department as Department)) ||
@@ -55,6 +55,7 @@ const employee = {
 
       const where: any = {};
       const orderBy: any = {};
+      if (search) where.fullName = { contains: search, mode: "insensitive" };
       if (department !== "All") where.department = department as Department;
       if (employment !== "All") where.employment = employment as Employment;
 

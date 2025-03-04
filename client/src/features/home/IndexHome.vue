@@ -49,7 +49,7 @@ onBeforeMount(async () => {
     pageStore.resetStore()
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.pageStore.page}/${pageStore.pageStore.itemsPerPage}`,
+        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.pageStore.page}/${pageStore.pageStore.itemsPerPage}/${sortFilterOptionsStore.searchValue}`,
       ),
       getData('table/main'),
       getData('inputs/home'),
@@ -84,11 +84,12 @@ watch(
     () => sortFilterOptionsStore.sortFilterOptions.department,
     () => pageStore.pageStore.page,
     () => pageStore.pageStore.itemsPerPage,
+    () => sortFilterOptionsStore.searchValue,
   ],
-  async ([newSort, newEmployment, newDepartment, newPage, newItemsPerPage]) => {
+  async ([newSort, newEmployment, newDepartment, newPage, newItemsPerPage, newSearchValue]) => {
     try {
       const { data } = await getData(
-        `employee/${newDepartment}/${newEmployment}/${newSort}/${newPage}/${newItemsPerPage}`,
+        `employee/${newDepartment}/${newEmployment}/${newSort}/${newPage}/${newItemsPerPage}/${newSearchValue}`,
       )
       employees.value = data.employees
       pageStore.setPageStore('elementsCount', data.count)

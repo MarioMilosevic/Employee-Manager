@@ -7,7 +7,7 @@
       <h3 class="nav__left-title">Found {{ pageStore.pageStore.elementsCount }} {{ element }}s</h3>
       <FormBlock class="nav__left-input">
         <template #input>
-          <FormInput v-model="searchValue" @update:model-value="mario" />
+          <FormInput v-model="localSearchValue" @update:model-value="searchHandler" />
         </template>
       </FormBlock>
     </div>
@@ -19,19 +19,34 @@
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import SortComp from 'src/components/layout/SortComp.vue'
 import HamburgerIcon from 'src/icons/HamburgerIcon.vue'
+import FormBlock from 'src/components/form/FormBlock.vue'
+import FormInput from 'src/components/form/FormInput.vue'
 import { ElementType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
 import { usePageStore } from 'src/stores/pageStore'
 import { useGetElement } from 'src/composables/useGetElement'
-import FormBlock from '../form/FormBlock.vue'
-import FormInput from '../form/FormInput.vue'
+import { useRouter } from 'vue-router'
+import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 
 const { element } = useGetElement()
+const router = useRouter()
+const pageStore = usePageStore()
+const sortFilterStore = useSortFilterStore()
+const localSearchValue = ref<string>("")
+const searchTimeout = ref<number | null>(null)
 
-const searchValue = ref<string>('')
-
-const mario = (value: string) => {
-  console.log(value)
+const searchHandler = (searchValue: string) => {
+  if (searchTimeout.value) {
+    clearTimeout(searchTimeout.value)
+  }
+  searchTimeout.value = setTimeout(() => {
+    pageStore.setPageStore('page', 1)
+    sortFilterStore.setSearchValue(localSearchValue.value)
+    const currentQuery = { ...router.currentRoute.value.query }
+    router.push({
+      query: { ...currentQuery, searchValue },
+    })
+  }, 500) as unknown as number
 }
 
 const props = defineProps({
@@ -50,8 +65,6 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['navigation-event'])
-
-const pageStore = usePageStore()
 </script>
 
 <style scoped lang="scss">
