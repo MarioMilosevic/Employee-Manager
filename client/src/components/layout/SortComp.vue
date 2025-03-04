@@ -1,7 +1,7 @@
 <template>
    <FormBlock>
       <template #label>
-        <FormLabel id="sort" :border="false">
+        <FormLabel :style="{width:'30%'}" id="sort" :border="false">
           <p>Sort by:</p>
         </FormLabel>
       </template>

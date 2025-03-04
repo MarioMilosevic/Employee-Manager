@@ -30,7 +30,7 @@
   </div>
 
   <main class="main">
-    <SortNavigation
+    <MainNavigation
       :elements="elements"
       :page="page"
       :sort-options="sortOptions"
@@ -88,7 +88,7 @@ import TableHeading from 'src/components/layout/TableHeading.vue'
 import TableElement from 'src/components/layout/TableElement.vue'
 import ActionButton from 'src/components/layout/ActionButton.vue'
 import MainSidebar from 'src/components/layout/MainSidebar.vue'
-import SortNavigation from 'src/components/layout/SortNavigation.vue'
+import MainNavigation from 'src/components/layout/MainNavigation.vue'
 import PaginationComp from 'src/components/layout/PaginationComp.vue'
 import NoElements from 'src/components/layout/NoElements.vue'
 import FooterComp from 'src/components/layout/FooterComp.vue'

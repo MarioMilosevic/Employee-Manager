@@ -1,10 +1,7 @@
 <template>
   <aside :class="['sidebar', { isOpen: isSidebarOpen }]">
-    <!-- odje da ubacim tu komponentu -->
-    <BaseIcon v-if="isSidebarOpen" class="sidebar__icon" size="big" @click="emits('sidebar-event')">
-      <CloseIcon />
-    </BaseIcon>
-    <MarioVue v-if="isSidebarOpen" :sort-options="props.sortOptions"/>
+    <SortComp v-if="isSidebarOpen" :sort-options="props.sortOptions" />
+
     <template v-for="array in props.options" :key="array[0]">
       <FilterComp :options="array.slice(1)" :category="array[0]">
         <template #title>
@@ -23,10 +20,7 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
 import FilterComp from 'src/components/layout/FilterComp.vue'
-import MarioVue from './MarioVue.vue'
-import CloseIcon from 'src/icons/CloseIcon.vue'
-import BaseIcon from 'src/icons/BaseIcon.vue'
-
+import SortComp from 'src/components/layout/SortComp.vue'
 
 const props = defineProps({
   options: {
@@ -35,7 +29,7 @@ const props = defineProps({
   },
   sortOptions: {
     type: Array as PropType<string[]>,
-    required:true
+    required: true,
   },
   isSidebarOpen: {
     type: Boolean,
@@ -59,11 +53,12 @@ const emits = defineEmits(['sidebar-event'])
   @include mixins.respond(small) {
     position: fixed;
     left: 0%;
-    top: 30%;
+    top: 20%;
     transform: translateX(-100%);
     z-index: 2;
     transition: all;
-    transition-duration: 500ms;
+    transition-duration: 300ms;
+    padding: $medium;
 
     &.isOpen {
       transform: translateX(0);

@@ -7,14 +7,15 @@
       <h3 class="nav__left-title">
         Found {{ pageStore.pageStore.elementsCount }} {{ element }}s in total
       </h3>
+      
     </div>
-    <MarioVue class="nav__mario" :sort-options="props.sortOptions" />
+    <SortComp class="nav__sort" :sort-options="props.sortOptions" />
   </nav>
 </template>
 
 <script setup lang="ts">
 import BaseIcon from 'src/icons/BaseIcon.vue'
-import MarioVue from 'src/components/layout/MarioVue.vue'
+import SortComp from 'src/components/layout/SortComp.vue'
 import HamburgerIcon from 'src/icons/HamburgerIcon.vue'
 import { ElementType } from 'src/utils/types'
 import { PropType } from 'vue'
@@ -75,7 +76,7 @@ const pageStore = usePageStore()
     }
   }
 
-  &__mario {
+  &__sort {
     @include mixins.respond(small) {
       display: none;
     }
