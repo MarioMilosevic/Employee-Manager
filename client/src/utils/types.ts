@@ -1,7 +1,7 @@
 export type EmployeeType = {
   id?: number
   fullName: string
-  startYear: Date | string
+  startYear: string | boolean
   address: string
   department: string
   employment: string

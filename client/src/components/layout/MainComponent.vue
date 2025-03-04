@@ -146,6 +146,7 @@ const router = useRouter()
 const emits = defineEmits(['delete-event', 'edit-event', 'submit-event'])
 
 const editHandler = (element: ElementType) => emits('edit-event', element)
+
 const submitHandler = (element: ElementType) => {
   emits('submit-event', element)
   setModal(false)

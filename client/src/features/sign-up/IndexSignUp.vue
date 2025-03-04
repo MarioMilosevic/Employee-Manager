@@ -51,7 +51,7 @@ import {
   SignUpFieldErorrs,
   SignUpFields,
   signUpSchema,
-  SignupTouchedFields,
+  SignUpTouchedFields,
 } from 'src/validation/signUpSchema'
 import { useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
@@ -75,7 +75,7 @@ const loadingStore = useLoadingStore()
 const signUpInputs = ref()
 const signUpCredentials = ref<SignUpCredentialsType>({ ...emptySignUpObj })
 const formErrors = ref<SignUpFieldErorrs>({})
-const touchedFields = ref<SignupTouchedFields>({})
+const touchedFields = ref<SignUpTouchedFields>({})
 
 const router = useRouter()
 

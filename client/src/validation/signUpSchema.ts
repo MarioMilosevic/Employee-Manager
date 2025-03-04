@@ -18,19 +18,17 @@ export const signUpSchema = z
     passwordConfirm: z.string().min(8, passwordMessage),
   })
 
-export const ConfirmSchema = signUpSchema
-  .refine((data) => data.password === data.passwordConfirm, {
-    message: "Passwords don't match",
-    path: ['confirm'],
-    // path: ['passwordConfirm'],
-  })
+export const ConfirmSchema = signUpSchema.refine((data) => data.password === data.passwordConfirm, {
+  message: "Passwords don't match",
+  path: ['confirm'],
+})
 
 export type SignUpSchema = z.infer<typeof signUpSchema>
 export type SignUpFields = keyof SignUpSchema
 export type SignUpFieldErorrs = {
   [key in SignUpFields]?: string
 }
-export type SignupTouchedFields = {
+export type SignUpTouchedFields = {
   [key in SignUpFields]?: boolean
 }
 
@@ -43,10 +41,14 @@ export function getFieldError<T extends SignUpFields, K extends SignUpSchema[T]>
   return error.issues[0]?.message
 }
 
-export const getErrors = (error: ZodError) =>
-  error.issues.reduce((all, issue) => {
+export const getErrors = (error: ZodError) => {
+  return error.issues.reduce((all, issue) => {
     const path = issue.path.join('') as keyof SignUpSchema
-    const message = all[path] ? all[path] + ', ' : ''
+    const message = all[path] ? all[path] : ''
+    if (all[path]) {
+      return all
+    }
     all[path] = message + issue.message
     return all
   }, {} as SignUpFieldErorrs)
+}

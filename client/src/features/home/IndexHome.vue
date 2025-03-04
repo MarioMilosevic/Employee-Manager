@@ -73,7 +73,6 @@ const employees = ref<EmployeeType[]>([])
 const homeHeadings = ref<TableHeadingType[]>([])
 const homeInputs = ref<InputType[]>([])
 
-const isModalOpen = ref<boolean>(false)
 
 const optionsArray = computed(() => {
   return [departmentOptions, employmentOptions]
@@ -109,8 +108,6 @@ const submitForm = async (employee: EmployeeType) => {
     addEmployee(response.data)
     pageStore.setPageStore('elementsCount', pageStore.pageStore.elementsCount + 1)
     pageStore.setPageStore('itemsPerPage', pageStore.pageStore.itemsPerPage + 1)
-
-    setModal(false)
   } catch (error) {
     console.error(error)
   }
@@ -148,10 +145,6 @@ const deleteEmployee = async (id: number) => {
 const addEmployee = (employee: EmployeeType) => employees.value.push(employee)
 const removeEmployee = (id: number) => {
   employees.value = employees.value.filter((emp) => emp.id !== id)
-}
-
-const setModal = (value: boolean) => {
-  isModalOpen.value = value
 }
 
 const goToDashboard = () => {

@@ -3,7 +3,7 @@
     <template #default>
       <ModalComp>
         <template #button>
-          <BaseIcon class="closeButton"  @click="closeModal" size="very-big">
+          <BaseIcon class="closeButton" @click="closeModal" size="very-big">
             <CloseIcon />
           </BaseIcon>
         </template>
@@ -26,6 +26,7 @@
                         v-model="element[input.name as keyof typeof element] as string"
                       />
                       <FormInput
+                        @blur-event="blurHandler(input.name as EmployeeSchemaFields)"
                         v-else
                         v-bind="input"
                         v-model="element[input.name as keyof typeof element] as string | undefined"
@@ -88,10 +89,16 @@ import FormSelect from 'src/components/form/FormSelect.vue'
 import ModalComp from 'src/components/layout/ModalComp.vue'
 import OverlayComp from 'src/components/layout/OverlayComp.vue'
 import { PropType, ref } from 'vue'
-import { ElementType } from 'src/utils/types'
-import { renderValidationErrors } from 'src/utils/helpers'
+import { ElementType, EmployeeType } from 'src/utils/types'
 import { InputType } from 'src/utils/types'
-import { employeeFormSchema } from 'src/validation/employeeFormSchema'
+import {
+  EmployeeFieldErorrs,
+  employeeFormSchema,
+  EmployeeSchemaFields,
+  EmployeeTouchedFields,
+  getEmployeeErrors,
+  getEmployeeFieldError,
+} from 'src/validation/employeeFormSchema'
 
 const emits = defineEmits(['close-modal', 'submit-event'])
 const props = defineProps({
@@ -106,8 +113,17 @@ const props = defineProps({
 })
 
 const element = ref<ElementType>({ ...props.singleElement })
+const formErrors = ref<EmployeeFieldErorrs>({})
+const touchedFields = ref<EmployeeTouchedFields>({})
 
-const formErrors = ref<Record<string, string>>({})
+const blurHandler = (property: EmployeeSchemaFields) => {
+  const employee = element.value as EmployeeType;
+  const message = getEmployeeFieldError(property, employee[property]);
+  formErrors.value[property] = message;
+  touchedFields.value[property] = true;
+};
+
+
 
 const closeModal = () => {
   emits('close-modal')
@@ -119,13 +135,15 @@ const setTrainingCompleted = (value: boolean) => {
   }
 }
 
-const submitForm = async () => {
-  const validation = employeeFormSchema.safeParse(element.value)
-  if (validation.success) {
-    emits('submit-event', element.value)
+const submitForm = () => {
+  const { error } = employeeFormSchema.safeParse(element.value)
+  if (error) {
+    console.log(error)
+    Object.entries(getEmployeeErrors(error)).forEach(([key, value]) => {
+      formErrors.value[key as EmployeeSchemaFields] = value
+    })
   } else {
-    const updatedErorrs = renderValidationErrors(validation.error.errors)
-    formErrors.value = updatedErorrs
+    emits('submit-event', element.value)
   }
 }
 </script>
@@ -151,14 +169,5 @@ const submitForm = async () => {
     right: 3%;
     transform: translateY(-50%);
   }
-
-  /* &-date {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 40%;
-        border-left: none;
-        border-radius: 0;
-      } */
 }
 </style>
