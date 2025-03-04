@@ -1,8 +1,10 @@
 <template>
   <aside :class="['sidebar', { isOpen: isSidebarOpen }]">
+    <!-- odje da ubacim tu komponentu -->
     <BaseIcon v-if="isSidebarOpen" class="sidebar__icon" size="big" @click="emits('sidebar-event')">
       <CloseIcon />
     </BaseIcon>
+    <MarioVue v-if="isSidebarOpen" :sort-options="props.sortOptions"/>
     <template v-for="array in props.options" :key="array[0]">
       <FilterComp :options="array.slice(1)" :category="array[0]">
         <template #title>
@@ -21,13 +23,19 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
 import FilterComp from 'src/components/layout/FilterComp.vue'
+import MarioVue from './MarioVue.vue'
 import CloseIcon from 'src/icons/CloseIcon.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
+
 
 const props = defineProps({
   options: {
     type: Array as PropType<string[][]>,
     required: true,
+  },
+  sortOptions: {
+    type: Array as PropType<string[]>,
+    required:true
   },
   isSidebarOpen: {
     type: Boolean,
@@ -55,7 +63,7 @@ const emits = defineEmits(['sidebar-event'])
     transform: translateX(-100%);
     z-index: 2;
     transition: all;
-    transition-duration: 300ms;
+    transition-duration: 500ms;
 
     &.isOpen {
       transform: translateX(0);

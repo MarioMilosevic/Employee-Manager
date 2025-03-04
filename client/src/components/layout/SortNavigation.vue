@@ -8,39 +8,19 @@
         Found {{ pageStore.pageStore.elementsCount }} {{ element }}s in total
       </h3>
     </div>
-    <FormBlock>
-      <template #label>
-        <FormLabel id="sort" :border="false">
-          <p>Sort by:</p>
-        </FormLabel>
-      </template>
-      <template #input>
-        <FormSelect
-          id="sort"
-          :border="false"
-          :options="props.sortOptions"
-          v-model="filterOptionsStore.sortFilterOptions.sort"
-          @update:model-value="sortHandler"
-        />
-      </template>
-    </FormBlock>
+    <MarioVue class="nav__mario" :sort-options="props.sortOptions" />
   </nav>
 </template>
 
 <script setup lang="ts">
-import FormBlock from 'src/components/form/FormBlock.vue'
-import FormLabel from 'src/components/form/FormLabel.vue'
-import FormSelect from 'src/components/form/FormSelect.vue'
 import BaseIcon from 'src/icons/BaseIcon.vue'
+import MarioVue from 'src/components/layout/MarioVue.vue'
 import HamburgerIcon from 'src/icons/HamburgerIcon.vue'
 import { ElementType } from 'src/utils/types'
 import { PropType } from 'vue'
-import { useRouter } from 'vue-router'
-import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
 import { usePageStore } from 'src/stores/pageStore'
 import { useGetElement } from 'src/composables/useGetElement'
 
-const filterOptionsStore = useSortFilterStore()
 const { element } = useGetElement()
 
 const props = defineProps({
@@ -60,17 +40,7 @@ const props = defineProps({
 
 const emits = defineEmits(['navigation-event'])
 
-const router = useRouter()
 const pageStore = usePageStore()
-
-const sortHandler = (target: string) => {
-  const currentQuery = { ...router.currentRoute.value.query }
-  router.push({
-    query: { ...currentQuery, sort: target.toLowerCase() },
-  })
-  pageStore.setPageStore('page', 1)
-  filterOptionsStore.setSortFilterOptions(target, 'sort')
-}
 </script>
 
 <style scoped lang="scss">
@@ -87,12 +57,12 @@ const sortHandler = (target: string) => {
     @include mixins.respond(small) {
       display: flex;
       align-items: center;
-      gap: $small;
+      gap: $medium;
     }
 
     &-title {
       @include mixins.respond(small) {
-        display: none;
+        font-size: $medium;
       }
     }
 
@@ -102,6 +72,12 @@ const sortHandler = (target: string) => {
       @include mixins.respond(small) {
         display: block;
       }
+    }
+  }
+
+  &__mario {
+    @include mixins.respond(small) {
+      display: none;
     }
   }
 }

@@ -25,7 +25,7 @@ import { useGetElement } from 'src/composables/useGetElement'
 
 const pageStore = usePageStore()
 const initialElementCount = ref<number>(pageStore.pageStore.itemsPerPage)
-const elementsPerPageOptions = [4, 5, 6, 8, 9, 10]
+const elementsPerPageOptions = [4, 5, 6, 7, 8, 9, 10]
 const { element } = useGetElement()
 
 watch(

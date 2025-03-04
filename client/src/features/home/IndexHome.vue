@@ -73,7 +73,6 @@ const employees = ref<EmployeeType[]>([])
 const homeHeadings = ref<TableHeadingType[]>([])
 const homeInputs = ref<InputType[]>([])
 
-
 const optionsArray = computed(() => {
   return [departmentOptions, employmentOptions]
 })

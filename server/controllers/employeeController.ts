@@ -60,8 +60,10 @@ const employee = {
 
       if (sort === "Name: A-Z") orderBy.fullName = "asc";
       if (sort === "Name: Z-A") orderBy.fullName = "desc";
-      if (sort === "Training: True-False") orderBy.trainingCompleted = "desc";
-      if (sort === "Training: False-True") orderBy.trainingCompleted = "asc";
+      if (sort === "Training: Trained to Untrained")
+        orderBy.trainingCompleted = "desc";
+      if (sort === "Training: Untrained to Trained")
+        orderBy.trainingCompleted = "asc";
       if (sort === "Date: Oldest to Newest") orderBy.startYear = "asc";
       if (sort === "Date: Newest to Oldest") orderBy.startYear = "desc";
 
