@@ -23,13 +23,13 @@
                         v-if="input.name === 'department' || input.name === 'employment'"
                         :options="input.options"
                         class="authForm__select"
-                        v-model="(element[input.name as keyof typeof element] as string)"
+                        v-model="element[input.name as keyof typeof element] as string"
                       />
                       <FormInput
                         @blur-event="blurHandler(input.name as EmployeeSchemaFields)"
                         v-else
                         v-bind="input"
-                        v-model="(element[input.name as keyof typeof element] as string | undefined)"
+                        v-model="element[input.name as keyof typeof element] as string | undefined"
                       />
                     </template>
                     <template #error>
@@ -117,13 +117,11 @@ const formErrors = ref<EmployeeFieldErorrs>({})
 const touchedFields = ref<EmployeeTouchedFields>({})
 
 const blurHandler = (property: EmployeeSchemaFields) => {
-  const employee = element.value as EmployeeType;
-  const message = getEmployeeFieldError(property, employee[property]);
-  formErrors.value[property] = message;
-  touchedFields.value[property] = true;
-};
-
-
+  const employee = element.value as EmployeeType
+  const message = getEmployeeFieldError(property, employee[property])
+  formErrors.value[property] = message
+  touchedFields.value[property] = true
+}
 
 const closeModal = () => {
   emits('close-modal')
@@ -153,8 +151,8 @@ const submitForm = () => {
 
 .modalCloseButton {
   position: absolute;
-  top:1%;
-  right:5%;
+  top: 1%;
+  right: 5%;
 }
 
 .authForm {

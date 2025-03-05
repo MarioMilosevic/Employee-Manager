@@ -1,7 +1,9 @@
 <template>
   <aside :class="['sidebar', { isOpen: isSidebarOpen }]">
-    <SearchComp v-if="isSidebarOpen" @search-event="searchHandler" />
-    <SortComp v-if="isSidebarOpen" :page="page" :sort-options="props.sortOptions" />
+    <template v-if="isSidebarOpen">
+      <SearchComp @search-event="searchHandler" />
+      <SortComp :page="page" :sort-options="props.sortOptions" />
+    </template>
 
     <template v-for="array in props.options" :key="array[0]">
       <FilterComp :options="array.slice(1)" :category="array[0]">
