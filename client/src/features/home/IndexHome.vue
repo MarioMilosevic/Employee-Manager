@@ -49,7 +49,7 @@ onBeforeMount(async () => {
     pageStore.resetStore()
     const [employeeResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.pageStore.page}/${pageStore.pageStore.itemsPerPage}/${sortFilterOptionsStore.searchValue}`,
+        `employee/${sortFilterOptionsStore.sortFilterOptions.department}/${sortFilterOptionsStore.sortFilterOptions.employment}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.pageObj.page}/${pageStore.pageObj.itemsPerPage}/${sortFilterOptionsStore.searchValue}`,
       ),
       getData('table/main'),
       getData('inputs/home'),
@@ -82,8 +82,8 @@ watch(
     () => sortFilterOptionsStore.sortFilterOptions.sort,
     () => sortFilterOptionsStore.sortFilterOptions.employment,
     () => sortFilterOptionsStore.sortFilterOptions.department,
-    () => pageStore.pageStore.page,
-    () => pageStore.pageStore.itemsPerPage,
+    () => pageStore.pageObj.page,
+    () => pageStore.pageObj.itemsPerPage,
     () => sortFilterOptionsStore.searchValue,
   ],
   async ([newSort, newEmployment, newDepartment, newPage, newItemsPerPage, newSearchValue]) => {
@@ -106,8 +106,8 @@ const submitForm = async (employee: EmployeeType) => {
   try {
     const response = await postData(employee, 'employee')
     addEmployee(response.data)
-    pageStore.setPageStore('elementsCount', pageStore.pageStore.elementsCount + 1)
-    pageStore.setPageStore('itemsPerPage', pageStore.pageStore.itemsPerPage + 1)
+    pageStore.setPageStore('elementsCount', pageStore.pageObj.elementsCount + 1)
+    pageStore.setPageStore('itemsPerPage', pageStore.pageObj.itemsPerPage + 1)
   } catch (error) {
     console.error(error)
   }
@@ -131,8 +131,8 @@ const deleteEmployee = async (id: number) => {
     const response = await deleteData('employee', id)
     if (response && response.ok) {
       removeEmployee(id)
-      pageStore.setPageStore('elementsCount', pageStore.pageStore.elementsCount - 1)
-      pageStore.setPageStore('itemsPerPage', pageStore.pageStore.itemsPerPage - 1)
+      pageStore.setPageStore('elementsCount', pageStore.pageObj.elementsCount - 1)
+      pageStore.setPageStore('itemsPerPage', pageStore.pageObj.itemsPerPage - 1)
     } else {
       const responseData = await response?.json()
       showToast(responseData.message, 'error')

@@ -14,18 +14,18 @@ const basePageStore = {
 }
 
 export const usePageStore = defineStore('pageStore', () => {
-  const pageStore = ref<PageStoreType>({ ...basePageStore })
+  const pageObj = ref<PageStoreType>({ ...basePageStore })
 
   function setPageStore(key: keyof PageStoreType, value: number) {
-    pageStore.value[key] = value
+    pageObj.value[key] = value
   }
 
   function resetStore() {
-    pageStore.value = { ...basePageStore }
+    pageObj.value = { ...basePageStore }
   }
 
   return {
-    pageStore,
+    pageObj,
     setPageStore,
     resetStore,
   }

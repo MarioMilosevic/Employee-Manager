@@ -4,12 +4,8 @@
       <BaseIcon class="nav__left-icon" size="big" @click="emits('navigation-event')">
         <HamburgerIcon />
       </BaseIcon>
-      <h3 class="nav__left-title">Found {{ pageStore.pageStore.elementsCount }} {{ element }}s</h3>
-      <FormBlock class="nav__left-input">
-        <template #input>
-          <FormInput v-model="localSearchValue" @update:model-value="searchHandler" />
-        </template>
-      </FormBlock>
+      <h3 class="nav__left-title">Found {{ pageStore.pageObj.elementsCount }} {{ element }}s</h3>
+      <SearchComp class="nav__left-input" @search-event="searchHandler" />
     </div>
     <SortComp class="nav__sort" :sort-options="props.sortOptions" />
   </nav>
@@ -19,8 +15,7 @@
 import BaseIcon from 'src/icons/BaseIcon.vue'
 import SortComp from 'src/components/layout/SortComp.vue'
 import HamburgerIcon from 'src/icons/HamburgerIcon.vue'
-import FormBlock from 'src/components/form/FormBlock.vue'
-import FormInput from 'src/components/form/FormInput.vue'
+import SearchComp from 'src/components/layout/SearchComp.vue'
 import { ElementType } from 'src/utils/types'
 import { PropType, ref } from 'vue'
 import { usePageStore } from 'src/stores/pageStore'
@@ -32,7 +27,6 @@ const { element } = useGetElement()
 const router = useRouter()
 const pageStore = usePageStore()
 const sortFilterStore = useSortFilterStore()
-const localSearchValue = ref<string>("")
 const searchTimeout = ref<number | null>(null)
 
 const searchHandler = (searchValue: string) => {
@@ -41,7 +35,7 @@ const searchHandler = (searchValue: string) => {
   }
   searchTimeout.value = setTimeout(() => {
     pageStore.setPageStore('page', 1)
-    sortFilterStore.setSearchValue(localSearchValue.value)
+    sortFilterStore.setSearchValue(searchValue)
     const currentQuery = { ...router.currentRoute.value.query }
     router.push({
       query: { ...currentQuery, searchValue },
@@ -86,6 +80,7 @@ const emits = defineEmits(['navigation-event'])
       display: flex;
       align-items: center;
       gap: $medium;
+      grid-column: 1/9;
     }
 
     &-title {
@@ -104,6 +99,9 @@ const emits = defineEmits(['navigation-event'])
 
     &-input {
       width: 30%;
+      @include mixins.respond(small) {
+        display: none;
+      }
     }
   }
 

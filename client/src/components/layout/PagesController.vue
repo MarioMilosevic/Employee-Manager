@@ -1,20 +1,20 @@
 <template>
   <div class="wrapper">
-    <p v-if="pageStore.pageStore.elementsCount > 0">
+    <p v-if="pageStore.pageObj.elementsCount > 0">
       Showing {{ showResultsFrom }} to {{ showResultsTo }} out of
-      {{ pageStore.pageStore.elementsCount }}
+      {{ pageStore.pageObj.elementsCount }}
     </p>
     <p v-else>No results found</p>
     <div class="wrapper__icons">
-      <BaseIcon @click="emits('previous-page-event')" :is-disabled="pageStore.pageStore.page === 1">
+      <BaseIcon @click="emits('previous-page-event')" :is-disabled="pageStore.pageObj.page === 1">
         <ChevronLeft />
       </BaseIcon>
 
       <BaseIcon
         @click="emits('next-page-event')"
         :is-disabled="
-          pageStore.pageStore.page >=
-          pageStore.pageStore.elementsCount / pageStore.pageStore.itemsPerPage
+          pageStore.pageObj.page >=
+          pageStore.pageObj.elementsCount / pageStore.pageObj.itemsPerPage
         "
       >
         <ChevronRight />
@@ -34,12 +34,12 @@ const emits = defineEmits(['next-page-event', 'previous-page-event'])
 
 const pageStore = usePageStore()
 const showResultsFrom = computed(() => {
-  return (pageStore.pageStore.page - 1) * pageStore.pageStore.itemsPerPage + 1
+  return (pageStore.pageObj.page - 1) * pageStore.pageObj.itemsPerPage + 1
 })
 
 const showResultsTo = computed(() => {
-  const to = showResultsFrom.value + pageStore.pageStore.itemsPerPage - 1
-  return to > pageStore.pageStore.elementsCount ? pageStore.pageStore.elementsCount : to
+  const to = showResultsFrom.value + pageStore.pageObj.itemsPerPage - 1
+  return to > pageStore.pageObj.elementsCount ? pageStore.pageObj.elementsCount : to
 })
 </script>
 

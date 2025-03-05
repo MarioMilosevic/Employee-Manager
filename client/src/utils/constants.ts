@@ -50,3 +50,9 @@ export const sortUsersOptions = [
   'Date: Oldest to Newest',
   'Date: Newest to Oldest',
 ]
+
+export const searchObj = {
+  name: "search",
+  placeholder: "Search",
+  type:'text'
+}

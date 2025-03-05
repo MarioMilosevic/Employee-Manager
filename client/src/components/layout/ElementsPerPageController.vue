@@ -24,12 +24,12 @@ import { ref, watch } from 'vue'
 import { useGetElement } from 'src/composables/useGetElement'
 
 const pageStore = usePageStore()
-const initialElementCount = ref<number>(pageStore.pageStore.itemsPerPage)
+const initialElementCount = ref<number>(pageStore.pageObj.itemsPerPage)
 const elementsPerPageOptions = [4, 5, 6, 7, 8, 9, 10]
 const { element } = useGetElement()
 
 watch(
-  () => pageStore.pageStore.itemsPerPage,
+  () => pageStore.pageObj.itemsPerPage,
   (newItemsPerPage) => {
     initialElementCount.value = newItemsPerPage
   },
