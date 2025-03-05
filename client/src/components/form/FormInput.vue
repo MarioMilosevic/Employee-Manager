@@ -40,7 +40,4 @@ const props = defineProps({
   border: 1px solid $dark-color;
   border-radius: $small-radius;
 }
-
-
-
 </style>

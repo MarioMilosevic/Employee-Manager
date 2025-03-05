@@ -148,11 +148,15 @@ const submitForm = () => {
 
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
+@use 'src/scss/abstracts/_mixins' as mixins;
 
 .modalCloseButton {
   position: absolute;
   top: 1%;
-  right: 5%;
+  right: 1%;
+  @include mixins.respond(small) {
+    right: 5%;
+  }
 }
 
 .authForm {
