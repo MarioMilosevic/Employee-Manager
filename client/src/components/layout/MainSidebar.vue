@@ -1,5 +1,6 @@
 <template>
   <aside :class="['sidebar', { isOpen: isSidebarOpen }]">
+    <SearchComp v-if="isSidebarOpen" @search-event="searchHandler" />
     <SortComp v-if="isSidebarOpen" :sort-options="props.sortOptions" />
 
     <template v-for="array in props.options" :key="array[0]">
@@ -18,9 +19,13 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
 import FilterComp from 'src/components/layout/FilterComp.vue'
 import SortComp from 'src/components/layout/SortComp.vue'
+import SearchComp from 'src/components/layout/SearchComp.vue'
+import { PropType, ref } from 'vue'
+import { usePageStore } from 'src/stores/pageStore'
+import { useSortFilterStore } from 'src/stores/sortFIlterOptionsStore'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   options: {
@@ -38,6 +43,24 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['sidebar-event'])
+const searchTimeout = ref<number | null>(null)
+const pageStore = usePageStore()
+const sortFilterStore = useSortFilterStore()
+const router = useRouter()
+
+const searchHandler = (searchValue: string) => {
+  if (searchTimeout.value) {
+    clearTimeout(searchTimeout.value)
+  }
+  searchTimeout.value = setTimeout(() => {
+    pageStore.setPageStore('page', 1)
+    sortFilterStore.setSearchValue(searchValue)
+    const currentQuery = { ...router.currentRoute.value.query }
+    router.push({
+      query: { ...currentQuery, searchValue },
+    })
+  }, 500) as unknown as number
+}
 </script>
 
 <style scoped lang="scss">
