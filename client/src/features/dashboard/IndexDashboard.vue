@@ -42,7 +42,7 @@ onBeforeMount(async () => {
     pageStore.resetStore()
     const [usersResponse, tableResponse, inputsResponse] = await Promise.all([
       getData(
-        `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.pageStore.page}/${pageStore.pageStore.itemsPerPage}`,
+        `users/${sortFilterOptionsStore.sortFilterOptions.role.toUpperCase()}/${sortFilterOptionsStore.sortFilterOptions.sort}/${pageStore.pageObj.page}/${pageStore.pageObj.itemsPerPage}`,
       ),
       getData('table/dashboard'),
       getData('inputs/admin'),
@@ -70,8 +70,8 @@ watch(
   [
     () => sortFilterOptionsStore.sortFilterOptions.sort,
     () => sortFilterOptionsStore.sortFilterOptions.role,
-    () => pageStore.pageStore.page,
-    () => pageStore.pageStore.itemsPerPage,
+    () => pageStore.pageObj.page,
+    () => pageStore.pageObj.itemsPerPage,
   ],
   async ([newSort, newRole, newPage, newItemsPerPage]) => {
     try {
@@ -104,7 +104,7 @@ const deleteUser = async (id: number) => {
 
 const removeUser = (id: number) => {
   users.value = users.value.filter((user) => user.id !== id)
-  pageStore.setPageStore('elementsCount', pageStore.pageStore.elementsCount - 1)
+  pageStore.setPageStore('elementsCount', pageStore.pageObj.elementsCount - 1)
 }
 
 const goToHome = () => {

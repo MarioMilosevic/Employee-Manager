@@ -1,6 +1,9 @@
 <template>
   <nav class="nav">
-    <div class="nav__left">
+    <div
+      class="nav__left"
+      :style="{ '--search-gap': searchGap, '--search-gap-small': searchGapSmall }"
+    >
       <BaseIcon class="nav__left-icon" size="big" @click="emits('navigation-event')">
         <HamburgerIcon />
       </BaseIcon>
@@ -17,7 +20,7 @@ import SortComp from 'src/components/layout/SortComp.vue'
 import HamburgerIcon from 'src/icons/HamburgerIcon.vue'
 import SearchComp from 'src/components/layout/SearchComp.vue'
 import { ElementType } from 'src/utils/types'
-import { PropType, ref } from 'vue'
+import { PropType, ref, computed } from 'vue'
 import { usePageStore } from 'src/stores/pageStore'
 import { useGetElement } from 'src/composables/useGetElement'
 import { useRouter } from 'vue-router'
@@ -58,6 +61,14 @@ const props = defineProps({
   },
 })
 
+const searchGap = computed(() => {
+  return props.page === 'home' ? '1.3rem' : '2.6rem'
+})
+
+const searchGapSmall = computed(() => {
+  return props.page === 'home' ? '1rem' : '1rem'
+})
+
 const emits = defineEmits(['navigation-event'])
 </script>
 
@@ -75,11 +86,11 @@ const emits = defineEmits(['navigation-event'])
     grid-column: 1/7;
     align-items: center;
     display: flex;
-    gap: $huge;
+    gap: var(--search-gap);
     @include mixins.respond(small) {
       display: flex;
       align-items: center;
-      gap: $medium;
+      gap: var(--search-gap-small);
       grid-column: 1/9;
     }
 

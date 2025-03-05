@@ -38,6 +38,7 @@
     />
     <MainSidebar
       :options="options"
+      :page="page"
       :sort-options="sortOptions"
       :is-sidebar-open="isSidebarOpen"
       @sidebar-event="isSidebarOpen = false"

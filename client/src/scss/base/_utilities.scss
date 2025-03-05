@@ -64,6 +64,7 @@
   @include mixins.respond(small) {
     width: 90%;
     padding: $medium $big;
+    max-width: $max-form-width;
   }
 }
 
@@ -93,7 +94,7 @@
 }
 
 .button-small {
-  padding: $small $medium;
+  padding: $small;
   font-size: $small;
 }
 .button-medium {

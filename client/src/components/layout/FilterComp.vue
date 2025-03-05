@@ -7,6 +7,7 @@
       <template v-for="(option, index) in props.options" :key="option" #[option]>
         <ActionButton
           :color="index === selectedIndex ? 'blue' : 'sky'"
+          size="small"
           @click="filterHandler(option, index)"
         >
           {{ option }}
@@ -68,6 +69,10 @@ const filterHandler = (option: string, index: number) => {
   grid-template-columns: repeat(2, 1fr);
   gap: $medium;
   border-radius: $medium-radius;
+
+  @include mixins.respond(small) {
+    padding: $small $medium;
+  }
 
   &__title {
     grid-column: 1/3;

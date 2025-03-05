@@ -1,7 +1,7 @@
 <template>
   <aside :class="['sidebar', { isOpen: isSidebarOpen }]">
     <SearchComp v-if="isSidebarOpen" @search-event="searchHandler" />
-    <SortComp v-if="isSidebarOpen" :sort-options="props.sortOptions" />
+    <SortComp v-if="isSidebarOpen" :page="page" :sort-options="props.sortOptions" />
 
     <template v-for="array in props.options" :key="array[0]">
       <FilterComp :options="array.slice(1)" :category="array[0]">
@@ -38,6 +38,10 @@ const props = defineProps({
   },
   isSidebarOpen: {
     type: Boolean,
+    required: true,
+  },
+  page: {
+    type: String as PropType<'home' | 'dashboard'>,
     required: true,
   },
 })

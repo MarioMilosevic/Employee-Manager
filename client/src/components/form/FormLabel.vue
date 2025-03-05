@@ -32,7 +32,8 @@ const props = defineProps({
 
   @include mixins.respond(small) {
     font-size: $medium-font;
-    width: 55%;
+    /* width:55% */
+    /* width: 55%; */
   }
 }
 </style>

@@ -3,7 +3,7 @@
     <template #default>
       <ModalComp>
         <template #button>
-          <BaseIcon class="closeButton" @click="closeModal" size="very-big">
+          <BaseIcon class="modalCloseButton" @click="closeModal" size="very-big">
             <CloseIcon />
           </BaseIcon>
         </template>
@@ -23,13 +23,13 @@
                         v-if="input.name === 'department' || input.name === 'employment'"
                         :options="input.options"
                         class="authForm__select"
-                        v-model="element[input.name as keyof typeof element] as string"
+                        v-model="(element[input.name as keyof typeof element] as string)"
                       />
                       <FormInput
                         @blur-event="blurHandler(input.name as EmployeeSchemaFields)"
                         v-else
                         v-bind="input"
-                        v-model="element[input.name as keyof typeof element] as string | undefined"
+                        v-model="(element[input.name as keyof typeof element] as string | undefined)"
                       />
                     </template>
                     <template #error>
@@ -150,6 +150,12 @@ const submitForm = () => {
 
 <style lang="scss" scoped>
 @use 'src/scss/abstracts/_variables' as *;
+
+.modalCloseButton {
+  position: absolute;
+  top:1%;
+  right:5%;
+}
 
 .authForm {
   margin: 0 auto;
